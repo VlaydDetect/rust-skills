@@ -1,0 +1,33 @@
+{
+  "name": "rust-engineering",
+  "version": "0.2.0",
+  "description": "Automatic Rust engineering orchestration with 43 focused coding, review, verification, language, Cargo, architecture, runtime, interop, and Nix skills.",
+  "author": {
+    "name": "rust-skills contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rust",
+    "coding",
+    "review",
+    "verification",
+    "agents",
+    "cargo",
+    "nix"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rust Engineering",
+    "shortDescription": "Route Rust work through focused skills.",
+    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. Includes findings-first review, evidence-only verification, Rust language and Cargo policy, architecture, runtime, interop, and Nix workflows.",
+    "developerName": "rust-skills contributors",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $rust-workflow to inspect this Rust project, select one primary and at most two supporting profiles, make the smallest coherent change, and verify the changed contract."
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Cargo Build System"
+  short_description: "Reason about Cargo build mechanics"
+  default_prompt: "Use $rust-cargo-build to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Nix Review"
+  short_description: "Review Nix and Rust integration"
+  default_prompt: "Use $nix-review to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

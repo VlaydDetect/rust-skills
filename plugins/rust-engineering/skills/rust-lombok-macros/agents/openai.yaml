@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Lombok-Style Macros"
+  short_description: "Design Lombok-style Rust derives"
+  default_prompt: "Use $rust-lombok-macros to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

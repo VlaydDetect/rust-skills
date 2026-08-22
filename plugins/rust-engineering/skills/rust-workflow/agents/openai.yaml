@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Workflow"
+  short_description: "Route and implement Rust changes"
+  default_prompt: "Use $rust-workflow to inspect this Rust project, select one primary and at most two supporting profiles, make the smallest coherent change, and verify the changed contract."
+policy:
+  allow_implicit_invocation: true

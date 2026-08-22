@@ -1,0 +1,1764 @@
+{
+  "schema_version": 2,
+  "policy": {
+    "manual": "Every profile is directly invocable.",
+    "automatic": "Mutating Rust work enters rust-workflow, which chooses one primary and at most two supporting profiles. Read-only specialist reviews and verification may enter their focused skill directly.",
+    "negative": "A Rust keyword alone does not require a workflow for small general-knowledge questions, and non-Rust tasks must not route to this plugin."
+  },
+  "cases": [
+    {
+      "id": "manual-rust-workflow",
+      "mode": "manual",
+      "prompt": "Use $rust-workflow to plan and implement the requested Rust repository change.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-workflow",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-workflow"
+      ]
+    },
+    {
+      "id": "automatic-rust-workflow",
+      "mode": "automatic",
+      "prompt": "Исправь корневую причину panic в Rust parser, добавь regression test и проверь итоговый diff.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-workflow",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-workflow"
+      ]
+    },
+    {
+      "id": "manual-rust-review",
+      "mode": "manual",
+      "prompt": "Use $rust-review for a read-only, findings-first review of this Rust diff.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-review",
+        "primary_profile": "rust-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-review"
+      ]
+    },
+    {
+      "id": "automatic-rust-review",
+      "mode": "automatic",
+      "prompt": "Сделай read-only review этого Rust PR и выдай только доказательные findings с verdict.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-review",
+        "primary_profile": "rust-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-review"
+      ]
+    },
+    {
+      "id": "manual-rust-verify",
+      "mode": "manual",
+      "prompt": "Use $rust-verify to run the smallest read-only evidence matrix for this change.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-verify",
+        "primary_profile": "rust-verify",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-verify"
+      ]
+    },
+    {
+      "id": "automatic-rust-verify",
+      "mode": "automatic",
+      "prompt": "Запусти минимальные repository-native проверки изменённого Rust package, ничего не исправляй.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-verify",
+        "primary_profile": "rust-verify",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-verify"
+      ]
+    },
+    {
+      "id": "manual-addressing-findings",
+      "mode": "manual",
+      "prompt": "Triage findings R-12 and R-14 as accept, reject, defer, or needs-decision and define closure evidence.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "addressing-findings",
+        "primary_profile": "addressing-findings",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "addressing-findings"
+      ]
+    },
+    {
+      "id": "automatic-addressing-findings",
+      "mode": "automatic",
+      "prompt": "Проверь и исправь подтверждённые findings R-12 и R-14, затем проведи fresh re-review.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "addressing-findings",
+        "supporting_profiles": [
+          "rust-review"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "addressing-findings"
+      ]
+    },
+    {
+      "id": "manual-codebase-onboarding",
+      "mode": "manual",
+      "prompt": "Map this unfamiliar Rust monorepo: packages, targets, entry points, data flow, commands, and unknowns.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "codebase-onboarding",
+        "primary_profile": "codebase-onboarding",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "codebase-onboarding"
+      ]
+    },
+    {
+      "id": "automatic-codebase-onboarding",
+      "mode": "automatic",
+      "prompt": "В незнакомом Rust monorepo найди реальный owner ошибки запуска и исправь её минимально.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "codebase-onboarding",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "codebase-onboarding"
+      ]
+    },
+    {
+      "id": "manual-debugging",
+      "mode": "manual",
+      "prompt": "Reproduce and isolate this release-only Rust crash before proposing a fix.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "debugging",
+        "primary_profile": "debugging",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "debugging"
+      ]
+    },
+    {
+      "id": "automatic-debugging",
+      "mode": "automatic",
+      "prompt": "Найди root cause плавающего release-only crash, исправь и оставь regression evidence.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "debugging",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "debugging"
+      ]
+    },
+    {
+      "id": "manual-refactoring",
+      "mode": "manual",
+      "prompt": "Plan a contract-preserving move of persistence code into a cohesive module.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "refactoring",
+        "primary_profile": "refactoring",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "refactoring"
+      ]
+    },
+    {
+      "id": "automatic-refactoring",
+      "mode": "automatic",
+      "prompt": "Перенеси persistence boundary в отдельный module без изменения поведения и удали временный shim.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "refactoring",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "refactoring"
+      ]
+    },
+    {
+      "id": "manual-rust-navigation",
+      "mode": "manual",
+      "prompt": "Trace this trait method from re-export and receiver construction to the active impl and tests.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-navigation",
+        "primary_profile": "rust-navigation",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-navigation"
+      ]
+    },
+    {
+      "id": "automatic-rust-navigation",
+      "mode": "automatic",
+      "prompt": "Найди настоящий cfg-gated implementation этого trait call и исправь его, не трогая generated output.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-navigation",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-navigation"
+      ]
+    },
+    {
+      "id": "manual-specs",
+      "mode": "manual",
+      "prompt": "Write normative rules and independent Given-When-Then scenarios for retry and cancellation behavior.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "specs",
+        "primary_profile": "specs",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "specs"
+      ]
+    },
+    {
+      "id": "automatic-specs",
+      "mode": "automatic",
+      "prompt": "Добавь в русскую спецификацию точный контракт retry/cancellation и acceptance scenarios без implementation details.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "specs",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "specs"
+      ]
+    },
+    {
+      "id": "manual-rust-stable",
+      "mode": "manual",
+      "prompt": "Assess whether this API is available under the declared MSRV and propose a stable fallback.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-stable",
+        "primary_profile": "rust-stable",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-stable"
+      ]
+    },
+    {
+      "id": "automatic-rust-stable",
+      "mode": "automatic",
+      "prompt": "Замени nightly-only convenience API на stable решение под текущий MSRV и добавь minimum-toolchain check.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-stable",
+        "supporting_profiles": [
+          "rust-cargo-build"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-stable"
+      ]
+    },
+    {
+      "id": "manual-rust-stdlib",
+      "mode": "manual",
+      "prompt": "Choose the correct std collection and time type for ordered deadlines and explain edge cases.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-stdlib",
+        "primary_profile": "rust-stdlib",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-stdlib"
+      ]
+    },
+    {
+      "id": "automatic-rust-stdlib",
+      "mode": "automatic",
+      "prompt": "Убери лишнюю dependency, реализовав тот же path/time contract средствами std под текущий MSRV.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-stdlib",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-stdlib"
+      ]
+    },
+    {
+      "id": "manual-rust-by-example",
+      "mode": "manual",
+      "prompt": "Show a minimal compiling example contrasting borrowed and owned return values.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-by-example",
+        "primary_profile": "rust-by-example",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-by-example"
+      ]
+    },
+    {
+      "id": "automatic-rust-by-example",
+      "mode": "automatic",
+      "prompt": "Добавь к skill минимальный compiling example, который демонстрирует owned versus borrowed boundary.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-by-example",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-by-example"
+      ]
+    },
+    {
+      "id": "manual-rust-ownership",
+      "mode": "manual",
+      "prompt": "Explain and solve this E0502 borrow conflict without reflexive cloning.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-ownership",
+        "primary_profile": "rust-ownership",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-ownership"
+      ]
+    },
+    {
+      "id": "automatic-rust-ownership",
+      "mode": "automatic",
+      "prompt": "Исправь E0502 в parser, сохрани ясное ownership и добавь тест жизненного цикла.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-ownership",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-ownership"
+      ]
+    },
+    {
+      "id": "manual-rust-traits",
+      "mode": "manual",
+      "prompt": "Choose enum, generics, or dyn Trait for this extension point and check object safety.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-traits",
+        "primary_profile": "rust-traits",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-traits"
+      ]
+    },
+    {
+      "id": "automatic-rust-traits",
+      "mode": "automatic",
+      "prompt": "Переработай публичный trait extension point с object safety и downstream coherence checks.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-traits",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-traits"
+      ]
+    },
+    {
+      "id": "manual-rust-errors",
+      "mode": "manual",
+      "prompt": "Design an actionable library error taxonomy with sources, recovery, and redaction.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-errors",
+        "primary_profile": "rust-errors",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-errors"
+      ]
+    },
+    {
+      "id": "automatic-rust-errors",
+      "mode": "automatic",
+      "prompt": "Замени string errors библиотеки на typed recovery contract без утечки dependency errors.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-errors",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-errors"
+      ]
+    },
+    {
+      "id": "manual-rust-idioms",
+      "mode": "manual",
+      "prompt": "Assess this clone-heavy loop for semantic Rust anti-patterns without changing its API.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-idioms",
+        "primary_profile": "rust-idioms",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-idioms"
+      ]
+    },
+    {
+      "id": "automatic-rust-idioms",
+      "mode": "automatic",
+      "prompt": "Упрости clone-heavy Rust код идиоматично, сохранив ordering, drops и public behavior.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-idioms",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-idioms"
+      ]
+    },
+    {
+      "id": "manual-rust-unsafe",
+      "mode": "manual",
+      "prompt": "Prove the validity, aliasing, initialization, and drop invariants of this internal unsafe wrapper.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-unsafe",
+        "primary_profile": "rust-unsafe",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-unsafe"
+      ]
+    },
+    {
+      "id": "automatic-rust-unsafe",
+      "mode": "automatic",
+      "prompt": "Сделай sound safe wrapper над внутренним raw buffer и добавь Miri-targeted regression test.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-unsafe",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-unsafe"
+      ]
+    },
+    {
+      "id": "manual-rust-api-design",
+      "mode": "manual",
+      "prompt": "Design the caller-facing API for a validated label with errors and extension policy.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-api-design",
+        "primary_profile": "rust-api-design",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-api-design"
+      ]
+    },
+    {
+      "id": "automatic-rust-api-design",
+      "mode": "automatic",
+      "prompt": "Добавь публичный builder API, сохрани ownership ergonomics и downstream compatibility.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-api-design",
+        "supporting_profiles": [
+          "rust-semver"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-api-design"
+      ]
+    },
+    {
+      "id": "manual-rust-cargo-build",
+      "mode": "manual",
+      "prompt": "Explain the effective feature graph and host versus target roles of this build script.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-cargo-build",
+        "primary_profile": "rust-cargo-build",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-cargo-build"
+      ]
+    },
+    {
+      "id": "automatic-rust-cargo-build",
+      "mode": "automatic",
+      "prompt": "Исправь Cargo feature/build-script конфигурацию для cross target без случайного lockfile update.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-cargo-build",
+        "supporting_profiles": [
+          "rust-workspace"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-cargo-build"
+      ]
+    },
+    {
+      "id": "manual-rust-workspace",
+      "mode": "manual",
+      "prompt": "Decide whether this subsystem merits a crate boundary and map workspace migration costs.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-workspace",
+        "primary_profile": "rust-workspace",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-workspace"
+      ]
+    },
+    {
+      "id": "automatic-rust-workspace",
+      "mode": "automatic",
+      "prompt": "Раздели workspace на domain и adapter crates с направленными dependencies и корректным publishing plan.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-workspace",
+        "supporting_profiles": [
+          "rust-semver"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-workspace"
+      ]
+    },
+    {
+      "id": "manual-rust-module-layout",
+      "mode": "manual",
+      "prompt": "Design private modules and stable facade re-exports for this crate.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-module-layout",
+        "primary_profile": "rust-module-layout",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-module-layout"
+      ]
+    },
+    {
+      "id": "automatic-rust-module-layout",
+      "mode": "automatic",
+      "prompt": "Раздели большой module внутри crate, сохрани публичные paths и сузь visibility.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-module-layout",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-module-layout"
+      ]
+    },
+    {
+      "id": "manual-rust-dependencies",
+      "mode": "manual",
+      "prompt": "Review the adopted dependency's versions, default features, public exposure, and update policy.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-dependencies",
+        "primary_profile": "rust-dependencies",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-dependencies"
+      ]
+    },
+    {
+      "id": "automatic-rust-dependencies",
+      "mode": "automatic",
+      "prompt": "Обнови существующую dependency узко, отключи ненужные defaults и проверь lockfile delta.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-dependencies",
+        "supporting_profiles": [
+          "rust-cargo-build"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-dependencies"
+      ]
+    },
+    {
+      "id": "manual-rust-crate-discovery",
+      "mode": "manual",
+      "prompt": "Compare candidate crates against MSRV, targets, license, maintenance, API fit, and dependency cost.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-crate-discovery",
+        "primary_profile": "rust-crate-discovery",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-crate-discovery"
+      ]
+    },
+    {
+      "id": "automatic-rust-crate-discovery",
+      "mode": "automatic",
+      "prompt": "Выбери и добавь parser crate после одинакового evidence rubric и локального integration spike.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-crate-discovery",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-crate-discovery"
+      ]
+    },
+    {
+      "id": "manual-rust-semver",
+      "mode": "manual",
+      "prompt": "Classify this public trait and MSRV change against the last release baseline.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-semver",
+        "primary_profile": "rust-semver",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-semver"
+      ]
+    },
+    {
+      "id": "automatic-rust-semver",
+      "mode": "automatic",
+      "prompt": "Сделай совместимую миграцию публичного enum и подготовь SemVer evidence и migration example.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-semver",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-semver"
+      ]
+    },
+    {
+      "id": "manual-rust-documentation",
+      "mode": "manual",
+      "prompt": "Write rustdoc with a runnable example, errors, panics, and safety obligations for this API.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-documentation",
+        "primary_profile": "rust-documentation",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-documentation"
+      ]
+    },
+    {
+      "id": "automatic-rust-documentation",
+      "mode": "automatic",
+      "prompt": "Обнови rustdoc, doctests, README и migration note для изменившегося public contract.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-documentation",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-documentation"
+      ]
+    },
+    {
+      "id": "manual-rust-style-clippy",
+      "mode": "manual",
+      "prompt": "Interpret this Clippy diagnostic under repository MSRV and lint policy.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-style-clippy",
+        "primary_profile": "rust-style-clippy",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-style-clippy"
+      ]
+    },
+    {
+      "id": "automatic-rust-style-clippy",
+      "mode": "automatic",
+      "prompt": "Исправь новые Clippy findings в изменённом package без форматирования чужого dirty diff.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-style-clippy",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-style-clippy"
+      ]
+    },
+    {
+      "id": "manual-rust-ecosystem",
+      "mode": "manual",
+      "prompt": "Recommend the minimal Rust project shape for a no-std embedded library before choosing crates.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-ecosystem",
+        "primary_profile": "rust-ecosystem",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-ecosystem"
+      ]
+    },
+    {
+      "id": "automatic-rust-ecosystem",
+      "mode": "automatic",
+      "prompt": "Создай минимальный первый vertical slice Rust CLI, используя std и существующие conventions до новых crates.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-ecosystem",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-ecosystem"
+      ]
+    },
+    {
+      "id": "manual-rust-architecture",
+      "mode": "manual",
+      "prompt": "Design domain-owned ports and one composition root for storage and transport adapters.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-architecture",
+        "primary_profile": "rust-architecture",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-architecture"
+      ]
+    },
+    {
+      "id": "automatic-rust-architecture",
+      "mode": "automatic",
+      "prompt": "Перестрой boundary так, чтобы domain не зависел от ORM types, и проведи один vertical slice.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-architecture",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-architecture"
+      ]
+    },
+    {
+      "id": "manual-rust-architecture-review",
+      "mode": "manual",
+      "prompt": "Audit the whole Rust workspace for dependency direction, layer leaks, god modules, and speculative abstractions.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-architecture-review",
+        "primary_profile": "rust-architecture-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-architecture-review"
+      ]
+    },
+    {
+      "id": "automatic-rust-architecture-review",
+      "mode": "automatic",
+      "prompt": "Проведи read-only architecture audit всего workspace и ранжируй минимальные remediation steps.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-architecture-review",
+        "primary_profile": "rust-architecture-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-architecture-review"
+      ]
+    },
+    {
+      "id": "manual-rust-concurrency",
+      "mode": "manual",
+      "prompt": "Design bounded work ownership, cancellation, backpressure, and shutdown for these async tasks.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-concurrency",
+        "primary_profile": "rust-concurrency",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-concurrency"
+      ]
+    },
+    {
+      "id": "automatic-rust-concurrency",
+      "mode": "automatic",
+      "prompt": "Устрани hang при Tokio shutdown, сделай очередь bounded и докажи cleanup spawned tasks.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-concurrency",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-concurrency"
+      ]
+    },
+    {
+      "id": "manual-rust-testing",
+      "mode": "manual",
+      "prompt": "Design a regression test and choose unit, integration, property, fuzz, or schedule coverage.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-testing",
+        "primary_profile": "rust-testing",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-testing"
+      ]
+    },
+    {
+      "id": "automatic-rust-testing",
+      "mode": "automatic",
+      "prompt": "Добавь тесты для parser regression: таблица границ, property invariant и стабильный failure oracle.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-testing",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-testing"
+      ]
+    },
+    {
+      "id": "manual-rust-performance",
+      "mode": "manual",
+      "prompt": "Design a controlled benchmark and profile plan for this latency regression.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-performance",
+        "primary_profile": "rust-performance",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-performance"
+      ]
+    },
+    {
+      "id": "automatic-rust-performance",
+      "mode": "automatic",
+      "prompt": "Оптимизируй подтверждённый hot path по сопоставимому baseline и оставь regression benchmark.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-performance",
+        "supporting_profiles": [
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-performance"
+      ]
+    },
+    {
+      "id": "manual-rust-observability",
+      "mode": "manual",
+      "prompt": "Design logs, spans, and metrics for retries with redaction and bounded cardinality.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-observability",
+        "primary_profile": "rust-observability",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-observability"
+      ]
+    },
+    {
+      "id": "automatic-rust-observability",
+      "mode": "automatic",
+      "prompt": "Добавь tracing spans и metrics без PII, duplicate errors и high-cardinality labels.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-observability",
+        "supporting_profiles": [
+          "rust-errors"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-observability"
+      ]
+    },
+    {
+      "id": "manual-rust-unsafe-ffi",
+      "mode": "manual",
+      "prompt": "Specify the ABI, allocation, string, callback, unwind, and handle contract for this C boundary.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-unsafe-ffi",
+        "primary_profile": "rust-unsafe-ffi",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-unsafe-ffi"
+      ]
+    },
+    {
+      "id": "automatic-rust-unsafe-ffi",
+      "mode": "automatic",
+      "prompt": "Исправь C FFI ownership bug, закрой unwind и добавь foreign-side lifecycle test.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-unsafe-ffi",
+        "supporting_profiles": [
+          "rust-unsafe"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-unsafe-ffi"
+      ]
+    },
+    {
+      "id": "manual-rust-macros",
+      "mode": "manual",
+      "prompt": "Design the invocation grammar, hygiene, diagnostics, and compile tests for this derive macro.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-macros",
+        "primary_profile": "rust-macros",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-macros"
+      ]
+    },
+    {
+      "id": "automatic-rust-macros",
+      "mode": "automatic",
+      "prompt": "Реализуй derive macro с точными spans, crate-rename hygiene и compile-fail cases.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-macros",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-macros"
+      ]
+    },
+    {
+      "id": "manual-rust-lombok-macros",
+      "mode": "manual",
+      "prompt": "Specify generated constructors, accessors, builder validation, conflicts, and visibility for a Lombok-style derive.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-lombok-macros",
+        "primary_profile": "rust-lombok-macros",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-lombok-macros"
+      ]
+    },
+    {
+      "id": "automatic-rust-lombok-macros",
+      "mode": "automatic",
+      "prompt": "Добавь Lombok-style constructor derive, который не обходит field invariants и не конфликтует с user methods.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-lombok-macros",
+        "supporting_profiles": [
+          "rust-macros"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-lombok-macros"
+      ]
+    },
+    {
+      "id": "manual-rust-uniffi-building",
+      "mode": "manual",
+      "prompt": "Design a UniFFI interface for records, objects, typed errors, async calls, callbacks, and cleanup.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-uniffi-building",
+        "primary_profile": "rust-uniffi-building",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-uniffi-building"
+      ]
+    },
+    {
+      "id": "automatic-rust-uniffi-building",
+      "mode": "automatic",
+      "prompt": "Экспортируй API через UniFFI в Kotlin и Swift с typed errors и foreign-language lifecycle tests.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-uniffi-building",
+        "supporting_profiles": [
+          "rust-unsafe-ffi"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-uniffi-building"
+      ]
+    },
+    {
+      "id": "manual-rust-ml",
+      "mode": "manual",
+      "prompt": "Specify model, preprocessing, shape, dtype, device, parity, batching, and serving evidence.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-ml",
+        "primary_profile": "rust-ml",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "rust-ml"
+      ]
+    },
+    {
+      "id": "automatic-rust-ml",
+      "mode": "automatic",
+      "prompt": "Добавь ONNX inference с parity fixtures, bounded batching, device fallback и end-to-end metrics.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-ml",
+        "supporting_profiles": [
+          "rust-performance"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "rust-ml"
+      ]
+    },
+    {
+      "id": "manual-nix-flakes",
+      "mode": "manual",
+      "prompt": "Review the intended flake inputs, follows graph, systems, outputs, and lock update.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nix-flakes",
+        "primary_profile": "nix-flakes",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "nix-flakes"
+      ]
+    },
+    {
+      "id": "automatic-nix-flakes",
+      "mode": "automatic",
+      "prompt": "Добавь минимальные flake outputs для Rust workspace без нечаянного transitive lock churn.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "nix-flakes",
+        "supporting_profiles": [
+          "nix-packaging"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "nix-flakes"
+      ]
+    },
+    {
+      "id": "manual-nix-dev-env",
+      "mode": "manual",
+      "prompt": "Design a fast offline devShell with the exact Rust and native tools required by repository commands.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nix-dev-env",
+        "primary_profile": "nix-dev-env",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "nix-dev-env"
+      ]
+    },
+    {
+      "id": "automatic-nix-dev-env",
+      "mode": "automatic",
+      "prompt": "Исправь devShell так, чтобы clean shell собирал bindgen crate, а shellHook ничего не скачивал и не менял.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "nix-dev-env",
+        "supporting_profiles": [
+          "rust-cargo-build"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "nix-dev-env"
+      ]
+    },
+    {
+      "id": "manual-nix-packaging",
+      "mode": "manual",
+      "prompt": "Choose the existing Nix Rust builder and explain source, dependency hash, native inputs, and install artifacts.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nix-packaging",
+        "primary_profile": "nix-packaging",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "nix-packaging"
+      ]
+    },
+    {
+      "id": "automatic-nix-packaging",
+      "mode": "automatic",
+      "prompt": "Упакуй cross-compiled Rust binary в существующем Nix builder и проверь sandbox plus runtime closure.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "nix-packaging",
+        "supporting_profiles": [
+          "rust-cargo-build"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "nix-packaging"
+      ]
+    },
+    {
+      "id": "manual-nixos",
+      "mode": "manual",
+      "prompt": "Design typed NixOS module options, service lifecycle, state, credentials, and least privilege.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nixos",
+        "primary_profile": "nixos",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "nixos"
+      ]
+    },
+    {
+      "id": "automatic-nixos",
+      "mode": "automatic",
+      "prompt": "Добавь NixOS module для Rust daemon без secret в store и с VM startup test.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "nixos",
+        "supporting_profiles": [
+          "nix-packaging"
+        ],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "nixos"
+      ]
+    },
+    {
+      "id": "manual-nix-review",
+      "mode": "manual",
+      "prompt": "Perform a read-only review of this flake, derivation, lock delta, devShell, and NixOS module.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nix-review",
+        "primary_profile": "nix-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "manual",
+        "nix-review"
+      ]
+    },
+    {
+      "id": "automatic-nix-review",
+      "mode": "automatic",
+      "prompt": "Проведи read-only Nix review packaging diff и выдай findings с evaluation/build/runtime evidence.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "nix-review",
+        "primary_profile": "nix-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "automatic",
+        "nix-review"
+      ]
+    },
+    {
+      "id": "contrast-test-design",
+      "mode": "contrast",
+      "prompt": "Спроектируй новый regression test, но пока не запускай команды.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-testing",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-verify"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-testing"
+      ]
+    },
+    {
+      "id": "contrast-verify-only",
+      "mode": "contrast",
+      "prompt": "Запусти существующие tests и ничего не редактируй.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-verify",
+        "primary_profile": "rust-verify",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-testing"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-verify"
+      ]
+    },
+    {
+      "id": "contrast-unsafe-ffi",
+      "mode": "contrast",
+      "prompt": "Докажи ABI, allocator ownership и callback shutdown для C API.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-unsafe-ffi",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-unsafe"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-unsafe-ffi"
+      ]
+    },
+    {
+      "id": "contrast-style-idiom",
+      "mode": "contrast",
+      "prompt": "Настрой workspace Clippy lint levels и narrow allow policy.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-style-clippy",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-idioms"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-style-clippy"
+      ]
+    },
+    {
+      "id": "contrast-discovery-deps",
+      "mode": "contrast",
+      "prompt": "Сравни ещё не принятые crates по MSRV и license.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-crate-discovery",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-dependencies"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-crate-discovery"
+      ]
+    },
+    {
+      "id": "contrast-workspace-module",
+      "mode": "contrast",
+      "prompt": "Реши, нужен ли новый crate boundary, а не просто новый файл.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-workspace",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-module-layout"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-workspace"
+      ]
+    },
+    {
+      "id": "contrast-architecture-review",
+      "mode": "contrast",
+      "prompt": "Оцени структуру всего проекта read-only, не review одного diff.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-architecture-review",
+        "primary_profile": "rust-architecture-review",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-review"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "rust-architecture-review"
+      ]
+    },
+    {
+      "id": "contrast-debug-performance",
+      "mode": "contrast",
+      "prompt": "Latency выросла, но baseline и hotspot ещё не воспроизведены: сначала найди причину.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "debugging",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-performance"
+        ]
+      },
+      "tags": [
+        "contrast",
+        "debugging"
+      ]
+    },
+    {
+      "id": "negative-syntax",
+      "mode": "negative",
+      "prompt": "Что означает оператор ? в Rust? Ответь одним абзацем.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-translation",
+      "mode": "negative",
+      "prompt": "Переведи этот английский абзац на русский.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-python-fix",
+      "mode": "negative",
+      "prompt": "Исправь off-by-one в этом Python скрипте.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-go-review",
+      "mode": "negative",
+      "prompt": "Сделай review Go HTTP handler.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-js-test",
+      "mode": "negative",
+      "prompt": "Запусти unit tests React компонента.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-sql",
+      "mode": "negative",
+      "prompt": "Нормализуй эту SQL schema.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-copy",
+      "mode": "negative",
+      "prompt": "Напиши короткий marketing copy для лендинга.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-summary",
+      "mode": "negative",
+      "prompt": "Суммируй приложенную статью без анализа кода.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-weather",
+      "mode": "negative",
+      "prompt": "Какая погода завтра в Москве?",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-math",
+      "mode": "negative",
+      "prompt": "Реши уравнение x^2 - 4 = 0.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-git",
+      "mode": "negative",
+      "prompt": "Объясни разницу между git merge и rebase без репозитория.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    },
+    {
+      "id": "negative-docker",
+      "mode": "negative",
+      "prompt": "Оптимизируй Dockerfile для Node.js приложения.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": null,
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": []
+      },
+      "tags": [
+        "negative"
+      ]
+    }
+  ]
+}

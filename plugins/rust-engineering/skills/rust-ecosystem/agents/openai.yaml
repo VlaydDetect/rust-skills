@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Ecosystem"
+  short_description: "Orient Rust ecosystem choices"
+  default_prompt: "Use $rust-ecosystem to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unsafe Rust"
+  short_description: "Prove internal unsafe invariants"
+  default_prompt: "Use $rust-unsafe to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

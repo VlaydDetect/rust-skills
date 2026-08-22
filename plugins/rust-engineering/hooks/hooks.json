@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${PLUGIN_ROOT}/scripts/session-context.sh\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"& '$env:PLUGIN_ROOT/scripts/session-context.ps1'\"",
+            "timeout": 10,
+            "statusMessage": "Inspecting Rust project context"
+          }
+        ]
+      }
+    ]
+  }
+}

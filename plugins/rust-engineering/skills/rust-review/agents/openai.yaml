@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Review"
+  short_description: "Review Rust changes without editing"
+  default_prompt: "Use $rust-review to select focused profiles, inspect this Rust change in context, control false positives, and return only evidence-backed findings and a verdict."
+policy:
+  allow_implicit_invocation: true

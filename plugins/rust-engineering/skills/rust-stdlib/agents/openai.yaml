@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Standard Library"
+  short_description: "Choose Rust std primitives"
+  default_prompt: "Use $rust-stdlib to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

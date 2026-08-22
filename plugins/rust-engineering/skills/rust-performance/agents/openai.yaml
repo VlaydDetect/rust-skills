@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Performance"
+  short_description: "Measure and optimize Rust performance"
+  default_prompt: "Use $rust-performance to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

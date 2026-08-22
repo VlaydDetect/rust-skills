@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Verify"
+  short_description: "Run scoped Rust verification"
+  default_prompt: "Use $rust-verify to run the smallest sufficient read-only Rust or Nix validation matrix without editing and classify each result."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "rust-engineering",
+  "version": "0.2.0",
+  "description": "Automatic Rust engineering orchestration with 43 focused coding, review, verification, language, Cargo, architecture, runtime, interop, and Nix skills.",
+  "author": {
+    "name": "rust-skills contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rust",
+    "coding",
+    "review",
+    "verification",
+    "agents",
+    "cargo",
+    "nix"
+  ],
+  "hooks": "./hooks/claude.json"
+}

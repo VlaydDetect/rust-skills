@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Macros"
+  short_description: "Design declarative and proc macros"
+  default_prompt: "Use $rust-macros to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

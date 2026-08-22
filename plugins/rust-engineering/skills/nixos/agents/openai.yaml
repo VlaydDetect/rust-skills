@@ -1,0 +1,6 @@
+interface:
+  display_name: "NixOS and Home Manager"
+  short_description: "Design NixOS and Home Manager modules"
+  default_prompt: "Use $nixos to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

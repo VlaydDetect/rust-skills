@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust SemVer"
+  short_description: "Classify Rust compatibility changes"
+  default_prompt: "Use $rust-semver to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

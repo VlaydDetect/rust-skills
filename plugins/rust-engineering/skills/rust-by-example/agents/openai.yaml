@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust by Example"
+  short_description: "Teach Rust with compiling examples"
+  default_prompt: "Use $rust-by-example to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

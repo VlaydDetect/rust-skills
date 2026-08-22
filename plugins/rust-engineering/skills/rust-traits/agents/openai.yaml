@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Traits and Type-Driven Design"
+  short_description: "Design Rust traits and dispatch"
+  default_prompt: "Use $rust-traits to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

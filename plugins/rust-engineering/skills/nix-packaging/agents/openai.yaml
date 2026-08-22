@@ -1,0 +1,6 @@
+interface:
+  display_name: "Nix Packaging for Rust"
+  short_description: "Package Rust reproducibly with Nix"
+  default_prompt: "Use $nix-packaging to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

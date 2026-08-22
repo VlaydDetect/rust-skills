@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Architecture Review"
+  short_description: "Audit whole-project Rust structure"
+  default_prompt: "Use $rust-architecture-review to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+policy:
+  allow_implicit_invocation: true

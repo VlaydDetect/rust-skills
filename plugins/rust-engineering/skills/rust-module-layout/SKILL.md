@@ -33,6 +33,10 @@ Own in-crate namespaces, privacy, source layout, re-exports, and cohesive module
 - Macro visibility and expansion paths may not follow ordinary item intuition; verify exported macro use explicitly.
 - A module split should reduce conceptual load or enforce privacy, not just satisfy a line-count threshold.
 
+## Rulebook Overlay
+
+After mapping modules, visibility, and public paths, select only relevant in-crate IDs from the [`proj-` index](../rust-coding-rules/references/categories/proj.md). A rulebook layout pattern does not justify a new crate.
+
 ## Boundaries and Hand-offs
 
 - `rust-workspace` owns whether a concept becomes a separate crate; this profile defaults to the cheaper module boundary.

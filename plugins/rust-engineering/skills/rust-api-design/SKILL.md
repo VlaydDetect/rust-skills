@@ -33,6 +33,10 @@ Own the caller-visible Rust contract and its evolution surface. Apply this profi
 - Builders are appropriate for many optional or validated settings; a direct constructor is clearer for a few required fields.
 - Public errors, feature flags, auto traits, Send or Sync behavior, and panic conditions are part of the API.
 
+## Rulebook Overlay
+
+After the caller contract is explicit, select at most eight IDs from [`api-`](../rust-coding-rules/references/categories/api.md), [`conv-`](../rust-coding-rules/references/categories/conv.md), [`serde-`](../rust-coding-rules/references/categories/serde.md), or semantic [`name-`](../rust-coding-rules/references/categories/name.md) rules. Public compatibility remains owned here.
+
 ## Boundaries and Hand-offs
 
 - `rust-traits` owns detailed dispatch and coherence design; `rust-ownership` owns difficult lifetime and pointer choices.

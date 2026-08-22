@@ -33,6 +33,10 @@ Own toolchain-aware language guidance, edition behavior, MSRV, and stable or nig
 - Route detailed borrowing, trait dispatch, error design, unsafe, or standard-library selection to their owner profiles.
 - Do not claim cross-target support from host-only compilation.
 
+## Rulebook Overlay
+
+After establishing edition and MSRV, use relevant [`const-`](../rust-coding-rules/references/categories/const.md) rules and toolchain-sensitive entries in [`proj-`](../rust-coding-rules/references/categories/proj.md) or [`lint-`](../rust-coding-rules/references/categories/lint.md). Source-version claims never override the repository's compiler floor.
+
 ## Boundaries and Hand-offs
 
 - `rust-ownership`, `rust-traits`, `rust-errors`, `rust-unsafe`, and `rust-stdlib` own their detailed language domains.

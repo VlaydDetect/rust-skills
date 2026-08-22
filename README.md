@@ -1,6 +1,6 @@
 # Rust Engineering Plugin
 
-Dual-target плагин для Codex и Claude Code, который автоматически маршрутизирует задачи по Rust через один workflow и 40 профильных инженерных навыков. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
+Dual-target плагин для Codex и Claude Code с 44 навыками: один workflow, две read-only точки входа, 40 профильных инженерных навыков и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
 
 ## Как работает маршрутизация
 
@@ -13,12 +13,13 @@ SessionStart hook выполняет только три дешёвых read-onl
   -> rust-workflow
      -> discovery + TaskBrief
      -> 1 primary profile + максимум 2 supporting profiles
+     -> RuleQuery + до 8 правил из rust-coding-rules
      -> изменение выполняет только главный агент
      -> rust-verify: минимальная матрица доказательств
      -> rust-review: независимый findings-first review при необходимости
 ```
 
-Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Все 43 навыка можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
+Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 44 навыка можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
 
 Ручной синтаксис: `$profile-name` в Codex и `/rust-engineering:profile-name` в Claude Code. Внутренние hand-off ссылки используют host-neutral имена профилей.
 
@@ -34,6 +35,10 @@ Read-only запросы имеют отдельные точки входа:
 ### Точки входа
 
 `rust-workflow`, `rust-review`, `rust-verify`.
+
+### Справочный overlay
+
+`rust-coding-rules` — 265 адресуемых ID в 26 category indexes. Обычная фаза выбирает не более восьми правил; широкий аудит идёт пакетами. Прямой вызов: `$rust-coding-rules <id|prefix|task>` в Codex и `/rust-engineering:rust-coding-rules ...` в Claude Code.
 
 ### Инженерный процесс
 
@@ -76,9 +81,9 @@ Read-only запросы имеют отдельные точки входа:
 - metadata `agents/openai.yaml` для ручного вызова в Codex;
 - для 21 code-oriented профиля — оригинальный dependency-free golden example, который компилируется offline.
 
-`provenance/source-coverage.json` фиксирует все 61 исходный skill и 385 supporting files из двух сравнительных корпусов. В продукт адаптированы 46 исходных skills и сведены к 41 владельцу знаний; ещё два навыка — `rust-workflow` и `rust-verify`. Пятнадцать вертикальных domain skills исключены явно с причиной, а не потеряны молча.
+`provenance/source-coverage.json` фиксирует все 61 исходный skill и 385 supporting files из craft/full-stack корпусов. В продукт адаптированы 46 исходных skills и сведены к 41 владельцу знаний; `rust-workflow` и `rust-verify` дополняют этот каталог. Пятнадцать вертикальных domain skills исключены явно с причиной, а не потеряны молча.
 
-Материал реорганизован по владельцам решений и progressive disclosure. Исходные файлы не копируются wholesale и не требуются runtime-плагину.
+Leonardomso-корпус перенесён без сжатия: `provenance/rule-coverage.json` фиксирует все 265 исходных ID, source/target SHA-256, owners, aliases, сохранённые facets и финальный статус. Полные правила находятся в `rust-coding-rules/references/rules/`, а progressive disclosure идёт через 26 indexes. Reference-корпусы, Graphify и Cargo harness не требуются runtime-плагину.
 
 ## Agents и права на изменения
 
@@ -92,10 +97,12 @@ Read-only запросы имеют отдельные точки входа:
 - `.claude-plugin/plugin.json` — Claude Code manifest;
 - `hooks/hooks.json` и `hooks/claude.json` — раздельные host schema;
 - `scripts/session-context.*` — быстрый общий SessionStart detector;
-- `skills/` — 43 host-neutral навыка и их references/examples;
+- `skills/` — 44 host-neutral навыка и их references/examples;
 - `agents/` — три read-only Claude agents;
-- `evals/evals.json` — 106 routing cases schema v2: 43 manual, 43 automatic, 8 contrast, 12 negative;
+- `evals/evals.json` — schema v3: 108 routing cases и 44 rulebook cases;
 - `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
+- `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
+- `checks/rulebook/` — dev-only locked Cargo harness и stdlib-only генератор classified examples;
 - `scripts/validate.py` — стандартно-библиотечный валидатор продукта.
 
 ## Проверка
@@ -107,6 +114,6 @@ python plugins/rust-engineering/scripts/validate.py --examples
 claude plugin validate ./plugins/rust-engineering
 ```
 
-Первая команда проверяет оба manifest, все 43 skills и `openai.yaml`, Markdown links, hooks, три agent-контракта, provenance, 106 routing cases и компилирует 21 golden example offline. Без `--examples` выполняется только быстрая статическая проверка.
+Первая команда проверяет оба manifest, 44 skills и `openai.yaml`, 265 rules, aliases, indexes, source/target hashes, 1 141 classified Rust blocks, Markdown links, hooks, три agent-контракта, provenance, 108 routing и 44 rulebook cases. С `--examples` она обязательно компилирует 21 dependency-free golden example, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
 
 Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "policy": {
-    "catalog": "43 product skills: 41 source-derived knowledge owners plus rust-workflow and rust-verify.",
+    "catalog": "44 product skills: 41 source-derived knowledge owners, rust-workflow, rust-verify, and the separately tracked rust-coding-rules overlay.",
     "adaptation": "Source material is comparative evidence. Product profiles are reorganized around one decision owner, host-neutral workflows, and progressive disclosure rather than copied wholesale.",
     "runtime": "Source corpora are not required at plugin runtime. This inventory is provenance and coverage evidence."
   },

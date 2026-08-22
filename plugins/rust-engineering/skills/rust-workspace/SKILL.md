@@ -33,6 +33,10 @@ Own workspace-level crate responsibilities, dependency direction, shared policy,
 - A workspace root may be virtual; never assume it has a root package target.
 - Coordinate published crate versions and dependency requirements when public packages evolve together.
 
+## Rulebook Overlay
+
+After mapping package responsibilities and dependency direction, select only relevant workspace IDs from the [`proj-` index](../rust-coding-rules/references/categories/proj.md). Module-level entries remain owned by `rust-module-layout`.
+
 ## Boundaries and Hand-offs
 
 - `rust-module-layout` owns organization inside one crate; use a crate boundary only when workspace-level costs and benefits justify it.

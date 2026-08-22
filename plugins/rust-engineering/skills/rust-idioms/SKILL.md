@@ -33,6 +33,10 @@ Own idiomatic expression and pattern selection below the architecture and public
 - Keep constructors and builders proportionate; builders help many optional or validated fields, not trivial structs.
 - Do not turn a Clippy suggestion into policy without checking readability, MSRV, public compatibility, and local exceptions.
 
+## Rulebook Overlay
+
+After confirming behavior and local convention, select only relevant IDs from [`num-`](../rust-coding-rules/references/categories/num.md), [`pat-`](../rust-coding-rules/references/categories/pat.md), or [`anti-`](../rust-coding-rules/references/categories/anti.md). Alias anti-rules resolve to their canonical owner and must not duplicate findings.
+
 ## Boundaries and Hand-offs
 
 - `rust-style-clippy` owns formatting and lint configuration; idioms own semantic code patterns.

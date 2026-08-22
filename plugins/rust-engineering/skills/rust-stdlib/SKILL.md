@@ -33,6 +33,10 @@ Own standard-library selection and the semantic trade-offs of its core primitive
 - Distinguish bytes, scalar values, grapheme clusters, and display width before indexing or truncating text.
 - Use checked, saturating, wrapping, or overflowing arithmetic deliberately where numeric limits are part of the contract.
 
+## Rulebook Overlay
+
+After required operations and guarantees are explicit, select only relevant IDs from the [`coll-` index](../rust-coding-rules/references/categories/coll.md). Use adjacent rule categories only when their owner profile is already selected.
+
 ## Boundaries and Hand-offs
 
 - `rust-ownership` owns borrowing and pointer semantics; this profile chooses std types under those semantics.

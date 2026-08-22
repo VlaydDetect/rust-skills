@@ -1,0 +1,236 @@
+# api-typestate
+
+> Use typestate pattern to encode state machine invariants in the type system
+
+<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
+
+## Decision
+
+Consider this rule only after its prerequisites are satisfied: Use typestate pattern to encode state machine invariants in the type system.
+
+## Apply When
+
+Apply when a public or independently evolving caller contract needs an ownership, construction, extension, or compatibility decision, and current code establishes the premise described below.
+
+## Avoid When
+
+Do not apply mechanically when the abstraction has only one local use or would expose implementation and dependency details without caller value. A conflicting project contract or owner-profile decision wins.
+
+## Algorithm
+
+1. Inspect the actual callers, invariants, repository instructions, toolchain, target, features, and accepted dependencies.
+2. Confirm the concrete trigger for this rule; a keyword or hypothetical future need is insufficient.
+3. Write representative caller examples, minimize public surface, and review ownership, errors, extension rights, and compatibility.
+4. Implement the smallest coherent option, compare material alternatives, and run evidence that can falsify the decision.
+
+## Trade-offs
+
+More flexibility can improve call sites while increasing inference, monomorphization, compatibility, and maintenance obligations.
+
+## Prerequisites
+
+- The user and project contract, actual callers, edition, MSRV, toolchain, target, and feature matrix take precedence over this rule.
+- Public compatibility and downstream caller impact must be known before changing an exported contract.
+
+## Verification
+
+Compile downstream-style examples and check docs, public paths, feature behavior, and the declared compatibility baseline.
+
+## Why It Matters
+
+State machines with runtime state checks ("are we connected?", "is the transaction started?") can have invalid transitions. The typestate pattern uses different types for each state, making invalid state transitions compile errors. The compiler enforces your state machine.
+
+## Bad
+
+<!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Bad illustration -->
+```rust
+struct Connection {
+    state: ConnectionState,
+    socket: Option<TcpStream>,
+}
+
+enum ConnectionState {
+    Disconnected,
+    Connected,
+    Authenticated,
+}
+
+impl Connection {
+    fn send(&mut self, data: &[u8]) -> Result<(), Error> {
+        // Runtime check - can fail if called in wrong state
+        if self.state != ConnectionState::Authenticated {
+            return Err(Error::NotAuthenticated);
+        }
+        self.socket.as_mut().unwrap().write_all(data)?;
+        Ok(())
+    }
+    
+    fn authenticate(&mut self, password: &str) -> Result<(), Error> {
+        // Runtime check - can fail
+        if self.state != ConnectionState::Connected {
+            return Err(Error::NotConnected);
+        }
+        // ...
+    }
+}
+
+// Bug: forgot to authenticate
+let mut conn = Connection::new();
+conn.connect()?;
+conn.send(b"data")?;  // Runtime error: NotAuthenticated
+```
+
+## Good
+
+<!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Good illustration -->
+```rust
+// Different types for each state
+struct Disconnected;
+struct Connected { socket: TcpStream }
+struct Authenticated { socket: TcpStream, session: Session }
+
+struct Connection<State> {
+    state: State,
+}
+
+impl Connection<Disconnected> {
+    fn new() -> Self {
+        Connection { state: Disconnected }
+    }
+    
+    fn connect(self, addr: &str) -> Result<Connection<Connected>, Error> {
+        let socket = TcpStream::connect(addr)?;
+        Ok(Connection { state: Connected { socket } })
+    }
+}
+
+impl Connection<Connected> {
+    fn authenticate(self, password: &str) -> Result<Connection<Authenticated>, Error> {
+        let session = do_auth(&self.state.socket, password)?;
+        Ok(Connection {
+            state: Authenticated { socket: self.state.socket, session }
+        })
+    }
+}
+
+impl Connection<Authenticated> {
+    fn send(&mut self, data: &[u8]) -> Result<(), Error> {
+        // No runtime check needed - type guarantees we're authenticated
+        self.state.socket.write_all(data)?;
+        Ok(())
+    }
+}
+
+// Bug: forgot to authenticate
+let conn = Connection::new();
+let conn = conn.connect("server:8080")?;
+conn.send(b"data");  // Compile error! send() not available on Connection<Connected>
+
+// Correct usage
+let conn = Connection::new();
+let conn = conn.connect("server:8080")?;
+let mut conn = conn.authenticate("secret")?;
+conn.send(b"data")?;  // Works - type is Connection<Authenticated>
+```
+
+## Builder Typestate
+
+<!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Builder Typestate illustration -->
+```rust
+// Enforce required fields via typestate
+struct BuilderNoUrl;
+struct BuilderWithUrl { url: String }
+
+struct RequestBuilder<State> {
+    state: State,
+    timeout: Option<Duration>,
+}
+
+impl RequestBuilder<BuilderNoUrl> {
+    fn new() -> Self {
+        RequestBuilder {
+            state: BuilderNoUrl,
+            timeout: None,
+        }
+    }
+    
+    fn url(self, url: &str) -> RequestBuilder<BuilderWithUrl> {
+        RequestBuilder {
+            state: BuilderWithUrl { url: url.to_string() },
+            timeout: self.timeout,
+        }
+    }
+}
+
+impl RequestBuilder<BuilderWithUrl> {
+    fn timeout(mut self, t: Duration) -> Self {
+        self.timeout = Some(t);
+        self
+    }
+    
+    // Only available once URL is set
+    fn build(self) -> Request {
+        Request {
+            url: self.state.url,
+            timeout: self.timeout,
+        }
+    }
+}
+
+// Compile error: build() not available
+let bad = RequestBuilder::new().build();
+
+// Correct: must set URL first
+let good = RequestBuilder::new()
+    .url("https://example.com")
+    .timeout(Duration::from_secs(30))
+    .build();
+```
+
+## Transaction Example
+
+<!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Transaction Example illustration -->
+```rust
+struct NotStarted;
+struct InProgress { tx_id: u64 }
+struct Committed;
+
+struct Transaction<State> {
+    conn: Connection,
+    state: State,
+}
+
+impl Transaction<NotStarted> {
+    fn begin(conn: Connection) -> Result<Transaction<InProgress>, Error> {
+        let tx_id = conn.execute("BEGIN")?;
+        Ok(Transaction {
+            conn,
+            state: InProgress { tx_id },
+        })
+    }
+}
+
+impl Transaction<InProgress> {
+    fn execute(&mut self, sql: &str) -> Result<(), Error> {
+        self.conn.execute(sql)
+    }
+    
+    fn commit(self) -> Result<Transaction<Committed>, Error> {
+        self.conn.execute("COMMIT")?;
+        Ok(Transaction {
+            conn: self.conn,
+            state: Committed,
+        })
+    }
+    
+    fn rollback(self) -> Connection {
+        let _ = self.conn.execute("ROLLBACK");
+        self.conn
+    }
+}
+```
+
+## Related Rules
+- [api-builder-pattern](./api-builder-pattern.md) - Basic builder pattern
+- [api-parse-dont-validate](./api-parse-dont-validate.md) - Type-driven invariants
+- [api-sealed-trait](./api-sealed-trait.md) - Restricting trait implementations

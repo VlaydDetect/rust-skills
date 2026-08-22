@@ -33,6 +33,10 @@ Own data and resource ownership, borrowing, reference lifetimes, pointer choice,
 - RAII guards must not be held across unrelated work or async suspension unless that scope is the invariant.
 - Self-referential and pinned structures need a proven necessity and specialized design; do not improvise them with raw pointers.
 
+## Rulebook Overlay
+
+After establishing the ownership graph, select only relevant IDs from the [`own-` index](../rust-coding-rules/references/categories/own.md). Load no more than eight rules and keep this profile's lifecycle decision authoritative.
+
 ## Boundaries and Hand-offs
 
 - `rust-unsafe` owns manual validity and aliasing invariants once safe ownership tools are insufficient.

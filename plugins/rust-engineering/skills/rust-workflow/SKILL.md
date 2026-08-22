@@ -14,16 +14,18 @@ Treat the repository's effective state and explicit user contract as controlling
 3. Write a compact `TaskBrief`: goal, non-goals, affected packages, constraints, compatibility surface, acceptance evidence, and unknowns.
 4. Select exactly one primary profile and zero to two supporting profiles from [Profile routing index](references/routing-index.md). If more are needed, split the work into phases and route each phase separately.
 5. Read each selected profile's `SKILL.md` and detailed reference before making its design decisions. Resolve semantics, safety, and compatibility before optimization.
-6. Classify risk and delegate only independent read-only investigation when it materially reduces uncertainty.
-7. Implement the smallest coherent root-cause change. Update tests, documentation, manifests, or generated sources only when the changed contract requires them.
-8. Invoke `rust-verify` for the smallest sufficient evidence matrix. Use `rust-review` for an independent findings-first pass when requested or proportionate to risk.
-9. Inspect the final diff and report selected profiles, changed files, exact checks, failures by cause, and unverified risk.
+6. Build the `RuleQuery` defined by `rust-coding-rules` from the actual constructs, boundary, toolchain, configuration, and measurements. Load only the matching category index and at most eight rules; the rulebook is an overlay, not another profile slot.
+7. Classify risk and delegate only independent read-only investigation when it materially reduces uncertainty.
+8. Implement the smallest coherent root-cause change. Update tests, documentation, manifests, or generated sources only when the changed contract requires them. Re-query rules against the actual diff.
+9. Invoke `rust-verify` for the smallest sufficient evidence matrix. Use `rust-review` for an independent findings-first pass when requested or proportionate to risk.
+10. Inspect the final diff and report selected profiles, selected rule IDs, changed files, exact checks, failures by cause, and unverified risk.
 
 ## Profile Loading Contract
 
 - The primary profile owns the decision and vocabulary. Supporting profiles constrain it; they do not create parallel solutions.
 - Do not summarize a profile from memory when its detailed reference is locally available.
 - Do not load profiles merely because a keyword appears. Route by the decision that controls correctness.
+- `rust-coding-rules` supplies concrete rule IDs after profile selection. It does not become primary or supporting and cannot override project state or the owner profile.
 - Re-route after a phase when the owner changes, such as discovery -> API design -> verification.
 - A direct profile invocation may answer a focused question without this workflow. Any repository mutation still returns here for discovery, integration, and evidence.
 

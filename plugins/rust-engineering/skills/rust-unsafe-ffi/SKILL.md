@@ -33,6 +33,10 @@ Own foreign ABI contracts and safe ownership translation across language or runt
 - Opaque handles should validate null, liveness, type, thread affinity, and double-destroy behavior according to contract.
 - Callbacks require a stable context object and a race-safe rule for invocation during deregistration and shutdown.
 
+## Rulebook Overlay
+
+For Rust 2024 extern or exported-attribute details, use the relevant entries in the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md) only after this profile establishes ABI, target, ownership, panic, and foreign-lifecycle contracts.
+
 ## Boundaries and Hand-offs
 
 - `rust-unsafe` owns raw-pointer and validity proof shared with internal unsafe operations.

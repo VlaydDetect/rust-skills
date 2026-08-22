@@ -16,6 +16,12 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-review` | Read-only diff or pull-request findings and verdict | The user asks to review, audit a change, or identify defects without editing. |
 | `rust-verify` | Read-only command evidence and failure classification | The user asks to run checks or prove an existing state without fixing it. |
 
+## Reference Overlay
+
+| Skill | Owns | Route here when |
+|---|---|---|
+| `rust-coding-rules` | Addressable concrete rules selected after an owner profile | An exact rule ID or prefix is requested, or workflow/review needs a RuleSet of at most eight context-matched rules. It never occupies a primary or supporting slot. |
+
 ## Engineering Process
 
 | Profile | Owns | Route here when |
@@ -99,6 +105,7 @@ Use these ownership splits when descriptions overlap:
 - `rust-stable` specializes toolchain and general language stability, then hands borrowing, traits, errors, std, unsafe, and examples to their focused owners.
 - `rust-performance` requires a metric and comparable baseline; an unmeasured slowdown symptom starts in `debugging`.
 - `refactoring` preserves a named contract; `rust-architecture` may intentionally change boundaries or contracts after that decision is authorized.
+- `rust-coding-rules` is selected after the owning profile. User and project contracts, effective toolchain and target state, and the owner profile override any rulebook recommendation.
 
 ## Routing Examples
 

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "rust-engineering",
-  "version": "0.2.0",
-  "description": "Automatic Rust engineering orchestration with 43 focused coding, review, verification, language, Cargo, architecture, runtime, interop, and Nix skills.",
+  "version": "0.3.0",
+  "description": "Automatic Rust engineering orchestration with 44 focused skills and a 265-rule context-aware Rust coding rulebook.",
   "author": {
     "name": "rust-skills contributors"
   },

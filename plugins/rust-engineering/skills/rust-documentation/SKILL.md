@@ -33,6 +33,10 @@ Own the documented user model of a Rust package and executable examples that sup
 - Prefer links to one authoritative detailed section over copying the same feature matrix into several files.
 - Update changelog and migration guidance when user action is required, not for every internal refactor.
 
+## Rulebook Overlay
+
+After identifying the reader and contract, select only relevant IDs from the [`doc-` index](../rust-coding-rules/references/categories/doc.md). Rules supplement current implementation evidence and never license claims about future behavior.
+
 ## Boundaries and Hand-offs
 
 - `specs` owns normative product behavior; documentation presents accepted behavior to developers and users.

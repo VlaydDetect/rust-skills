@@ -33,6 +33,10 @@ Own test architecture, case selection, fixtures, doubles, and regression design.
 - Concurrency tests should encode invariants and use loom or controlled synchronization where possible rather than hoping for a race.
 - Coverage and mutation scores guide missing cases but do not replace contract-based assertions.
 
+## Rulebook Overlay
+
+After mapping a contract to the cheapest useful test, select only relevant IDs from the [`test-` index](../rust-coding-rules/references/categories/test.md). External frameworks remain optional and `rust-verify` still owns command execution.
+
 ## Boundaries and Hand-offs
 
 - `rust-verify` owns selecting and running the post-change command matrix; this profile owns what tests should exist.

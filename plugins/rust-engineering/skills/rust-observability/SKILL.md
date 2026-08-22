@@ -33,6 +33,10 @@ Own operational telemetry contracts and placement at meaningful system boundarie
 - Sampling and filtering affect evidence; absence from telemetry is not always absence of behavior.
 - Instrumentation on hot paths needs overhead measurement and disabled-path cost awareness.
 
+## Rulebook Overlay
+
+After naming the operational question, owner, redaction, and cardinality budget, select only relevant IDs from the [`obs-` index](../rust-coding-rules/references/categories/obs.md). Crate and subscriber recommendations remain conditional.
+
 ## Boundaries and Hand-offs
 
 - `rust-errors` owns failure types and recovery; this profile owns when those failures become telemetry.

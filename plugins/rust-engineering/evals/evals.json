@@ -1,9 +1,10 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "policy": {
     "manual": "Every profile is directly invocable.",
     "automatic": "Mutating Rust work enters rust-workflow, which chooses one primary and at most two supporting profiles. Read-only specialist reviews and verification may enter their focused skill directly.",
-    "negative": "A Rust keyword alone does not require a workflow for small general-knowledge questions, and non-Rust tasks must not route to this plugin."
+    "negative": "A Rust keyword alone does not require a workflow for small general-knowledge questions, and non-Rust tasks must not route to this plugin.",
+    "overlays": "rust-coding-rules is selected after the primary profile, never occupies a profile slot, and is empty for negative routing cases."
   },
   "cases": [
     {
@@ -15,7 +16,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-workflow",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -31,7 +33,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-workflow",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -47,7 +50,8 @@
         "entry_skill": "rust-review",
         "primary_profile": "rust-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -63,7 +67,8 @@
         "entry_skill": "rust-review",
         "primary_profile": "rust-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -79,7 +84,8 @@
         "entry_skill": "rust-verify",
         "primary_profile": "rust-verify",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -95,7 +101,8 @@
         "entry_skill": "rust-verify",
         "primary_profile": "rust-verify",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -111,7 +118,8 @@
         "entry_skill": "addressing-findings",
         "primary_profile": "addressing-findings",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -129,7 +137,8 @@
         "supporting_profiles": [
           "rust-review"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -145,7 +154,8 @@
         "entry_skill": "codebase-onboarding",
         "primary_profile": "codebase-onboarding",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -161,7 +171,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "codebase-onboarding",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -177,7 +188,8 @@
         "entry_skill": "debugging",
         "primary_profile": "debugging",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -195,7 +207,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -211,7 +224,8 @@
         "entry_skill": "refactoring",
         "primary_profile": "refactoring",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -227,7 +241,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "refactoring",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -243,7 +258,8 @@
         "entry_skill": "rust-navigation",
         "primary_profile": "rust-navigation",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -259,7 +275,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-navigation",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -275,7 +292,8 @@
         "entry_skill": "specs",
         "primary_profile": "specs",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -293,7 +311,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -309,7 +328,8 @@
         "entry_skill": "rust-stable",
         "primary_profile": "rust-stable",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -327,7 +347,8 @@
         "supporting_profiles": [
           "rust-cargo-build"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -343,7 +364,8 @@
         "entry_skill": "rust-stdlib",
         "primary_profile": "rust-stdlib",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -359,7 +381,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-stdlib",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -375,7 +398,8 @@
         "entry_skill": "rust-by-example",
         "primary_profile": "rust-by-example",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -391,7 +415,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-by-example",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -407,7 +432,8 @@
         "entry_skill": "rust-ownership",
         "primary_profile": "rust-ownership",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -425,7 +451,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -441,7 +468,8 @@
         "entry_skill": "rust-traits",
         "primary_profile": "rust-traits",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -459,7 +487,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -475,7 +504,8 @@
         "entry_skill": "rust-errors",
         "primary_profile": "rust-errors",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -493,7 +523,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -509,7 +540,8 @@
         "entry_skill": "rust-idioms",
         "primary_profile": "rust-idioms",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -525,7 +557,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-idioms",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -541,7 +574,8 @@
         "entry_skill": "rust-unsafe",
         "primary_profile": "rust-unsafe",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -559,7 +593,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -575,7 +610,8 @@
         "entry_skill": "rust-api-design",
         "primary_profile": "rust-api-design",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -593,7 +629,8 @@
         "supporting_profiles": [
           "rust-semver"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -609,7 +646,8 @@
         "entry_skill": "rust-cargo-build",
         "primary_profile": "rust-cargo-build",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -627,7 +665,8 @@
         "supporting_profiles": [
           "rust-workspace"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -643,7 +682,8 @@
         "entry_skill": "rust-workspace",
         "primary_profile": "rust-workspace",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -661,7 +701,8 @@
         "supporting_profiles": [
           "rust-semver"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -677,7 +718,8 @@
         "entry_skill": "rust-module-layout",
         "primary_profile": "rust-module-layout",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -693,7 +735,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-module-layout",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -709,7 +752,8 @@
         "entry_skill": "rust-dependencies",
         "primary_profile": "rust-dependencies",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -727,7 +771,8 @@
         "supporting_profiles": [
           "rust-cargo-build"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -743,7 +788,8 @@
         "entry_skill": "rust-crate-discovery",
         "primary_profile": "rust-crate-discovery",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -761,7 +807,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -777,7 +824,8 @@
         "entry_skill": "rust-semver",
         "primary_profile": "rust-semver",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -793,7 +841,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-semver",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -809,7 +858,8 @@
         "entry_skill": "rust-documentation",
         "primary_profile": "rust-documentation",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -827,7 +877,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -843,7 +894,8 @@
         "entry_skill": "rust-style-clippy",
         "primary_profile": "rust-style-clippy",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -859,7 +911,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-style-clippy",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -875,7 +928,8 @@
         "entry_skill": "rust-ecosystem",
         "primary_profile": "rust-ecosystem",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -891,7 +945,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-ecosystem",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -907,7 +962,8 @@
         "entry_skill": "rust-architecture",
         "primary_profile": "rust-architecture",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -925,7 +981,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -941,7 +998,8 @@
         "entry_skill": "rust-architecture-review",
         "primary_profile": "rust-architecture-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -957,7 +1015,8 @@
         "entry_skill": "rust-architecture-review",
         "primary_profile": "rust-architecture-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -973,7 +1032,8 @@
         "entry_skill": "rust-concurrency",
         "primary_profile": "rust-concurrency",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -991,7 +1051,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1007,7 +1068,8 @@
         "entry_skill": "rust-testing",
         "primary_profile": "rust-testing",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1023,7 +1085,8 @@
         "entry_skill": "rust-workflow",
         "primary_profile": "rust-testing",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1039,7 +1102,8 @@
         "entry_skill": "rust-performance",
         "primary_profile": "rust-performance",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1057,7 +1121,8 @@
         "supporting_profiles": [
           "rust-testing"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1073,7 +1138,8 @@
         "entry_skill": "rust-observability",
         "primary_profile": "rust-observability",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1091,7 +1157,8 @@
         "supporting_profiles": [
           "rust-errors"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1107,7 +1174,8 @@
         "entry_skill": "rust-unsafe-ffi",
         "primary_profile": "rust-unsafe-ffi",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1125,7 +1193,8 @@
         "supporting_profiles": [
           "rust-unsafe"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1141,7 +1210,8 @@
         "entry_skill": "rust-macros",
         "primary_profile": "rust-macros",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1159,7 +1229,8 @@
         "supporting_profiles": [
           "rust-api-design"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1175,7 +1246,8 @@
         "entry_skill": "rust-lombok-macros",
         "primary_profile": "rust-lombok-macros",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1193,7 +1265,8 @@
         "supporting_profiles": [
           "rust-macros"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1209,7 +1282,8 @@
         "entry_skill": "rust-uniffi-building",
         "primary_profile": "rust-uniffi-building",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1227,7 +1301,8 @@
         "supporting_profiles": [
           "rust-unsafe-ffi"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1243,7 +1318,8 @@
         "entry_skill": "rust-ml",
         "primary_profile": "rust-ml",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1261,7 +1337,8 @@
         "supporting_profiles": [
           "rust-performance"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1277,7 +1354,8 @@
         "entry_skill": "nix-flakes",
         "primary_profile": "nix-flakes",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1295,7 +1373,8 @@
         "supporting_profiles": [
           "nix-packaging"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1311,7 +1390,8 @@
         "entry_skill": "nix-dev-env",
         "primary_profile": "nix-dev-env",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1329,7 +1409,8 @@
         "supporting_profiles": [
           "rust-cargo-build"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1345,7 +1426,8 @@
         "entry_skill": "nix-packaging",
         "primary_profile": "nix-packaging",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1363,7 +1445,8 @@
         "supporting_profiles": [
           "rust-cargo-build"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1379,7 +1462,8 @@
         "entry_skill": "nixos",
         "primary_profile": "nixos",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1397,7 +1481,8 @@
         "supporting_profiles": [
           "nix-packaging"
         ],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1413,7 +1498,8 @@
         "entry_skill": "nix-review",
         "primary_profile": "nix-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "manual",
@@ -1429,7 +1515,8 @@
         "entry_skill": "nix-review",
         "primary_profile": "nix-review",
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "automatic",
@@ -1447,7 +1534,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-verify"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1465,7 +1553,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-testing"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1483,7 +1572,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-unsafe"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1501,7 +1591,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-idioms"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1519,7 +1610,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-dependencies"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1537,7 +1629,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-module-layout"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1555,7 +1648,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-review"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1573,7 +1667,8 @@
         "supporting_profiles": [],
         "forbidden_primary_profiles": [
           "rust-performance"
-        ]
+        ],
+        "overlays": []
       },
       "tags": [
         "contrast",
@@ -1589,7 +1684,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1604,7 +1700,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1619,7 +1716,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1634,7 +1732,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1649,7 +1748,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1664,7 +1764,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1679,7 +1780,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1694,7 +1796,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1709,7 +1812,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1724,7 +1828,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1739,7 +1844,8 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
@@ -1754,10 +1860,1197 @@
         "entry_skill": null,
         "primary_profile": null,
         "supporting_profiles": [],
-        "forbidden_primary_profiles": []
+        "forbidden_primary_profiles": [],
+        "overlays": []
       },
       "tags": [
         "negative"
+      ]
+    },
+    {
+      "id": "manual-rust-coding-rules",
+      "mode": "manual",
+      "prompt": "Use $rust-coding-rules own-borrow-over-clone to inspect the exact rule, its exceptions, and verification contract.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-coding-rules",
+        "primary_profile": null,
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": [
+          "rust-coding-rules"
+        ]
+      },
+      "tags": [
+        "manual",
+        "rust-coding-rules",
+        "overlay",
+        "exact-id"
+      ]
+    },
+    {
+      "id": "automatic-rust-coding-rules",
+      "mode": "automatic",
+      "prompt": "Убери доказанно лишний clone в Rust API, сохрани время жизни вызывающего кода и проверь фактический diff по релевантным правилам.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-ownership",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": [
+          "rust-coding-rules"
+        ]
+      },
+      "tags": [
+        "automatic",
+        "rust-coding-rules",
+        "overlay",
+        "post-diff"
+      ]
+    }
+  ],
+  "rulebook_cases": [
+    {
+      "id": "rule-prefix-own",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules own- to open only the Ownership and Borrowing index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "own"
+        ],
+        "owner_profiles": [
+          "rust-ownership"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "own-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "own"
+      ]
+    },
+    {
+      "id": "rule-prefix-err",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules err- to open only the Error Handling index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "err"
+        ],
+        "owner_profiles": [
+          "rust-errors"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "err-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "err"
+      ]
+    },
+    {
+      "id": "rule-prefix-mem",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules mem- to open only the Memory Optimization index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "mem"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "mem-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "mem"
+      ]
+    },
+    {
+      "id": "rule-prefix-unsafe",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules unsafe- to open only the Unsafe Code index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "unsafe"
+        ],
+        "owner_profiles": [
+          "rust-unsafe"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "unsafe-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "unsafe"
+      ]
+    },
+    {
+      "id": "rule-prefix-api",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules api- to open only the API Design index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "api"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "api-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "api"
+      ]
+    },
+    {
+      "id": "rule-prefix-async",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules async- to open only the Async and Await index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "async"
+        ],
+        "owner_profiles": [
+          "rust-concurrency"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "async-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "async"
+      ]
+    },
+    {
+      "id": "rule-prefix-conc",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules conc- to open only the Concurrency index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "conc"
+        ],
+        "owner_profiles": [
+          "rust-concurrency"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "conc-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "conc"
+      ]
+    },
+    {
+      "id": "rule-prefix-opt",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules opt- to open only the Compiler Optimization index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "opt"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "opt-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "opt"
+      ]
+    },
+    {
+      "id": "rule-prefix-num",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules num- to open only the Numeric and Arithmetic Safety index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "num"
+        ],
+        "owner_profiles": [
+          "rust-idioms"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "num-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "num"
+      ]
+    },
+    {
+      "id": "rule-prefix-type",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules type- to open only the Type Safety index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "type"
+        ],
+        "owner_profiles": [
+          "rust-traits"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "type-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "type"
+      ]
+    },
+    {
+      "id": "rule-prefix-trait",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules trait- to open only the Traits and Generics index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "trait"
+        ],
+        "owner_profiles": [
+          "rust-traits"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "trait-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "trait"
+      ]
+    },
+    {
+      "id": "rule-prefix-conv",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules conv- to open only the Conversions index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "conv"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "conv-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "conv"
+      ]
+    },
+    {
+      "id": "rule-prefix-const",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules const- to open only the Const and Compile Time index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "const"
+        ],
+        "owner_profiles": [
+          "rust-stable"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "const-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "const"
+      ]
+    },
+    {
+      "id": "rule-prefix-serde",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules serde- to open only the Serde index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "serde"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "serde-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "serde"
+      ]
+    },
+    {
+      "id": "rule-prefix-pat",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules pat- to open only the Pattern Matching index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "pat"
+        ],
+        "owner_profiles": [
+          "rust-idioms"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "pat-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "pat"
+      ]
+    },
+    {
+      "id": "rule-prefix-macro",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules macro- to open only the Macros index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "macro"
+        ],
+        "owner_profiles": [
+          "rust-macros"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "macro-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "macro"
+      ]
+    },
+    {
+      "id": "rule-prefix-closure",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules closure- to open only the Closures index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "closure"
+        ],
+        "owner_profiles": [
+          "rust-traits"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "closure-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "closure"
+      ]
+    },
+    {
+      "id": "rule-prefix-coll",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules coll- to open only the Collections index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "coll"
+        ],
+        "owner_profiles": [
+          "rust-stdlib"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "coll-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "coll"
+      ]
+    },
+    {
+      "id": "rule-prefix-name",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules name- to open only the Naming Conventions index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "name"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "name-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "name"
+      ]
+    },
+    {
+      "id": "rule-prefix-test",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules test- to open only the Testing index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "test"
+        ],
+        "owner_profiles": [
+          "rust-testing"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "test-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "test"
+      ]
+    },
+    {
+      "id": "rule-prefix-doc",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules doc- to open only the Documentation index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "doc"
+        ],
+        "owner_profiles": [
+          "rust-documentation"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "doc-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "doc"
+      ]
+    },
+    {
+      "id": "rule-prefix-obs",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules obs- to open only the Observability index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "obs"
+        ],
+        "owner_profiles": [
+          "rust-observability"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "obs-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "obs"
+      ]
+    },
+    {
+      "id": "rule-prefix-perf",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules perf- to open only the Performance Patterns index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "perf"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "perf-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "perf"
+      ]
+    },
+    {
+      "id": "rule-prefix-proj",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules proj- to open only the Project Structure index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "proj"
+        ],
+        "owner_profiles": [
+          "rust-module-layout"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "proj-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "proj"
+      ]
+    },
+    {
+      "id": "rule-prefix-lint",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules lint- to open only the Clippy and Linting index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "lint"
+        ],
+        "owner_profiles": [
+          "rust-style-clippy"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "lint-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "lint"
+      ]
+    },
+    {
+      "id": "rule-prefix-anti",
+      "kind": "prefix",
+      "prompt": "Use $rust-coding-rules anti- to open only the Anti-patterns index and select relevant IDs for the established project context.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "anti"
+        ],
+        "owner_profiles": [
+          "rust-idioms"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "anti-",
+          "actual project context"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "prefix",
+        "anti"
+      ]
+    },
+    {
+      "id": "rule-conflict-dependency-not-approved",
+      "kind": "context_conflict",
+      "prompt": "The project has no Tokio dependency. Review an async design without adding crates.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "async"
+        ],
+        "owner_profiles": [
+          "rust-concurrency"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "async-tokio-runtime"
+        ],
+        "reason_contains": [
+          "dependency is not accepted",
+          "do not add Tokio"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "dependency-not-approved"
+      ]
+    },
+    {
+      "id": "rule-conflict-msrv-before-feature",
+      "kind": "context_conflict",
+      "prompt": "The crate's declared MSRV predates the const feature shown by the rule. Keep the MSRV unchanged.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "const"
+        ],
+        "owner_profiles": [
+          "rust-stable"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "const-block"
+        ],
+        "reason_contains": [
+          "declared MSRV",
+          "stable fallback"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "msrv-before-feature"
+      ]
+    },
+    {
+      "id": "rule-conflict-target-cpu-without-measurement",
+      "kind": "context_conflict",
+      "prompt": "A portable release binary is slow, but there is no profile or representative benchmark. Do not assume target-cpu=native.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "opt"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "opt-target-cpu"
+        ],
+        "reason_contains": [
+          "measurement missing",
+          "portability"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "target-cpu-without-measurement"
+      ]
+    },
+    {
+      "id": "rule-conflict-public-api-contract",
+      "kind": "context_conflict",
+      "prompt": "An existing public function intentionally accepts one concrete type for coherence and diagnostics. A rule suggests impl Into.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "api"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "api-impl-into"
+        ],
+        "reason_contains": [
+          "public contract wins",
+          "downstream compatibility"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "public-api-contract"
+      ]
+    },
+    {
+      "id": "rule-conflict-async-lock-required",
+      "kind": "context_conflict",
+      "prompt": "A Tokio mutex deliberately serializes an async resource operation across await; document why extracting state would violate the protocol.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "async"
+        ],
+        "owner_profiles": [
+          "rust-concurrency"
+        ],
+        "max_rules": 8,
+        "rule_ids": [
+          "async-no-lock-await"
+        ],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "async-aware mutex",
+          "protocol exception"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "async-lock-required"
+      ]
+    },
+    {
+      "id": "rule-conflict-serde-forward-compatibility",
+      "kind": "context_conflict",
+      "prompt": "A wire protocol explicitly permits future unknown fields. Evaluate deny_unknown_fields without breaking forward compatibility.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "serde"
+        ],
+        "owner_profiles": [
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "serde-deny-unknown-fields"
+        ],
+        "reason_contains": [
+          "wire contract wins",
+          "forward compatibility"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "serde-forward-compatibility"
+      ]
+    },
+    {
+      "id": "rule-conflict-panic-abort-cleanup",
+      "kind": "context_conflict",
+      "prompt": "The application relies on unwinding for an established cleanup and crash-reporting contract; a performance rule suggests panic=abort.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "perf"
+        ],
+        "owner_profiles": [
+          "rust-performance",
+          "rust-cargo-build"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "perf-release-profile"
+        ],
+        "reason_contains": [
+          "panic contract",
+          "measurement required"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "panic-abort-cleanup"
+      ]
+    },
+    {
+      "id": "rule-conflict-rwlock-unmeasured",
+      "kind": "context_conflict",
+      "prompt": "Shared state has no measured read/write distribution or contention profile. Decide whether RwLock is justified.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "own"
+        ],
+        "owner_profiles": [
+          "rust-ownership"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "own-rwlock-readers"
+        ],
+        "reason_contains": [
+          "read dominance unproved",
+          "simpler mutex"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "rwlock-unmeasured"
+      ]
+    },
+    {
+      "id": "rule-conflict-integer-wire-compatibility",
+      "kind": "context_conflict",
+      "prompt": "A persisted public format uses u64 IDs. Memory pressure is unmeasured and a rule suggests smaller integers.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "mem"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "mem-smaller-integers"
+        ],
+        "reason_contains": [
+          "storage contract wins",
+          "footprint unmeasured"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "integer-wire-compatibility"
+      ]
+    },
+    {
+      "id": "rule-conflict-enum-boxing-public-layout",
+      "kind": "context_conflict",
+      "prompt": "A public enum participates in a documented representation contract. Consider boxing a large variant without changing compatibility.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "mem"
+        ],
+        "owner_profiles": [
+          "rust-performance",
+          "rust-api-design"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "mem-box-large-variant"
+        ],
+        "reason_contains": [
+          "public compatibility",
+          "size evidence"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "enum-boxing-public-layout"
+      ]
+    },
+    {
+      "id": "rule-conflict-untrusted-hash-input",
+      "kind": "context_conflict",
+      "prompt": "A network service hashes attacker-controlled keys. A performance rule suggests aHash without a demonstrated bottleneck.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "perf"
+        ],
+        "owner_profiles": [
+          "rust-performance"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "perf-ahash"
+        ],
+        "reason_contains": [
+          "collision resistance",
+          "untrusted input"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "untrusted-hash-input"
+      ]
+    },
+    {
+      "id": "rule-conflict-public-async-trait-dyn",
+      "kind": "context_conflict",
+      "prompt": "A public async trait must remain usable behind dyn Trait on the declared MSRV. Evaluate native async fn in trait.",
+      "expected": {
+        "activate": true,
+        "categories": [
+          "async",
+          "trait"
+        ],
+        "owner_profiles": [
+          "rust-concurrency",
+          "rust-traits"
+        ],
+        "max_rules": 8,
+        "rule_ids": [],
+        "rejected_rule_ids": [
+          "async-fn-in-trait"
+        ],
+        "reason_contains": [
+          "dyn compatibility",
+          "MSRV and public API"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "context-conflict",
+        "public-async-trait-dyn"
+      ]
+    },
+    {
+      "id": "rule-negative-nix-only",
+      "kind": "negative",
+      "prompt": "Update this NixOS service option; no Rust source or Rust contract changes.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "nix-only"
+      ]
+    },
+    {
+      "id": "rule-negative-verification-only",
+      "kind": "negative",
+      "prompt": "Run the existing locked Cargo checks exactly as documented and do not select implementation guidance.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "verification-only"
+      ]
+    },
+    {
+      "id": "rule-negative-architecture-no-code",
+      "kind": "negative",
+      "prompt": "Describe the repository's high-level architecture; there is no local Rust coding decision or diff.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "architecture-no-code"
+      ]
+    },
+    {
+      "id": "rule-negative-rust-trivia",
+      "kind": "negative",
+      "prompt": "What does ownership mean in Rust? Give a short general explanation without applying repository rules.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "rust-trivia"
+      ]
+    },
+    {
+      "id": "rule-negative-non-rust",
+      "kind": "negative",
+      "prompt": "Refactor this Python CSV parser and run its tests.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "non-rust"
+      ]
+    },
+    {
+      "id": "rule-negative-manifest-listing",
+      "kind": "negative",
+      "prompt": "List the packages already present in Cargo metadata without recommending code changes.",
+      "expected": {
+        "activate": false,
+        "categories": [],
+        "owner_profiles": [],
+        "max_rules": 0,
+        "rule_ids": [],
+        "rejected_rule_ids": [],
+        "reason_contains": [
+          "no local rule selection"
+        ]
+      },
+      "tags": [
+        "rulebook",
+        "negative",
+        "manifest-listing"
       ]
     }
   ]

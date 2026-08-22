@@ -33,6 +33,10 @@ Own mechanical style tooling and documented lint policy. Apply this profile dire
 - Prefer `#[expect(..., reason = ...)]` only when supported by policy and MSRV; otherwise use narrow documented allows.
 - Style guidance should not duplicate rustfmt or Clippy unless a repository-specific convention adds real value.
 
+## Rulebook Overlay
+
+After reproducing the configured tool output, select relevant IDs from [`lint-`](../rust-coding-rules/references/categories/lint.md) or mechanical [`name-`](../rust-coding-rules/references/categories/name.md) rules. Rule IDs do not replace toolchain-specific diagnostics or baseline separation.
+
 ## Boundaries and Hand-offs
 
 - `rust-idioms` owns semantic Rust patterns; this profile owns formatting and lint tooling.

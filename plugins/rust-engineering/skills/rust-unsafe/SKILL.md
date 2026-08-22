@@ -33,6 +33,10 @@ Own internal unsafe operations and the soundness boundary of safe Rust abstracti
 - Panic or early-return paths must preserve initialization and ownership invariants.
 - Miri success is supporting evidence, not proof for all platforms, optimizations, foreign code, or concurrency schedules.
 
+## Rulebook Overlay
+
+After writing the operation-by-operation safety proof, select only relevant IDs from the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md). The rules supplement local invariant evidence and never justify introducing unsafe code.
+
 ## Boundaries and Hand-offs
 
 - `rust-unsafe-ffi` owns ABI, foreign ownership, callbacks, unwinding, and exported symbol contracts.

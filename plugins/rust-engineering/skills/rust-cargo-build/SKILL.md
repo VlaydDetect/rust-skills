@@ -33,6 +33,10 @@ Own Cargo's effective package, target, feature, configuration, and build behavio
 - Target cfg expressions select dependencies or code; a feature named after a platform is not equivalent.
 - Profiles are workspace-root controlled; package-level profile sections do not behave as independent package policy.
 
+## Rulebook Overlay
+
+After resolving effective Cargo state, select relevant build-boundary entries from [`proj-`](../rust-coding-rules/references/categories/proj.md) or measured profile entries from [`opt-`](../rust-coding-rules/references/categories/opt.md). Rulebook settings are not workspace defaults.
+
 ## Boundaries and Hand-offs
 
 - `rust-workspace` owns crate boundaries and workspace governance; this profile owns Cargo execution semantics.

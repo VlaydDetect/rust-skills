@@ -33,6 +33,10 @@ Own concurrent protocols, shared-state invariants, liveness, cancellation, and b
 - Atomics require a written state machine and memory-ordering proof; use locks or channels when the protocol is not demonstrably simpler.
 - Timeouts limit waiting but do not prove cancellation, cleanup, idempotency, or absence of deadlock.
 
+## Rulebook Overlay
+
+After task/thread ownership, bounds, cancellation, and shutdown are defined, select only relevant IDs from [`async-`](../rust-coding-rules/references/categories/async.md) or [`conc-`](../rust-coding-rules/references/categories/conc.md). Runtime or crate recommendations require existing adoption or approval.
+
 ## Boundaries and Hand-offs
 
 - `rust-ownership` owns the underlying ownership and pointer graph; this profile owns cross-context coordination.

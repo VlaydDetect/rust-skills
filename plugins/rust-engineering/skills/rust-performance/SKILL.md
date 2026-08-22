@@ -33,6 +33,10 @@ Own performance diagnosis, experiment design, optimization, and regression evide
 - Unsafe or SIMD optimizations need target dispatch, fallback, invariant proof, and a material measured benefit.
 - Compile-time improvements should identify monomorphization, macro, codegen-unit, dependency, linking, or proc-macro causes.
 
+## Rulebook Overlay
+
+After recording a comparable baseline and hotspot, select at most eight IDs from [`mem-`](../rust-coding-rules/references/categories/mem.md), [`opt-`](../rust-coding-rules/references/categories/opt.md), or [`perf-`](../rust-coding-rules/references/categories/perf.md). These indexes never supply a measurement or global optimization default.
+
 ## Boundaries and Hand-offs
 
 - `debugging` owns causal diagnosis when the primary issue is incorrect or unexplained behavior.

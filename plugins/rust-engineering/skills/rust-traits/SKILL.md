@@ -33,6 +33,10 @@ Own trait contracts, dispatch choice, coherence, and type-driven invariant encod
 - Supertraits and broad bounds are public constraints and should reflect actual semantic requirements.
 - Typestate is valuable when invalid sequences are costly and states remain manageable; avoid exponential generic state for simple validation.
 
+## Rulebook Overlay
+
+After proving the variation or type invariant, select at most eight IDs from [`type-`](../rust-coding-rules/references/categories/type.md), [`trait-`](../rust-coding-rules/references/categories/trait.md), or [`closure-`](../rust-coding-rules/references/categories/closure.md). Concrete and enum alternatives remain part of this profile's decision.
+
 ## Boundaries and Hand-offs
 
 - `rust-api-design` owns the broader public contract; traits are one representation of it.

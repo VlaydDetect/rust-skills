@@ -33,6 +33,10 @@ Own macro syntax, expansion contracts, hygiene, diagnostics, and compile-time be
 - Test failure messages as categories and spans where possible, not brittle full compiler output.
 - Document hygiene, supported item forms, attribute interactions, and expansion side effects.
 
+## Rulebook Overlay
+
+After ordinary Rust alternatives are rejected and the expansion contract is written, select only relevant IDs from the [`macro-` index](../rust-coding-rules/references/categories/macro.md). Proc-macro dependency examples do not authorize crate adoption.
+
 ## Boundaries and Hand-offs
 
 - `rust-lombok-macros` owns Java-Lombok-style derive and boilerplate-generator decisions.

@@ -33,6 +33,10 @@ Own recoverable failure contracts from low-level cause to caller action and fina
 - Retry policy needs idempotency, bounds, backoff, and error classification; an error type alone does not make retries safe.
 - Redact secrets, credentials, raw payloads, and sensitive paths before errors cross trust boundaries.
 
+## Rulebook Overlay
+
+After defining caller actions and failure boundaries, select only relevant IDs from the [`err-` index](../rust-coding-rules/references/categories/err.md). Dependency-specific rules remain conditional and do not replace this profile's taxonomy.
+
 ## Boundaries and Hand-offs
 
 - `rust-observability` owns when and where errors are logged or emitted as telemetry.

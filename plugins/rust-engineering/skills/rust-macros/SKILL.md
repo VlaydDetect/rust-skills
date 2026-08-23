@@ -47,3 +47,7 @@ After ordinary Rust alternatives are rejected and the expansion contract is writ
 ## Detailed Reference
 
 Read [Rust Macros field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

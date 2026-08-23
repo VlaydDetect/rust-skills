@@ -52,3 +52,7 @@ under the canonical product rule when the two rulebooks overlap.
 ## Detailed Reference
 
 Read [Unsafe Rust field guide](references/guide.md) before making a consequential design choice. For a new or reviewed unsafe boundary, also read the [Actionbook review protocol](references/actionbook-checks/overview.md) and select the relevant detailed rules from its [29-rule index](references/actionbook-checks/index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

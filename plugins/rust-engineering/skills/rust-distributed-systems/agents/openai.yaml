@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Distributed Systems"
+  short_description: "Model cross-node failure contracts"
+  default_prompt: "Use $rust-distributed-systems to define this operation's consistency, idempotency, and retry budget."
+policy:
+  allow_implicit_invocation: true
+

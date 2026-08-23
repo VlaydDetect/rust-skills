@@ -46,3 +46,7 @@ Keep automatic work cheap. Session hooks may discover context, but must not form
 Require explicit authorization before publishing, changing registry credentials, yanking releases, deleting user data, or broadening the task beyond the repository.
 
 Read [Project discovery](references/project-discovery.md) when the workspace, feature matrix, or repository-native commands are unclear. Use `addressing-findings` when a supplied review set must be closed. Unknown constraints remain unknown; do not invent them.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

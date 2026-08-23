@@ -47,3 +47,7 @@ After mapping a contract to the cheapest useful test, select only relevant IDs f
 ## Detailed Reference
 
 Read [Rust Testing field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

@@ -36,3 +36,10 @@ Verify every recommended stabilization against official release notes and record
 - Read-only dependency discovery uses `--locked --offline`; failures remain explicit.
 - Workspace-wide all-features checks are not universal because targets/features can be mutually exclusive.
 - Preserve project lint configuration. Enable individual pedantic/nursery lints only with demonstrated value and documented exceptions; do not set `pedantic = "warn"` or `-D warnings` globally by default.
+
+## Huiali modernization notes
+
+- Pinning decisions use the current [`std::pin`](https://doc.rust-lang.org/std/pin/) contract. `Pin::new_unchecked`, `get_unchecked_mut`, and unsafe projection require a local proof of address stability, structural pinning, and destruction.
+- The old `generators` and `generator_trait` feature names are not current guidance. The current nightly-only names are [`coroutines` and `coroutine_trait`](https://doc.rust-lang.org/beta/unstable-book/language-features/coroutines.html); prefer stable `Future`, streams, iterators, or explicit state machines unless nightly is an explicit project constraint.
+- Procedural macros follow the Rust Reference's three forms: [function-like, derive, and attribute macros](https://doc.rust-lang.org/reference/procedural-macros.html). Generated-token hygiene and diagnostics are part of their public contract.
+- Aya, GPU backends, DPDK bindings, runtimes, frameworks, and ecosystem crate APIs are version-sensitive. Query `cargo metadata` and exact-version official documentation before emitting dependency-specific code.

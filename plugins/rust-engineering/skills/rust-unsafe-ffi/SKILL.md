@@ -52,3 +52,7 @@ templates to paste.
 ## Detailed Reference
 
 Read [Rust Unsafe FFI field guide](references/guide.md) before making a consequential design choice. Then select relevant prompts from the [18-rule Actionbook FFI index](references/actionbook-checks/index.md), including current compiler checks when the selected toolchain provides them. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

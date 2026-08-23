@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Systems Networking"
+  short_description: "Reason about eBPF and DPDK"
+  default_prompt: "Use $rust-systems-networking to map this eBPF or DPDK resource lifecycle and its target constraints."
+policy:
+  allow_implicit_invocation: true
+

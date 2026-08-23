@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust GPU Engineering"
+  short_description: "Design measured GPU execution"
+  default_prompt: "Use $rust-gpu to plan this Rust GPU path from target capabilities, memory contracts, and measurements."
+policy:
+  allow_implicit_invocation: true
+

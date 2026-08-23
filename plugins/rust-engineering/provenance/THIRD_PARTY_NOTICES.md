@@ -29,3 +29,47 @@ Exact source hashes, line counts, byte counts, target paths, decisions, and
 exclusion reasons for all 242 files are recorded in
 [`actionbook-coverage.json`](actionbook-coverage.json).
 
+## huiali/rust-skills
+
+- Repository: <https://github.com/huiali/rust-skills>
+- Pinned revision: `947bf77509d9b421035037e983da6662d08cbb8e`
+- Commit date: `2026-02-09T15:36:33+08:00`
+- Commit author: huiali `<huiali@hotmail.com>`
+- Declared license: MIT
+- Copyright: 2026 李偏偏 `<huiali@hotmail.com>`
+
+The integration adds four distinct profiles (`rust-pin`, `rust-gpu`,
+`rust-systems-networking`, and `rust-distributed-systems`) and merges the other
+35 source families into existing owners through progressive references. Source
+host settings, MCP configuration, install scripts, localized duplicates, and
+obsolete version-specific examples are not shipped as runtime policy.
+
+[`huiali-coverage.json`](huiali-coverage.json) records SHA-256, byte and line
+counts, status, targets, and reasons for all 348 files. It also accounts for all
+500 canonical Rust blocks as 423 unique bodies and 77 aliases; every unique
+body is retained, corrected, or rejected explicitly. The 150 exact
+`.codex/skills/**` mirrors are aliases of `skills/**`, not second product copies.
+
+### Huiali MIT License
+
+MIT License
+
+Copyright (c) 2026 李偏偏 <huiali@hotmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

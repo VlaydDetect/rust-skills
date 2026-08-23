@@ -43,3 +43,7 @@ Own small, accurate, runnable examples as an explanatory and diagnostic modality
 ## Detailed Reference
 
 Read [Rust by Example field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

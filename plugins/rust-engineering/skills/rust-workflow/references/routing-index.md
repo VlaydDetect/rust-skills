@@ -47,6 +47,7 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-errors` | Error taxonomy, propagation, context, recovery, panic policy | Caller-visible failure semantics are the main constraint. |
 | `rust-idioms` | Semantic Rust patterns and anti-patterns | Correct code needs a Rust-native expression or pattern assessment. |
 | `rust-unsafe` | Internal unsafe invariants, raw memory, validity, aliasing, layout, Miri | Unsafe is internal to Rust and does not cross a foreign ABI. |
+| `rust-pin` | Address sensitivity, Pin/Unpin, structural projection, self-reference, pinned destruction | Moving a value after a defined point could invalidate an internal address-dependent invariant. |
 
 ## Project, Cargo, and Public Contract
 
@@ -83,6 +84,9 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-lombok-macros` | Lombok-style generated builders, accessors, constructors, validation | The request specifically concerns annotation-driven boilerplate APIs. |
 | `rust-uniffi-building` | UniFFI UDL or proc-macro interfaces, scaffolding, bindings, packaging | UniFFI exposes Rust to supported foreign languages. |
 | `rust-ml` | Models, tensors, preprocessing, devices, inference, batching, serving | ML pipeline semantics control the Rust system. |
+| `rust-gpu` | Device capabilities, memory hierarchy, transfer, layout, dispatch, synchronization | GPU execution and host-device memory behavior control correctness or measured performance. |
+| `rust-systems-networking` | eBPF verifier/map/ABI and DPDK mempool/mbuf/queue/NUMA execution | Kernel probes or userspace packet pipelines impose environment-specific resource rules. |
+| `rust-distributed-systems` | Cross-node failure, consistency, idempotency, retries, leases, versioned contracts, coordination | An operation crosses a process or node boundary and partial failure changes its meaning. |
 
 IoT, embedded, and cloud-native prompts start in `rust-architecture` with its
 Actionbook domain constraint maps, then route mechanics to the existing owners
@@ -113,6 +117,10 @@ Use these ownership splits when descriptions overlap:
 - `rust-performance` requires a metric and comparable baseline; an unmeasured slowdown symptom starts in `debugging`.
 - `refactoring` preserves a named contract; `rust-architecture` may intentionally change boundaries or contracts after that decision is authorized.
 - `rust-coding-rules` is selected after the owning profile. User and project contracts, effective toolchain and target state, and the owner profile override any rulebook recommendation.
+- `rust-pin` owns the pinning contract; `rust-unsafe` proves unsafe projection; `rust-concurrency` owns Future cancellation and task lifecycle.
+- `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-performance` owns bottleneck measurement.
+- `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-performance` add telemetry, soundness, and measurement constraints.
+- `rust-distributed-systems` owns cross-node failure and consistency; `rust-architecture` owns system boundaries; `rust-concurrency` owns in-process execution.
 
 ## Routing Examples
 
@@ -129,6 +137,10 @@ Use these ownership splits when descriptions overlap:
 | Address twelve mixed review comments | `addressing-findings` | Profiles selected per remediation phase | First normalize and triage; do not load twelve domains at once. |
 | Compare async runtimes for a constrained service | `rust-design-protocol` | `rust-concurrency`, `rust-research` | Criteria and domain constraints own the comparison; research supplies dated facts. |
 | Build an exact dossier for a resolved crate | `rust-research` | `rust-dependencies` | Cargo package identity and dated docs own the evidence; dependency policy owns later adoption changes. |
+| Review unsafe projection in a custom Future | `rust-pin` | `rust-unsafe`, `rust-concurrency` | Pinning owns structural stability; unsafe proves the operation and concurrency owns cancellation. |
+| Plan GPU batching for a tensor pipeline | `rust-gpu` | `rust-ml`, `rust-performance` | Device memory and transfer own execution; model semantics and measurement constrain it. |
+| Diagnose an XDP verifier rejection | `rust-systems-networking` | `rust-observability`, `rust-unsafe` | eBPF program type and verifier own acceptance; telemetry and layout proofs support it. |
+| Add retries to an at-least-once consumer | `rust-distributed-systems` | `rust-errors`, `rust-observability` | Cross-node uncertainty owns idempotency and aggregate retry budget. |
 
 When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
 

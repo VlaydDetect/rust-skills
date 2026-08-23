@@ -52,3 +52,7 @@ Ordinary research is read-only. `crate sync` may create or refresh one project-l
 - `rust-documentation` owns edits to project docs.
 - `rust-design-protocol` owns comparisons and cross-layer decisions.
 - `rust-workflow` remains the sole writer for repository implementation.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

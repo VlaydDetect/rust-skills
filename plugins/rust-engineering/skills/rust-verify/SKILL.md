@@ -33,3 +33,7 @@ For every check, return a `VerificationRecord`: exact command, scope, `PASS|FAIL
 Verification does not authorize source changes. If a failure requires repair, return the smallest reproduction and route it to `debugging` through `rust-workflow`. If command output requires a quality judgment rather than an execution record, route it to `rust-review`.
 
 Read [Quality gates](references/quality-gates.md) to choose commands.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

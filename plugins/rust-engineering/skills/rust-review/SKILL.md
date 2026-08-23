@@ -42,3 +42,7 @@ For whole-project structural health use `rust-architecture-review`; for Nix-spec
 When translating the legacy Actionbook `/rust-review` command, use the
 [host-neutral adapter](references/actionbook-command.md); Clippy is one evidence
 source, not the definition of code review.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Pinning"
+  short_description: "Prove Pin and projection contracts"
+  default_prompt: "Use $rust-pin to define and verify this Rust pinning contract against the project context."
+policy:
+  allow_implicit_invocation: true
+

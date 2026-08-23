@@ -1,0 +1,186 @@
+# Huiali Error Advanced Protocol
+
+> Product adaptation of `skills/rust-error-advanced/SKILL.md` at revision `947bf77509d9b421035037e983da6662d08cbb8e`. The source workflow is retained below; product routing and current-project constraints override source-wide preferences.
+
+## Product routing and baseline
+
+- Primary owner: `$rust-errors`.
+- Supporting profiles when needed: `$rust-api-design`, `$rust-architecture`.
+- Scope retained: Layered error composition, stable public variants, context, aggregation, retry classification, and async/concurrent failures.
+- Baseline correction: Do not leak foreign dependency errors through stable public APIs, and do not erase domain distinctions merely to standardize on one error crate.
+- The repository's actual MSRV, Edition, target, Cargo resolution, dependency versions, and user contract take precedence. Rust 1.98, Edition 2024, and resolver 3 are product reference defaults, not forced project upgrades.
+
+## Adapted source workflow
+
+## Result vs Option vs panic
+
+| 类型 | 何时使用 | 示例 |
+|-----|---------|-----|
+| `Result<T, E>` | 预期会失败的操作 | 文件读取、网络请求 |
+| `Option<T>` | absence 正常 | 查找、可能为空的值 |
+| `panic!` | bug 或不变式违规 | 程序逻辑错误、不可恢复错误 |
+| `unreachable!()` | 理论上不会执行到的代码 | 匹配穷举 |
+
+
+## 错误处理决策
+
+```
+失败是预期的吗？
+    │
+    ├─ 是 → 这是库代码？
+    │   ├─ 是 → thiserror（类型化错误）
+    │   └─ 否 → anyhow（易用性）
+    │
+    ├─ 否，absence 正常？
+    │   └─ Option<T>
+    │
+    └─ 否，bug 或不变式违规
+        └─ panic!, assert!
+```
+
+
+## thiserror（库代码）
+
+<!-- huiali-source: skills/rust-error-advanced/SKILL.md#rust-block-1; sha256=4ab24fd0369b1e1c364aa8ba2b83941601778ae6e4f64ffe4f0d4725cfc4d892 -->
+<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+```rust
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum MyError {
+    #[error("validation failed: {0}")]
+    Validation(String),
+
+    #[error("IO error: {source}")]
+    Io {
+        #[from]
+        source: std::io::Error,
+    },
+
+    #[error("not found: {entity}:{id}")]
+    NotFound {
+        entity: String,
+        id: u64,
+    },
+}
+
+// 使用 ? 传播
+fn read_config() -> Result<Config, MyError> {
+    let content = std::fs::read_to_string("config.toml")?;
+    Ok(toml::from_str(&content)?)
+}
+```
+
+
+## anyhow（应用代码）
+
+<!-- huiali-source: skills/rust-error-advanced/SKILL.md#rust-block-2; sha256=f9684d7e19926743f9ded30c1db997910cc78eed0fd04064801197244dc32fe4 -->
+<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+```rust
+use anyhow::{Context, Result, bail};
+
+fn process_user(id: u64) -> Result<User> {
+    let user = db.find_user(id)
+        .with_context(|| format!("failed to find user {}", id))?;
+
+    if !user.is_active {
+        bail!("user {} is not active", id);
+    }
+
+    Ok(user)
+}
+
+// 组合多个错误源
+fn complex_operation() -> Result<()> {
+    let a = operation_a().context("operation A failed")?;
+    let b = operation_b().context("operation B failed")?;
+    Ok(())
+}
+```
+
+
+## 错误设计原则
+
+| 场景 | 建议 |
+|-----|------|
+| 库代码 | thiserror，精确的错误类型 |
+| 应用代码 | anyhow，易于传播和添加上下文 |
+| 库依赖库 | 传递第三方错误（`#[from]`） |
+| 需要错误码 | 枚举变体 |
+| 需要错误链 | `context()` + `with_context()` |
+
+
+## 常见反模式
+
+| 反模式 | 问题 | 解决 |
+|-------|------|-----|
+| 处处 `unwrap()` | 库中 panic | 用 `?` |
+| `Box<dyn Error>` | 丢失类型信息 | thiserror 变体 |
+| 丢失上下文 | 调试困难 | `.context()` |
+| 错误变体过多 | 过度设计 | 简化或合并 |
+
+
+## panic 使用场景
+
+<!-- huiali-source: skills/rust-error-advanced/SKILL.md#rust-block-3; sha256=065569a71f8154e5088cb820be0189a0105c84646b1c255ee32684dff70fec0e -->
+<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+```rust
+// 1. 不变量验证（公开 API）
+pub fn divide(a: f64, b: f64) -> f64 {
+    if b == 0.0 {
+        panic!("division by zero");  // 公开 API，确保调用者不传入 0
+    }
+    a / b
+}
+
+// 2. 不可恢复错误
+fn start_engine() {
+    let config = load_critical_config();
+    if config.is_corrupted() {
+        panic!("cannot start without valid config");
+    }
+}
+
+// 3. 匹配穷举（理论上的永远执行不到）
+fn process_status(status: Status) {
+    match status {
+        Status::Running => { /* ... */ }
+        Status::Stopped => { /* ... */ }
+        // 未来可能添加新状态
+        // _ => unreachable!("unknown status: {:?}", status),
+    }
+}
+
+// 4. 内部不变量
+assert!(!queue.is_empty(), "queue should never be empty here");
+```
+
+
+## 错误链
+
+<!-- huiali-source: skills/rust-error-advanced/SKILL.md#rust-block-4; sha256=0d57b3f2a475c05d83bbb5ce0fe5671bab4edf79fc005a3c8806b235858638d3 -->
+<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+```rust
+// 使用 map_err 转换错误
+fn high_level() -> Result<()> {
+    low_level()
+        .map_err(|e| MyError::from_low_level(e, "high level operation failed"))
+}
+
+// 使用 with_context 添加调用链信息
+fn middle_layer() -> Result<()> {
+    low_level()
+        .with_context(|| format!("while processing request {}", request_id))?;
+    Ok(())
+}
+```
+
+
+## 最佳实践
+
+1. **库代码**：精确的错误类型（thiserror）
+2. **应用代码**：易用性优先（anyhow）
+3. **传播错误**：用 `?` 而非 `unwrap()`
+4. **添加上下文**：使用 `.context()` 或 `with_context()`
+5. **保留错误源**：用 `#[from]` 保留底层错误
+6. **区分 panic 场景**：bug 用 panic，预期失败用 Result

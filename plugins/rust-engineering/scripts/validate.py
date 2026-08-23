@@ -14,6 +14,9 @@ import tempfile
 from collections import Counter
 from pathlib import Path
 
+sys.dont_write_bytecode = True
+import huiali_coverage as huiali
+
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY = ROOT.parents[1]
@@ -21,6 +24,9 @@ AGENTS = {"rust-scout", "rust-researcher", "rust-reviewer", "rust-verifier"}
 ENTRY_SKILLS = {"rust-workflow", "rust-review", "rust-verify"}
 RULEBOOK_SKILL = "rust-coding-rules"
 ACTIONBOOK_SKILLS = {"rust-design-protocol", "rust-research"}
+HU_NEW_SKILLS = {"rust-pin", "rust-gpu", "rust-systems-networking", "rust-distributed-systems"}
+HU_KINDS = {"new_profile": 16, "merged": 16, "conflict": 8, "negative": 8}
+HU_BLOCK_MARKER = re.compile(r"<!-- huiali-source: .*; sha256=([0-9a-f]{64}) -->")
 ACTIONBOOK_STATUSES = {"pending", "in_progress", "adapted", "merged", "conditional", "excluded"}
 ACTIONBOOK_KINDS = {
     "model_routing": 14,
@@ -158,14 +164,14 @@ def validate_manifests() -> None:
     codex = load_json(ROOT / ".codex-plugin" / "plugin.json")
     assert (ROOT / "LICENSE").is_file()
     assert claude["name"] == codex["name"] == "rust-engineering"
-    assert claude["version"] == codex["version"] == "0.4.0"
+    assert claude["version"] == codex["version"] == "0.5.0"
     assert re.fullmatch(r"\d+\.\d+\.\d+", claude["version"])
     assert tuple(map(int, claude["version"].split("."))) >= (0, 2, 0)
     assert claude["author"]["name"] and codex["author"]["name"]
     assert all(isinstance(keyword, str) and keyword for keyword in claude["keywords"])
     assert all(isinstance(keyword, str) and keyword for keyword in codex["keywords"])
-    assert "46" in claude["description"] and "265" in claude["description"]
-    assert "46" in codex["description"] and "265" in codex["description"]
+    assert "50" in claude["description"] and "265" in claude["description"] and "Huiali" in claude["description"]
+    assert "50" in codex["description"] and "265" in codex["description"] and "Huiali" in codex["description"]
     assert set(claude) <= {
         "$schema", "name", "version", "description", "author", "license", "keywords", "hooks",
     }
@@ -177,8 +183,15 @@ def validate_manifests() -> None:
     assert interface["displayName"] and interface["shortDescription"] and interface["longDescription"]
     assert "265" in interface["longDescription"]
     assert "Actionbook" in interface["longDescription"]
+    assert "Huiali" in interface["longDescription"]
     assert interface["defaultPrompt"] and "$rust-workflow" in interface["defaultPrompt"][0]
     assert "$rust-coding-rules" in interface["defaultPrompt"][0]
+
+    assert not list(ROOT.rglob(".mcp.json")), "Huiali integration must not add MCP configuration"
+    assert not list(ROOT.rglob(".app.json")), "Huiali integration must not add app configuration"
+    assert not any((ROOT / name).exists() for name in ("Cargo.toml", "package.json", "pyproject.toml", "requirements.txt")), (
+        "plugin runtime must not gain a package/dependency manifest"
+    )
 
     unwanted = [
         path for path in ROOT.rglob("*")
@@ -312,6 +325,120 @@ def validate_actionbook_coverage(skills: set[str]) -> dict:
 
     excluded_profiles = {"domain-iot", "domain-embedded", "domain-cloud-native", "core-agent-browser"}
     assert not (excluded_profiles & skills)
+    return coverage
+
+
+def validate_huiali_coverage(skills: set[str]) -> dict:
+    coverage = load_json(ROOT / "provenance" / "huiali-coverage.json")
+    assert coverage["schema_version"] == 1
+    assert coverage["source"] == {
+        "name": "huiali/rust-skills",
+        "relative_path": "references/rust-skills_huiali",
+        "revision": "947bf77509d9b421035037e983da6662d08cbb8e",
+        "commit_date": "2026-02-09T15:36:33+08:00",
+        "license": "MIT",
+        "copyright": "Copyright (c) 2026 Li Pianpian <huiali@hotmail.com>",
+    }
+    assert set(coverage["statuses"]) == huiali.STATUSES
+    assert set(coverage["rust_block_statuses"]) == huiali.BLOCK_STATUSES
+    assert coverage["family_order"] == huiali.FAMILY_ORDER
+    assert coverage["source_metrics"] == {
+        "canonical_markdown_files": 111,
+        "canonical_markdown_lines": 25175,
+        "source_rust_blocks": 500,
+        "unique_rust_blocks": 423,
+        "rust_block_aliases": 77,
+    }
+
+    entries = coverage["entries"]
+    assert len(entries) == 348
+    paths = [entry["source_path"] for entry in entries]
+    assert len(paths) == len(set(paths)) == 348
+    counts = Counter(entry["status"] for entry in entries)
+    assert counts == {"duplicate": 150, "adapted": 39, "merged": 100, "excluded": 59}
+    assert coverage["summary"]["source_files"] == 348
+    assert coverage["summary"]["exact_duplicate_files"] == 150
+    assert coverage["summary"]["pending"] == coverage["summary"]["in_progress"] == 0
+    assert coverage["summary"]["example_decisions"] == {
+        "corrected": 1, "pending": 0, "rejected": 8, "retained": 414,
+    }
+    by_path = {entry["source_path"]: entry for entry in entries}
+    for entry in entries:
+        assert entry["status"] in huiali.STATUSES and entry["reason"]
+        if entry["status"] in {"adapted", "merged"}:
+            assert entry["target_paths"], f"integrated Huiali source has no target: {entry['source_path']}"
+        else:
+            assert not entry["target_paths"], f"non-integrated Huiali source has target: {entry['source_path']}"
+        for target in entry["target_paths"]:
+            assert (ROOT / target).is_file(), f"missing Huiali target: {target}"
+        if entry["status"] == "duplicate":
+            assert entry["source_path"].startswith(".codex/skills/")
+            assert entry["duplicate_of"] == entry["source_path"].removeprefix(".codex/")
+            canonical = by_path[entry["duplicate_of"]]
+            assert canonical["source_sha256"] == entry["source_sha256"]
+
+    source_root = REPOSITORY / coverage["source"]["relative_path"]
+    if source_root.exists():
+        actual = sorted(
+            path for path in source_root.rglob("*")
+            if path.is_file()
+            and ".git" not in path.relative_to(source_root).parts
+            and "graphify-out" not in path.relative_to(source_root).parts
+        )
+        assert len(actual) == 348, "Huiali source inventory drift"
+        assert {path.relative_to(source_root).as_posix() for path in actual} == set(paths)
+        for path in actual:
+            entry = by_path[path.relative_to(source_root).as_posix()]
+            assert sha256(path) == entry["source_sha256"], f"Huiali source changed: {path}"
+            assert path.stat().st_size == entry["source_bytes"]
+            try:
+                assert len(path.read_text(encoding="utf-8").splitlines()) == entry["source_lines"]
+            except UnicodeDecodeError:
+                assert entry["source_lines"] is None
+
+    blocks = coverage["rust_blocks"]
+    assert len(blocks) == 423
+    assert len({block["source_sha256"] for block in blocks}) == 423
+    assert sum(len(block["occurrences"]) for block in blocks) == 500
+    block_counts = Counter(block["status"] for block in blocks)
+    assert block_counts == {"retained": 414, "rejected": 8, "corrected": 1}
+    known_hashes = {block["source_sha256"] for block in blocks}
+    for block in blocks:
+        assert block["status"] in huiali.BLOCK_STATUSES and block["reason"]
+        if block["status"] in {"retained", "corrected"}:
+            assert block["classification"] == "fragment" and block["target_paths"]
+        else:
+            assert block["classification"] is None and not block["target_paths"]
+
+    target_files = sorted((ROOT / "skills").glob("*/references/huiali/*.md"))
+    assert len(target_files) == 39
+    target_blocks = 0
+    for path in target_files:
+        lines = path.read_text(encoding="utf-8").splitlines()
+        for index, line in enumerate(lines):
+            if line.strip() != "```rust":
+                continue
+            target_blocks += 1
+            assert index >= 2
+            assert RULE_EXAMPLE.fullmatch(lines[index - 1].strip()), f"unclassified Huiali block: {path}:{index + 1}"
+            marker = HU_BLOCK_MARKER.fullmatch(lines[index - 2].strip())
+            assert marker and marker.group(1) in known_hashes, f"missing Huiali marker: {path}:{index + 1}"
+    assert target_blocks == 415
+
+    for family, config in huiali.FAMILY_CONFIG.items():
+        owner = config["owner"]
+        assert owner in skills
+        target = huiali.target_for_family(family)
+        assert (ROOT / target).is_file()
+        source_entry = by_path[f"skills/{family}/SKILL.md"]
+        assert source_entry["target_paths"] == [target]
+        for profile in [owner, *config["supporting"]]:
+            index = ROOT / "skills" / profile / "references" / "huiali-index.md"
+            assert index.is_file() and f"`{family}`" in index.read_text(encoding="utf-8")
+
+    merged_names = {family for family, config in huiali.FAMILY_CONFIG.items() if config["owner"] != family}
+    assert not (merged_names & skills), f"standalone merged Huiali profiles leaked into product: {sorted(merged_names & skills)}"
+    assert HU_NEW_SKILLS <= skills
     return coverage
 
 
@@ -460,7 +587,7 @@ def validate_skills(expected_skills: set[str], example_owners: set[str]) -> None
     skill_root = ROOT / "skills"
     skill_dirs = {path.name for path in skill_root.iterdir() if path.is_dir()}
     assert skill_dirs == expected_skills, f"unexpected skills: {sorted(skill_dirs ^ expected_skills)}"
-    assert len(skill_dirs) == 46
+    assert len(skill_dirs) == 50
     assert not (skill_root / "rust-workflow" / "references" / "engineering-domains.md").exists()
 
     descriptions = []
@@ -498,7 +625,7 @@ def validate_skills(expected_skills: set[str], example_owners: set[str]) -> None
 
     actual_examples = {path.parents[2].name for path in skill_root.glob("*/examples/golden/Cargo.toml")}
     assert actual_examples == example_owners, f"golden example coverage mismatch: {sorted(actual_examples ^ example_owners)}"
-    assert len(actual_examples) == 21
+    assert len(actual_examples) == 25
     for skill in actual_examples:
         assert "## Compiling Example" in "\n".join(
             path.read_text(encoding="utf-8") for path in (skill_root / skill / "references").glob("*.md")
@@ -515,6 +642,7 @@ def validate_agents() -> None:
 
 
 def validate_hooks() -> None:
+    assert {path.name for path in (ROOT / "hooks").glob("*.json")} == {"claude.json", "hooks.json"}
     claude_hooks = load_json(ROOT / "hooks" / "claude.json")
     codex_hooks = load_json(ROOT / "hooks" / "hooks.json")
     assert "CLAUDE_PLUGIN_ROOT" in json.dumps(claude_hooks)
@@ -539,8 +667,9 @@ def validate_hooks() -> None:
 
 def validate_evals(skills: set[str]) -> int:
     evals = load_json(ROOT / "evals" / "evals.json")
-    assert evals["schema_version"] == 4
+    assert evals["schema_version"] == 5
     assert evals["actionbook_cases_file"] == "actionbook-cases.json"
+    assert evals["huiali_cases_file"] == "huiali-cases.json"
     cases = evals["cases"]
     ids = [case["id"] for case in cases]
     assert len(cases) == 108 and len(ids) == len(set(ids)), "routing corpus must have 108 unique cases"
@@ -548,7 +677,7 @@ def validate_evals(skills: set[str]) -> int:
     assert modes == {"manual": 44, "automatic": 44, "contrast": 8, "negative": 12}
 
     profile_skills = skills - {RULEBOOK_SKILL}
-    legacy_profile_skills = profile_skills - ACTIONBOOK_SKILLS
+    legacy_profile_skills = profile_skills - ACTIONBOOK_SKILLS - HU_NEW_SKILLS
     manual_profiles = set()
     automatic_profiles = set()
     manual_overlay = automatic_overlay = 0
@@ -675,7 +804,51 @@ def validate_evals(skills: set[str]) -> int:
             assert expected["primary_profile"] == "rust-ml"
 
     assert ACTIONBOOK_SKILLS <= actionbook_primary
-    return len(cases) + len(actionbook_cases)
+
+    huiali_evals = load_json(ROOT / "evals" / evals["huiali_cases_file"])
+    assert huiali_evals["schema_version"] == 1
+    assert huiali_evals["source"] == {
+        "name": "huiali/rust-skills",
+        "revision": "947bf77509d9b421035037e983da6662d08cbb8e",
+    }
+    huiali_cases = huiali_evals["cases"]
+    huiali_ids = [case["id"] for case in huiali_cases]
+    assert len(huiali_cases) == 48 and len(huiali_ids) == len(set(huiali_ids))
+    assert Counter(case["kind"] for case in huiali_cases) == HU_KINDS
+    all_id_sets = [set(ids), set(rulebook_ids), set(actionbook_ids), set(huiali_ids)]
+    assert all(not left & right for index, left in enumerate(all_id_sets) for right in all_id_sets[index + 1 :])
+
+    family_names = set(huiali.FAMILY_CONFIG)
+    new_profile_primary: Counter = Counter()
+    huiali_primary = set()
+    for case in huiali_cases:
+        expected = case["expected"]
+        assert case["prompt"] and case["tags"] and expected["forbidden"]
+        assert isinstance(expected["activate"], bool)
+        assert len(expected["supporting_profiles"]) <= 2
+        assert set(expected["supporting_profiles"]) <= profile_skills
+        assert set(expected["references"]) <= family_names
+        fallback = expected.get("fallback_profile")
+        assert fallback in profile_skills | {None}
+        if expected["activate"]:
+            assert expected["primary_profile"] in profile_skills
+            assert expected["references"]
+            huiali_primary.add(expected["primary_profile"])
+            if case["kind"] == "new_profile":
+                assert expected["primary_profile"] in HU_NEW_SKILLS
+                new_profile_primary[expected["primary_profile"]] += 1
+            elif case["kind"] == "merged":
+                assert expected["primary_profile"] not in HU_NEW_SKILLS
+            else:
+                assert case["kind"] == "conflict"
+        else:
+            assert case["kind"] == "negative"
+            assert expected["primary_profile"] is None
+            assert not expected["supporting_profiles"] and not expected["references"]
+
+    assert new_profile_primary == {skill: 4 for skill in HU_NEW_SKILLS}
+    assert HU_NEW_SKILLS <= huiali_primary
+    return len(cases) + len(actionbook_cases) + len(huiali_cases)
 
 
 def validate_metadata_fixture() -> None:
@@ -805,7 +978,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     coverage, owners, example_owners = validate_source_coverage()
-    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL} | ACTIONBOOK_SKILLS
+    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL} | ACTIONBOOK_SKILLS | HU_NEW_SKILLS
+    golden_owners = example_owners | HU_NEW_SKILLS
     assert ENTRY_SKILLS <= expected_skills
     if args.rule:
         _, counts = validate_rulebook(expected_skills, only_rule=args.rule)
@@ -821,8 +995,9 @@ def main() -> None:
         return
 
     validate_manifests()
-    validate_skills(expected_skills, example_owners)
+    validate_skills(expected_skills, golden_owners)
     actionbook = validate_actionbook_coverage(expected_skills)
+    huiali_ledger = validate_huiali_coverage(expected_skills)
     rule_count, rule_examples = validate_rulebook(expected_skills)
     validate_links()
     validate_agents()
@@ -831,14 +1006,15 @@ def main() -> None:
     validate_metadata_fixture()
     fixture_skip = None
     if args.examples:
-        validate_examples(example_owners)
+        validate_examples(golden_owners)
         rule_examples, fixture_skip = validate_rulebook_examples()
     print(
         f"OK: {len(expected_skills)} skills, {len(AGENTS)} read-only agents, "
-        f"{eval_count} routing and Actionbook evals, {coverage['summary']['adapted']} adapted source skills, "
+        f"{eval_count} routing, Actionbook, and Huiali evals, {coverage['summary']['adapted']} adapted source skills, "
         f"{coverage['summary']['out_of_scope']} explicit exclusions, {rule_count} coding rules, "
-        f"{sum(rule_examples.values())} classified rule examples, {len(example_owners)} golden examples, "
-        f"{actionbook['summary']['source_files']} accounted Actionbook files"
+        f"{sum(rule_examples.values())} classified rule examples, {len(golden_owners)} golden examples, "
+        f"{actionbook['summary']['source_files']} accounted Actionbook files, "
+        f"{huiali_ledger['summary']['source_files']} accounted Huiali files"
         + (" compiled" if args.examples else " statically checked")
     )
     if fixture_skip:

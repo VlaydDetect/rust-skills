@@ -43,3 +43,7 @@ Own broad project bootstrap and solution-class selection before detailed crate e
 ## Detailed Reference
 
 Read [Rust Ecosystem field guide](references/guide.md) before making a consequential design choice. Use the [Actionbook ecosystem protocol](references/actionbook-index.md) for detailed integration questions, then verify effective dependencies through Cargo metadata. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

@@ -43,3 +43,7 @@ Own evidence-based pre-adoption selection of an external crate or a std or local
 ## Detailed Reference
 
 Read [Rust Crate Discovery field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Huiali protocols
+
+For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

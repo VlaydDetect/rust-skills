@@ -46,4 +46,4 @@ After defining caller actions and failure boundaries, select only relevant IDs f
 
 ## Detailed Reference
 
-Read [Rust Error Design field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Error Design field guide](references/guide.md) before making a consequential design choice. Use the [Actionbook error protocol](references/actionbook-index.md) when failure must be traced across mechanical, API, and domain layers. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

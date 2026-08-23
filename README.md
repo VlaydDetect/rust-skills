@@ -1,6 +1,6 @@
 # Rust Engineering Plugin
 
-Dual-target плагин для Codex и Claude Code с 44 навыками: один workflow, две read-only точки входа, 40 профильных инженерных навыков и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
+Dual-target плагин для Codex и Claude Code с 46 навыками: один workflow, две read-only точки входа, 42 профильных инженерных навыка и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
 
 ## Как работает маршрутизация
 
@@ -12,6 +12,8 @@ SessionStart hook выполняет только три дешёвых read-onl
 запрос на изменение
   -> rust-workflow
      -> discovery + TaskBrief
+     -> при необходимости: L1/L2/L3 trace через rust-design-protocol
+     -> при необходимости: датированные upstream facts через rust-research
      -> 1 primary profile + максимум 2 supporting profiles
      -> RuleQuery + до 8 правил из rust-coding-rules
      -> изменение выполняет только главный агент
@@ -19,7 +21,7 @@ SessionStart hook выполняет только три дешёвых read-onl
      -> rust-review: независимый findings-first review при необходимости
 ```
 
-Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 44 навыка можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
+Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 46 навыков можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
 
 Ручной синтаксис: `$profile-name` в Codex и `/rust-engineering:profile-name` в Claude Code. Внутренние hand-off ссылки используют host-neutral имена профилей.
 
@@ -42,7 +44,7 @@ Read-only запросы имеют отдельные точки входа:
 
 ### Инженерный процесс
 
-`addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-navigation`, `specs`.
+`addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-navigation`, `rust-design-protocol`, `rust-research`, `specs`.
 
 ### Язык Rust и безопасность
 
@@ -85,9 +87,11 @@ Read-only запросы имеют отдельные точки входа:
 
 Leonardomso-корпус перенесён без сжатия: `provenance/rule-coverage.json` фиксирует все 265 исходных ID, source/target SHA-256, owners, aliases, сохранённые facets и финальный статус. Полные правила находятся в `rust-coding-rules/references/rules/`, а progressive disclosure идёт через 26 indexes. Reference-корпусы, Graphify и Cargo harness не требуются runtime-плагину.
 
+Actionbook интегрирован как cognitive protocol, а не как второй конкурирующий plugin. `provenance/actionbook-coverage.json` учитывает все 242 файла pinned revision: полные L1/L2 mental models, design tracing, IoT/embedded/cloud-native constraint maps, ML, LSP/Graphify/`rg` navigation, symbol/trait/dependency/call graphs, Cargo-metadata dossiers, learner/docs/news и 47 unsafe/FFI rules. У каждого unsafe rule сохранён исходный ID и полный текст, а устаревшие или универсальные рекомендации снабжены локальной product correction. Автоматически остаётся только быстрый SessionStart router; тяжёлые, сетевые и мутирующие действия выбираются явно. Лицензионный и revision audit находится в `provenance/THIRD_PARTY_NOTICES.md`.
+
 ## Agents и права на изменения
 
-Плагин поставляет три общие read-only роли Claude Code: `rust-scout`, `rust-reviewer`, `rust-verifier`. В Codex тот же контракт может выполняться native subagents. Делегирование необязательно и применяется только к независимым вопросам, которые реально уменьшают неопределённость.
+Плагин поставляет четыре общие read-only роли Claude Code: `rust-scout`, `rust-researcher`, `rust-reviewer`, `rust-verifier`. В Codex тот же контракт может выполняться native subagents. Делегирование необязательно и применяется только к независимым вопросам, которые реально уменьшают неопределённость.
 
 Главный агент остаётся единственным writer, принимает cross-profile решения, интегрирует результат и отвечает за final diff. Для post-fix re-review предпочтителен свежий reviewer context.
 
@@ -97,12 +101,15 @@ Leonardomso-корпус перенесён без сжатия: `provenance/rul
 - `.claude-plugin/plugin.json` — Claude Code manifest;
 - `hooks/hooks.json` и `hooks/claude.json` — раздельные host schema;
 - `scripts/session-context.*` — быстрый общий SessionStart detector;
-- `skills/` — 44 host-neutral навыка и их references/examples;
-- `agents/` — три read-only Claude agents;
-- `evals/evals.json` — schema v3: 108 routing cases и 44 rulebook cases;
+- `skills/` — 46 host-neutral навыков и их references/examples;
+- `agents/` — четыре read-only Claude agents;
+- `evals/evals.json` — schema v4: 108 базовых routing cases, 44 rulebook cases и ссылка на 44 Actionbook cases;
+- `evals/actionbook-cases.json` — model, cross-layer, navigation, research, unsafe, ML и negative сценарии;
 - `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
 - `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
+- `provenance/actionbook-coverage.json` — per-file учёт 242 Actionbook sources;
 - `checks/rulebook/` — dev-only locked Cargo harness и stdlib-only генератор classified examples;
+- `checks/metadata-workspace/` — path-only fixture для inherited, renamed, optional и target-specific Cargo dependencies;
 - `scripts/validate.py` — стандартно-библиотечный валидатор продукта.
 
 ## Проверка
@@ -114,6 +121,6 @@ python plugins/rust-engineering/scripts/validate.py --examples
 claude plugin validate ./plugins/rust-engineering
 ```
 
-Первая команда проверяет оба manifest, 44 skills и `openai.yaml`, 265 rules, aliases, indexes, source/target hashes, 1 141 classified Rust blocks, Markdown links, hooks, три agent-контракта, provenance, 108 routing и 44 rulebook cases. С `--examples` она обязательно компилирует 21 dependency-free golden example, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
+Первая команда проверяет оба manifest, 46 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, 108 базовых routing, 44 rulebook и 44 Actionbook cases, а также locked/offline Cargo metadata fixture. С `--examples` она дополнительно компилирует 21 dependency-free golden example, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
 
 Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.

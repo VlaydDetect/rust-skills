@@ -46,4 +46,4 @@ After task/thread ownership, bounds, cancellation, and shutdown are defined, sel
 
 ## Detailed Reference
 
-Read [Rust Concurrency field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Concurrency field guide](references/guide.md) before making a consequential design choice. Load only the needed branch of the [Actionbook concurrency protocol](references/actionbook-index.md) for its detailed algorithms and examples. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

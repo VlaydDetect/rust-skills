@@ -1,11 +1,12 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "policy": {
     "manual": "Every profile is directly invocable.",
     "automatic": "Mutating Rust work enters rust-workflow, which chooses one primary and at most two supporting profiles. Read-only specialist reviews and verification may enter their focused skill directly.",
     "negative": "A Rust keyword alone does not require a workflow for small general-knowledge questions, and non-Rust tasks must not route to this plugin.",
     "overlays": "rust-coding-rules is selected after the primary profile, never occupies a profile slot, and is empty for negative routing cases."
   },
+  "actionbook_cases_file": "actionbook-cases.json",
   "cases": [
     {
       "id": "manual-rust-workflow",

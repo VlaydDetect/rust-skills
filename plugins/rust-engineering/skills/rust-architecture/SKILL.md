@@ -42,4 +42,4 @@ Own system-level boundaries, dependency direction, and composition for present p
 
 ## Detailed Reference
 
-Read [Rust Architecture field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Architecture field guide](references/guide.md) before making a consequential design choice. Use the [Actionbook domain-modelling protocol and domain constraint maps](references/actionbook-index.md) when entity, value-object, aggregate, repository, invariant, IoT, embedded, or cloud-native constraints change the design. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

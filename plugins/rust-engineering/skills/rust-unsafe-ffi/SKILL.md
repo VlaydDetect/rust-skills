@@ -37,6 +37,11 @@ Own foreign ABI contracts and safe ownership translation across language or runt
 
 For Rust 2024 extern or exported-attribute details, use the relevant entries in the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md) only after this profile establishes ABI, target, ownership, panic, and foreign-lifecycle contracts.
 
+Use the [Actionbook FFI index](references/actionbook-checks/index.md) for a
+second, adversarial pass. Load only the rules implicated by the boundary and
+apply each file's product note; retained examples are review fragments, not
+templates to paste.
+
 ## Boundaries and Hand-offs
 
 - `rust-unsafe` owns raw-pointer and validity proof shared with internal unsafe operations.
@@ -46,4 +51,4 @@ For Rust 2024 extern or exported-attribute details, use the relevant entries in 
 
 ## Detailed Reference
 
-Read [Rust Unsafe FFI field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Unsafe FFI field guide](references/guide.md) before making a consequential design choice. Then select relevant prompts from the [18-rule Actionbook FFI index](references/actionbook-checks/index.md), including current compiler checks when the selected toolchain provides them. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

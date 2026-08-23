@@ -46,4 +46,4 @@ After confirming behavior and local convention, select only relevant IDs from [`
 
 ## Detailed Reference
 
-Read [Rust Idioms field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Idioms field guide](references/guide.md) before making a consequential design choice. Use the [Actionbook anti-pattern protocol](references/actionbook-index.md) for detailed diagnostic examples without treating pattern names as findings. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

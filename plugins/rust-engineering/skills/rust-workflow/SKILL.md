@@ -11,8 +11,8 @@ Treat the repository's effective state and explicit user contract as controlling
 
 1. Read the task and path-scoped instructions. Inspect dirty state before touching files.
 2. Trace the real call path, tests, manifests, toolchain, CI, and repository-native commands. Preserve unrelated work.
-3. Write a compact `TaskBrief`: goal, non-goals, affected packages, constraints, compatibility surface, acceptance evidence, and unknowns.
-4. Select exactly one primary profile and zero to two supporting profiles from [Profile routing index](references/routing-index.md). If more are needed, split the work into phases and route each phase separately.
+3. Write a compact `TaskBrief`: goal, non-goals, affected packages, constraints, compatibility surface, acceptance evidence, and unknowns. Classify the entry as mechanics, design, or confirmed domain constraints only when that distinction can change the work.
+4. Select exactly one primary profile and zero to two supporting profiles from [Profile routing index](references/routing-index.md). Use `rust-design-protocol` for a genuinely cross-layer decision and `rust-research` for current external facts; neither is a mandatory overlay. If more profiles are needed, split the work into phases and re-route.
 5. Read each selected profile's `SKILL.md` and detailed reference before making its design decisions. Resolve semantics, safety, and compatibility before optimization.
 6. Build the `RuleQuery` defined by `rust-coding-rules` from the actual constructs, boundary, toolchain, configuration, and measurements. Load only the matching category index and at most eight rules; the rulebook is an overlay, not another profile slot.
 7. Classify risk and delegate only independent read-only investigation when it materially reduces uncertainty.
@@ -37,7 +37,7 @@ Use host-native subagents when available; otherwise perform the same roles seque
 - Medium risk: at most two read-only roles when they reduce uncertainty.
 - High risk: use a scout plus the relevant reviewer or verifier. Examples: public API, unsafe or FFI, concurrency, feature graphs, cross-target behavior, broad refactors, or security boundaries.
 
-Available role contracts are `rust-scout`, `rust-reviewer`, and `rust-verifier`. Give each a bounded `RoleBrief` from [Agent contracts](references/agent-contracts.md) plus the selected profile names. They return evidence; they never edit. The main agent decides, writes, integrates, and owns the final result. Avoid delegation for tiny tasks and avoid multiple agents reading the same scope. When re-reviewing fixes, prefer a fresh reviewer context.
+Available role contracts are `rust-scout`, `rust-researcher`, `rust-reviewer`, and `rust-verifier`. Give each a bounded `RoleBrief` from [Agent contracts](references/agent-contracts.md) plus the selected profile names. They return evidence; they never edit. Use the researcher only for one version-sensitive external question. The main agent decides, writes, integrates, and owns the final result. Avoid delegation for tiny tasks and avoid multiple agents reading the same scope. When re-reviewing fixes, prefer a fresh reviewer context.
 
 ## Routing Rules
 

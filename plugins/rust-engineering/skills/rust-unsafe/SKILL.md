@@ -37,6 +37,11 @@ Own internal unsafe operations and the soundness boundary of safe Rust abstracti
 
 After writing the operation-by-operation safety proof, select only relevant IDs from the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md). The rules supplement local invariant evidence and never justify introducing unsafe code.
 
+Then use the [Actionbook internal unsafe index](references/actionbook-checks/index.md)
+as an adversarial checklist. Load individual retained rules, not the whole
+corpus, and apply the product note at the top of each file. Report one finding
+under the canonical product rule when the two rulebooks overlap.
+
 ## Boundaries and Hand-offs
 
 - `rust-unsafe-ffi` owns ABI, foreign ownership, callbacks, unwinding, and exported symbol contracts.
@@ -46,4 +51,4 @@ After writing the operation-by-operation safety proof, select only relevant IDs 
 
 ## Detailed Reference
 
-Read [Unsafe Rust field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Unsafe Rust field guide](references/guide.md) before making a consequential design choice. For a new or reviewed unsafe boundary, also read the [Actionbook review protocol](references/actionbook-checks/overview.md) and select the relevant detailed rules from its [29-rule index](references/actionbook-checks/index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

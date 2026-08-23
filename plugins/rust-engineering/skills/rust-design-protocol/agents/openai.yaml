@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Design Protocol"
+  short_description: "Trace Rust decisions across layers"
+  default_prompt: "Use $rust-design-protocol to produce an evidence-backed Rust design decision across the relevant layers."
+policy:
+  allow_implicit_invocation: true

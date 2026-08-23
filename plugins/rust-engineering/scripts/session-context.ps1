@@ -16,4 +16,4 @@ $cargoVersion = & cargo --version 2>$null
 
 Write-Output "Rust workspace detected: $manifest"
 Write-Output "Toolchain: $rustcVersion; $cargoVersion"
-Write-Output 'For coding, use the rust-workflow profile and let it select one primary plus at most two supporting profiles from its routing index. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.'
+Write-Output 'For coding, use rust-workflow and let it select one primary plus at most two supporting profiles. Use rust-design-protocol only for cross-layer decisions and rust-research only for dated external facts. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.'

@@ -31,6 +31,8 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `debugging` | Reproduction, hypothesis, isolation, root cause | A compiler, test, runtime, timing, or integration failure is unexplained. |
 | `refactoring` | Structural change under a preserved contract | Behavior should stay stable while code moves, splits, or simplifies. |
 | `rust-navigation` | Bounded symbol, dispatch, cfg, macro, and call-path tracing | The project is known but the real definition, caller, impl, or effect path is not. |
+| `rust-design-protocol` | Cross-layer mechanics/design/domain trace and evidence-backed `DesignBrief` | Repeated local failures, comparisons, or consequential ambiguity require adjacent-layer constraints. |
+| `rust-research` | Dated Rust, Cargo, Clippy, std, crate, docs, or news evidence | Correctness depends on current upstream facts not fixed by the repository. |
 | `specs` | Normative rules, examples, acceptance scenarios, non-goals | Product behavior is ambiguous or needs an executable contract. |
 
 ## Rust Language and Safety
@@ -82,6 +84,11 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-uniffi-building` | UniFFI UDL or proc-macro interfaces, scaffolding, bindings, packaging | UniFFI exposes Rust to supported foreign languages. |
 | `rust-ml` | Models, tensors, preprocessing, devices, inference, batching, serving | ML pipeline semantics control the Rust system. |
 
+IoT, embedded, and cloud-native prompts start in `rust-architecture` with its
+Actionbook domain constraint maps, then route mechanics to the existing owners
+such as concurrency, performance, observability, errors, dependencies, unsafe,
+or FFI. They do not require standalone framework profiles.
+
 ## Nix
 
 | Profile | Owns | Route here when |
@@ -120,5 +127,11 @@ Use these ownership splits when descriptions overlap:
 | Add Swift bindings with UniFFI | `rust-uniffi-building` | `rust-api-design`, `rust-unsafe-ffi` | UniFFI owns generation; API and ABI constrain it. |
 | Package a cross-compiled CLI with a flake | `nix-packaging` | `nix-flakes`, `rust-cargo-build` | Derivation owns artifact construction; flake and Cargo supply context. |
 | Address twelve mixed review comments | `addressing-findings` | Profiles selected per remediation phase | First normalize and triage; do not load twelve domains at once. |
+| Compare async runtimes for a constrained service | `rust-design-protocol` | `rust-concurrency`, `rust-research` | Criteria and domain constraints own the comparison; research supplies dated facts. |
+| Build an exact dossier for a resolved crate | `rust-research` | `rust-dependencies` | Cargo package identity and dated docs own the evidence; dependency policy owns later adoption changes. |
 
 When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
+
+For compiler diagnostics, the retained [Actionbook error-code index](actionbook-error-routing.md)
+is a quick entry-signal map. Confirm the full diagnostic and affected construct
+before routing; its source "common fixes" are hypotheses, not defaults.

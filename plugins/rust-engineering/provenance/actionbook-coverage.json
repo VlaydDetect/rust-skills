@@ -1,0 +1,2845 @@
+{
+  "schema_version": 1,
+  "source": {
+    "name": "actionbook/rust-skills",
+    "relative_path": "references/rust-skills_actionbook",
+    "revision": "fa60f7931223646fb71c4586b4a6c8545016076a",
+    "commit_date": "2026-05-25T07:33:30+08:00",
+    "version_file": "2.0.9",
+    "plugin_manifest_version": "2.1.0",
+    "license_declared": "MIT",
+    "standalone_license_file": false
+  },
+  "statuses": [
+    "adapted",
+    "conditional",
+    "excluded",
+    "in_progress",
+    "merged",
+    "pending"
+  ],
+  "summary": {
+    "source_files": 242,
+    "adapted": 92,
+    "conditional": 0,
+    "excluded": 59,
+    "in_progress": 0,
+    "merged": 91,
+    "pending": 0
+  },
+  "entries": [
+    {
+      "source_path": ".claude/hooks/rust-skill-eval-hook.sh",
+      "source_sha256": "994b2f89c5589fd2bb1233c298c60d347e8a0a7ed94f4b51f3117eceec4630c0",
+      "source_lines": 121,
+      "source_bytes": 3583,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "forced_prompt_hook_rejected",
+      "reason": "UserPrompt-style evaluation and keyword matching violate the product fast SessionStart-only hook contract."
+    },
+    {
+      "source_path": ".claude/settings.example.json",
+      "source_sha256": "202147ea42e25c3bcc0ad6cb7cc8c595597c903a96c46ec1cdac121e2da9f8f6",
+      "source_lines": 7,
+      "source_bytes": 85,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_host_settings",
+      "reason": "Source Claude settings are packaging instructions, not dual-host runtime policy."
+    },
+    {
+      "source_path": ".claude-plugin/marketplace.json",
+      "source_sha256": "5f9334bdef6fabba39f59e2bf6bcfb84e817d2112a831324074698e88d0ac8e5",
+      "source_lines": 18,
+      "source_bytes": 653,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_marketplace_metadata",
+      "reason": "The product manifest is validated directly and does not ship the source marketplace entry."
+    },
+    {
+      "source_path": ".claude-plugin/plugin.json",
+      "source_sha256": "e8df40d2cb3f2d32d3c7f33a1e73019ef984fb6f1119eb98defa55f9a82623c5",
+      "source_lines": 64,
+      "source_bytes": 1914,
+      "status": "merged",
+      "target_paths": [
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json",
+        "provenance/THIRD_PARTY_NOTICES.md"
+      ],
+      "baseline_action": "source_manifest_evidence",
+      "reason": "Used source identity, author, repository, version, and declared license while keeping host manifests product-owned."
+    },
+    {
+      "source_path": ".codex/INSTALL.md",
+      "source_sha256": "0ff0d002e25f93246723ebef09cef7ae2262c53867cc9c9ff048ed927ada1dde",
+      "source_lines": 69,
+      "source_bytes": 1414,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_install_docs",
+      "reason": "Source installation instructions do not apply to this product layout."
+    },
+    {
+      "source_path": ".github/FUNDING.yml",
+      "source_sha256": "ade4e77e10f1610f0acf89df708c1a6b22334131af47bb32e3b8dcbf541e00d7",
+      "source_lines": 15,
+      "source_bytes": 714,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_repository_admin",
+      "reason": "Funding metadata is not Rust engineering guidance."
+    },
+    {
+      "source_path": ".gitignore",
+      "source_sha256": "8d628eaa85f5561de0758d11a0c528bda95934f299930d19ddeebd9ac72a86d4",
+      "source_lines": 8,
+      "source_bytes": 184,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_repository_admin",
+      "reason": "Source ignore rules do not control the product repository."
+    },
+    {
+      "source_path": ".mcp.json",
+      "source_sha256": "45a500d3d23cd13c9ba14b4990db49b48edcab8cf530d71331edd2f9cc6bd1ea",
+      "source_lines": 8,
+      "source_bytes": 134,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "external_mcp_dependency_rejected",
+      "reason": "The product does not require Actionbook or browser MCP services at runtime."
+    },
+    {
+      "source_path": ".opencode/INSTALL.md",
+      "source_sha256": "bb7e3d08ee5e07179a930c3efc0b5acbf7f9746fdb89cd0cb2acbcfc0eec1303",
+      "source_lines": 136,
+      "source_bytes": 3290,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "unsupported_host_packaging",
+      "reason": "This product targets Codex and Claude Code; source OpenCode installation docs are out of scope."
+    },
+    {
+      "source_path": ".opencode/instructions/rust-skills.md",
+      "source_sha256": "42d1d50af62e07c658055e49104a2298de934ccf19ca1cb14106abfa413402a8",
+      "source_lines": 86,
+      "source_bytes": 2503,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "unsupported_host_packaging",
+      "reason": "This product targets Codex and Claude Code; source OpenCode instructions are out of scope."
+    },
+    {
+      "source_path": "_meta/error-protocol.md",
+      "source_sha256": "90e3d7c38c16048d381db5c596702c895ce1a312e9246f51213c60bf2312e2f6",
+      "source_lines": 414,
+      "source_bytes": 12013,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/error-protocol.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/externalization.md",
+      "source_sha256": "4fa477b09f71f61500e6e8cf4bf99f9796caf9891d1e9e859ea3613b6916bbee",
+      "source_lines": 314,
+      "source_bytes": 6718,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/externalization.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/hooks-patterns.md",
+      "source_sha256": "b62b765f2260a5310bb2a06b74c2ad5027bd91aaeaa8f65614d40606e6bda599",
+      "source_lines": 339,
+      "source_bytes": 6950,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/hooks-patterns.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/layer-definitions.md",
+      "source_sha256": "e306ff8124c0bc5212d43a9e8a341efdfc1e6cd78fa49a57b80f4a818112e401",
+      "source_lines": 240,
+      "source_bytes": 7873,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/layer-definitions.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/negotiation-protocol.md",
+      "source_sha256": "7559108261f77ba513803c85dfa39acaf4acf12af264b0b85fe160d974dccb1a",
+      "source_lines": 344,
+      "source_bytes": 10538,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/negotiation-protocol.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/negotiation-templates.md",
+      "source_sha256": "09d32daa5921fa36905a9eeac7b9b1f23df0f0d999d764741506fa44f83804f2",
+      "source_lines": 339,
+      "source_bytes": 7429,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/negotiation-templates.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "_meta/reasoning-framework.md",
+      "source_sha256": "e25d2fe30a3625b3afa715ec49545cf52e105ba7fef3b8b7efdf24005a3eb829",
+      "source_lines": 239,
+      "source_bytes": 7092,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/reasoning-framework.md"
+      ],
+      "baseline_action": "scoped_cognitive_protocol",
+      "reason": "Retained the full cognitive protocol with dual-host, disclosure, retry, artifact, and hook-scope corrections."
+    },
+    {
+      "source_path": "agents/_negotiation/confidence-rubric.md",
+      "source_sha256": "7cab2709f214a48d0473f8e6f2385c0a3e3d32c8c64807fc686fba49c0a13dbb",
+      "source_lines": 306,
+      "source_bytes": 7815,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/agents/_negotiation/confidence-rubric.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as an optional cognitive lens or DesignBrief reference; default three-agent fan-out and mandatory negotiation were removed."
+    },
+    {
+      "source_path": "agents/_negotiation/response-format.md",
+      "source_sha256": "60481068b91dc0224faedf57adea9c9649afd29b8b51b639a8fd0ea3727d2f82",
+      "source_lines": 317,
+      "source_bytes": 7058,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/agents/_negotiation/response-format.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as an optional cognitive lens or DesignBrief reference; default three-agent fan-out and mandatory negotiation were removed."
+    },
+    {
+      "source_path": "agents/_shared/fetch-strategy.md",
+      "source_sha256": "9aec782d7fd2c478ee3706237f06f29c634a510dc8a583d16ecd1e2f6796fbcf",
+      "source_lines": 71,
+      "source_bytes": 1908,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/_shared/fetch-strategy.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/browser-fetcher.md",
+      "source_sha256": "2ce372cb48e548dfb9d25063e9c14fb9a937ea924ac98207017011e86e1a7839",
+      "source_lines": 26,
+      "source_bytes": 359,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "not-applicable",
+      "reason": "Host-specific browser wrapper is unnecessary; rust-research uses available host web access without a runtime dependency."
+    },
+    {
+      "source_path": "agents/clippy-researcher.md",
+      "source_sha256": "2bf8589af5ce7033d42a687abed9ec1dd424cbe80ba889de11fdc7ffcdb3795e",
+      "source_lines": 130,
+      "source_bytes": 2752,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/clippy-researcher.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/crate-researcher.md",
+      "source_sha256": "8943a35959c19581d665fef3a8f9c5b45db30ef84be8061c5b90015fab3019a2",
+      "source_lines": 112,
+      "source_bytes": 2564,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/crate-researcher.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/docs-cache.md",
+      "source_sha256": "892c38a57740d92b5d533d6a2d9d657b47c144515f6a3afb0fde080044d415a7",
+      "source_lines": 41,
+      "source_bytes": 816,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/docs-cache.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/docs-researcher.md",
+      "source_sha256": "bb2e1480eb06ba0180e1bc2b63777ddba26f59ea93f31c1de40bebde145b6c37",
+      "source_lines": 124,
+      "source_bytes": 2702,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/docs-researcher.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/layer1-analyzer.md",
+      "source_sha256": "5224862736b58d0e38cb04942da80f77bf7eadb001a31659ed42049ad1f424d0",
+      "source_lines": 92,
+      "source_bytes": 2622,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/agents/layer1-analyzer.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as an optional cognitive lens or DesignBrief reference; default three-agent fan-out and mandatory negotiation were removed."
+    },
+    {
+      "source_path": "agents/layer2-analyzer.md",
+      "source_sha256": "4fd854609372d3fea5877c7f0b0ceddbe0bab26c91519ae194dc437df60b20b9",
+      "source_lines": 108,
+      "source_bytes": 3193,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/agents/layer2-analyzer.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as an optional cognitive lens or DesignBrief reference; default three-agent fan-out and mandatory negotiation were removed."
+    },
+    {
+      "source_path": "agents/layer3-analyzer.md",
+      "source_sha256": "72dd7107950ece37804a5fecd1b30fd0aa60e41e0940a3ab4bd66a655a48fb9a",
+      "source_lines": 124,
+      "source_bytes": 4454,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/agents/layer3-analyzer.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as an optional cognitive lens or DesignBrief reference; default three-agent fan-out and mandatory negotiation were removed."
+    },
+    {
+      "source_path": "agents/rust-changelog.md",
+      "source_sha256": "d0e3ed6442429e3d5e6406df4ca4dfde0cbb98493eee75717db3c54cb6fb4224",
+      "source_lines": 114,
+      "source_bytes": 2411,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/rust-changelog.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/rust-daily-reporter.md",
+      "source_sha256": "dc4cc611afc4d649ec6a5e66f7ed8a71179dc7a24c12afb5fd440fbc5f766607",
+      "source_lines": 89,
+      "source_bytes": 2146,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/rust-daily-reporter.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "agents/std-docs-researcher.md",
+      "source_sha256": "39a0a770fb76db0f913613be0921cd46b0eb8e8ddd6ed8707ee3d6d89a517737",
+      "source_lines": 132,
+      "source_bytes": 3031,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/agents/std-docs-researcher.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged as a bounded rust-researcher lens; persistent caches and mandatory browser or MCP transports were removed."
+    },
+    {
+      "source_path": "AGENTS.md",
+      "source_sha256": "ae40c501a96fb317ec7dbd5b2bc3d7474dd84827ddab1fcdb98c4f0d6206d638",
+      "source_lines": 112,
+      "source_bytes": 3082,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_project_instructions",
+      "reason": "Comparative-source repository instructions do not govern the product."
+    },
+    {
+      "source_path": "cache/config.yaml",
+      "source_sha256": "0363d0a35f561350d8de8db024812856359c1c9bfa051f8b915570c95ec87c34",
+      "source_lines": 59,
+      "source_bytes": 1524,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "global_cache_rejected",
+      "reason": "The product does not create the source global docs cache or fixed TTL configuration."
+    },
+    {
+      "source_path": "cache/README.md",
+      "source_sha256": "c5d4eed9af493da5b78b393ceca9bbeaeda923b452765a8792efc47b0aaf428e",
+      "source_lines": 147,
+      "source_bytes": 3637,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "global_cache_rejected",
+      "reason": "The product does not create the source global docs cache."
+    },
+    {
+      "source_path": "CHANGELOG.md",
+      "source_sha256": "e86bcdd23dd73fa819f8e713ef0146c912a38a2a61e1aa1a0fe79e3dd294526c",
+      "source_lines": 273,
+      "source_bytes": 9386,
+      "status": "merged",
+      "target_paths": [
+        "provenance/THIRD_PARTY_NOTICES.md",
+        "provenance/actionbook-coverage.json"
+      ],
+      "baseline_action": "source_history_evidence",
+      "reason": "Used source history to pin the imported snapshot and record adaptation provenance."
+    },
+    {
+      "source_path": "CLAUDE.md",
+      "source_sha256": "f655cd54f62cc222dfcfd6baa9016264ef20ff40be046fe9d48542d7dbd7ce3c",
+      "source_lines": 154,
+      "source_bytes": 4529,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_project_instructions",
+      "reason": "Comparative-source repository instructions do not govern the product."
+    },
+    {
+      "source_path": "commands/achievement.md",
+      "source_sha256": "50b173cfbf67072306b56a2f3c7343f4a4d658b5cf24b5575b7da3dfa418e6f4",
+      "source_lines": 312,
+      "source_bytes": 8439,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "gamification_out_of_scope",
+      "reason": "Achievement tracking is unrelated to Rust engineering decisions and would add stateful hooks."
+    },
+    {
+      "source_path": "commands/ai-daily.md",
+      "source_sha256": "acbe1b18db2aec460c922b9056003fc329cb1154110d5c93b69dc4c9e0702402",
+      "source_lines": 566,
+      "source_bytes": 17795,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "unrelated_news_stream",
+      "reason": "Generic AI news is outside the explicit Rust news protocol."
+    },
+    {
+      "source_path": "commands/audit.md",
+      "source_sha256": "c160b2378872a786d161bf7bcf32c91326411d9dd74a05ccc38970197777cf5d",
+      "source_lines": 164,
+      "source_bytes": 3688,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/commands/audit.md"
+      ],
+      "baseline_action": "conditional_workflow",
+      "reason": "Made expensive external audit tools explicit, optional, and non-installing."
+    },
+    {
+      "source_path": "commands/cache-clean.md",
+      "source_sha256": "d9fa8a71832cfb2f2f7d31e8864c850161266c223fa13b6be0f62f203e56dfcf",
+      "source_lines": 156,
+      "source_bytes": 3048,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "global_cache_rejected",
+      "reason": "The product does not create the source global docs cache, so it needs no cleanup command."
+    },
+    {
+      "source_path": "commands/cache-status.md",
+      "source_sha256": "7f3449650b3947e2f0f10046c27fa2d6378b1c84618289f0b8da2b61873f549c",
+      "source_lines": 98,
+      "source_bytes": 2219,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "global_cache_rejected",
+      "reason": "The product does not create the source global docs cache, so it needs no status command."
+    },
+    {
+      "source_path": "commands/clean-crate-skills.md",
+      "source_sha256": "b170bfb4af68586e0e384a8fbcc1c17e96a942d3520e418f13ad299e11b81bca",
+      "source_lines": 96,
+      "source_bytes": 1828,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/clean-crate-skills.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/crate-info.md",
+      "source_sha256": "26fcac6f038697048688edffb3ece13bbeb33f1d5b6ec5334331aee784c37085",
+      "source_lines": 30,
+      "source_bytes": 731,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/crate-info.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/create-llms-for-skills.md",
+      "source_sha256": "34b8b395447aa20b96c24e6b49040ab8e9806c432bcbdde2fbafb1a0c54be78b",
+      "source_lines": 216,
+      "source_bytes": 5073,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "self_modifying_generation_rejected",
+      "reason": "Runtime LLM-generated skill files are non-deterministic and outside the plugin workflow."
+    },
+    {
+      "source_path": "commands/create-llms-from-source.md",
+      "source_sha256": "32dbc275a9c7d114968c6d9e9daa7fc1c92fad81c99574aea1948799e2028f19",
+      "source_lines": 337,
+      "source_bytes": 7119,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "self_modifying_generation_rejected",
+      "reason": "Runtime LLM-generated skill files are non-deterministic and outside the plugin workflow."
+    },
+    {
+      "source_path": "commands/create-skills-via-llms.md",
+      "source_sha256": "3d0cd6019b69ffa08f05ddaeb242ef413c2554dc0a091d6b528d3fa50a525524",
+      "source_lines": 207,
+      "source_bytes": 5977,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "self_modifying_generation_rejected",
+      "reason": "Runtime LLM-generated skill files are non-deterministic and outside the plugin workflow."
+    },
+    {
+      "source_path": "commands/docs.md",
+      "source_sha256": "27677eba6fb8b8eead4a1df1ea6ad1aa50577d44c6b4145b85f35306cf09b489",
+      "source_lines": 65,
+      "source_bytes": 1473,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/docs.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/fix-skill-docs.md",
+      "source_sha256": "a0609983e8fa1d8bfd2e1d78a941b4ddf878616835602e25f981bd0829575571",
+      "source_lines": 169,
+      "source_bytes": 3564,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "product_maintenance_not_runtime",
+      "reason": "Plugin-authoring documentation repair is not a Rust project workflow."
+    },
+    {
+      "source_path": "commands/guideline.md",
+      "source_sha256": "db0d0677fabf0598963eef429be8e8571322fffbe8df7850bee7d9c39fd7bc2c",
+      "source_lines": 62,
+      "source_bytes": 1583,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-coding-rules/references/actionbook/coding-guidelines/command-adapter.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the legacy slash command to the existing addressable rulebook, Clippy, and unsafe owners."
+    },
+    {
+      "source_path": "commands/rust-daily.md",
+      "source_sha256": "a0ed493e5984a093cd2aacaed077718a1f67e73277dd86ccc3bbccd840e34fd7",
+      "source_lines": 496,
+      "source_bytes": 14582,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/rust-daily.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/rust-features.md",
+      "source_sha256": "29520e451b1549cc27b05f1470fc6c8d75c2f7a268581f9a03bf86a9be3e0479",
+      "source_lines": 29,
+      "source_bytes": 692,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/rust-features.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/rust-review.md",
+      "source_sha256": "9a4051cb184ab67404b61222d5b83b91acc3337aad9cfff7ba5caaea4c67fe5b",
+      "source_lines": 88,
+      "source_bytes": 2367,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-review/references/actionbook-command.md"
+      ],
+      "baseline_action": "findings_first_adapter",
+      "reason": "Converted the Clippy-only source command into the existing bounded findings-first review contract."
+    },
+    {
+      "source_path": "commands/skill-index.md",
+      "source_sha256": "cfa94c262dcfd7def3113966fa7937f3f9669fc54e294b9ea19878d9f2651feb",
+      "source_lines": 68,
+      "source_bytes": 1804,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "duplicate_router",
+      "reason": "The product routing index and skill discovery already provide this function."
+    },
+    {
+      "source_path": "commands/sync-crate-skills.md",
+      "source_sha256": "b5ce4acd9340ddc42a3b710dde8e1fde83adaea8fb1b27a22356d9b43431700f",
+      "source_lines": 172,
+      "source_bytes": 4299,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/sync-crate-skills.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "commands/unsafe-check.md",
+      "source_sha256": "2b4955058508acc6d820f0c9dcfd40260eec3be00d5ee9d3585358b6fce46893",
+      "source_lines": 73,
+      "source_bytes": 1893,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/commands/unsafe-check.md"
+      ],
+      "baseline_action": "workflow_adapter",
+      "reason": "Converted the command into a host-neutral evidence-based focused review."
+    },
+    {
+      "source_path": "commands/unsafe-review.md",
+      "source_sha256": "6b920d99829313e2134b34431484b3ab1875eb24b4bb2477955e5850237f327a",
+      "source_lines": 134,
+      "source_bytes": 2760,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/commands/unsafe-review.md"
+      ],
+      "baseline_action": "workflow_adapter",
+      "reason": "Converted the command into a host-neutral invariant-table review."
+    },
+    {
+      "source_path": "commands/update-crate-skill.md",
+      "source_sha256": "77c61f5123cb15ed30501fb8a09814a7e8babb7f662540f5ecb47fcbe6c752f9",
+      "source_lines": 92,
+      "source_bytes": 1653,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/commands/update-crate-skill.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped the Claude-specific command to a host-neutral rust-research mode with explicit mutation and evidence boundaries."
+    },
+    {
+      "source_path": "docs/architecture-zh.md",
+      "source_sha256": "1d5df7e5dfc2acfa7ae2e5da29e9adb2e5d0c384df0ed9f124b9dfa6bd1be11d",
+      "source_lines": 619,
+      "source_bytes": 21003,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook-index.md",
+        "skills/rust-workflow/references/routing-index.md"
+      ],
+      "baseline_action": "architecture_concepts_merged",
+      "reason": "Merged the three-layer router, progressive loading, agent lenses, and owner boundaries into product protocols."
+    },
+    {
+      "source_path": "docs/capabilities-summary-zh.md",
+      "source_sha256": "993b5ecddd397ea1bb337292d03614aa651ee25af02b31b9fbfbc99ae2ff818f",
+      "source_lines": 416,
+      "source_bytes": 14016,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "skills/rust-workflow/references/routing-index.md"
+      ],
+      "baseline_action": "capability_map_merged",
+      "reason": "Mapped useful capabilities to product owners; source marketing counts do not control product behavior."
+    },
+    {
+      "source_path": "docs/capabilities-summary.md",
+      "source_sha256": "c8209b6a93441dee8d359ed3955a2acc22e6d7189042f7fd3df8236fb7ff1190",
+      "source_lines": 416,
+      "source_bytes": 14703,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "skills/rust-workflow/references/routing-index.md"
+      ],
+      "baseline_action": "capability_map_merged",
+      "reason": "Mapped useful capabilities to product owners; source marketing counts do not control product behavior."
+    },
+    {
+      "source_path": "docs/config-priority-zh.md",
+      "source_sha256": "1aad73f781b2ce35c961ef0266d5a263fab36ec2a7a9295e301e673d29e8f5cb",
+      "source_lines": 75,
+      "source_bytes": 2532,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "host_priority_model_rejected",
+      "reason": "The first-seen instruction model is host-specific and not a reliable product precedence contract."
+    },
+    {
+      "source_path": "docs/context-optimization.md",
+      "source_sha256": "d6adccaa3b2b31e52a66e2adc3ee84a50740e7c769346c55cde695c11c3363d5",
+      "source_lines": 312,
+      "source_bytes": 8319,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/context-optimization.md"
+      ],
+      "baseline_action": "progressive_disclosure",
+      "reason": "Retained progressive-disclosure guidance without forced forks, fan-out, fixed token estimates, or host-specific commands."
+    },
+    {
+      "source_path": "docs/docs-cache-spec.md",
+      "source_sha256": "0a57d9acc9f1a7582028a4800fc04455ce8e50375bbf8fdfb82084a79f7ace19",
+      "source_lines": 152,
+      "source_bytes": 3557,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/docs-cache-source-spec.md"
+      ],
+      "baseline_action": "historical_cache_spec",
+      "reason": "Retained cache provenance and invalidation ideas while rejecting the source global cache and fixed TTL behavior."
+    },
+    {
+      "source_path": "docs/forced-eval-hook.md",
+      "source_sha256": "64bfc22c3ad8901eeed664d8e6b166209328aad82db51a868180c9479bb42823",
+      "source_lines": 264,
+      "source_bytes": 9672,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "forced_prompt_hook_rejected",
+      "reason": "Forced prompt evaluation is replaced by SessionStart context plus normal skill routing."
+    },
+    {
+      "source_path": "docs/functional-overview-zh.md",
+      "source_sha256": "6c293683ea009fc798721957a8d226ba5cd4de51a746fb918fa1566fbab08550",
+      "source_lines": 616,
+      "source_bytes": 28322,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "skills/rust-design-protocol/references/actionbook-index.md"
+      ],
+      "baseline_action": "workflow_overview_merged",
+      "reason": "Merged the functional cognitive, research, navigation, command, and unsafe flows into routed product documentation."
+    },
+    {
+      "source_path": "docs/hook-mechanism-zh.md",
+      "source_sha256": "b9d2a71a7b9b5f0d4b039ad60c0bdcc33929f2960b7339a2b2803d97f5fdebc4",
+      "source_lines": 589,
+      "source_bytes": 15706,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "host_hook_manual_rejected",
+      "reason": "Host-specific stateful hook mechanics are not shipped; the conceptual catalog is retained separately."
+    },
+    {
+      "source_path": "docs/meta-cognition-example-e0382.md",
+      "source_sha256": "b2cf13313d504f82a826da47051e9f02ab8ebfb28555d43c852836fdee55bc30",
+      "source_lines": 182,
+      "source_bytes": 4794,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/examples/e0382-trading-system.md"
+      ],
+      "baseline_action": "conditional_worked_example",
+      "reason": "Retained the full worked trace while making the domain premise and Arc choice conditional."
+    },
+    {
+      "source_path": "docs/problem-solved.md",
+      "source_sha256": "9846f6a2e063d9f516e3de3a2bd474fb2f50f1de17c58bacfe1b6a78a20f8478",
+      "source_lines": 298,
+      "source_bytes": 9040,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "skills/rust-design-protocol/SKILL.md"
+      ],
+      "baseline_action": "problem_model_merged",
+      "reason": "Merged the cross-layer problem model and evidence synthesis into the design protocol without mandatory fan-out."
+    },
+    {
+      "source_path": "docs/prompt-engineering-zh.md",
+      "source_sha256": "d902e8a24db40b31478ad6401859b5d320726b21de3870fc0c029a24742f50b3",
+      "source_lines": 457,
+      "source_bytes": 9400,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "plugin_authoring_out_of_scope",
+      "reason": "Source prompt-authoring advice is not Rust project engineering guidance."
+    },
+    {
+      "source_path": "docs/rust-skills-introduction-v1-deprecated.md",
+      "source_sha256": "eede0fa67492088980593e731c0a4618fc4453f0ae391c23eaa6fb49c782db6f",
+      "source_lines": 336,
+      "source_bytes": 11319,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "deprecated_source_document",
+      "reason": "The source itself marks this introduction deprecated."
+    },
+    {
+      "source_path": "docs/rust-skills-introduction.md",
+      "source_sha256": "f2655d6cdf564a1bdd38ec1019f45844424a0a89702005d16747f0fc84729b96",
+      "source_lines": 337,
+      "source_bytes": 11554,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "skills/rust-workflow/references/routing-index.md"
+      ],
+      "baseline_action": "source_introduction_merged",
+      "reason": "Replaced the source product introduction with current dual-host routing and product counts."
+    },
+    {
+      "source_path": "docs/skill-inheritance.md",
+      "source_sha256": "2a4c90a4a6214af9c158e2351fb632555a75ab37ac69d61f35d851f92788649f",
+      "source_lines": 327,
+      "source_bytes": 7832,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "plugin_authoring_out_of_scope",
+      "reason": "Source inheritance mechanics are replaced by explicit product owner and reference routing."
+    },
+    {
+      "source_path": "docs/skills-best-practices.md",
+      "source_sha256": "1a4583f303e23c84ad02fe0fc656351877ed51d041e99f89872924392e8bb889",
+      "source_lines": 360,
+      "source_bytes": 8599,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "plugin_authoring_out_of_scope",
+      "reason": "Generic source skill-authoring practices do not run in Rust project workflows."
+    },
+    {
+      "source_path": "docs/skills-design-lessons.md",
+      "source_sha256": "27bb0b0b2d54f3823f0835c48e03c4d8a00837b9dcf921a877c176de2d484b63",
+      "source_lines": 424,
+      "source_bytes": 10019,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "plugin_authoring_out_of_scope",
+      "reason": "Source plugin design retrospectives are comparative evidence, not runtime guidance."
+    },
+    {
+      "source_path": "docs/skills-testing.md",
+      "source_sha256": "8b6355e78c21c987c8670fc94862a1972fe8cfc4e2cfbf07d4b71df504bf25b6",
+      "source_lines": 186,
+      "source_bytes": 4888,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "dual_host_validation",
+      "reason": "Merged source test intent into the stdlib validator and explicit Actionbook eval corpus without forced prompt hooks."
+    },
+    {
+      "source_path": "docs/test-cases/e0382-trading-system.rs",
+      "source_sha256": "f7c25704ca97603545d244b19671adb75bbb17d01839a6f62a3f9965ab0e4369",
+      "source_lines": 48,
+      "source_bytes": 1231,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "docs/test-cases/meta-cognition-test-suite.md",
+      "source_sha256": "85cedca162351b535e6f7d1b588ac4f47fd1b20dc795be817745e00b2926906d",
+      "source_lines": 319,
+      "source_bytes": 8354,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "docs/what-is-a-skill.md",
+      "source_sha256": "266364846fdefd64b50615dbd6a441c344b1d0127458b06a3d620fa47134afce",
+      "source_lines": 351,
+      "source_bytes": 9327,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "plugin_authoring_out_of_scope",
+      "reason": "Generic skill education is outside Rust project workflows."
+    },
+    {
+      "source_path": "examples/achievement-hooks-config.json",
+      "source_sha256": "29c5f712a6ad3da47c2254b59a1d12d73cf88d966cbd6ed93241084dc5fc90a1",
+      "source_lines": 79,
+      "source_bytes": 3207,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "gamification_out_of_scope",
+      "reason": "Achievement hook configuration is stateful gamification unrelated to Rust engineering."
+    },
+    {
+      "source_path": "hooks/hooks.json",
+      "source_sha256": "0f418b343964324623cff8407e120088673b20b5f7b04c80547cdfa4b3abee83",
+      "source_lines": 15,
+      "source_bytes": 1486,
+      "status": "merged",
+      "target_paths": [
+        "hooks/claude.json",
+        "hooks/hooks.json"
+      ],
+      "baseline_action": "session_start_only_hook",
+      "reason": "Replaced source prompt matching with separate dual-host, read-only, offline SessionStart hooks."
+    },
+    {
+      "source_path": "index/agents-index.md",
+      "source_sha256": "7a45a7a46642715325c206dfb58c7d83d12ca35ba373004ed49532419a28da76",
+      "source_lines": 14,
+      "source_bytes": 511,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook-agents.md",
+        "skills/rust-design-protocol/references/actionbook-index.md"
+      ],
+      "baseline_action": "agent_lens_index",
+      "reason": "Mapped source agents to bounded read-only research and design lenses; browser and cache agents remain excluded."
+    },
+    {
+      "source_path": "index/commands-index.md",
+      "source_sha256": "8be16b73997b07ca0f2bea2639b88db6a3a53344ade1fba905236b63b486f677",
+      "source_lines": 27,
+      "source_bytes": 1641,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-research/references/actionbook-commands.md",
+        "skills/rust-unsafe/references/actionbook-checks/commands/unsafe-check.md",
+        "skills/rust-review/references/actionbook-command.md"
+      ],
+      "baseline_action": "command_adapter_index",
+      "reason": "Mapped retained source commands to host-neutral research, unsafe, coding-rule, and review adapters."
+    },
+    {
+      "source_path": "index/domain-extensions.md",
+      "source_sha256": "a824627931a0f9f34b553df12029d1d1751656aa84b988069cc9663cf87341bf",
+      "source_lines": 107,
+      "source_bytes": 3207,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-architecture/references/actionbook/domains/index.md",
+        "skills/rust-ml/SKILL.md"
+      ],
+      "baseline_action": "domain_owner_map",
+      "reason": "Merged IoT, embedded, cloud-native, and ML categories into their product owner maps without source code ranges or crate defaults."
+    },
+    {
+      "source_path": "index/error-codes.md",
+      "source_sha256": "5702dabc2be28fc6824bb901816cdb5996a3f62c9ee8752425a5e673b306d254",
+      "source_lines": 100,
+      "source_bytes": 3596,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-workflow/references/actionbook-error-routing.md"
+      ],
+      "baseline_action": "conditional_diagnostic_map",
+      "reason": "Retained the full error-code lookup while making every common fix a hypothesis and mapping legacy profiles to product owners."
+    },
+    {
+      "source_path": "index/meta-questions.md",
+      "source_sha256": "0f761ae505bee53ba1e89ae411290778334166d389631b0d0dfcf456bdad11f5",
+      "source_lines": 98,
+      "source_bytes": 3770,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook-index.md"
+      ],
+      "baseline_action": "cognitive_router_index",
+      "reason": "Merged the fifteen meta-question categories into the product cognitive protocol index and model-routing evals."
+    },
+    {
+      "source_path": "index/skills-index.md",
+      "source_sha256": "7ab9cb6a6aa527413a5ff9eda50d4001d31623fa612b47ec0f25e4cd413bc54c",
+      "source_lines": 105,
+      "source_bytes": 4567,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-workflow/references/routing-index.md"
+      ],
+      "baseline_action": "product_profile_router",
+      "reason": "Replaced the source skill catalog with the complete dual-host product routing index."
+    },
+    {
+      "source_path": "index/tech-categories.md",
+      "source_sha256": "eb160c5ab7848973b50a20d1d1467861d09775305e03467ef87484e18a85cf90",
+      "source_lines": 384,
+      "source_bytes": 10971,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-workflow/references/routing-index.md",
+        "skills/rust-coding-rules/references/routing.md"
+      ],
+      "baseline_action": "owner_and_rule_routing",
+      "reason": "Mapped technical categories through focused owners and the 26-category addressable rulebook."
+    },
+    {
+      "source_path": "index/triggers-index.md",
+      "source_sha256": "c80116cea94e347d703ad9e035c1b0487a55b106729ab093ae56b2940ddc328a",
+      "source_lines": 142,
+      "source_bytes": 5282,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-workflow/references/routing-index.md",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "evidence_based_routing",
+      "reason": "Converted keyword trigger ideas into decision-owner routing and evals; keywords alone do not activate profiles."
+    },
+    {
+      "source_path": "metadata.json",
+      "source_sha256": "57b3e0b1d29975d218cd4d0f3cc1c981f438959da640b974506c0044322fd48c",
+      "source_lines": 116,
+      "source_bytes": 2583,
+      "status": "merged",
+      "target_paths": [
+        "provenance/THIRD_PARTY_NOTICES.md",
+        "provenance/actionbook-coverage.json"
+      ],
+      "baseline_action": "source_metadata_evidence",
+      "reason": "Pinned source statistics, version, author, license declaration, and compatibility claims as provenance evidence."
+    },
+    {
+      "source_path": "README-ja.md",
+      "source_sha256": "f3e4ab0258a6fd8f7d731dbb11e5cffe879b0eb76a74fb1600ebf6d6966f437c",
+      "source_lines": 346,
+      "source_bytes": 14882,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "localized_source_packaging",
+      "reason": "Localized source project installation and marketing docs are not copied into the product."
+    },
+    {
+      "source_path": "README-zh.md",
+      "source_sha256": "ec66739845b7302b2598767c962ad06cdca09fd56eaf7499544893c65e147073",
+      "source_lines": 346,
+      "source_bytes": 12201,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "localized_source_packaging",
+      "reason": "Localized source project installation and marketing docs are not copied into the product."
+    },
+    {
+      "source_path": "README.md",
+      "source_sha256": "775feea1dbdcd517e64add6aeacfd033cbb0d0a399ca197c888838505bc09447",
+      "source_lines": 346,
+      "source_bytes": 12780,
+      "status": "merged",
+      "target_paths": [
+        "../../README.md",
+        "provenance/THIRD_PARTY_NOTICES.md"
+      ],
+      "baseline_action": "source_overview_evidence",
+      "reason": "Merged the useful capability overview into product documentation and recorded source identity and missing license-file drift."
+    },
+    {
+      "source_path": "references/achievement-definitions.md",
+      "source_sha256": "4d504566ca5ec59c1b77a37ecf053b647b7fe87be96f3e2e60300de549918cfb",
+      "source_lines": 228,
+      "source_bytes": 7377,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "gamification_out_of_scope",
+      "reason": "Achievement definitions are unrelated to Rust engineering decisions."
+    },
+    {
+      "source_path": "REVIEW.md",
+      "source_sha256": "c33bff98fa3a1f4996704b8c1010f249b9d65db5c51c0c5b5092d8baca1794ee",
+      "source_lines": 230,
+      "source_bytes": 6989,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_maintenance_notes",
+      "reason": "Source repository maintenance review is not a product workflow contract."
+    },
+    {
+      "source_path": "scripts/achievement-tracker.sh",
+      "source_sha256": "64285b97afbafd92d316df9ea378f41f454dc6af3f22e219e77355ab90eb056b",
+      "source_lines": 339,
+      "source_bytes": 11580,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "gamification_out_of_scope",
+      "reason": "Stateful achievement tracking is not installed."
+    },
+    {
+      "source_path": "scripts/analyze-skills.sh",
+      "source_sha256": "8fe155ab066b1c2d3b2a6bf8b0db77895ec77cc68809734b6faa37119312da59",
+      "source_lines": 176,
+      "source_bytes": 5402,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py"
+      ],
+      "baseline_action": "stdlib_validation",
+      "reason": "Merged source inventory and structural checks into the cross-platform stdlib validator."
+    },
+    {
+      "source_path": "scripts/extract-rust-docs.sh",
+      "source_sha256": "d2cacddd3feca098cf7c40779ff5397a79b62e1d20efeef894d6f7991fd95e0d",
+      "source_lines": 360,
+      "source_bytes": 10736,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "global_cache_rejected",
+      "reason": "The research protocol uses current primary sources and explicit project-local dossiers, not bulk global extraction."
+    },
+    {
+      "source_path": "scripts/generate-index.sh",
+      "source_sha256": "c0213011eb2374aae460499d95d02fd51397c4db5d4e755b2561acc424affe37",
+      "source_lines": 168,
+      "source_bytes": 5152,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_generation_tool",
+      "reason": "Product routing and provenance indexes are checked in and validated without the source generator."
+    },
+    {
+      "source_path": "scripts/quality-check.sh",
+      "source_sha256": "3e13e0e73f8465468add6244a482528ec06d4ec2ead752cc541f4acf52adb999",
+      "source_lines": 204,
+      "source_bytes": 5622,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py"
+      ],
+      "baseline_action": "stdlib_validation",
+      "reason": "Merged source quality gates into the cross-platform stdlib validator."
+    },
+    {
+      "source_path": "scripts/setup-achievements.sh",
+      "source_sha256": "22805a470f5379ef6c7da0591e4f86e5ab31bf546cc68e7ae604947e50391506",
+      "source_lines": 125,
+      "source_bytes": 4079,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "gamification_out_of_scope",
+      "reason": "Stateful achievement setup is not installed."
+    },
+    {
+      "source_path": "setup.sh",
+      "source_sha256": "029d085e6f1dc9d8beb8037d7516835d53a72c24f57944fc69fc29ebdb28652a",
+      "source_lines": 27,
+      "source_bytes": 663,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_installer_rejected",
+      "reason": "The product does not run the source installer or mutate user configuration."
+    },
+    {
+      "source_path": "skills/coding-guidelines/clippy-lints/_index.md",
+      "source_sha256": "f9a2099d99c522fa27c3829e15e0b13cf25ee159732f8c6536857389af23f75d",
+      "source_lines": 16,
+      "source_bytes": 697,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-coding-rules/references/actionbook/coding-guidelines/clippy-lints/_index.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Mapped each source lint row to an existing canonical rule or contextual owner."
+    },
+    {
+      "source_path": "skills/coding-guidelines/index/rules-index.md",
+      "source_sha256": "713dfe202b958e99a681a48d3c71212daa4166e8d4cad978c13802dc49b80f23",
+      "source_lines": 6,
+      "source_bytes": 176,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-coding-rules/references/actionbook/coding-guidelines/index/rules-index.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Preserved the upstream index pointer while making clear that only the source snapshot summary, not an external 500-rule corpus, is included."
+    },
+    {
+      "source_path": "skills/coding-guidelines/SKILL.md",
+      "source_sha256": "b561036b0f8ae28dc264d09933433d08db09c6d6a0dfe04284b1493f233d7a59",
+      "source_lines": 95,
+      "source_bytes": 3178,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-coding-rules/references/actionbook/coding-guidelines/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged the source summary through a one-to-one crosswalk and rejected universal dependency, panic, atomic, and lint preferences."
+    },
+    {
+      "source_path": "skills/core-actionbook/agents/openai.yaml",
+      "source_sha256": "3bf863a8856d04a6a1c4f23b3aae6cbf5388544129662c55cc733c2d9c23bbbf",
+      "source_lines": 2,
+      "source_bytes": 45,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "not-applicable",
+      "reason": "Source host metadata is not product knowledge and is replaced by the dual-host plugin metadata."
+    },
+    {
+      "source_path": "skills/core-actionbook/SKILL.md",
+      "source_sha256": "f321c0e19f879f62111127fa6a52a7c18e2e4232e4ab7ac0438d2ebb9ae22d32",
+      "source_lines": 50,
+      "source_bytes": 1762,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "not-applicable",
+      "reason": "Actionbook browser-selector MCP support is outside this plugin and would add a host-specific runtime dependency."
+    },
+    {
+      "source_path": "skills/core-agent-browser/agents/openai.yaml",
+      "source_sha256": "3bf863a8856d04a6a1c4f23b3aae6cbf5388544129662c55cc733c2d9c23bbbf",
+      "source_lines": 2,
+      "source_bytes": 45,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "external_browser_dependency_rejected",
+      "reason": "Research uses host-native web access when available and does not mandate agent-browser."
+    },
+    {
+      "source_path": "skills/core-agent-browser/SKILL.md",
+      "source_sha256": "9526248d8575f0f724b0d32237bae100cbad0fc0e615b0572b7246dface863ad",
+      "source_lines": 116,
+      "source_bytes": 3934,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "external_browser_dependency_rejected",
+      "reason": "Research uses host-native web access when available and does not mandate agent-browser."
+    },
+    {
+      "source_path": "skills/core-dynamic-skills/agents/openai.yaml",
+      "source_sha256": "3bf863a8856d04a6a1c4f23b3aae6cbf5388544129662c55cc733c2d9c23bbbf",
+      "source_lines": 2,
+      "source_bytes": 45,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "not-applicable",
+      "reason": "Source host metadata is replaced by dual-host rust-research metadata."
+    },
+    {
+      "source_path": "skills/core-dynamic-skills/SKILL.md",
+      "source_sha256": "ce1069de11b8fa748ddf24431e58b4f55003da8302a95ac39375e1796e3ab7f5",
+      "source_lines": 216,
+      "source_bytes": 5461,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/core-dynamic-skills/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Replaced Cargo.toml grep parsing and implicit home-directory generation with exact locked/offline cargo metadata dossiers and explicit wrapper export."
+    },
+    {
+      "source_path": "skills/core-fix-skill-docs/agents/openai.yaml",
+      "source_sha256": "3bf863a8856d04a6a1c4f23b3aae6cbf5388544129662c55cc733c2d9c23bbbf",
+      "source_lines": 2,
+      "source_bytes": 45,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "product_maintenance_not_runtime",
+      "reason": "Self-repair of installed skill docs is outside Rust repository engineering."
+    },
+    {
+      "source_path": "skills/core-fix-skill-docs/SKILL.md",
+      "source_sha256": "0015d0ba13fa20b737c7edbe4de31c791354593629cf7d083d46da19ac2a9268",
+      "source_lines": 249,
+      "source_bytes": 5659,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "product_maintenance_not_runtime",
+      "reason": "Self-repair of installed skill docs is outside Rust repository engineering."
+    },
+    {
+      "source_path": "skills/domain-cli/SKILL.md",
+      "source_sha256": "1bd14a73784b45435cffded009f3403406517f009d513d1949da76952888e2b3",
+      "source_lines": 161,
+      "source_bytes": 4151,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "duplicate_general_owners",
+      "reason": "CLI concerns route through API, errors, Cargo, testing, and ecosystem owners without a separate framework profile."
+    },
+    {
+      "source_path": "skills/domain-cloud-native/SKILL.md",
+      "source_sha256": "35f2a2b3af4c83f9f91cbba29d7ae8e9cd5177f6ad2cca355ecac56fcd2623b0",
+      "source_lines": 166,
+      "source_bytes": 4216,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-architecture/references/actionbook/domains/cloud-native.md"
+      ],
+      "baseline_action": "domain_constraint_map",
+      "reason": "Retained cloud-native constraints without universal statelessness, environment config, tracing, framework, or crate choices."
+    },
+    {
+      "source_path": "skills/domain-embedded/SKILL.md",
+      "source_sha256": "1513e4043002782dcf2c4ae63b61cf78bf82d7694d89f34cf356097cb6f64b7a",
+      "source_lines": 178,
+      "source_bytes": 4687,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-architecture/references/actionbook/domains/embedded.md"
+      ],
+      "baseline_action": "domain_constraint_map",
+      "reason": "Retained embedded constraints without host file injection or universal no_std, heapless, runtime, and crate choices."
+    },
+    {
+      "source_path": "skills/domain-fintech/SKILL.md",
+      "source_sha256": "283373396a5da2ab023425eaf935578fa25e2ff8da8e5cc8254f481bfcd576a6",
+      "source_lines": 146,
+      "source_bytes": 3824,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "unconfirmed_domain_policy",
+      "reason": "Financial constraints must come from the project or user; source assumptions are not universal Rust policy."
+    },
+    {
+      "source_path": "skills/domain-iot/SKILL.md",
+      "source_sha256": "0c8fc11658c9c0cab15f43ea92fa1b0da08ee82221e206e8654b13c71c65d451",
+      "source_lines": 168,
+      "source_bytes": 4573,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-architecture/references/actionbook/domains/iot.md"
+      ],
+      "baseline_action": "domain_constraint_map",
+      "reason": "Retained IoT constraints and removed universal durability, security, OTA, crate, and error-swallowing advice."
+    },
+    {
+      "source_path": "skills/domain-ml/SKILL.md",
+      "source_sha256": "ac0c6db60c1d984c2fc0a567df0e40dab3dc326a36d37811c56d109a848b6c38",
+      "source_lines": 181,
+      "source_bytes": 4892,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ml/references/actionbook/domain-ml/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/domain-web/SKILL.md",
+      "source_sha256": "2a921d777daa6adf75e1ee81a62d0b32a4c436f737697ee4c36c59732e8bf1b3",
+      "source_lines": 156,
+      "source_bytes": 4350,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "duplicate_general_owners",
+      "reason": "Web concerns route through architecture, API, concurrency, errors, observability, and dependencies without a framework profile."
+    },
+    {
+      "source_path": "skills/m01-ownership/comparison.md",
+      "source_sha256": "025bc6000976536c25430753a76c3d71a8673c872a2af24bac98d3deb6c615d1",
+      "source_lines": 222,
+      "source_bytes": 5934,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m01-ownership/comparison.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m01-ownership/examples/best-practices.md",
+      "source_sha256": "647ebfd8329776ec3d676a927ba9ca4b7f3ccc57fa53f71dcc9d97992d6cbc60",
+      "source_lines": 339,
+      "source_bytes": 7020,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m01-ownership/examples/best-practices.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m01-ownership/patterns/common-errors.md",
+      "source_sha256": "2c4d0067b878580d241c15894851cc062f902449264923e2eacd22385ac7731c",
+      "source_lines": 265,
+      "source_bytes": 5289,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m01-ownership/patterns/common-errors.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m01-ownership/patterns/lifetime-patterns.md",
+      "source_sha256": "1cd0bbfdcc2d399858fc3837c0977661af9a25dc5a0e74c02c42dcc191b89bfb",
+      "source_lines": 229,
+      "source_bytes": 4737,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m01-ownership/patterns/lifetime-patterns.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m01-ownership/SKILL.md",
+      "source_sha256": "d83339b218069843757e0901646e7a65226ddc7b3dd2a109b96cf433bfa646ae",
+      "source_lines": 134,
+      "source_bytes": 4323,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m01-ownership/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m02-resource/SKILL.md",
+      "source_sha256": "b1c87476c1026fada03e335093de7e9341c0beda8808e3169c0a5febe17afd32",
+      "source_lines": 159,
+      "source_bytes": 4563,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m02-resource/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m03-mutability/SKILL.md",
+      "source_sha256": "ca4dad5be8421bafe0fee7bf69a701520f58f581869c683fa0fd1dbc854c4675",
+      "source_lines": 153,
+      "source_bytes": 4310,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m03-mutability/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m04-zero-cost/SKILL.md",
+      "source_sha256": "2bb25fcf5d1215df2f74205e7ef79a1405cf43ea75451f7afa051348e65e6061",
+      "source_lines": 165,
+      "source_bytes": 4896,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-traits/references/actionbook/m04-zero-cost/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m05-type-driven/SKILL.md",
+      "source_sha256": "913f3fb1f21d016e60d6252e16e86748a9230b6213231445f8bd83aa7e191083",
+      "source_lines": 175,
+      "source_bytes": 4692,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-traits/references/actionbook/m05-type-driven/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m06-error-handling/examples/library-vs-app.md",
+      "source_sha256": "ada4b8070f3ccbf341a4867e9363c4d12dd07314934727b85ec69f4b8ee4ec1f",
+      "source_lines": 332,
+      "source_bytes": 8542,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-errors/references/actionbook/m06-error-handling/examples/library-vs-app.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m06-error-handling/patterns/error-patterns.md",
+      "source_sha256": "01075ea8a6b1d71c38d2e9947d58fd522c8ffb9b57899b72dede71f685f16b77",
+      "source_lines": 404,
+      "source_bytes": 8996,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-errors/references/actionbook/m06-error-handling/patterns/error-patterns.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m06-error-handling/SKILL.md",
+      "source_sha256": "82faa1d39eaeac9fdbf3d3ba81abee3917d93c6f4564b95e922537f722a40235",
+      "source_lines": 166,
+      "source_bytes": 4769,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-errors/references/actionbook/m06-error-handling/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m07-concurrency/comparison.md",
+      "source_sha256": "629481228741783dcb9a4cbcbbcb13864e73744a847d6a84369b82e72e9a40ef",
+      "source_lines": 312,
+      "source_bytes": 7748,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-concurrency/references/actionbook/m07-concurrency/comparison.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m07-concurrency/examples/thread-patterns.md",
+      "source_sha256": "483edc40a012b9bff136a64bde3f6214d03b1f4f1183a2f7b8a8ee398e2a25d3",
+      "source_lines": 396,
+      "source_bytes": 8687,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-concurrency/references/actionbook/m07-concurrency/examples/thread-patterns.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m07-concurrency/patterns/async-patterns.md",
+      "source_sha256": "142691592f3aa2756a60c241c313f4f2612644d2ff5c408b947de91dea6318b4",
+      "source_lines": 409,
+      "source_bytes": 8672,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-concurrency/references/actionbook/m07-concurrency/patterns/async-patterns.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m07-concurrency/patterns/common-errors.md",
+      "source_sha256": "050f118015e496b9251b56bf203230de726e0f0790401ca001c0a1a62ea5e2bc",
+      "source_lines": 331,
+      "source_bytes": 6899,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-concurrency/references/actionbook/m07-concurrency/patterns/common-errors.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Preserved as a routed detailed Actionbook reference under the existing owner."
+    },
+    {
+      "source_path": "skills/m07-concurrency/SKILL.md",
+      "source_sha256": "e492b979cb4b20a0f8529f14cb5a064bd893f720e45b3cb40ae67c77058bc2af",
+      "source_lines": 222,
+      "source_bytes": 6563,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-concurrency/references/actionbook/m07-concurrency/overview.md"
+      ],
+      "baseline_action": "conditional",
+      "reason": "Merged into the existing owner; source algorithms retained and universal routing or preference language made conditional."
+    },
+    {
+      "source_path": "skills/m09-domain/SKILL.md",
+      "source_sha256": "bf1e091c4aeb6236f61291787c4a065e49332831b3ecbfe6c8badca01dadc47a",
+      "source_lines": 174,
+      "source_bytes": 4430,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-architecture/references/actionbook/m09-domain/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m10-performance/patterns/optimization-guide.md",
+      "source_sha256": "8588af3627bca06dfc2f52152a42db6000e9e787e664b9342269d27e039182d4",
+      "source_lines": 365,
+      "source_bytes": 7481,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-performance/references/actionbook/m10-performance/patterns/optimization-guide.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m10-performance/SKILL.md",
+      "source_sha256": "b702353d413a7fa2f16fcae3aa2eedab5e6a7f40603818f09be99d41f180a548",
+      "source_lines": 157,
+      "source_bytes": 4336,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-performance/references/actionbook/m10-performance/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m11-ecosystem/SKILL.md",
+      "source_sha256": "20ffb7e0e1107c25bee754eaf2d047916a7b96aa5f0194fd85cb715c7bba9e46",
+      "source_lines": 162,
+      "source_bytes": 4666,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ecosystem/references/actionbook/m11-ecosystem/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m12-lifecycle/SKILL.md",
+      "source_sha256": "bcb9f77c7b82adb111cc47aa43a826440ac5368a4279f54aae595ef25ba3dad9",
+      "source_lines": 177,
+      "source_bytes": 4594,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-ownership/references/actionbook/m12-lifecycle/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m13-domain-error/SKILL.md",
+      "source_sha256": "bb6c9565505e0a8237ee49362bda4bdcd37c6702beb30b06c7be32d978661944",
+      "source_lines": 180,
+      "source_bytes": 5074,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-errors/references/actionbook/m13-domain-error/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m14-mental-model/patterns/thinking-in-rust.md",
+      "source_sha256": "180af4f7d4e61e93fb64e1dc6a0e48764875b4a1ee8829136363d786e6e38393",
+      "source_lines": 286,
+      "source_bytes": 7020,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/m14-mental-model/patterns/thinking-in-rust.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/m14-mental-model/SKILL.md",
+      "source_sha256": "cf67ded5a99172fa133ea1ed51d36aa331f168314b856e9c364e7b664f3952ce",
+      "source_lines": 177,
+      "source_bytes": 5083,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/m14-mental-model/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/m15-anti-pattern/patterns/common-mistakes.md",
+      "source_sha256": "7efddbd1716390371186110bd350d160e18e7d9409114907efc2051c9cde634f",
+      "source_lines": 421,
+      "source_bytes": 8680,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-idioms/references/actionbook/m15-anti-pattern/patterns/common-mistakes.md"
+      ],
+      "baseline_action": "current",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/m15-anti-pattern/SKILL.md",
+      "source_sha256": "73292069763189570919f87d0bab2dbecffd49ea65b60ef698264a1573ce1c73",
+      "source_lines": 160,
+      "source_bytes": 4998,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-idioms/references/actionbook/m15-anti-pattern/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into the existing owner as a routed detailed Actionbook reference."
+    },
+    {
+      "source_path": "skills/meta-cognition-parallel/SKILL.md",
+      "source_sha256": "6e7ccf9ab399294e7ef35cba7582c7f6d7193bbc47a54e3c3a219bead47bf872",
+      "source_lines": 352,
+      "source_bytes": 9427,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/meta-cognition-parallel/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/rust-call-graph/SKILL.md",
+      "source_sha256": "65f28e43ffa42ae6848791808bb6bb73221e71ffdb0250f0cba0c143b4da4245",
+      "source_lines": 206,
+      "source_bytes": 5831,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-navigation/references/actionbook/rust-call-graph/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/rust-code-navigator/SKILL.md",
+      "source_sha256": "67ab58e955b04903808c5440c613760193f4a8cb410b646de2678640b1cf1107",
+      "source_lines": 159,
+      "source_bytes": 3470,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-navigation/references/actionbook/rust-code-navigator/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/rust-daily/SKILL.md",
+      "source_sha256": "bddad1e20c43ba6ba430972a7f2035bcab1820a4ab4d00929aa421524ac6fa41",
+      "source_lines": 233,
+      "source_bytes": 5578,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/rust-daily/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Reworked news collection into explicit dated reports with source tiers and Reddit as a low-trust signal."
+    },
+    {
+      "source_path": "skills/rust-deps-visualizer/SKILL.md",
+      "source_sha256": "ef29aafc154eb6db4ff8cfab031aff1991025aa204cfea9f4134b45695050b7f",
+      "source_lines": 114,
+      "source_bytes": 2924,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-navigation/references/actionbook/rust-deps-visualizer/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/rust-learner/SKILL.md",
+      "source_sha256": "3708d382c5390fb8ab9d88047e057f535ecd55a46bb6d9f9a5d53e6cf38581bf",
+      "source_lines": 310,
+      "source_bytes": 8312,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-research/references/actionbook/rust-learner/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Reworked MCP and browser-specific research into primary-source version-aware host-neutral Rust and crate research."
+    },
+    {
+      "source_path": "skills/rust-refactor-helper/SKILL.md",
+      "source_sha256": "12d4b4b935b56a8bd038577bfa184cffdb415a898f223ef251392cca51354be5",
+      "source_lines": 273,
+      "source_bytes": 6306,
+      "status": "merged",
+      "target_paths": [
+        "skills/refactoring/references/actionbook/rust-refactor-helper/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/rust-router/examples/workflow.md",
+      "source_sha256": "812293ed76d85351ee02422db7879d8b5fa88325fd9384634d2e715667d949bf",
+      "source_lines": 85,
+      "source_bytes": 2379,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/rust-router/examples/workflow.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/rust-router/integrations/os-checker.md",
+      "source_sha256": "da194a7aa9f518abc1f275917f5a6657b13cc08954b709ef751758f9d6c561a5",
+      "source_lines": 56,
+      "source_bytes": 1376,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/rust-router/integrations/os-checker.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/rust-router/patterns/negotiation.md",
+      "source_sha256": "7187a6062f3c723dcd135d1864d84db8bcef3550fc06f8d316bf46fee6443acf",
+      "source_lines": 154,
+      "source_bytes": 4644,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/rust-router/patterns/negotiation.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/rust-router/SKILL.md",
+      "source_sha256": "27cee9cd65a9d98d74457889c18b6e96dcf87fb09b0afe6249cac59cadf6eee5",
+      "source_lines": 240,
+      "source_bytes": 8371,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-design-protocol/references/actionbook/rust-router/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Adapted into the new host-neutral cognitive protocol; forced routing, agent fan-out, and private reasoning output were removed."
+    },
+    {
+      "source_path": "skills/rust-skill-creator/SKILL.md",
+      "source_sha256": "1f89b63f238271fc364c5afb0f61c2457024f240df4b3dc587511e711737ba6f",
+      "source_lines": 265,
+      "source_bytes": 7269,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "duplicate_host_capability",
+      "reason": "Creating plugins and skills is a host capability, not a Rust project profile."
+    },
+    {
+      "source_path": "skills/rust-symbol-analyzer/SKILL.md",
+      "source_sha256": "220b9de247321b95c431c4dbf0eefa0f7621a18d74f387d7a0a006ab465ffc17",
+      "source_lines": 222,
+      "source_bytes": 5450,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-navigation/references/actionbook/rust-symbol-analyzer/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/rust-trait-explorer/SKILL.md",
+      "source_sha256": "927df60288e1d3b74dee34ab0be719a0defc2468fe3700e6bb3b9c5364f281f4",
+      "source_lines": 248,
+      "source_bytes": 6225,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-navigation/references/actionbook/rust-trait-explorer/overview.md"
+      ],
+      "baseline_action": "corrected",
+      "reason": "Merged into an existing owner as a host-neutral mode; LSP is optional and Graphify/Cargo/source fallbacks preserve confidence boundaries."
+    },
+    {
+      "source_path": "skills/unsafe-checker/AGENTS.md",
+      "source_sha256": "85a5441b2ad193c96aa41d548b5f41ddfdd71573ba89d7770c641ea29f6f869e",
+      "source_lines": 136,
+      "source_bytes": 5378,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/source-rule-index.md"
+      ],
+      "baseline_action": "retained_inventory",
+      "reason": "Retained the complete 47-rule upstream inventory with product precedence notes."
+    },
+    {
+      "source_path": "skills/unsafe-checker/checklists/before-unsafe.md",
+      "source_sha256": "6573b7ad5a2787bb2ab97e08711a181d20062795bc2238c860f700bef72e41ce",
+      "source_lines": 115,
+      "source_bytes": 3544,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/checklists/before-unsafe.md"
+      ],
+      "baseline_action": "modernized_checklist",
+      "reason": "Corrected the unsafe decision gate and made optional tools conditional."
+    },
+    {
+      "source_path": "skills/unsafe-checker/checklists/common-pitfalls.md",
+      "source_sha256": "5ba7d8b9baba2dcc0cf731e2f01feb907a5fc3f8097afc5e89047f0bfb8f0a0b",
+      "source_lines": 253,
+      "source_bytes": 4818,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/checklists/common-pitfalls.md"
+      ],
+      "baseline_action": "review_corpus",
+      "reason": "Retained pitfalls with compile-fragment and Edition 2024 corrections."
+    },
+    {
+      "source_path": "skills/unsafe-checker/checklists/review-unsafe.md",
+      "source_sha256": "ac3284bc928802113412a1e3cd4ec4908be4c6c835a05e84d2c4cd44cd2a804b",
+      "source_lines": 113,
+      "source_bytes": 3975,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/checklists/review-unsafe.md"
+      ],
+      "baseline_action": "modernized_checklist",
+      "reason": "Scoped tools and reviewer requirements to repository policy."
+    },
+    {
+      "source_path": "skills/unsafe-checker/examples/ffi-patterns.md",
+      "source_sha256": "c34acda53acec24e87666b3b62cbea8b93256fbf0474299bd89e99012dbbd3e2",
+      "source_lines": 353,
+      "source_bytes": 9353,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/examples/ffi-patterns.md"
+      ],
+      "baseline_action": "conditional_examples",
+      "reason": "Retained all FFI patterns as non-golden review corpus with Edition 2024 and ABI caveats."
+    },
+    {
+      "source_path": "skills/unsafe-checker/examples/safe-abstraction.md",
+      "source_sha256": "8fbe1c812ddc2c54148b0fd057064a9e956fd76b84384ecb002328bdfb390fca",
+      "source_lines": 272,
+      "source_bytes": 7313,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/examples/safe-abstraction.md"
+      ],
+      "baseline_action": "conditional_examples",
+      "reason": "Retained all examples as non-golden review corpus with explicit soundness caveats."
+    },
+    {
+      "source_path": "skills/unsafe-checker/metadata.json",
+      "source_sha256": "96b6384977e8c883f2d04b72f79ca54b4c26cbeb139a1e1b8ecb1724f724a27b",
+      "source_lines": 17,
+      "source_bytes": 702,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/source-metadata.json"
+      ],
+      "baseline_action": "retained_provenance",
+      "reason": "Retained upstream rule counts, sections, version, and origin as provenance."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/_sections.md",
+      "source_sha256": "84babe307caa4f4fc6d182711ec0f70cad8ae6e809fd5413cb06d80ead66f8b8",
+      "source_lines": 77,
+      "source_bytes": 2009,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rule-sections.md"
+      ],
+      "baseline_action": "retained_taxonomy",
+      "reason": "Retained source taxonomy as routing evidence, not product policy."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/_template.md",
+      "source_sha256": "cd11139389b4684b08ce5a559c0b36e584352b5d25264a39fc6067b6f834913f",
+      "source_lines": 53,
+      "source_bytes": 818,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/source-rule-template.md"
+      ],
+      "baseline_action": "retained_template",
+      "reason": "Retained the upstream schema while disabling automatic product rule generation."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-01-no-string-direct.md",
+      "source_sha256": "4a0ea6a03853802547a650c668342ce0d0c55c25e13bbd35a581dc563ccd6e92",
+      "source_lines": 122,
+      "source_bytes": 3098,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-01-no-string-direct.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-02-read-ffi-docs.md",
+      "source_sha256": "90552643f60b554463f767d13d637512e9d1c6c499c271be8962a6b2c1d273ff",
+      "source_lines": 133,
+      "source_bytes": 3363,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-02-read-ffi-docs.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-03-drop-for-c-ptr.md",
+      "source_sha256": "834fc7fc98dae46cd077d5204dc87986194f84ce28cf1643c43fd645289524e3",
+      "source_lines": 162,
+      "source_bytes": 3845,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-03-drop-for-c-ptr.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-04-panic-boundary.md",
+      "source_sha256": "6e3056defe634a11bd03d658c6e12de24b3e7085c4c29bc1f16155605f9271db",
+      "source_lines": 145,
+      "source_bytes": 3819,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-04-panic-boundary.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-05-portable-types.md",
+      "source_sha256": "801b8a93366c7af97ab6e7963d9791854497c500d2fac967a35843821b3a926a",
+      "source_lines": 113,
+      "source_bytes": 2766,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-05-portable-types.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-06-string-abi.md",
+      "source_sha256": "4b2f8f709cd1417991e977ca52991481c35ed32db5d5cb955ecce33276c8e325",
+      "source_lines": 151,
+      "source_bytes": 3345,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-06-string-abi.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-07-no-drop-external.md",
+      "source_sha256": "ff974f42f37b410ab7dafa218d00ac67840ee24390567e15248bcbb83f93f645",
+      "source_lines": 131,
+      "source_bytes": 3376,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-07-no-drop-external.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-08-error-handling.md",
+      "source_sha256": "6f5a1d442352c246fd926fe290c94324b3ce33311f54645293cb540969a1ab70",
+      "source_lines": 146,
+      "source_bytes": 3716,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-08-error-handling.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-09-ref-not-ptr.md",
+      "source_sha256": "f546c3c681fa8a2c503d4ea88e4d6bc3161e429f73866b78576b550dd4506d34",
+      "source_lines": 136,
+      "source_bytes": 3272,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-09-ref-not-ptr.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-10-thread-safety.md",
+      "source_sha256": "3335023b516a0a9fd4569168fcf6ee96b1cfb8cacf5b72c4edcec2a3a31c9c44",
+      "source_lines": 132,
+      "source_bytes": 3407,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-10-thread-safety.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-11-packed-ub.md",
+      "source_sha256": "06773609191c5f12861fc347005dcd2cee1a605a6a9bf9489458062f0d9f7bb3",
+      "source_lines": 142,
+      "source_bytes": 3295,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-11-packed-ub.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-12-invariant-doc.md",
+      "source_sha256": "3382eea19f44a1d81be7303f39aa2091e5175585287613f10a9edf2344c11436",
+      "source_lines": 164,
+      "source_bytes": 4107,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-12-invariant-doc.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-13-data-layout.md",
+      "source_sha256": "bc06ff3da758d6b0a7a21cef73a87171431bb0436f69ea39bfdb6f795eaaf7f2",
+      "source_lines": 146,
+      "source_bytes": 3347,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-13-data-layout.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-14-stable-layout.md",
+      "source_sha256": "392196d1770e39f5577f3f422f2f1997c3f441c3a71b4de09577e964dbec3f84",
+      "source_lines": 135,
+      "source_bytes": 3173,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-14-stable-layout.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-15-validate-external.md",
+      "source_sha256": "62692c72945e5b8e05211e743f49bb84ffe015a022b87a7550b474c7d95641fe",
+      "source_lines": 145,
+      "source_bytes": 3870,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-15-validate-external.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-16-closure-to-c.md",
+      "source_sha256": "d15469b64278e62c4df0539c5c9fc75199a50d5d7c826839beeaedfdfe10b8aa",
+      "source_lines": 141,
+      "source_bytes": 3737,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-16-closure-to-c.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-17-opaque-types.md",
+      "source_sha256": "85a109c1d7a15afb6ec990046755717f31e2662e659d39940481303bd5abd2c7",
+      "source_lines": 152,
+      "source_bytes": 4004,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-17-opaque-types.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ffi-18-no-trait-objects.md",
+      "source_sha256": "24f33f81fcb33d908656a00995e319273e31e48c2a8b03bcc31096126f6142d9",
+      "source_lines": 165,
+      "source_bytes": 4052,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe-ffi/references/actionbook-checks/rules/ffi-18-no-trait-objects.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/general-01-no-abuse.md",
+      "source_sha256": "96689c3ed7ecfce8aa6180b69774c4239c45a7bbc88e61b68c606246fb431ad2",
+      "source_lines": 71,
+      "source_bytes": 1946,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/general-01-no-abuse.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/general-02-not-for-perf.md",
+      "source_sha256": "7052331b37f5d340659a4f0f4df260ee573424616da58ef3a03b604a8dc5b31d",
+      "source_lines": 90,
+      "source_bytes": 2466,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/general-02-not-for-perf.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/general-03-no-alias.md",
+      "source_sha256": "24c743a3da884c98868a4821a21ebc5a4cff762991ebdf0ac9080ac7e7c47641",
+      "source_lines": 74,
+      "source_bytes": 2071,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/general-03-no-alias.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/io-01-raw-handle.md",
+      "source_sha256": "89c5a2765b83b9d7fad23ee5321c17bf1337a26343e3407c556bbcc46dfe8073",
+      "source_lines": 151,
+      "source_bytes": 3950,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/io-01-raw-handle.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-01-repr-layout.md",
+      "source_sha256": "93176bfce89b919832c9e6b5efb908afc270de675515f8f1488c0f4489d150fc",
+      "source_lines": 130,
+      "source_bytes": 3124,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-01-repr-layout.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-02-no-other-process.md",
+      "source_sha256": "416273e8dde7449abf17a7323a4216d27b1c3c7445e6afcdf2ac5079d7cbae57",
+      "source_lines": 113,
+      "source_bytes": 3285,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-02-no-other-process.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-03-no-auto-drop-foreign.md",
+      "source_sha256": "39442360a3085e89b569fddc2a18427db006de4a9e7d2964b7d1a5efe64b5607",
+      "source_lines": 127,
+      "source_bytes": 3421,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-03-no-auto-drop-foreign.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-04-reentrant.md",
+      "source_sha256": "538ea70b487eefa691c04ee9b73fd8c43d28c0da3c1de1c0e09d70ca7803b713",
+      "source_lines": 121,
+      "source_bytes": 3290,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-04-reentrant.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-05-bitfield-crates.md",
+      "source_sha256": "603377f4e27e191558e88c17a0dbeb0cc8e04caa4df0fb37cf63a0386d2872d1",
+      "source_lines": 147,
+      "source_bytes": 3416,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-05-bitfield-crates.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/mem-06-maybeuninit.md",
+      "source_sha256": "c61adf525416a2273d0e57391b5d5ad9226233fc343eb169002703eef473f298",
+      "source_lines": 146,
+      "source_bytes": 4052,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/mem-06-maybeuninit.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-01-no-thread-share.md",
+      "source_sha256": "7afb231ece13757b98d1f1d3bcdeafd0bea803d69d39bb87e66eb67792fe6dce",
+      "source_lines": 113,
+      "source_bytes": 3039,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-01-no-thread-share.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-02-prefer-nonnull.md",
+      "source_sha256": "82f3fee87b8a401eca4cc51ee4c505da99b3dcb0a42884e6c3fba0b00c9b0cf8",
+      "source_lines": 114,
+      "source_bytes": 2907,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-02-prefer-nonnull.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-03-phantomdata.md",
+      "source_sha256": "ad0920212589887d6d5f1cf60556e1cd0b60a83409a35dcb70c07437a87f6137",
+      "source_lines": 125,
+      "source_bytes": 3332,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-03-phantomdata.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-04-alignment.md",
+      "source_sha256": "cf6a6f1f510588de9ea1a9ee0e02c756fdd17aae0f1fbcebcd375a4431ffded9",
+      "source_lines": 117,
+      "source_bytes": 3307,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-04-alignment.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-05-no-const-to-mut.md",
+      "source_sha256": "5b6cf8d0590e9470e5e525e2acf6a4de75fb89933e84cfc61c596a6ba306eb19",
+      "source_lines": 120,
+      "source_bytes": 2977,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-05-no-const-to-mut.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/ptr-06-prefer-cast.md",
+      "source_sha256": "91296fa209fa3f22aa522ea6c58ac36c27bb5322099c4194df382293a4550a54",
+      "source_lines": 110,
+      "source_bytes": 3131,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/ptr-06-prefer-cast.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-01-panic-safety.md",
+      "source_sha256": "d35acb38a1160d792c2a71c5c4574488cdb623ab1aa317264d2dfd3f1b644195",
+      "source_lines": 113,
+      "source_bytes": 3043,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-01-panic-safety.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-02-verify-invariants.md",
+      "source_sha256": "d37eceeb5ff6aa806275df1c9ecd051f19431291536b0c785f224cc659771038",
+      "source_lines": 90,
+      "source_bytes": 2629,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-02-verify-invariants.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-03-no-uninit-api.md",
+      "source_sha256": "6760fc6e6e69d85739121beda6ffe405001a29592ba808f9f4c1d9c39b6c9169",
+      "source_lines": 121,
+      "source_bytes": 3062,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-03-no-uninit-api.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-04-double-free.md",
+      "source_sha256": "46f3309ff159a958c6c181bac4389250ba99ef09c231aecc6a0b69af39b3334b",
+      "source_lines": 109,
+      "source_bytes": 3005,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-04-double-free.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-05-send-sync.md",
+      "source_sha256": "459eb8d676d0dbd7615f74b2db1179e5a15885fc3dd40c810e47a7bbea6472d7",
+      "source_lines": 113,
+      "source_bytes": 3055,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-05-send-sync.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-06-no-raw-ptr-api.md",
+      "source_sha256": "dbdd4898891e0e872470647ad8ef65eb056df9b35828cc02a2329dd900bc5060",
+      "source_lines": 137,
+      "source_bytes": 3279,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-06-no-raw-ptr-api.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-07-unsafe-pair.md",
+      "source_sha256": "8e41fadde77cc31772a0ef45f21ba170d06bb86a6d429b82be5e24fc16dd3575",
+      "source_lines": 107,
+      "source_bytes": 3034,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-07-unsafe-pair.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-08-no-mut-from-immut.md",
+      "source_sha256": "021e8d192b45fa08d7986a5fa328cc978fa645cd5606751baff39efb23fe2c48",
+      "source_lines": 124,
+      "source_bytes": 3006,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-08-no-mut-from-immut.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-09-safety-comment.md",
+      "source_sha256": "b34c8b21494ae40940a579f8f34acf135b16cec7d2330b6d1ae177ce96dc2cf1",
+      "source_lines": 122,
+      "source_bytes": 3392,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-09-safety-comment.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-10-safety-doc.md",
+      "source_sha256": "3877a70d1fb185055b0b6a90b4eb23c967477a60cde4b1e69e82769f9bb1a518",
+      "source_lines": 127,
+      "source_bytes": 3491,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-10-safety-doc.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/safety-11-assert-not-debug.md",
+      "source_sha256": "8cec611f8ffd7b6678d7245db354bffb1d47ee3615bfaf6f0df53f10b5efbeaf",
+      "source_lines": 105,
+      "source_bytes": 3309,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/safety-11-assert-not-debug.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/union-01-avoid-except-ffi.md",
+      "source_sha256": "0f3c12a014c5ff6285eea9fd8f68cbc5b45c389d03696c31c9f35aa1448c6ea4",
+      "source_lines": 117,
+      "source_bytes": 2806,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/union-01-avoid-except-ffi.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/rules/union-02-no-cross-lifetime.md",
+      "source_sha256": "70aa372037a79ef03dcb952ef0eb56f3da46c037657b3b0461c4e56c75f6f498",
+      "source_lines": 121,
+      "source_bytes": 3059,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/rules/union-02-no-cross-lifetime.md"
+      ],
+      "baseline_action": "modernized_conditional_rule",
+      "reason": "Retained full rule and examples with a per-rule applicability correction and fragment classification."
+    },
+    {
+      "source_path": "skills/unsafe-checker/SKILL.md",
+      "source_sha256": "0fa16ef86249acef20e06735d819fc40b448ae49160e69cc8c41fb2c0ee66c78",
+      "source_lines": 86,
+      "source_bytes": 2576,
+      "status": "adapted",
+      "target_paths": [
+        "skills/rust-unsafe/references/actionbook-checks/overview.md"
+      ],
+      "baseline_action": "rewritten_protocol",
+      "reason": "Replaced host-specific activation text with the dual-host operation-by-operation review protocol."
+    },
+    {
+      "source_path": "templates/concurrency/async-task.rs",
+      "source_sha256": "046e1d3b361119b21255589c4d493563957f40380a5b12b68d90f7802d3f290d",
+      "source_lines": 230,
+      "source_bytes": 5982,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "dependency_template_rejected",
+      "reason": "Version-sensitive async template duplicates rust-concurrency and would prescribe a runtime."
+    },
+    {
+      "source_path": "templates/concurrency/worker-pool.rs",
+      "source_sha256": "4e29fdd020a6a5a65bb141c8b8e1b71d6d538606a19783cea1de868e02d8ba4c",
+      "source_lines": 149,
+      "source_bytes": 4075,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "dependency_template_rejected",
+      "reason": "Worker-pool template duplicates rust-concurrency and cannot encode project shutdown and backpressure contracts."
+    },
+    {
+      "source_path": "templates/decision.md",
+      "source_sha256": "addd99d9d696cb3be2644953d025d90f9f509d63e8b295547778da984cec2361",
+      "source_lines": 174,
+      "source_bytes": 4004,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/design-brief.md",
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/externalization.md"
+      ],
+      "baseline_action": "minimal_public_artifact",
+      "reason": "Merged useful fields into DesignBrief and evidence artifacts while rejecting private reasoning traces and fixed write cadence."
+    },
+    {
+      "source_path": "templates/error-handling/anyhow.rs",
+      "source_sha256": "c84a88842b888106ca1b95e2b323630960b8c8f3b6e71311c441379b73993a6f",
+      "source_lines": 193,
+      "source_bytes": 4828,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "error_crate_default_rejected",
+      "reason": "Application error crates are selected from project context, not installed by template."
+    },
+    {
+      "source_path": "templates/error-handling/thiserror.rs",
+      "source_sha256": "e896963f0d953ce3e3f2ab529dc65dac3f51f1564b8dcc74875a379870f198f3",
+      "source_lines": 121,
+      "source_bytes": 3032,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "error_crate_default_rejected",
+      "reason": "Library error crates are selected from public contract and MSRV, not installed by template."
+    },
+    {
+      "source_path": "templates/ffi/safe-wrapper.rs",
+      "source_sha256": "70cbb5dd68bc1d83e8e6021d443ec61ce8030198c879e997a489e2e05e42502e",
+      "source_lines": 240,
+      "source_bytes": 6600,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "non_golden_ffi_template_rejected",
+      "reason": "Existing FFI owner, golden example, and 18-rule review corpus supersede this version-sensitive template."
+    },
+    {
+      "source_path": "templates/findings.md",
+      "source_sha256": "26e9212170fdc142ada23044ee21d8cd90b7899d056d93b400c3204c51074893",
+      "source_lines": 144,
+      "source_bytes": 3631,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/design-brief.md",
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/externalization.md"
+      ],
+      "baseline_action": "minimal_public_artifact",
+      "reason": "Merged useful fields into DesignBrief and evidence artifacts while rejecting private reasoning traces and fixed write cadence."
+    },
+    {
+      "source_path": "templates/README.md",
+      "source_sha256": "b0ec46e395f29cb154bde80194bbae868857a0bab6e1af8b57268185bfe4b752",
+      "source_lines": 57,
+      "source_bytes": 1972,
+      "status": "excluded",
+      "target_paths": [],
+      "baseline_action": "source_template_catalog",
+      "reason": "Source template packaging is not runtime product guidance."
+    },
+    {
+      "source_path": "templates/trace.md",
+      "source_sha256": "34f42584e1fd1f214875aac8a13c4811baa41f4b4172fd17142bc214a06e9701",
+      "source_lines": 117,
+      "source_bytes": 3129,
+      "status": "merged",
+      "target_paths": [
+        "skills/rust-design-protocol/references/design-brief.md",
+        "skills/rust-design-protocol/references/actionbook/cognitive-protocol/externalization.md"
+      ],
+      "baseline_action": "minimal_public_artifact",
+      "reason": "Merged useful fields into DesignBrief and evidence artifacts while rejecting private reasoning traces and fixed write cadence."
+    },
+    {
+      "source_path": "test-triggers.md",
+      "source_sha256": "49b907c1573b0734cf3a718633ca4b71ce4b5336fbfff179baf50507332a5428",
+      "source_lines": 256,
+      "source_bytes": 7924,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "dual_host_validation",
+      "reason": "Merged source test intent into the stdlib validator and explicit Actionbook eval corpus without forced prompt hooks."
+    },
+    {
+      "source_path": "test-triggers.sh",
+      "source_sha256": "97d964d740c1b5d4459bef5374d293be80455708c8e675d45f14023cef081272",
+      "source_lines": 120,
+      "source_bytes": 3612,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "dual_host_validation",
+      "reason": "Merged source test intent into the stdlib validator and explicit Actionbook eval corpus without forced prompt hooks."
+    },
+    {
+      "source_path": "tests/hook-matcher-test.py",
+      "source_sha256": "71eb788279a506142b1039e7ca53ffd3649886fcf8515e7344b2f65ca6c6c242",
+      "source_lines": 75,
+      "source_bytes": 2488,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "dual_host_validation",
+      "reason": "Merged source test intent into the stdlib validator and explicit Actionbook eval corpus without forced prompt hooks."
+    },
+    {
+      "source_path": "tests/pressure-scenarios/m01-ownership/e0382-moved-value.md",
+      "source_sha256": "c9f5b9c1bd7e246036d8c7fc3cc192058b8d6f63a371a0607d8dbf7f91a1247b",
+      "source_lines": 54,
+      "source_bytes": 1359,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/pressure-scenarios/m01-ownership/e0597-lifetime-short.md",
+      "source_sha256": "318af58c28c64ad57a111065e4895e2c8cb3aa6418c0de55072c3e8961ce70c7",
+      "source_lines": 53,
+      "source_bytes": 1321,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/pressure-scenarios/m06-error-handling/when-to-unwrap.md",
+      "source_sha256": "a7510916770ed4a50271c8a457bc9d16ade7f1cf1783acf67db07804c9c30f85",
+      "source_lines": 45,
+      "source_bytes": 1241,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/pressure-scenarios/m07-concurrency/send-sync-bounds.md",
+      "source_sha256": "e8f64666fc8a5c2baec6f39871ab10541c1b39dd9a37ac9fc0f2af7764c295ff",
+      "source_lines": 58,
+      "source_bytes": 1363,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/README.md",
+      "source_sha256": "4366ac9d278ebb8e908add662f13b3ebcbd6596316731c511cf6a30e0ef22057",
+      "source_lines": 127,
+      "source_bytes": 3309,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/agents.md",
+      "source_sha256": "374da3a24ab098ed95498f8d8a540a1213fcec0a916d39555653942aca6dbed2",
+      "source_lines": 175,
+      "source_bytes": 4301,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/domain-skills.md",
+      "source_sha256": "c40e86dd3fb21a71e05e4dc75056852f752f50d26bb5746f619b4e1c1f79855d",
+      "source_lines": 132,
+      "source_bytes": 3372,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/layer2-skills.md",
+      "source_sha256": "2668200b098352ecd5a716c8d8e78447a6373bc7129322859609d362fe7ab8e7",
+      "source_lines": 154,
+      "source_bytes": 4067,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/ownership.md",
+      "source_sha256": "f91b562a380942b573c31417194b472907d0b941018bbe49422bf53f2c6cff6b",
+      "source_lines": 124,
+      "source_bytes": 3077,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/routing.md",
+      "source_sha256": "02cf1722111d61ffa89ea075228faa2d9ce6f819333a7416a08c3f4044697c73",
+      "source_lines": 154,
+      "source_bytes": 4149,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/scenarios/unsafe.md",
+      "source_sha256": "15315fa9a0f0b8fba2c4f5862c5a30cb179308fdaa44f37143df61471dae1799",
+      "source_lines": 154,
+      "source_bytes": 3296,
+      "status": "merged",
+      "target_paths": [
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "modernized_eval_case",
+      "reason": "Converted source scenarios into the 44-case Actionbook routing corpus with conditional choices and negative controls."
+    },
+    {
+      "source_path": "tests/validation/validate-skills.sh",
+      "source_sha256": "61e1131a8ab7aae04f1c4fa230d86199f36e92696c90c10d358e9b63025949a6",
+      "source_lines": 230,
+      "source_bytes": 5675,
+      "status": "merged",
+      "target_paths": [
+        "scripts/validate.py",
+        "evals/actionbook-cases.json"
+      ],
+      "baseline_action": "dual_host_validation",
+      "reason": "Merged source test intent into the stdlib validator and explicit Actionbook eval corpus without forced prompt hooks."
+    },
+    {
+      "source_path": "VERSION",
+      "source_sha256": "0ff3513165d07746ce5a8b0d8e07edf2f3021164a67f68322a248d8b15eef5ae",
+      "source_lines": 1,
+      "source_bytes": 7,
+      "status": "merged",
+      "target_paths": [
+        "provenance/THIRD_PARTY_NOTICES.md",
+        "provenance/actionbook-coverage.json"
+      ],
+      "baseline_action": "source_version_evidence",
+      "reason": "Pinned the source VERSION marker independently from its plugin manifest version."
+    }
+  ]
+}

@@ -42,4 +42,4 @@ Own behavior-preserving structural change and its migration sequence. Apply this
 
 ## Detailed Reference
 
-Read [Rust Refactoring field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Refactoring field guide](references/guide.md) before making a consequential design choice. Use the [Actionbook refactoring helper](references/actionbook-index.md) when a rename, extraction, or move needs symbol/call/trait impact analysis. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

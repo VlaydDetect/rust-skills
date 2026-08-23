@@ -56,4 +56,4 @@ LTO, codegen-unit changes, `target-cpu=native`, `panic=abort`, RwLock, boxing, a
 - Codex: `$rust-coding-rules <id|prefix|task>`
 - Claude Code: `/rust-engineering:rust-coding-rules <id|prefix|task>`
 
-Use [Rule routing](references/routing.md) for task and prefix selection. Category indexes link every one of the 265 source IDs to a full or alias rule file.
+Use [Rule routing](references/routing.md) for task and prefix selection. Category indexes link every one of the 265 source IDs to a full or alias rule file. For Actionbook's summarized coding guidance and legacy `/guideline` command, consult the [one-to-one crosswalk](references/actionbook/coding-guidelines/crosswalk.md) rather than creating duplicate rules.

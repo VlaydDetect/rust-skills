@@ -1,7 +1,7 @@
 {
   "name": "rust-engineering",
-  "version": "0.3.0",
-  "description": "Automatic Rust engineering orchestration with 44 focused skills and a 265-rule context-aware Rust coding rulebook.",
+  "version": "0.4.0",
+  "description": "Automatic Rust engineering orchestration with 46 focused skills, a 265-rule coding rulebook, and an adapted Actionbook cognitive protocol.",
   "author": {
     "name": "rust-skills contributors"
   },
@@ -13,13 +13,15 @@
     "verification",
     "agents",
     "cargo",
+    "research",
+    "unsafe",
     "nix"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Rust Engineering",
     "shortDescription": "Route Rust work through focused skills.",
-    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Includes findings-first review, evidence-only verification, language and Cargo policy, architecture, runtime, interop, and Nix workflows.",
+    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. The adapted Actionbook protocol adds cross-layer design, current research, Cargo-metadata dossiers, navigation, and a conditional 47-rule unsafe and FFI review corpus without adding automatic heavy hooks.",
     "developerName": "rust-skills contributors",
     "category": "Productivity",
     "capabilities": [

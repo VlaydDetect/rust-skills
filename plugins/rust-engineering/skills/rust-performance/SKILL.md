@@ -46,4 +46,4 @@ After recording a comparable baseline and hotspot, select at most eight IDs from
 
 ## Detailed Reference
 
-Read [Rust Performance field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Performance field guide](references/guide.md) before making a consequential design choice. Load the relevant [Actionbook performance protocol](references/actionbook-index.md) branch for its detailed measurement and optimization algorithms. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

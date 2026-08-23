@@ -46,4 +46,4 @@ After establishing the ownership graph, select only relevant IDs from the [`own-
 
 ## Detailed Reference
 
-Read [Rust Ownership field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Ownership field guide](references/guide.md) before making a consequential design choice. For detailed cognitive algorithms and examples, load only the matching branch from the [Actionbook ownership protocol](references/actionbook-index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

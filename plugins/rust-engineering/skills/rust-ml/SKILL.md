@@ -42,4 +42,4 @@ Own ML model integration and serving contracts in Rust, including data, device, 
 
 ## Detailed Reference
 
-Read [Rust Machine Learning field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Machine Learning field guide](references/guide.md) before making a consequential design choice. Load the [Actionbook ML domain protocol](references/actionbook-index.md) for its detailed domain questions, then verify backend and crate facts through `rust-research`. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

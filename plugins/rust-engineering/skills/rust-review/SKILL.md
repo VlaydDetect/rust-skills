@@ -38,3 +38,7 @@ If no actionable findings exist, say so explicitly and list residual risks or un
 - Keep tool- or environment-dependent claims `Suspected` when the decisive check cannot run.
 
 For whole-project structural health use `rust-architecture-review`; for Nix-specific audits use `nix-review`. Accepted findings move to `addressing-findings` before implementation.
+
+When translating the legacy Actionbook `/rust-review` command, use the
+[host-neutral adapter](references/actionbook-command.md); Clippy is one evidence
+source, not the definition of code review.

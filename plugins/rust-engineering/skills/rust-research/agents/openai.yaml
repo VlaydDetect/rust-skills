@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Research"
+  short_description: "Research current Rust and crate facts"
+  default_prompt: "Use $rust-research to verify the requested Rust or crate facts with dated primary evidence."
+policy:
+  allow_implicit_invocation: true

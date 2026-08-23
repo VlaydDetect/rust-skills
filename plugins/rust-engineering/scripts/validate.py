@@ -17,9 +17,30 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY = ROOT.parents[1]
-AGENTS = {"rust-scout", "rust-reviewer", "rust-verifier"}
+AGENTS = {"rust-scout", "rust-researcher", "rust-reviewer", "rust-verifier"}
 ENTRY_SKILLS = {"rust-workflow", "rust-review", "rust-verify"}
 RULEBOOK_SKILL = "rust-coding-rules"
+ACTIONBOOK_SKILLS = {"rust-design-protocol", "rust-research"}
+ACTIONBOOK_STATUSES = {"pending", "in_progress", "adapted", "merged", "conditional", "excluded"}
+ACTIONBOOK_KINDS = {
+    "model_routing": 14,
+    "cross_layer": 8,
+    "navigation": 6,
+    "research_dynamic": 6,
+    "unsafe": 6,
+    "ml": 2,
+    "negative": 2,
+}
+ACTIONBOOK_REFERENCES = {
+    "m01-ownership", "m02-resource", "m03-mutability", "m04-zero-cost",
+    "m05-type-driven", "m06-error-handling", "m07-concurrency", "m09-domain",
+    "m10-performance", "m11-ecosystem", "m12-lifecycle", "m13-domain-error",
+    "m14-mental-model", "m15-anti-pattern", "cognitive-protocol", "domain-iot",
+    "domain-embedded", "domain-cloud-native", "domain-ml", "rust-code-navigator",
+    "rust-symbol-analyzer", "rust-trait-explorer", "rust-deps-visualizer",
+    "rust-call-graph", "rust-refactor-helper", "rust-learner",
+    "core-dynamic-skills", "rust-daily", "unsafe-checker",
+}
 RULE_CATEGORIES = {
     "own": {"rust-ownership"},
     "err": {"rust-errors"},
@@ -137,14 +158,14 @@ def validate_manifests() -> None:
     codex = load_json(ROOT / ".codex-plugin" / "plugin.json")
     assert (ROOT / "LICENSE").is_file()
     assert claude["name"] == codex["name"] == "rust-engineering"
-    assert claude["version"] == codex["version"] == "0.3.0"
+    assert claude["version"] == codex["version"] == "0.4.0"
     assert re.fullmatch(r"\d+\.\d+\.\d+", claude["version"])
     assert tuple(map(int, claude["version"].split("."))) >= (0, 2, 0)
     assert claude["author"]["name"] and codex["author"]["name"]
     assert all(isinstance(keyword, str) and keyword for keyword in claude["keywords"])
     assert all(isinstance(keyword, str) and keyword for keyword in codex["keywords"])
-    assert "44" in claude["description"] and "265" in claude["description"]
-    assert "44" in codex["description"] and "265" in codex["description"]
+    assert "46" in claude["description"] and "265" in claude["description"]
+    assert "46" in codex["description"] and "265" in codex["description"]
     assert set(claude) <= {
         "$schema", "name", "version", "description", "author", "license", "keywords", "hooks",
     }
@@ -155,6 +176,7 @@ def validate_manifests() -> None:
     interface = codex["interface"]
     assert interface["displayName"] and interface["shortDescription"] and interface["longDescription"]
     assert "265" in interface["longDescription"]
+    assert "Actionbook" in interface["longDescription"]
     assert interface["defaultPrompt"] and "$rust-workflow" in interface["defaultPrompt"][0]
     assert "$rust-coding-rules" in interface["defaultPrompt"][0]
 
@@ -210,6 +232,87 @@ def validate_source_coverage() -> tuple[dict, set[str], set[str]]:
         and any(re.match(r"examples/golden[^/]*/Cargo\.toml$", item["path"]) for item in entry["support_files"])
     }
     return coverage, owners, example_owners
+
+
+def validate_actionbook_coverage(skills: set[str]) -> dict:
+    coverage = load_json(ROOT / "provenance" / "actionbook-coverage.json")
+    assert coverage["schema_version"] == 1
+    source = coverage["source"]
+    assert source == {
+        "name": "actionbook/rust-skills",
+        "relative_path": "references/rust-skills_actionbook",
+        "revision": "fa60f7931223646fb71c4586b4a6c8545016076a",
+        "commit_date": "2026-05-25T07:33:30+08:00",
+        "version_file": "2.0.9",
+        "plugin_manifest_version": "2.1.0",
+        "license_declared": "MIT",
+        "standalone_license_file": False,
+    }
+    assert set(coverage["statuses"]) == ACTIONBOOK_STATUSES
+    entries = coverage["entries"]
+    assert len(entries) == 242
+    paths = [entry["source_path"] for entry in entries]
+    assert len(paths) == len(set(paths)), "duplicate Actionbook source paths"
+    counts = Counter(entry["status"] for entry in entries)
+    assert coverage["summary"] == {
+        "source_files": 242,
+        **{status: counts[status] for status in sorted(ACTIONBOOK_STATUSES)},
+    }
+    unfinished = [entry["source_path"] for entry in entries if entry["status"] in {"pending", "in_progress"}]
+    assert not unfinished, f"unfinished Actionbook entries: {unfinished[:10]}"
+
+    for entry in entries:
+        assert entry["status"] in ACTIONBOOK_STATUSES
+        assert entry["baseline_action"] and entry["reason"]
+        targets = entry["target_paths"]
+        if entry["status"] == "excluded":
+            assert not targets, f"excluded Actionbook entry has target: {entry['source_path']}"
+        else:
+            assert targets, f"integrated Actionbook entry has no target: {entry['source_path']}"
+        for target in targets:
+            target_path = ROOT / target
+            assert target_path.is_file(), f"missing Actionbook target: {target_path}"
+
+    source_root = REPOSITORY / source["relative_path"]
+    if source_root.exists():
+        actual = sorted(
+            path for path in source_root.rglob("*")
+            if path.is_file()
+            and ".git" not in path.relative_to(source_root).parts
+            and "graphify-out" not in path.relative_to(source_root).parts
+        )
+        assert len(actual) == 242, "Actionbook source inventory drift"
+        assert {path.relative_to(source_root).as_posix() for path in actual} == set(paths)
+        by_path = {entry["source_path"]: entry for entry in entries}
+        for path in actual:
+            entry = by_path[path.relative_to(source_root).as_posix()]
+            assert sha256(path) == entry["source_sha256"], f"Actionbook source changed: {path}"
+            assert path.stat().st_size == entry["source_bytes"]
+            try:
+                assert len(path.read_text(encoding="utf-8").splitlines()) == entry["source_lines"]
+            except UnicodeDecodeError:
+                assert entry["source_lines"] is None
+
+    unsafe_roots = (
+        ROOT / "skills" / "rust-unsafe" / "references" / "actionbook-checks" / "rules",
+        ROOT / "skills" / "rust-unsafe-ffi" / "references" / "actionbook-checks" / "rules",
+    )
+    rule_files = sorted(path for root in unsafe_roots for path in root.glob("*.md"))
+    assert len(rule_files) == 47
+    rule_ids = [frontmatter(path)["id"] for path in rule_files]
+    assert len(rule_ids) == len(set(rule_ids)) == 47
+    prefixes = Counter(rule_id.split("-", 1)[0] for rule_id in rule_ids)
+    assert prefixes == {"general": 3, "safety": 11, "ptr": 6, "union": 2, "mem": 6, "ffi": 18, "io": 1}
+    examples: Counter = Counter()
+    for path in rule_files:
+        content = path.read_text(encoding="utf-8")
+        assert "Product adaptation for" in "\n".join(content.splitlines()[:14])
+        examples.update(validate_rule_examples(path, content))
+    assert examples == {"fragment": 123}
+
+    excluded_profiles = {"domain-iot", "domain-embedded", "domain-cloud-native", "core-agent-browser"}
+    assert not (excluded_profiles & skills)
+    return coverage
 
 
 def validate_rule_examples(path: Path, content: str) -> Counter:
@@ -357,7 +460,7 @@ def validate_skills(expected_skills: set[str], example_owners: set[str]) -> None
     skill_root = ROOT / "skills"
     skill_dirs = {path.name for path in skill_root.iterdir() if path.is_dir()}
     assert skill_dirs == expected_skills, f"unexpected skills: {sorted(skill_dirs ^ expected_skills)}"
-    assert len(skill_dirs) == 44
+    assert len(skill_dirs) == 46
     assert not (skill_root / "rust-workflow" / "references" / "engineering-domains.md").exists()
 
     descriptions = []
@@ -428,12 +531,16 @@ def validate_hooks() -> None:
         content = path.read_text(encoding="utf-8")
         assert not DISALLOWED_HOOK_COMMANDS.search(content), f"mutating or expensive automatic hook command: {path}"
         assert "cargo locate-project" in content and "rustc --version" in content and "cargo --version" in content
-        assert "rust-workflow" in content and "rust-review" in content and "rust-verify" in content
+        assert all(
+            skill in content
+            for skill in ("rust-workflow", "rust-review", "rust-verify", "rust-design-protocol", "rust-research")
+        )
 
 
 def validate_evals(skills: set[str]) -> int:
     evals = load_json(ROOT / "evals" / "evals.json")
-    assert evals["schema_version"] == 3
+    assert evals["schema_version"] == 4
+    assert evals["actionbook_cases_file"] == "actionbook-cases.json"
     cases = evals["cases"]
     ids = [case["id"] for case in cases]
     assert len(cases) == 108 and len(ids) == len(set(ids)), "routing corpus must have 108 unique cases"
@@ -441,6 +548,7 @@ def validate_evals(skills: set[str]) -> int:
     assert modes == {"manual": 44, "automatic": 44, "contrast": 8, "negative": 12}
 
     profile_skills = skills - {RULEBOOK_SKILL}
+    legacy_profile_skills = profile_skills - ACTIONBOOK_SKILLS
     manual_profiles = set()
     automatic_profiles = set()
     manual_overlay = automatic_overlay = 0
@@ -474,7 +582,7 @@ def validate_evals(skills: set[str]) -> int:
                 automatic_overlay += 1
         elif case["mode"] == "negative":
             assert entry is None and primary is None and not supporting and not forbidden and not overlays
-    assert manual_profiles == automatic_profiles == profile_skills
+    assert manual_profiles == automatic_profiles == legacy_profile_skills
     assert manual_overlay == automatic_overlay == 1
 
     rulebook_cases = evals["rulebook_cases"]
@@ -512,7 +620,90 @@ def validate_evals(skills: set[str]) -> int:
                 and not expected["rule_ids"] and not expected["rejected_rule_ids"]
             )
     assert prefix_categories == set(RULE_CATEGORIES)
-    return len(cases)
+    actionbook = load_json(ROOT / "evals" / evals["actionbook_cases_file"])
+    assert actionbook["schema_version"] == 1
+    actionbook_cases = actionbook["cases"]
+    actionbook_ids = [case["id"] for case in actionbook_cases]
+    assert len(actionbook_cases) == 44 and len(actionbook_ids) == len(set(actionbook_ids))
+    assert not (set(ids) & set(rulebook_ids) or set(ids) & set(actionbook_ids) or set(rulebook_ids) & set(actionbook_ids))
+    assert Counter(case["kind"] for case in actionbook_cases) == ACTIONBOOK_KINDS
+
+    unsafe_rule_ids = {
+        frontmatter(path)["id"]
+        for root in (
+            ROOT / "skills" / "rust-unsafe" / "references" / "actionbook-checks" / "rules",
+            ROOT / "skills" / "rust-unsafe-ffi" / "references" / "actionbook-checks" / "rules",
+        )
+        for path in root.glob("*.md")
+    }
+    actionbook_primary = set()
+    for case in actionbook_cases:
+        expected = case["expected"]
+        assert case["prompt"] and case["tags"] and expected["forbidden"]
+        assert isinstance(expected["activate"], bool)
+        assert set(expected["references"]) <= ACTIONBOOK_REFERENCES
+        assert len(expected["supporting_profiles"]) <= 2
+        assert set(expected["supporting_profiles"]) <= profile_skills
+        assert set(expected.get("unsafe_rule_ids", [])) <= unsafe_rule_ids
+        assert set(expected.get("navigation_modes", [])) <= {
+            "definition", "references", "implementations", "type-hierarchy",
+            "dependency-graph", "incoming-calls", "outgoing-calls", "cfg",
+            "rename-impact", "graphify", "rg", "cargo",
+        }
+        assert expected.get("research_mode") in {None, "rust", "crate", "news"}
+        assert isinstance(expected.get("requires_cargo_metadata", False), bool)
+        if expected["activate"]:
+            assert expected["entry_layer"] in {"Mechanics", "Design", "Domain"}
+            assert expected["primary_profile"] in profile_skills
+            assert expected["references"]
+            actionbook_primary.add(expected["primary_profile"])
+        else:
+            assert case["kind"] == "negative"
+            assert expected["entry_layer"] is None and expected["primary_profile"] is None
+            assert not expected["supporting_profiles"] and not expected["references"]
+            assert not expected.get("unsafe_rule_ids", [])
+            assert not expected.get("navigation_modes", [])
+
+        if case["kind"] == "navigation":
+            assert expected.get("navigation_modes")
+        elif case["kind"] == "research_dynamic":
+            assert expected.get("research_mode") in {"rust", "crate", "news"}
+        elif case["kind"] == "unsafe":
+            assert expected.get("unsafe_rule_ids")
+            assert expected["primary_profile"] in {"rust-unsafe", "rust-unsafe-ffi"}
+        elif case["kind"] == "ml":
+            assert expected["primary_profile"] == "rust-ml"
+
+    assert ACTIONBOOK_SKILLS <= actionbook_primary
+    return len(cases) + len(actionbook_cases)
+
+
+def validate_metadata_fixture() -> None:
+    fixture = ROOT / "checks" / "metadata-workspace"
+    manifest = fixture / "Cargo.toml"
+    assert manifest.is_file() and (fixture / "Cargo.lock").is_file()
+    assert 'resolver = "3"' in manifest.read_text(encoding="utf-8")
+    cargo = shutil.which("cargo")
+    assert cargo, "cargo is required for the metadata fixture"
+    command = [
+        cargo, "metadata", "--format-version", "1", "--locked", "--offline",
+        "--manifest-path", str(manifest), "--no-deps",
+    ]
+    result = subprocess.run(command, cwd=fixture, text=True, capture_output=True, check=False)
+    assert result.returncode == 0, f"cargo metadata fixture failed:\n{result.stdout}\n{result.stderr}"
+    metadata = json.loads(result.stdout)
+    packages = {package["name"]: package for package in metadata["packages"]}
+    assert set(packages) == {"metadata-app", "metadata-local-util"}
+    app = packages["metadata-app"]
+    assert app["edition"] == "2024" and app["rust_version"] == "1.85"
+    assert app["features"] == {"default": [], "util": ["dep:renamed-util"]}
+    dependencies = {dependency["rename"]: dependency for dependency in app["dependencies"]}
+    assert dependencies["renamed-util"]["name"] == "metadata-local-util"
+    assert dependencies["renamed-util"]["optional"] is True
+    assert dependencies["renamed-util"]["target"] is None
+    assert dependencies["unix-util"]["name"] == "metadata-local-util"
+    assert dependencies["unix-util"]["optional"] is False
+    assert dependencies["unix-util"]["target"] == "cfg(unix)"
 
 
 def validate_examples(example_owners: set[str]) -> None:
@@ -614,7 +805,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     coverage, owners, example_owners = validate_source_coverage()
-    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL}
+    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL} | ACTIONBOOK_SKILLS
     assert ENTRY_SKILLS <= expected_skills
     if args.rule:
         _, counts = validate_rulebook(expected_skills, only_rule=args.rule)
@@ -631,20 +822,23 @@ def main() -> None:
 
     validate_manifests()
     validate_skills(expected_skills, example_owners)
+    actionbook = validate_actionbook_coverage(expected_skills)
     rule_count, rule_examples = validate_rulebook(expected_skills)
     validate_links()
     validate_agents()
     validate_hooks()
     eval_count = validate_evals(expected_skills)
+    validate_metadata_fixture()
     fixture_skip = None
     if args.examples:
         validate_examples(example_owners)
         rule_examples, fixture_skip = validate_rulebook_examples()
     print(
         f"OK: {len(expected_skills)} skills, {len(AGENTS)} read-only agents, "
-        f"{eval_count} routing evals, {coverage['summary']['adapted']} adapted source skills, "
+        f"{eval_count} routing and Actionbook evals, {coverage['summary']['adapted']} adapted source skills, "
         f"{coverage['summary']['out_of_scope']} explicit exclusions, {rule_count} coding rules, "
-        f"{sum(rule_examples.values())} classified rule examples, {len(example_owners)} golden examples"
+        f"{sum(rule_examples.values())} classified rule examples, {len(example_owners)} golden examples, "
+        f"{actionbook['summary']['source_files']} accounted Actionbook files"
         + (" compiled" if args.examples else " statically checked")
     )
     if fixture_skip:

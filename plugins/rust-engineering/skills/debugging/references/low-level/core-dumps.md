@@ -1,9 +1,4 @@
-# Low-level Core Dumps protocol
-
-<!-- low-level-source-family: core-dumps; source=skills/debuggers/core-dumps/SKILL.md; sha256=efdae6000ea772c72e9d604f5c89145e4c432a4d7f3f7e1ece0701d6cd7b5b08; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/debuggers/core-dumps/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Core Dumps protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$debugging`.
@@ -28,7 +23,7 @@
 4. Form one falsifiable hypothesis and collect only the state that distinguishes it.
 5. Record debugger limitations caused by inlining, optimization, missing frames, unsupported format, or timing perturbation.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

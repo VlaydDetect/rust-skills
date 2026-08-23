@@ -1,10 +1,6 @@
 # lint-warn-perf
 
-> Enable clippy::perf for performance improvements
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Enable clippy::perf for performance improvements## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Enable clippy::perf for performance improvements.
 

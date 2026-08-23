@@ -1,10 +1,6 @@
 # const-generics
 
-> Parameterize over values with const generics `<const N: usize>`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stable; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Parameterize over values with const generics `<const N: usize>`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Parameterize over values with const generics `<const N: usize>`.
 

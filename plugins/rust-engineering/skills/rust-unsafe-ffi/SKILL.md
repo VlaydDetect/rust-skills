@@ -37,7 +37,7 @@ Own foreign ABI contracts and safe ownership translation across language or runt
 
 For Rust 2024 extern or exported-attribute details, use the relevant entries in the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md) only after this profile establishes ABI, target, ownership, panic, and foreign-lifecycle contracts.
 
-Use the [Actionbook FFI index](references/actionbook-checks/index.md) for a
+Use the [Design protocol FFI index](./references/ffi-rule-index.md) for a
 second, adversarial pass. Load only the rules implicated by the boundary and
 apply each file's product note; retained examples are review fragments, not
 templates to paste.
@@ -51,12 +51,12 @@ templates to paste.
 
 ## Detailed Reference
 
-Read [Rust Unsafe FFI field guide](references/guide.md) before making a consequential design choice. Then select relevant prompts from the [18-rule Actionbook FFI index](references/actionbook-checks/index.md), including current compiler checks when the selected toolchain provides them. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Unsafe FFI field guide](references/guide.md) before making a consequential design choice. Then select relevant prompts from the [18-rule Design protocol FFI index](./references/ffi-rule-index.md), including current compiler checks when the selected toolchain provides them. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

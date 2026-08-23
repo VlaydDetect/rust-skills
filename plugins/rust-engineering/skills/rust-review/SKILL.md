@@ -39,10 +39,10 @@ If no actionable findings exist, say so explicitly and list residual risks or un
 
 For whole-project structural health use `rust-architecture-review`; for Nix-specific audits use `nix-review`. Accepted findings move to `addressing-findings` before implementation.
 
-When translating the legacy Actionbook `/rust-review` command, use the
-[host-neutral adapter](references/actionbook-command.md); Clippy is one evidence
+When translating the legacy Design protocol `/rust-review` command, use the
+[host-neutral adapter](./references/review-adapter.md); Clippy is one evidence
 source, not the definition of code review.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Review adapter](./references/review-adapter.md) and load only the relevant section.

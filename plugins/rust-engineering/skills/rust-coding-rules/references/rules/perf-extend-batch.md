@@ -1,10 +1,6 @@
 # perf-extend-batch
 
-> Use extend for batch insertions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use extend for batch insertions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use extend for batch insertions.
 

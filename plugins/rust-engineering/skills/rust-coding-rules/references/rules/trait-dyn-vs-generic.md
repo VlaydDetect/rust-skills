@@ -1,10 +1,6 @@
 # trait-dyn-vs-generic
 
-> Choose static dispatch (generics / `impl Trait`) vs dynamic dispatch (`dyn Trait`) deliberately
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Choose static dispatch (generics / `impl Trait`) vs dynamic dispatch (`dyn Trait`) deliberately## Decision
 
 Consider this rule only after its prerequisites are satisfied: Choose static dispatch (generics / `impl Trait`) vs dynamic dispatch (`dyn Trait`) deliberately.
 

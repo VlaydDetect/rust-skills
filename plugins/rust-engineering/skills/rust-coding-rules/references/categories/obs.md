@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`obs-error-chain`](../rules/obs-error-chain.md) | `conditional` | `rust-observability` | Log errors with their full source chain, and log each error exactly once |
 | [`obs-instrument-spans`](../rules/obs-instrument-spans.md) | `conditional` | `rust-observability` | Use `#[tracing::instrument]` and spans to attach context to async tasks and requests |

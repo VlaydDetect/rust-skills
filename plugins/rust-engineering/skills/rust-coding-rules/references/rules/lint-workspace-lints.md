@@ -1,10 +1,6 @@
 # lint-workspace-lints
 
-> Configure lints at workspace level for consistent enforcement
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Configure lints at workspace level for consistent enforcement## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Configure lints at workspace level for consistent enforcement.
 

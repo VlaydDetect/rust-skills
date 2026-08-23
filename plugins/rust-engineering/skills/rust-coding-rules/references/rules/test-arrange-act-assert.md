@@ -1,10 +1,6 @@
 # test-arrange-act-assert
 
-> Structure tests with clear Arrange, Act, Assert sections
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Structure tests with clear Arrange, Act, Assert sections## Decision
 
 Consider this rule only after its prerequisites are satisfied: Structure tests with clear Arrange, Act, Assert sections.
 

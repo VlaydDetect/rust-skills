@@ -1,10 +1,6 @@
 # type-newtype-ids
 
-> Wrap IDs in newtypes: `UserId(u64)`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Wrap IDs in newtypes: `UserId(u64)`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Wrap IDs in newtypes: `UserId(u64)`.
 

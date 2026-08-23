@@ -1,11 +1,13 @@
 {
   "name": "rust-engineering",
-  "version": "0.8.0",
-  "description": "Automatic Rust engineering orchestration with 55 focused skills, a 265-rule coding rulebook, and reviewed Actionbook, Huiali, low-level, and Laurigates Cargo-tool protocols.",
+  "version": "1.0.0-rc",
+  "description": "Project-aware Rust engineering with 55 focused skills, a 265-rule coding rulebook, read-only context discovery, and risk-based verification.",
   "author": {
     "name": "rust-skills contributors"
   },
   "license": "MIT",
+  "homepage": "https://github.com/VlaydDetect/rust-skills",
+  "repository": "https://github.com/VlaydDetect/rust-skills",
   "keywords": [
     "rust",
     "coding",
@@ -21,7 +23,7 @@
   "interface": {
     "displayName": "Rust Engineering",
     "shortDescription": "Route Rust work through focused skills.",
-    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Adapted Actionbook and Huiali protocols add cross-layer design and specialized Rust models. Reviewed low-level and Laurigates protocols add debugging, profiling, Cargo build-time, cross-target, sanitizer/Miri, async-internal, security, hardware, cargo-generate, nextest, LLVM coverage, cargo-machete, Git-worktree build, and advanced Clippy workflows behind official-evidence and command-safety gates, without adding automatic heavy hooks.",
+    "longDescription": "Coordinates 55 focused Rust engineering skills. It starts with a fast read-only project-context hook, then routes implementation through one primary and at most two supporting profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Focused references cover design, ownership, unsafe and FFI, concurrency, debugging, profiling, Cargo tooling, cross-target work, testing, coverage, dependency review, and Nix without automatic installs or heavy hooks.",
     "developerName": "rust-skills contributors",
     "category": "Productivity",
     "capabilities": [

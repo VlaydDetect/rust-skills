@@ -1,10 +1,6 @@
 # proj-pub-crate-internal
 
-> Use pub(crate) for internal APIs
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Use pub(crate) for internal APIs## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use pub(crate) for internal APIs.
 

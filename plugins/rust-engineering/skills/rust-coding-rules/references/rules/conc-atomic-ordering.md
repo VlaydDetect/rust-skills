@@ -1,10 +1,6 @@
 # conc-atomic-ordering
 
-> Use the weakest correct memory `Ordering` for every atomic operation
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`, `rust-testing`; status=conditional -->
-
-## Decision
+> Use the weakest correct memory `Ordering` for every atomic operation## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use the weakest correct memory `Ordering` for every atomic operation.
 

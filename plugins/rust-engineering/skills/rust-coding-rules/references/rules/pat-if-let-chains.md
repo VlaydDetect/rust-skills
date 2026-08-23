@@ -1,10 +1,6 @@
 # pat-if-let-chains
 
-> Use `if let` chains to combine pattern bindings and conditions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stable`; status=adapted -->
-
-## Decision
+> Use `if let` chains to combine pattern bindings and conditions## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `if let` chains to combine pattern bindings and conditions.
 

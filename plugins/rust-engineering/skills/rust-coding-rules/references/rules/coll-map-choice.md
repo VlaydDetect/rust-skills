@@ -1,10 +1,6 @@
 # coll-map-choice
 
-> Pick the map by access pattern: `HashMap` (fast, unordered), `BTreeMap` (sorted / range queries), `IndexMap` (insertion order)
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stdlib; supporters=`rust-performance`; status=conditional -->
-
-## Decision
+> Pick the map by access pattern: `HashMap` (fast, unordered), `BTreeMap` (sorted / range queries), `IndexMap` (insertion order)## Decision
 
 Consider this rule only after its prerequisites are satisfied: Pick the map by access pattern: `HashMap` (fast, unordered), `BTreeMap` (sorted / range queries), `IndexMap` (insertion order).
 

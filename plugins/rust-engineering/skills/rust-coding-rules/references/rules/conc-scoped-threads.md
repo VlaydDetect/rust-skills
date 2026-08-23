@@ -1,10 +1,6 @@
 # conc-scoped-threads
 
-> Use `std::thread::scope` to borrow stack data across threads
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`, `rust-testing`; status=conditional -->
-
-## Decision
+> Use `std::thread::scope` to borrow stack data across threads## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `std::thread::scope` to borrow stack data across threads.
 

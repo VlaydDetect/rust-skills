@@ -1,10 +1,6 @@
 # num-float-compare
 
-> Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stdlib`, `rust-stable`; status=adapted -->
-
-## Decision
+> Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering.
 

@@ -1,10 +1,6 @@
 # obs-structured-fields
 
-> Record structured key-value fields, not values interpolated into the message string
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Record structured key-value fields, not values interpolated into the message string## Decision
 
 Consider this rule only after its prerequisites are satisfied: Record structured key-value fields, not values interpolated into the message string.
 

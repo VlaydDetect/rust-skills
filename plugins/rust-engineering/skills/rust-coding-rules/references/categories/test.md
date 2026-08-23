@@ -12,12 +12,12 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`test-arrange-act-assert`](../rules/test-arrange-act-assert.md) | `conditional` | `rust-testing` | Structure tests with clear Arrange, Act, Assert sections |
-| [`test-cfg-test-module`](../rules/test-cfg-test-module.md) | `adapted` | `rust-testing` | Put unit tests in `#[cfg(test)] mod tests { }` within each module |
+| [`test-cfg-test-module`](../rules/test-cfg-test-module.md) | `canonical` | `rust-testing` | Put unit tests in `#[cfg(test)] mod tests { }` within each module |
 | [`test-criterion-bench`](../rules/test-criterion-bench.md) | `conditional` | `rust-testing` | Use `criterion` for benchmarking |
-| [`test-descriptive-names`](../rules/test-descriptive-names.md) | `adapted` | `rust-testing` | Use descriptive test names that explain what is being tested |
+| [`test-descriptive-names`](../rules/test-descriptive-names.md) | `canonical` | `rust-testing` | Use descriptive test names that explain what is being tested |
 | [`test-doctest-examples`](../rules/test-doctest-examples.md) | `conditional` | `rust-testing` | Keep documentation examples as executable doctests |
 | [`test-fixture-raii`](../rules/test-fixture-raii.md) | `conditional` | `rust-testing` | Use RAII pattern (Drop trait) for automatic test cleanup |
 | [`test-integration-dir`](../rules/test-integration-dir.md) | `conditional` | `rust-testing` | Put integration tests in the `tests/` directory |
@@ -25,7 +25,7 @@ Load this index only when the current Rust decision matches the category. Select
 | [`test-mock-traits`](../rules/test-mock-traits.md) | `conditional` | `rust-testing` | Use traits for dependencies to enable mocking in tests |
 | [`test-mockall-mocking`](../rules/test-mockall-mocking.md) | `conditional` | `rust-testing` | Use mockall for trait mocking |
 | [`test-proptest-properties`](../rules/test-proptest-properties.md) | `conditional` | `rust-testing` | Use proptest for property-based testing |
-| [`test-should-panic`](../rules/test-should-panic.md) | `adapted` | `rust-testing` | Use `#[should_panic]` to test that code panics as expected |
+| [`test-should-panic`](../rules/test-should-panic.md) | `canonical` | `rust-testing` | Use `#[should_panic]` to test that code panics as expected |
 | [`test-snapshot-testing`](../rules/test-snapshot-testing.md) | `conditional` | `rust-testing` | Use snapshot testing (insta) for complex or serialized output |
 | [`test-tokio-async`](../rules/test-tokio-async.md) | `conditional` | `rust-testing` | Use `#[tokio::test]` for async tests |
 | [`test-use-super`](../rules/test-use-super.md) | `conditional` | `rust-testing` | Use `use super::*;` in test modules to access parent module items |

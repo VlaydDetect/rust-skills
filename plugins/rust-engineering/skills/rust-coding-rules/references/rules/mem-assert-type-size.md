@@ -1,10 +1,6 @@
 # mem-assert-type-size
 
-> Use static assertions to guard against accidental type size growth
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use static assertions to guard against accidental type size growth## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use static assertions to guard against accidental type size growth.
 

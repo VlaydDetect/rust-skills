@@ -1,10 +1,6 @@
 # test-loom-concurrency
 
-> Use `loom` to exhaustively test lock-free and concurrent code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use `loom` to exhaustively test lock-free and concurrent code## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `loom` to exhaustively test lock-free and concurrent code.
 

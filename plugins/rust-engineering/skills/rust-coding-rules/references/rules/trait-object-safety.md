@@ -1,10 +1,6 @@
 # trait-object-safety
 
-> Keep a trait dyn-compatible (object-safe) when you need `dyn Trait`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Keep a trait dyn-compatible (object-safe) when you need `dyn Trait`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Keep a trait dyn-compatible (object-safe) when you need `dyn Trait`.
 

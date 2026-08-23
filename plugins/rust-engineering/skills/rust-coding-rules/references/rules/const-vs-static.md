@@ -1,10 +1,6 @@
 # const-vs-static
 
-> Use `const` for an inlined value and `static` for a single addressed instance
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stable; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Use `const` for an inlined value and `static` for a single addressed instance## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `const` for an inlined value and `static` for a single addressed instance.
 

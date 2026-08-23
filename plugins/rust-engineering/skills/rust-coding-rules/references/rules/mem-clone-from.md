@@ -1,10 +1,6 @@
 # mem-clone-from
 
-> Use `clone_from()` to reuse allocations when repeatedly cloning
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `clone_from()` to reuse allocations when repeatedly cloning## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `clone_from()` to reuse allocations when repeatedly cloning.
 

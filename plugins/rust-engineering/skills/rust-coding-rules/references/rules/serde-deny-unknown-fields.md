@@ -1,10 +1,6 @@
 # serde-deny-unknown-fields
 
-> Reject unexpected keys with `#[serde(deny_unknown_fields)]`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Reject unexpected keys with `#[serde(deny_unknown_fields)]`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Reject unexpected keys with `#[serde(deny_unknown_fields)]`.
 

@@ -1,10 +1,6 @@
 # coll-seq-choice
 
-> Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stdlib; supporters=`rust-performance`; status=adapted -->
-
-## Decision
+> Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList`.
 

@@ -1,18 +1,14 @@
 # anti-vec-for-slice
 
-> Don't accept &Vec<T> when &[T] works
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=alias -->
-
-## Canonical Rule
+> Don't accept &Vec<T> when &[T] works## Canonical Rule
 
 Apply [`own-slice-over-vec`](own-slice-over-vec.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't accept &Vec<T> when &[T] works
 

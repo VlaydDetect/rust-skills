@@ -45,7 +45,7 @@ Before running a command, record tool/version, stable/nightly/external/project c
 - **Git worktree builds:** keep target/build state isolated by default. If supported by pinned Cargo, a templated `build.build-dir` with `{workspace-path-hash}` can preserve isolation under an external root. Use only an already configured sccache for cross-workspace compiler caching, and measure its limitations; one common writable target directory is not the default cache design.
 - **Clippy:** lint levels and priorities belong in Cargo `[lints]`/`[workspace.lints]`; members inherit via `[lints] workspace = true`. `clippy.toml` holds only documented typed configuration keys. Group priority must be lower than individual overrides. Pedantic, nursery, cargo, and individual restriction lints are project choices, never blanket product defaults.
 
-The Laurigates umbrella `rust-development` source contributes discovery pointers only: macro expansion routes to Cargo/research, audit/deny to dependency governance, Miri to unsafe/verify, fuzzing to testing, flamegraphs to performance, and cross-builds to Cargo/FFI/research. Its language, async, unsafe, WASI, embedded, crate-choice, and optimization recipes do not override the dedicated owners.
+The Cargo tooling umbrella `rust-development` source contributes discovery pointers only: macro expansion routes to Cargo/research, audit/deny to dependency governance, Miri to unsafe/verify, fuzzing to testing, flamegraphs to performance, and cross-builds to Cargo/FFI/research. Its language, async, unsafe, WASI, embedded, crate-choice, and optimization recipes do not override the dedicated owners.
 
 ## Evidence catalog
 

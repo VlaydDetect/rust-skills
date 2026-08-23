@@ -1,10 +1,6 @@
 # perf-profile-first
 
-> Profile before optimizing
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Profile before optimizing## Decision
 
 Consider this rule only after its prerequisites are satisfied: Profile before optimizing.
 

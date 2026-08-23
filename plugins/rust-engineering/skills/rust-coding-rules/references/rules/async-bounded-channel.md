@@ -1,10 +1,6 @@
 # async-bounded-channel
 
-> Use bounded channels to apply backpressure and prevent unbounded memory growth
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use bounded channels to apply backpressure and prevent unbounded memory growth## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use bounded channels to apply backpressure and prevent unbounded memory growth.
 

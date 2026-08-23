@@ -1,10 +1,6 @@
 # serde-skip-empty
 
-> Omit empty fields with `skip_serializing_if`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Omit empty fields with `skip_serializing_if`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Omit empty fields with `skip_serializing_if`.
 

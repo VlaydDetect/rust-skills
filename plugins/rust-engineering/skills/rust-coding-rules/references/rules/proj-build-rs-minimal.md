@@ -1,10 +1,6 @@
 # proj-build-rs-minimal
 
-> Keep `build.rs` minimal, deterministic, and idempotent
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-cargo-build; supporters=`rust-stable`; status=adapted -->
-
-## Decision
+> Keep `build.rs` minimal, deterministic, and idempotent## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Keep `build.rs` minimal, deterministic, and idempotent.
 

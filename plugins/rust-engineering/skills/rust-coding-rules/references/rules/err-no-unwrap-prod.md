@@ -1,10 +1,6 @@
 # err-no-unwrap-prod
 
-> Avoid `unwrap()` in production code; use `?`, `expect()`, or handle errors
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Avoid `unwrap()` in production code; use `?`, `expect()`, or handle errors## Decision
 
 Consider this rule only after its prerequisites are satisfied: Avoid `unwrap()` in production code; use `?`, `expect()`, or handle errors.
 

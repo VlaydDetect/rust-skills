@@ -1,10 +1,6 @@
 # err-expect-bugs-only
 
-> Use `expect()` only for invariants that indicate bugs, not user errors
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Use `expect()` only for invariants that indicate bugs, not user errors## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `expect()` only for invariants that indicate bugs, not user errors.
 

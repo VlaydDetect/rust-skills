@@ -4,4 +4,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 
 - [`rust-async-internals`](../../rust-concurrency/references/low-level/rust-async-internals.md) — supporting; Future polling, Waker replacement, task scheduling, pinning, cancellation, blocking boundaries, and async diagnostics.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

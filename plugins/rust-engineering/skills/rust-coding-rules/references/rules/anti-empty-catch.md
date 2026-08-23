@@ -1,10 +1,6 @@
 # anti-empty-catch
 
-> Don't silently ignore errors
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=none; status=adapted -->
-
-## Decision
+> Don't silently ignore errors## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Don't silently ignore errors.
 

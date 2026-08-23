@@ -1,7 +1,4 @@
 # cargo-nextest: execution and isolation protocol
-
-<!-- laurigates-source-family: cargo-nextest; source=rust-plugin/skills/cargo-nextest/SKILL.md; sha256=95100b02400a6e9d14a8251d9364f74024607c8deadd84d71800f048813f012e; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Use this reference when a project already uses nextest or explicitly needs its process-per-test runner, filtersets, profiles, groups, retries, timeouts, or reports. Ordinary test design remains in `$rust-testing`; command execution remains in `$rust-verify`.
 
 ## Evidence and precedence

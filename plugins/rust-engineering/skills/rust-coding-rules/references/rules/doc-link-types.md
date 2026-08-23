@@ -1,18 +1,14 @@
 # doc-link-types
 
-> Use intra-doc links to connect related types and functions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=alias -->
-
-## Canonical Rule
+> Use intra-doc links to connect related types and functions## Canonical Rule
 
 Apply [`doc-intra-links`](doc-intra-links.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Use intra-doc links to connect related types and functions
 

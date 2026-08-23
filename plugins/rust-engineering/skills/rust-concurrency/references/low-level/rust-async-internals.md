@@ -1,9 +1,4 @@
-# Low-level Rust Async Internals protocol
-
-<!-- low-level-source-family: rust-async-internals; source=skills/rust/rust-async-internals/SKILL.md; sha256=656622037474693c396b6b336fc98f562b45fa9d81455e98900ee0edbb48d433; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-async-internals/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust Async Internals protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-concurrency`.
@@ -28,7 +23,7 @@
 4. Bound work, queues, retries and spawned tasks; define who closes, drains and joins.
 5. Use schedule/race tools only after the invariant and minimized reproducer are explicit.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

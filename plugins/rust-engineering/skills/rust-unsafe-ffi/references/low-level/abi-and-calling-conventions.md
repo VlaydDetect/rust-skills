@@ -1,9 +1,4 @@
-# Low-level Abi And Calling Conventions protocol
-
-<!-- low-level-source-family: abi-and-calling-conventions; source=skills/computer-architecture/abi-and-calling-conventions/SKILL.md; sha256=934013a0dfdf4f03ff599492633b8cee9a1ab45a0f107e10d0201a59fa216212; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/computer-architecture/abi-and-calling-conventions/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Abi And Calling Conventions protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-unsafe-ffi`.
@@ -28,7 +23,7 @@
 4. Contain panics/unwind and translate errors without borrowing temporary foreign storage.
 5. Verify symbols/layout with the actual target toolchain and at least one real foreign consumer.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

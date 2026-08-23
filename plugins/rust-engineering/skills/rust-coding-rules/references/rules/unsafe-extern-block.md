@@ -1,10 +1,6 @@
 # unsafe-extern-block
 
-> In Rust 2024, wrap `extern` blocks in `unsafe extern { }` and annotate each item as `safe` or `unsafe`.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=`rust-unsafe-ffi`; status=conditional -->
-
-## Decision
+> In Rust 2024, wrap `extern` blocks in `unsafe extern { }` and annotate each item as `safe` or `unsafe`.## Decision
 
 Consider this rule only after its prerequisites are satisfied: In Rust 2024, wrap `extern` blocks in `unsafe extern { }` and annotate each item as `safe` or `unsafe`.
 

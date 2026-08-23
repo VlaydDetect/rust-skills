@@ -1,10 +1,6 @@
 # err-thiserror-lib
 
-> Use `thiserror` for library error types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Use `thiserror` for library error types## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `thiserror` for library error types.
 

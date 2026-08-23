@@ -1,10 +1,6 @@
 # async-fn-in-trait
 
-> Use native `async fn` in traits (stable 1.75) instead of the `async_trait` macro
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use native `async fn` in traits (stable 1.75) instead of the `async_trait` macro## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use native `async fn` in traits (stable 1.75) instead of the `async_trait` macro.
 

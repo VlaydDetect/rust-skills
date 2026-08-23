@@ -26,3 +26,54 @@ Omit an alternative when it is not viable. If a missing user choice would materi
 - Domain to mechanics: translate the accepted constraint into a concrete owner profile, types, lifecycles, failure semantics, and verification.
 
 Do not report invented domain requirements, generic best practices as facts, or internal reasoning tokens.
+
+## Design protocol map
+
+Load one branch at a time.
+
+## Layer routing and comparisons
+
+- [Three-layer router](./routing/router.md)
+- [Worked routing examples](./routing/workflow.md)
+- [Comparison and ambiguity protocol](./routing/negotiation.md)
+- [Optional safety-tool integration](./routing/os-checker.md)
+
+The router does not replace `rust-workflow`, install a prompt hook, or force negotiation for keywords.
+
+## Mental models
+
+- [Mental-model selection](./cognition/mental-model.md)
+- [Thinking in Rust patterns](./cognition/thinking-in-rust.md)
+
+Use these for explanation and misconception repair. Confirm every analogy against the actual language invariant.
+
+## Multi-lens analysis
+
+- [Experimental parallel source protocol](./cognition/meta-cognition-parallel.md)
+- [Layer 1 mechanics lens](./analysis/layer1-analyzer.md)
+- [Layer 2 design lens](./analysis/layer2-analyzer.md)
+- [Layer 3 domain lens](./analysis/layer3-analyzer.md)
+- [Evidence confidence rubric](./negotiation/confidence-rubric.md)
+- [Source response format](./negotiation/response-format.md)
+
+Reuse its layer lenses and synthesis checks. Do not launch three agents by default; sequential analysis is the normal path.
+
+## Full cognitive protocol
+
+Load one retained document only when its trigger applies:
+
+- [Layer definitions](./cognition/layer-definitions.md) for L1 mechanics, L2 design, and L3 domain routing.
+- [Reasoning framework](./cognition/reasoning-framework.md) for upward, downward, or bidirectional constraint tracing.
+- [Negotiation protocol](./negotiation/negotiation-protocol.md) and [response templates](./negotiation/negotiation-templates.md) only when work was actually delegated and evidence must be synthesized.
+- [Error escalation](./cognition/error-protocol.md) after repeated evidence shows the current layer or approach is wrong; three attempts are not mandatory.
+- [Externalized cognition](./cognition/externalization.md) for long tasks that need inspectable decision and evidence artifacts, never private chain-of-thought logs.
+- [Hook patterns](./cognition/hooks-patterns.md) as a workflow-checkpoint catalog only. It does not authorize additional automatic host hooks.
+
+## Worked and operational references
+
+- [Context optimization](./analysis/context-optimization.md) preserves source
+  guidance on progressive disclosure and isolated work with product limits on
+  forced forks and parallelism.
+- [E0382 trading-system example](./examples/e0382-trading-system.md) is
+  a worked upward/downward trace. Its domain assumptions and `Arc` choice must
+  be re-established before reuse.

@@ -1,10 +1,6 @@
 # name-lifetime-short
 
-> Use short, conventional lifetime names: `'a`, `'b`, `'de`, `'src`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Use short, conventional lifetime names: `'a`, `'b`, `'de`, `'src`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use short, conventional lifetime names: `'a`, `'b`, `'de`, `'src`.
 

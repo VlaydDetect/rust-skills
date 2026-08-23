@@ -1,10 +1,6 @@
 # name-no-get-prefix
 
-> Omit get_ prefix for simple getters
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=adapted -->
-
-## Decision
+> Omit get_ prefix for simple getters## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Omit get_ prefix for simple getters.
 

@@ -1,10 +1,6 @@
 # test-tokio-async
 
-> Use `#[tokio::test]` for async tests
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use `#[tokio::test]` for async tests## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `#[tokio::test]` for async tests.
 

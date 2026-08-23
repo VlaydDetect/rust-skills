@@ -1,10 +1,6 @@
 # opt-simd-portable
 
-> Use portable SIMD for vectorized operations across architectures
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Use portable SIMD for vectorized operations across architectures## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use portable SIMD for vectorized operations across architectures.
 

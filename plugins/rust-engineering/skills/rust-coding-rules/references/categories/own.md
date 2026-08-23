@@ -12,20 +12,20 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`own-arc-shared`](../rules/own-arc-shared.md) | `conditional` | `rust-ownership` | Use `Arc<T>` for thread-safe shared ownership |
-| [`own-borrow-over-clone`](../rules/own-borrow-over-clone.md) | `adapted` | `rust-ownership` | Prefer `&T` borrowing over `.clone()` |
-| [`own-clone-explicit`](../rules/own-clone-explicit.md) | `adapted` | `rust-ownership` | Use explicit `Clone` for types where copying has meaningful cost |
+| [`own-borrow-over-clone`](../rules/own-borrow-over-clone.md) | `canonical` | `rust-ownership` | Prefer `&T` borrowing over `.clone()` |
+| [`own-clone-explicit`](../rules/own-clone-explicit.md) | `canonical` | `rust-ownership` | Use explicit `Clone` for types where copying has meaningful cost |
 | [`own-copy-small`](../rules/own-copy-small.md) | `conditional` | `rust-ownership` | Implement `Copy` for small, simple types |
 | [`own-cow-conditional`](../rules/own-cow-conditional.md) | `conditional` | `rust-ownership` | Use `Cow<'a, T>` for conditional ownership |
-| [`own-lifetime-elision`](../rules/own-lifetime-elision.md) | `adapted` | `rust-ownership` | Rely on lifetime elision rules; add explicit lifetimes only when required |
+| [`own-lifetime-elision`](../rules/own-lifetime-elision.md) | `canonical` | `rust-ownership` | Rely on lifetime elision rules; add explicit lifetimes only when required |
 | [`own-move-large`](../rules/own-move-large.md) | `conditional` | `rust-ownership` | Move large types instead of copying; use `Box` if moves are expensive |
 | [`own-mutex-interior`](../rules/own-mutex-interior.md) | `conditional` | `rust-ownership` | Use `Mutex<T>` for interior mutability across threads |
 | [`own-rc-single-thread`](../rules/own-rc-single-thread.md) | `conditional` | `rust-ownership` | Use `Rc<T>` for shared ownership in single-threaded contexts |
 | [`own-refcell-interior`](../rules/own-refcell-interior.md) | `conditional` | `rust-ownership` | Use `RefCell<T>` for interior mutability in single-threaded code |
 | [`own-rwlock-readers`](../rules/own-rwlock-readers.md) | `conditional` | `rust-ownership` | Use `RwLock<T>` when reads significantly outnumber writes |
-| [`own-slice-over-vec`](../rules/own-slice-over-vec.md) | `adapted` | `rust-ownership` | Accept `&[T]` not `&Vec<T>`, `&str` not `&String` |
+| [`own-slice-over-vec`](../rules/own-slice-over-vec.md) | `canonical` | `rust-ownership` | Accept `&[T]` not `&Vec<T>`, `&str` not `&String` |
 
 ## Batch Audit
 

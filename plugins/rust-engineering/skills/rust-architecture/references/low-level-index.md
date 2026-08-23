@@ -14,4 +14,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-security`](low-level/rust-security.md) — primary; Threat boundaries, dependency advisories and policy, FFI, fuzzing, unsafe validation, supply-chain inputs, and release hardening.
 - [`virtual-memory-paging-and-tlb`](../../rust-performance/references/low-level/virtual-memory-paging-and-tlb.md) — supporting; Page translation, faults, TLB pressure, huge pages, mapping evidence, and embedded contrasts.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

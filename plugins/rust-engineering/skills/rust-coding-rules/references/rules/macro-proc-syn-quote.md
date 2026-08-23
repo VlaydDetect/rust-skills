@@ -1,10 +1,6 @@
 # macro-proc-syn-quote
 
-> Build procedural macros with `syn`, `quote`, and `proc-macro2`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Build procedural macros with `syn`, `quote`, and `proc-macro2`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Build procedural macros with `syn`, `quote`, and `proc-macro2`.
 

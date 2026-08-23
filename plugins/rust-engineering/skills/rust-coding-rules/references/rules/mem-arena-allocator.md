@@ -1,10 +1,6 @@
 # mem-arena-allocator
 
-> Use arena allocators for batch allocations
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use arena allocators for batch allocations## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use arena allocators for batch allocations.
 

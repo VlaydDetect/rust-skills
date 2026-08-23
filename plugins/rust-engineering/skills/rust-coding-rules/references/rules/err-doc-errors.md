@@ -1,18 +1,14 @@
 # err-doc-errors
 
-> Document error conditions with `# Errors` section in doc comments
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=alias -->
-
-## Canonical Rule
+> Document error conditions with `# Errors` section in doc comments## Canonical Rule
 
 Apply [`doc-errors-section`](doc-errors-section.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Document error conditions with `# Errors` section in doc comments
 

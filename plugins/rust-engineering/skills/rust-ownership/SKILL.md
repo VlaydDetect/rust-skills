@@ -46,8 +46,8 @@ After establishing the ownership graph, select only relevant IDs from the [`own-
 
 ## Detailed Reference
 
-Read [Rust Ownership field guide](references/guide.md) before making a consequential design choice. For detailed cognitive algorithms and examples, load only the matching branch from the [Actionbook ownership protocol](references/actionbook-index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Ownership field guide](references/guide.md) before making a consequential design choice. For detailed cognitive algorithms and examples, load only the matching branch from the [Design protocol ownership protocol](./references/guide.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.

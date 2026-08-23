@@ -1,10 +1,6 @@
 # trait-coherence-newtype
 
-> Respect the orphan rule; wrap a foreign type in a newtype to implement a foreign trait on it
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Respect the orphan rule; wrap a foreign type in a newtype to implement a foreign trait on it## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Respect the orphan rule; wrap a foreign type in a newtype to implement a foreign trait on it.
 

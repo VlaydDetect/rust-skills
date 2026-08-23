@@ -1,10 +1,6 @@
 # async-join-parallel
 
-> Use `join!` or `try_join!` for concurrent independent futures
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `join!` or `try_join!` for concurrent independent futures## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `join!` or `try_join!` for concurrent independent futures.
 

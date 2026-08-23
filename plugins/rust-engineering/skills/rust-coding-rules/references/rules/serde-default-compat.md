@@ -1,10 +1,6 @@
 # serde-default-compat
 
-> Use `#[serde(default)]` for optional and backward-compatible fields
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use `#[serde(default)]` for optional and backward-compatible fields## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `#[serde(default)]` for optional and backward-compatible fields.
 

@@ -42,8 +42,8 @@ Own device and memory execution contracts without assuming a backend. Keep devic
 
 ## Detailed Reference
 
-Read [Rust GPU field guide](references/guide.md) before selecting a backend or changing buffer layout. Load the [`rust-gpu` Huiali protocol](references/huiali/rust-gpu.md) only when its memory, batching, synchronization, or fragment examples match the task.
+Read [Rust GPU field guide](references/guide.md) before selecting a backend or changing buffer layout. Load the [`rust-gpu` Specialized Rust protocol](./references/gpu.md) only when its memory, batching, synchronization, or fragment examples match the task.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.

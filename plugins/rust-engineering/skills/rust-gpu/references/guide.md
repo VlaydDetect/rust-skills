@@ -67,3 +67,16 @@ The dependency-free fixture in `../examples/golden/` plans batch size from expli
 
 - [`rust-gpu` source and release history](https://github.com/Rust-GPU/rust-gpu)
 - [`wgpu` documentation](https://docs.rs/wgpu/latest/wgpu/)
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-gpu`](./gpu.md) — primary; Device capabilities, memory hierarchy, transfer cost, alignment, coalescing, batching, synchronization, and measurement.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

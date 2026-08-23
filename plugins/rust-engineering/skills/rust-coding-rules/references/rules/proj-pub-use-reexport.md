@@ -1,10 +1,6 @@
 # proj-pub-use-reexport
 
-> Use pub use for clean public API
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use pub use for clean public API## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use pub use for clean public API.
 

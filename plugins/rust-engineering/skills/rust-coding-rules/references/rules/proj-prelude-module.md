@@ -1,10 +1,6 @@
 # proj-prelude-module
 
-> Create prelude module for common imports
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Create prelude module for common imports## Decision
 
 Consider this rule only after its prerequisites are satisfied: Create prelude module for common imports.
 

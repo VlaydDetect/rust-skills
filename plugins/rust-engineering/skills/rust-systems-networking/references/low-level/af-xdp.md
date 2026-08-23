@@ -1,9 +1,4 @@
-# Low-level Af Xdp protocol
-
-<!-- low-level-source-family: af-xdp; source=skills/async-io/af-xdp/SKILL.md; sha256=ad6c96b053ca08d5f110fc5589e8419074439022ed8f3e1ff0984717b798f5bb; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/async-io/af-xdp/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Af Xdp protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-systems-networking`.
@@ -28,7 +23,7 @@
 4. Prove FFI layout, alignment, lifetime and thread-affinity at the binding boundary.
 5. Measure on the real target; classify host-only or hardware-free examples as fragments.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

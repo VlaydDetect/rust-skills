@@ -1,9 +1,4 @@
-# Low-level Strace Ltrace protocol
-
-<!-- low-level-source-family: strace-ltrace; source=skills/profilers/strace-ltrace/SKILL.md; sha256=e3b67a0125cc7b6c14caa573c177bdd43179cad80eba0b5d7b453ad6d40bbe4f; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/profilers/strace-ltrace/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Strace Ltrace protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$debugging`.
@@ -28,7 +23,7 @@
 4. Form one falsifiable hypothesis and collect only the state that distinguishes it.
 5. Record debugger limitations caused by inlining, optimization, missing frames, unsupported format, or timing perturbation.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

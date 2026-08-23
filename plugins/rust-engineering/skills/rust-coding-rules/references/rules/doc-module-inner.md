@@ -1,10 +1,6 @@
 # doc-module-inner
 
-> Use `//!` for module-level documentation
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Use `//!` for module-level documentation## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `//!` for module-level documentation.
 

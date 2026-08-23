@@ -1,10 +1,6 @@
 # api-newtype-safety
 
-> Use newtypes to prevent mixing semantically different values
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use newtypes to prevent mixing semantically different values## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use newtypes to prevent mixing semantically different values.
 

@@ -1,6 +1,6 @@
 # Unsafe Rust Field Guide
 
-This guide is the detailed policy for `rust-unsafe`. It synthesizes the craft unsafe raw-pointer and invariant guides plus full-stack stable Rust and unsafe-FFI distinctions; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-unsafe`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,21 @@ This guide is the detailed policy for `rust-unsafe`. It synthesizes the craft un
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-dpdk`](../../rust-systems-networking/references/dpdk.md) — supporting; Mempools, mbuf ownership, queues, burst processing, RSS, NUMA placement, affinity, and bounded packet-resource lifecycles.
+- [`rust-ebpf`](../../rust-systems-networking/references/ebpf.md) — supporting; Verifier constraints, bounded control flow, maps, XDP and probe attachment, no_std code, kernel/user ABI, and observability boundaries.
+- [`rust-embedded`](../../rust-architecture/references/domains/embedded-runtime.md) — supporting; no_std constraints, HAL ownership, interrupts, bounded memory, timing, peripherals, power, and deterministic cleanup.
+- [`rust-ffi`](../../rust-unsafe-ffi/references/ffi-boundaries.md) — supporting; ABI layout, ownership transfer, allocator pairing, strings, callbacks, panic containment, handles, and foreign-thread behavior.
+- [`rust-pin`](../../rust-pin/references/pin.md) — supporting; Address sensitivity, Pin/Unpin, structural projection, self-reference, Future polling, and the drop guarantee.
+- [`rust-unsafe`](./unsafe-invariants.md) — primary; Unsafe preconditions, aliasing, initialization, layout, provenance, Send/Sync, panic safety, and safe-abstraction review.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

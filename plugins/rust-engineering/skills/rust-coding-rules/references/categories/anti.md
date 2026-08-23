@@ -12,16 +12,16 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`anti-clone-excessive`](../rules/anti-clone-excessive.md) | `alias` | `rust-ownership` | Don't clone when borrowing works |
 | [`anti-collect-intermediate`](../rules/anti-collect-intermediate.md) | `alias` | `rust-performance` | Don't collect intermediate iterators |
-| [`anti-empty-catch`](../rules/anti-empty-catch.md) | `adapted` | `rust-idioms` | Don't silently ignore errors |
+| [`anti-empty-catch`](../rules/anti-empty-catch.md) | `canonical` | `rust-idioms` | Don't silently ignore errors |
 | [`anti-expect-lazy`](../rules/anti-expect-lazy.md) | `alias` | `rust-errors` | Don't use expect for recoverable errors |
 | [`anti-format-hot-path`](../rules/anti-format-hot-path.md) | `alias` | `rust-performance` | Don't use format! in hot paths |
 | [`anti-index-over-iter`](../rules/anti-index-over-iter.md) | `alias` | `rust-performance` | Don't use indexing when iterators work |
 | [`anti-lock-across-await`](../rules/anti-lock-across-await.md) | `alias` | `rust-concurrency` | Don't hold locks across await points |
-| [`anti-over-abstraction`](../rules/anti-over-abstraction.md) | `adapted` | `rust-idioms` | Don't over-abstract with excessive generics |
+| [`anti-over-abstraction`](../rules/anti-over-abstraction.md) | `canonical` | `rust-idioms` | Don't over-abstract with excessive generics |
 | [`anti-panic-expected`](../rules/anti-panic-expected.md) | `alias` | `rust-errors` | Don't panic on expected or recoverable errors |
 | [`anti-premature-optimize`](../rules/anti-premature-optimize.md) | `alias` | `rust-performance` | Don't optimize before profiling |
 | [`anti-string-for-str`](../rules/anti-string-for-str.md) | `alias` | `rust-ownership` | Don't accept &String when &str works |

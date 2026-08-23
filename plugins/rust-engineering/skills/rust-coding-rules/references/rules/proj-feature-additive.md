@@ -1,10 +1,6 @@
 # proj-feature-additive
 
-> Design Cargo features to be strictly additive
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-cargo-build; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Design Cargo features to be strictly additive## Decision
 
 Consider this rule only after its prerequisites are satisfied: Design Cargo features to be strictly additive.
 

@@ -1,6 +1,6 @@
 # Executable Specifications Field Guide
 
-This guide is the detailed policy for `specs`. It synthesizes the craft specifications workflow and its scenario-writing guidance, adapted to Rust API and test contracts; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `specs`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

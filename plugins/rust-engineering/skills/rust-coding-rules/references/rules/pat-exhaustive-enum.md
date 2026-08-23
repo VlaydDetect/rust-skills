@@ -1,10 +1,6 @@
 # pat-exhaustive-enum
 
-> Match owned enums exhaustively; avoid catch-all `_` that hides new variants
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stable`; status=adapted -->
-
-## Decision
+> Match owned enums exhaustively; avoid catch-all `_` that hides new variants## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Match owned enums exhaustively; avoid catch-all `_` that hides new variants.
 

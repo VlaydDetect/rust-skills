@@ -1,10 +1,6 @@
 # test-fixture-raii
 
-> Use RAII pattern (Drop trait) for automatic test cleanup
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use RAII pattern (Drop trait) for automatic test cleanup## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use RAII pattern (Drop trait) for automatic test cleanup.
 

@@ -46,12 +46,12 @@ After recording a comparable baseline and hotspot, select at most eight IDs from
 
 ## Detailed Reference
 
-Read [Rust Performance field guide](references/guide.md) before making a consequential design choice. Load the relevant [Actionbook performance protocol](references/actionbook-index.md) branch for its detailed measurement and optimization algorithms. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Performance field guide](references/guide.md) before making a consequential design choice. Load the relevant [Design protocol performance protocol](./references/guide.md) branch for its detailed measurement and optimization algorithms. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

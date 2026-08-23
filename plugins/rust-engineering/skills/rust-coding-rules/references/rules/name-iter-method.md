@@ -1,18 +1,14 @@
 # name-iter-method
 
-> Name iterator methods `iter()`, `iter_mut()`, and `into_iter()` consistently
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=alias -->
-
-## Canonical Rule
+> Name iterator methods `iter()`, `iter_mut()`, and `into_iter()` consistently## Canonical Rule
 
 Apply [`name-iter-convention`](name-iter-convention.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Name iterator methods `iter()`, `iter_mut()`, and `into_iter()` consistently
 

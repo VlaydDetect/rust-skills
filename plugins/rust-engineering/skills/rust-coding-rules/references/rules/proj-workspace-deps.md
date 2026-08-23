@@ -1,10 +1,6 @@
 # proj-workspace-deps
 
-> Use workspace dependency inheritance for consistent versions across crates
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-workspace; supporters=`rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use workspace dependency inheritance for consistent versions across crates## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use workspace dependency inheritance for consistent versions across crates.
 

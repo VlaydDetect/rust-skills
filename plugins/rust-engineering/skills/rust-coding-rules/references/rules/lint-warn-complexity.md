@@ -1,10 +1,6 @@
 # lint-warn-complexity
 
-> Enable clippy::complexity for simpler code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Enable clippy::complexity for simpler code## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Enable clippy::complexity for simpler code.
 

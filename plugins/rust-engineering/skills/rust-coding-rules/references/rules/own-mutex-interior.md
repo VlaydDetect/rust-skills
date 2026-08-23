@@ -1,10 +1,6 @@
 # own-mutex-interior
 
-> Use `Mutex<T>` for interior mutability across threads
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `Mutex<T>` for interior mutability across threads## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `Mutex<T>` for interior mutability across threads.
 

@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`perf-ahash`](../rules/perf-ahash.md) | `conditional` | `rust-performance` | Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed |
 | [`perf-black-box-bench`](../rules/perf-black-box-bench.md) | `conditional` | `rust-performance` | Use black_box in benchmarks |

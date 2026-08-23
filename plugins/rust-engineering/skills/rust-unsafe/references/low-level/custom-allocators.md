@@ -1,9 +1,4 @@
-# Low-level Custom Allocators protocol
-
-<!-- low-level-source-family: custom-allocators; source=skills/allocators/custom-allocators/SKILL.md; sha256=254925749dd306309c35ec2217fd4e4a08507aab2d4c3ad3346e22411a25ae8a; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/allocators/custom-allocators/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Custom Allocators protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-unsafe`.
@@ -28,7 +23,7 @@
 4. Minimize the reproducer and interpret the first causally relevant diagnostic.
 5. Record what the run did not cover and keep the local safety proof authoritative.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

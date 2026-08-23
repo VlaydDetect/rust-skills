@@ -1,10 +1,6 @@
 # macro-fragment-specifiers
 
-> Capture with precise fragment specifiers, not raw `:tt`, where you can
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Capture with precise fragment specifiers, not raw `:tt`, where you can## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Capture with precise fragment specifiers, not raw `:tt`, where you can.
 

@@ -1,10 +1,6 @@
 # async-cancellation-token
 
-> Use `CancellationToken` for graceful shutdown and task cancellation
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `CancellationToken` for graceful shutdown and task cancellation## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `CancellationToken` for graceful shutdown and task cancellation.
 

@@ -1,9 +1,4 @@
-# Low-level Dynamic Linking protocol
-
-<!-- low-level-source-family: dynamic-linking; source=skills/binaries/dynamic-linking/SKILL.md; sha256=682676ca14a1e991a496147bc47afafbaf0eaa02f5c09c4a52b468f141365d36; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/binaries/dynamic-linking/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Dynamic Linking protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-cargo-build`.
@@ -28,7 +23,7 @@
 4. Change the owning manifest/config once; keep environment-only experiments local and reversible.
 5. Validate the affected package/target/profile matrix and review lockfile or artifact changes separately.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

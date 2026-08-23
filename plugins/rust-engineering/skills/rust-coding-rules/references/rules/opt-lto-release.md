@@ -1,10 +1,6 @@
 # opt-lto-release
 
-> Enable LTO in release builds
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Enable LTO in release builds## Decision
 
 Consider this rule only after its prerequisites are satisfied: Enable LTO in release builds.
 

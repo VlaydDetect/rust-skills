@@ -1,10 +1,6 @@
 # own-clone-explicit
 
-> Use explicit `Clone` for types where copying has meaningful cost
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Use explicit `Clone` for types where copying has meaningful cost## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use explicit `Clone` for types where copying has meaningful cost.
 

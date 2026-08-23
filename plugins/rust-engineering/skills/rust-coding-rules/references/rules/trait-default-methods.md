@@ -1,10 +1,6 @@
 # trait-default-methods
 
-> Define a trait in terms of a few required methods plus defaulted ones built on top of them
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Define a trait in terms of a few required methods plus defaulted ones built on top of them## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Define a trait in terms of a few required methods plus defaulted ones built on top of them.
 

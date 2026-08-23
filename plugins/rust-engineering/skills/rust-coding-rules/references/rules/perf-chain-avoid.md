@@ -1,10 +1,6 @@
 # perf-chain-avoid
 
-> Avoid chain in hot loops
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Avoid chain in hot loops## Decision
 
 Consider this rule only after its prerequisites are satisfied: Avoid chain in hot loops.
 

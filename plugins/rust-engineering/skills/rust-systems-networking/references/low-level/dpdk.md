@@ -1,15 +1,10 @@
-# Low-level Dpdk protocol
-
-<!-- low-level-source-family: dpdk; source=skills/async-io/dpdk/SKILL.md; sha256=4786f104619ba02f57671537ceadf8bc59d65b68b3aedc871b8f5213fdbacf2a; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/async-io/dpdk/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Dpdk protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-systems-networking`.
 - Supporting profiles: `$rust-unsafe`, `$rust-performance`.
 - Retained scope: EAL, huge pages, PMDs, mempools/mbufs, RX/TX bursts, rings, RSS, NUMA, affinity, and pipeline topology.
-- Baseline correction: Merge only concepts not already owned by the Huiali protocol. Binding APIs, device arguments, huge pages, queue counts, and core maps are target-specific and require exact evidence.
+- Baseline correction: Merge only concepts not already owned by the Specialized Rust protocol. Binding APIs, device arguments, huge pages, queue counts, and core maps are target-specific and require exact evidence.
 - Project toolchain, MSRV, Edition, target, resolved dependencies, CI, hardware, operating system, and explicit user contract override this reference.
 
 ## Required context
@@ -28,7 +23,7 @@
 4. Prove FFI layout, alignment, lifetime and thread-affinity at the binding boundary.
 5. Measure on the real target; classify host-only or hardware-free examples as fragments.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

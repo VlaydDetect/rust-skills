@@ -1,10 +1,6 @@
 # perf-collect-into
 
-> Use collect_into for reusing containers
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use collect_into for reusing containers## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use collect_into for reusing containers.
 

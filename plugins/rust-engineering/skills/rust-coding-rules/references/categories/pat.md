@@ -12,13 +12,13 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`pat-at-bindings`](../rules/pat-at-bindings.md) | `conditional` | `rust-idioms` | Use `@` bindings to capture a value while matching it against a pattern |
-| [`pat-exhaustive-enum`](../rules/pat-exhaustive-enum.md) | `adapted` | `rust-idioms` | Match owned enums exhaustively; avoid catch-all `_` that hides new variants |
-| [`pat-if-let-chains`](../rules/pat-if-let-chains.md) | `adapted` | `rust-idioms` | Use `if let` chains to combine pattern bindings and conditions |
+| [`pat-exhaustive-enum`](../rules/pat-exhaustive-enum.md) | `canonical` | `rust-idioms` | Match owned enums exhaustively; avoid catch-all `_` that hides new variants |
+| [`pat-if-let-chains`](../rules/pat-if-let-chains.md) | `canonical` | `rust-idioms` | Use `if let` chains to combine pattern bindings and conditions |
 | [`pat-let-else`](../rules/pat-let-else.md) | `conditional` | `rust-idioms` | Use `let ... else` for early-return pattern extraction |
-| [`pat-matches-macro`](../rules/pat-matches-macro.md) | `adapted` | `rust-idioms` | Use `matches!()` for boolean pattern tests |
+| [`pat-matches-macro`](../rules/pat-matches-macro.md) | `canonical` | `rust-idioms` | Use `matches!()` for boolean pattern tests |
 
 ## Batch Audit
 

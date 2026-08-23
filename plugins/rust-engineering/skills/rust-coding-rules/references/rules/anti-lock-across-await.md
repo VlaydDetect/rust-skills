@@ -1,18 +1,14 @@
 # anti-lock-across-await
 
-> Don't hold locks across await points
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=alias -->
-
-## Canonical Rule
+> Don't hold locks across await points## Canonical Rule
 
 Apply [`async-no-lock-await`](async-no-lock-await.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't hold locks across await points
 

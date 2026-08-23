@@ -1,10 +1,6 @@
 # mem-arrayvec
 
-> Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate.
 

@@ -24,4 +24,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`strace-ltrace`](low-level/strace-ltrace.md) — primary; System-call and dynamic-library tracing, filtering, errno diagnosis, timing, attachment, seccomp investigation, and bounded capture.
 - [`valgrind`](../../rust-performance/references/low-level/valgrind.md) — supporting; Memcheck, leak categories, suppressions, Cachegrind, Callgrind, Massif, overhead, and native-code coverage.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

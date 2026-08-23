@@ -1,10 +1,6 @@
 # proj-lib-main-split
 
-> Keep `main.rs` minimal, logic in `lib.rs`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Keep `main.rs` minimal, logic in `lib.rs`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Keep `main.rs` minimal, logic in `lib.rs`.
 

@@ -1,10 +1,6 @@
 # async-watch-latest
 
-> Use `watch` channel for sharing the latest value with multiple observers
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `watch` channel for sharing the latest value with multiple observers## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `watch` channel for sharing the latest value with multiple observers.
 

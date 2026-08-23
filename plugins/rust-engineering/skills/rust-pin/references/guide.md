@@ -36,3 +36,16 @@ Pinning matters only when a value has an invariant that becomes invalid if the v
 
 The dependency-free fixture in `../examples/golden/` demonstrates an address-sensitive value built with `PhantomPinned`, safe accessors, and a local construction proof.
 
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-coroutine`](../../rust-concurrency/references/coroutine.md) — supporting; Stackless and stackful models, explicit state machines, suspension, scheduling, pinning, cancellation, and resource cleanup.
+- [`rust-pin`](./pin.md) — primary; Address sensitivity, Pin/Unpin, structural projection, self-reference, Future polling, and the drop guarantee.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

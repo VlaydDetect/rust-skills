@@ -1,10 +1,6 @@
 # conv-fromstr-parsing
 
-> Implement `FromStr` to enable `str::parse` for string-to-type conversions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-errors`; status=conditional -->
-
-## Decision
+> Implement `FromStr` to enable `str::parse` for string-to-type conversions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Implement `FromStr` to enable `str::parse` for string-to-type conversions.
 

@@ -1,10 +1,6 @@
 # coll-set-membership
 
-> Use `HashSet`/`BTreeSet` for membership tests and dedup, not linear `Vec::contains`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stdlib; supporters=`rust-performance`; status=conditional -->
-
-## Decision
+> Use `HashSet`/`BTreeSet` for membership tests and dedup, not linear `Vec::contains`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `HashSet`/`BTreeSet` for membership tests and dedup, not linear `Vec::contains`.
 

@@ -1,10 +1,6 @@
 # own-borrow-over-clone
 
-> Prefer `&T` borrowing over `.clone()`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Prefer `&T` borrowing over `.clone()`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Prefer `&T` borrowing over `.clone()`.
 

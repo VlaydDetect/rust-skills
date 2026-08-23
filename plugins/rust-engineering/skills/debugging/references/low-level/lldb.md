@@ -1,9 +1,4 @@
-# Low-level Lldb protocol
-
-<!-- low-level-source-family: lldb; source=skills/debuggers/lldb/SKILL.md; sha256=b3c4e4ac73a9ef202c6bd3d00f56b0f8d8b09375fbe6aa3ac6597b1fdc0c58ab; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/debuggers/lldb/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Lldb protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$debugging`.
@@ -28,7 +23,7 @@
 4. Form one falsifiable hypothesis and collect only the state that distinguishes it.
 5. Record debugger limitations caused by inlining, optimization, missing frames, unsupported format, or timing perturbation.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

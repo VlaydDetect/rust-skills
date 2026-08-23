@@ -1,10 +1,6 @@
 # async-try-join
 
-> Use `try_join!` for concurrent fallible operations with early return on error
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `try_join!` for concurrent fallible operations with early return on error## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `try_join!` for concurrent fallible operations with early return on error.
 

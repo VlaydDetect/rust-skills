@@ -1,10 +1,6 @@
 # name-iter-type-match
 
-> Name iterator types after their source method
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=adapted -->
-
-## Decision
+> Name iterator types after their source method## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Name iterator types after their source method.
 

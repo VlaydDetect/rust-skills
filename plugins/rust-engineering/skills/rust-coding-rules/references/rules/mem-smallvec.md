@@ -1,10 +1,6 @@
 # mem-smallvec
 
-> Use `SmallVec` for usually-small collections
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `SmallVec` for usually-small collections## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `SmallVec` for usually-small collections.
 

@@ -1,10 +1,6 @@
 # serde-try-from-validate
 
-> Validate while deserializing with `#[serde(try_from = "Raw")]`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Validate while deserializing with `#[serde(try_from = "Raw")]`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Validate while deserializing with `#[serde(try_from = "Raw")]`.
 

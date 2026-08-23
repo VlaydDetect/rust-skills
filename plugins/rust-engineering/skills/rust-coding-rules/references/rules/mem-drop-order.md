@@ -1,10 +1,6 @@
 # mem-drop-order
 
-> Know and control drop order: struct fields drop top-to-bottom, locals in reverse
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Know and control drop order: struct fields drop top-to-bottom, locals in reverse## Decision
 
 Consider this rule only after its prerequisites are satisfied: Know and control drop order: struct fields drop top-to-bottom, locals in reverse.
 

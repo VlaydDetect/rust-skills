@@ -1,6 +1,6 @@
 # Rust Debugging Field Guide
 
-This guide is the detailed policy for `debugging`. It synthesizes the craft debugging techniques and Rust ownership, concurrency, unsafe, testing, and performance profiles; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `debugging`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,16 @@ This guide is the detailed policy for `debugging`. It synthesizes the craft debu
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-performance`](../../rust-performance/references/performance.md) — supporting; Baselines, profiling, allocation, cache behavior, batching, contention, latency distributions, throughput, and regression evidence.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

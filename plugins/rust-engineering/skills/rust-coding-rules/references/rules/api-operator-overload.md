@@ -1,10 +1,6 @@
 # api-operator-overload
 
-> Overload operators only when the semantics are natural and unsurprising
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Overload operators only when the semantics are natural and unsurprising## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Overload operators only when the semantics are natural and unsurprising.
 

@@ -1,10 +1,6 @@
 # name-crate-no-rs
 
-> Don't suffix crate names with `-rs` or `-rust`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Don't suffix crate names with `-rs` or `-rust`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Don't suffix crate names with `-rs` or `-rust`.
 

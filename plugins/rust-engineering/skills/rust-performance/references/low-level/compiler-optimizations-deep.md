@@ -1,9 +1,4 @@
-# Low-level Compiler Optimizations Deep protocol
-
-<!-- low-level-source-family: compiler-optimizations-deep; source=skills/compiler-internals/compiler-optimizations-deep/SKILL.md; sha256=47b1a844dca5df7da36934b9ea9d9f62194aa42a66e10dba4b6d1a5352efc8c2; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/compiler-internals/compiler-optimizations-deep/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Compiler Optimizations Deep protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-performance`.
@@ -28,7 +23,7 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

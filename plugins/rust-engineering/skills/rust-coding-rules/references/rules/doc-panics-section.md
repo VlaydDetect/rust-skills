@@ -1,10 +1,6 @@
 # doc-panics-section
 
-> Include `# Panics` section for functions that can panic
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Include `# Panics` section for functions that can panic## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Include `# Panics` section for functions that can panic.
 

@@ -1,18 +1,14 @@
 # anti-panic-expected
 
-> Don't panic on expected or recoverable errors
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=alias -->
-
-## Canonical Rule
+> Don't panic on expected or recoverable errors## Canonical Rule
 
 Apply [`err-result-over-panic`](err-result-over-panic.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't panic on expected or recoverable errors
 

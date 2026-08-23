@@ -1,10 +1,6 @@
 # pat-let-else
 
-> Use `let ... else` for early-return pattern extraction
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stable`; status=conditional -->
-
-## Decision
+> Use `let ... else` for early-return pattern extraction## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `let ... else` for early-return pattern extraction.
 

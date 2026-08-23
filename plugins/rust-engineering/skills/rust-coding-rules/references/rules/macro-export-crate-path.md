@@ -1,10 +1,6 @@
 # macro-export-crate-path
 
-> Export declarative macros with `#[macro_export]` and a clean import path
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Export declarative macros with `#[macro_export]` and a clean import path## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Export declarative macros with `#[macro_export]` and a clean import path.
 

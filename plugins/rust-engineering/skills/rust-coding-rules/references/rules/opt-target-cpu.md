@@ -1,9 +1,6 @@
 # opt-target-cpu
 
 > Evaluate `target-cpu` only for a measured workload and an exactly known deployment CPU contract
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
 ## Decision
 
 Consider this rule only after its prerequisites are satisfied: compare an explicit deployment baseline with a target-specific build, preserving a portable fallback when the fleet is heterogeneous.

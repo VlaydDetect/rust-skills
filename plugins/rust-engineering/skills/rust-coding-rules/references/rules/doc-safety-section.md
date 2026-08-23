@@ -1,10 +1,6 @@
 # doc-safety-section
 
-> Include `# Safety` section for unsafe functions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Include `# Safety` section for unsafe functions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Include `# Safety` section for unsafe functions.
 

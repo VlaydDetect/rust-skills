@@ -1,6 +1,6 @@
 # Rust Unsafe FFI Field Guide
 
-This guide is the detailed policy for `rust-unsafe-ffi`. It synthesizes the full-stack unsafe-FFI skill and craft FFI guidance, separated from internal unsafe and UniFFI ownership; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-unsafe-ffi`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -43,3 +43,16 @@ State the selected option, rejected alternatives that materially affect correctn
 ## Compiling Example
 
 The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. It demonstrates one boundary or decision and is intentionally smaller than a production integration. Validate it with `cargo test --manifest-path skills/rust-unsafe-ffi/examples/golden/Cargo.toml`; additional external-tool or target evidence in this guide still applies.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-ffi`](./ffi-boundaries.md) — primary; ABI layout, ownership transfer, allocator pairing, strings, callbacks, panic containment, handles, and foreign-thread behavior.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

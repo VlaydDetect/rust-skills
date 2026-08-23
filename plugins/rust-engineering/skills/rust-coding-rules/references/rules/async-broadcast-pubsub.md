@@ -1,10 +1,6 @@
 # async-broadcast-pubsub
 
-> Use `broadcast` channel for pub/sub where all subscribers receive all messages
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `broadcast` channel for pub/sub where all subscribers receive all messages## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `broadcast` channel for pub/sub where all subscribers receive all messages.
 

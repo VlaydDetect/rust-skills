@@ -1,10 +1,6 @@
 # async-cancel-safety
 
-> Ensure futures used in `tokio::select!` branches are cancellation-safe
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Ensure futures used in `tokio::select!` branches are cancellation-safe## Decision
 
 Consider this rule only after its prerequisites are satisfied: Ensure futures used in `tokio::select!` branches are cancellation-safe.
 

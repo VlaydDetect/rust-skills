@@ -7,4 +7,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`memory-model`](low-level/memory-model.md) — primary; Atomic ordering, happens-before, release sequences, fences, publication, lock-free state machines, and common ordering failures.
 - [`rust-async-internals`](low-level/rust-async-internals.md) — primary; Future polling, Waker replacement, task scheduling, pinning, cancellation, blocking boundaries, and async diagnostics.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

@@ -1,10 +1,6 @@
 # name-type-param-single
 
-> Use single uppercase letters for type parameters: `T`, `E`, `K`, `V`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use single uppercase letters for type parameters: `T`, `E`, `K`, `V`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use single uppercase letters for type parameters: `T`, `E`, `K`, `V`.
 

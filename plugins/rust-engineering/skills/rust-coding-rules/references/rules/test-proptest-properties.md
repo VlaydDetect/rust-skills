@@ -1,10 +1,6 @@
 # test-proptest-properties
 
-> Use proptest for property-based testing
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use proptest for property-based testing## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use proptest for property-based testing.
 

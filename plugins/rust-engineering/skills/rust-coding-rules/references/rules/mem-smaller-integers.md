@@ -1,10 +1,6 @@
 # mem-smaller-integers
 
-> Use appropriately-sized integers to reduce memory footprint
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use appropriately-sized integers to reduce memory footprint## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use appropriately-sized integers to reduce memory footprint.
 

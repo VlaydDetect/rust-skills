@@ -1,0 +1,17 @@
+{
+  "marketplace": "rust-skills",
+  "plugin": "rust-engineering",
+  "repository": "VlaydDetect/rust-skills",
+  "ref": "v1.0.0-rc",
+  "targets": [
+    "codex-cli",
+    "chatgpt-desktop",
+    "claude-code",
+    "claude-desktop"
+  ],
+  "scopes": [
+    "user",
+    "project",
+    "local"
+  ]
+}

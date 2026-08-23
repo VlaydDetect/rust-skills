@@ -1,10 +1,6 @@
 # lint-missing-docs
 
-> Warn on missing documentation for public items
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Warn on missing documentation for public items## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Warn on missing documentation for public items.
 

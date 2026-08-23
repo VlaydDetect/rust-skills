@@ -1,10 +1,6 @@
 # unsafe-no-mangle-unsafe
 
-> In Rust 2024, write `#[unsafe(no_mangle)]`, `#[unsafe(export_name = "...")]`, and `#[unsafe(link_section = "...")]` — not the bare attribute forms.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=`rust-unsafe-ffi`; status=adapted -->
-
-## Decision
+> In Rust 2024, write `#[unsafe(no_mangle)]`, `#[unsafe(export_name = "...")]`, and `#[unsafe(link_section = "...")]` — not the bare attribute forms.## Decision
 
 Use this context-sensitive Rust decision when its premise is established: In Rust 2024, write `#[unsafe(no_mangle)]`, `#[unsafe(export_name = "...")]`, and `#[unsafe(link_section = "...")]` — not the bare attribute forms.
 

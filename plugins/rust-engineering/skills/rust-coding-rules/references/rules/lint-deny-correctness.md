@@ -1,10 +1,6 @@
 # lint-deny-correctness
 
-> `#![deny(clippy::correctness)]`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> `#![deny(clippy::correctness)]`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: `#![deny(clippy::correctness)]`.
 

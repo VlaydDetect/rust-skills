@@ -1,10 +1,6 @@
 # lint-rustfmt-check
 
-> Run cargo fmt --check in CI
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Run cargo fmt --check in CI## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Run cargo fmt --check in CI.
 

@@ -1,10 +1,6 @@
 # conv-tryfrom-fallible
 
-> Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-errors`; status=adapted -->
-
-## Decision
+> Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions.
 

@@ -30,4 +30,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-profiling`](../../rust-performance/references/low-level/rust-profiling.md) — supporting; Representative workload profiling, symbols, perf/flamegraphs, allocation analysis, Criterion, binary size, and monomorphization evidence.
 - [`rustc-basics`](low-level/rustc-basics.md) — primary; Cargo profiles, rustflags precedence, target inspection, MIR/LLVM/assembly evidence, monomorphization, size, and diagnostic triage.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

@@ -1,10 +1,6 @@
 # own-copy-small
 
-> Implement `Copy` for small, simple types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=conditional -->
-
-## Decision
+> Implement `Copy` for small, simple types## Decision
 
 Consider this rule only after its prerequisites are satisfied: Implement `Copy` for small, simple types.
 

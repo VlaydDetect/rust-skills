@@ -12,12 +12,12 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`const-block`](../rules/const-block.md) | `adapted` | `rust-stable` | Use inline `const { }` blocks for compile-time evaluation and assertions |
-| [`const-fn`](../rules/const-fn.md) | `adapted` | `rust-stable` | Make functions `const fn` when they can run at compile time |
-| [`const-generics`](../rules/const-generics.md) | `adapted` | `rust-stable` | Parameterize over values with const generics `<const N: usize>` |
-| [`const-vs-static`](../rules/const-vs-static.md) | `adapted` | `rust-stable` | Use `const` for an inlined value and `static` for a single addressed instance |
+| [`const-block`](../rules/const-block.md) | `canonical` | `rust-stable` | Use inline `const { }` blocks for compile-time evaluation and assertions |
+| [`const-fn`](../rules/const-fn.md) | `canonical` | `rust-stable` | Make functions `const fn` when they can run at compile time |
+| [`const-generics`](../rules/const-generics.md) | `canonical` | `rust-stable` | Parameterize over values with const generics `<const N: usize>` |
+| [`const-vs-static`](../rules/const-vs-static.md) | `canonical` | `rust-stable` | Use `const` for an inlined value and `static` for a single addressed instance |
 
 ## Batch Audit
 

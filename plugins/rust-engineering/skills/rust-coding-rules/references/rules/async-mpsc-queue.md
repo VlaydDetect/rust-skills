@@ -1,10 +1,6 @@
 # async-mpsc-queue
 
-> Use `mpsc` channels for async message queues between tasks
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `mpsc` channels for async message queues between tasks## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `mpsc` channels for async message queues between tasks.
 

@@ -1,10 +1,6 @@
 # const-fn
 
-> Make functions `const fn` when they can run at compile time
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stable; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Make functions `const fn` when they can run at compile time## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Make functions `const fn` when they can run at compile time.
 

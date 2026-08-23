@@ -6,4 +6,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-debugging`](../../debugging/references/low-level/rust-debugging.md) — supporting; Debug-profile selection, Rust-aware GDB/LLDB, backtraces, panics, structured instrumentation, and async task inspection.
 - [`strace-ltrace`](../../debugging/references/low-level/strace-ltrace.md) — supporting; System-call and dynamic-library tracing, filtering, errno diagnosis, timing, attachment, seccomp investigation, and bounded capture.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

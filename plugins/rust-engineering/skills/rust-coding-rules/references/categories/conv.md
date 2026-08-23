@@ -12,11 +12,11 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`conv-asmut-mutable`](../rules/conv-asmut-mutable.md) | `adapted` | `rust-api-design` | Accept `impl AsMut<T>` for flexible mutable borrowed inputs instead of concrete mutable references |
+| [`conv-asmut-mutable`](../rules/conv-asmut-mutable.md) | `canonical` | `rust-api-design` | Accept `impl AsMut<T>` for flexible mutable borrowed inputs instead of concrete mutable references |
 | [`conv-fromstr-parsing`](../rules/conv-fromstr-parsing.md) | `conditional` | `rust-api-design` | Implement `FromStr` to enable `str::parse` for string-to-type conversions |
-| [`conv-tryfrom-fallible`](../rules/conv-tryfrom-fallible.md) | `adapted` | `rust-api-design` | Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions |
+| [`conv-tryfrom-fallible`](../rules/conv-tryfrom-fallible.md) | `canonical` | `rust-api-design` | Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions |
 
 ## Batch Audit
 

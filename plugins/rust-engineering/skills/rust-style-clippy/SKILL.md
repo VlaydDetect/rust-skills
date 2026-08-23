@@ -48,9 +48,9 @@ After reproducing the configured tool output, select relevant IDs from [`lint-`]
 
 Read [Rust Style and Clippy field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Reviewed Cargo tooling
 

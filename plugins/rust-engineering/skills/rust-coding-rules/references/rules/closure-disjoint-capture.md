@@ -1,10 +1,6 @@
 # closure-disjoint-capture
 
-> Capture only what you use; lean on edition-2021 disjoint closure captures
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-ownership`, `rust-api-design`; status=adapted -->
-
-## Decision
+> Capture only what you use; lean on edition-2021 disjoint closure captures## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Capture only what you use; lean on edition-2021 disjoint closure captures.
 

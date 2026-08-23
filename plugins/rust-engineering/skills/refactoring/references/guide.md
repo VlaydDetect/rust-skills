@@ -1,6 +1,6 @@
 # Rust Refactoring Field Guide
 
-This guide is the detailed policy for `refactoring`. It synthesizes the craft refactoring workflow and full-stack API, workspace, module-layout, and SemVer guidance; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `refactoring`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,9 @@ This guide is the detailed policy for `refactoring`. It synthesizes the craft re
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+- [Rename, extract, move, and impact-analysis workflows](./refactoring-workflow.md)
+
+Use the navigation operations to enumerate definitions, references, callers, imports, trait impls, cfg branches, tests, docs, and generated consumers. The preserved behavior/API/serialization/performance contract remains authoritative; an LSP rename or successful compilation alone is insufficient evidence.

@@ -1,10 +1,6 @@
 # opt-pgo-profile
 
-> Use Profile-Guided Optimization (PGO) for maximum performance
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Use Profile-Guided Optimization (PGO) for maximum performance## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use Profile-Guided Optimization (PGO) for maximum performance.
 

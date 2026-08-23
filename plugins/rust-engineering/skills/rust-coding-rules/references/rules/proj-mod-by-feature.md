@@ -1,10 +1,6 @@
 # proj-mod-by-feature
 
-> Organize modules by feature, not type
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Organize modules by feature, not type## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Organize modules by feature, not type.
 

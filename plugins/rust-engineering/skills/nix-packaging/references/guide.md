@@ -1,6 +1,6 @@
 # Nix Packaging for Rust Field Guide
 
-This guide is the detailed policy for `nix-packaging`. It synthesizes the craft Nix packaging builders guidance adapted to Cargo workspaces, hashes, native inputs, and Rust artifacts; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `nix-packaging`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

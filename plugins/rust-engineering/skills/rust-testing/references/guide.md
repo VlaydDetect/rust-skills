@@ -1,6 +1,6 @@
 # Rust Testing Field Guide
 
-This guide is the detailed policy for `rust-testing`. It synthesizes the merged craft and full-stack testing skills covering core, advanced, tooling, golden examples, and CI integration; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-testing`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -43,3 +43,18 @@ State the selected option, rejected alternatives that materially affect correctn
 ## Compiling Example
 
 The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. It demonstrates one boundary or decision and is intentionally smaller than a production integration. Validate it with `cargo test --manifest-path skills/rust-testing/examples/golden/Cargo.toml`; additional external-tool or target evidence in this guide still applies.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-macro`](../../rust-macros/references/macro.md) — supporting; macro_rules!, derive, attribute and function-like procedural macros, token handling, hygiene, diagnostics, expansion, and compile-time tests.
+- [`rust-testing`](./testing.md) — primary; Unit, integration, property, compile-fail, concurrency, fuzz and regression strategy with observable failure criteria.
+- [`rust-unsafe`](../../rust-unsafe/references/unsafe-invariants.md) — supporting; Unsafe preconditions, aliasing, initialization, layout, provenance, Send/Sync, panic safety, and safe-abstraction review.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

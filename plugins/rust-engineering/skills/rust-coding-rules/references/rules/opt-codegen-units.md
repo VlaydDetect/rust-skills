@@ -1,10 +1,6 @@
 # opt-codegen-units
 
-> Set `codegen-units = 1` for maximum optimization in release builds
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Set `codegen-units = 1` for maximum optimization in release builds## Decision
 
 Consider this rule only after its prerequisites are satisfied: Set `codegen-units = 1` for maximum optimization in release builds.
 

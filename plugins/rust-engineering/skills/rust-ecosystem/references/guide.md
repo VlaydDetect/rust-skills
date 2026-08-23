@@ -1,6 +1,6 @@
 # Rust Ecosystem Field Guide
 
-This guide is the detailed policy for `rust-ecosystem`. It synthesizes the craft Rust ecosystem, Cargo, target, libraries, and crate-extraction guidance plus full-stack discovery boundaries; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-ecosystem`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,22 @@ This guide is the detailed policy for `rust-ecosystem`. It synthesizes the craft
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+- [Crate integration, features, workspaces, and interop](./ecosystem-overview.md)
+
+Use this for solution-class orientation. Current crate identity and resolved features come from `rust-research` and Cargo metadata; adoption policy remains with `rust-crate-discovery` or `rust-dependencies`.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-ecosystem`](./ecosystem.md) — primary; Solution classes, ecosystem maturity, maintenance, portability, interoperability, and evidence-led crate selection.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

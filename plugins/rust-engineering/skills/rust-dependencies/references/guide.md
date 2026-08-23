@@ -1,6 +1,6 @@
 # Rust Dependency Governance Field Guide
 
-This guide is the detailed policy for `rust-dependencies`. It synthesizes the full-stack dependency-management skill and its versions, features, audits, licensing, workspace, and removal references; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-dependencies`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

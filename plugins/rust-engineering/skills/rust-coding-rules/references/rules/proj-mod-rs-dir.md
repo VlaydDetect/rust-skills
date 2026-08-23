@@ -1,10 +1,6 @@
 # proj-mod-rs-dir
 
-> Use mod.rs for multi-file modules
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use mod.rs for multi-file modules## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use mod.rs for multi-file modules.
 

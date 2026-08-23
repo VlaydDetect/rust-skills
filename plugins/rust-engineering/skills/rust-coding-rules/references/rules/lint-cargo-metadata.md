@@ -1,10 +1,6 @@
 # lint-cargo-metadata
 
-> Enable clippy::cargo for published crates
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Enable clippy::cargo for published crates## Decision
 
 Consider this rule only after its prerequisites are satisfied: Enable clippy::cargo for published crates.
 

@@ -1,18 +1,14 @@
 # anti-collect-intermediate
 
-> Don't collect intermediate iterators
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=alias -->
-
-## Canonical Rule
+> Don't collect intermediate iterators## Canonical Rule
 
 Apply [`perf-collect-once`](perf-collect-once.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't collect intermediate iterators
 

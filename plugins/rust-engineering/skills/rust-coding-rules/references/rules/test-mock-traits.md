@@ -1,10 +1,6 @@
 # test-mock-traits
 
-> Use traits for dependencies to enable mocking in tests
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use traits for dependencies to enable mocking in tests## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use traits for dependencies to enable mocking in tests.
 

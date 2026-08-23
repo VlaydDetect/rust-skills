@@ -1,6 +1,6 @@
 # Addressing Findings Field Guide
 
-This guide is the detailed policy for `addressing-findings`. It synthesizes the craft finding-resolution workflow, Rust-specific correction guidance, and the shared review and verification contracts; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `addressing-findings`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

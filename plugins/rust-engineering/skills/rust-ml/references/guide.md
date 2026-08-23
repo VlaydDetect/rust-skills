@@ -78,3 +78,22 @@ State the selected framework and backend, the model contract, materially rejecte
 - [Linfa documentation](https://docs.rs/linfa/latest/linfa/) and [SmartCore source](https://github.com/smartcorelib/smartcore)
 - [tch-rs source](https://github.com/LaurentMazare/tch-rs), [Candle source](https://github.com/huggingface/candle), and [Burn documentation](https://burn.dev/docs/burn/)
 - [`tensor-rs` documentation](https://docs.rs/tensor-rs/latest/tensor_rs/)
+
+## Design protocol map
+
+- [Rust ML constraints and pipeline choices](./domain-constraints.md)
+
+Use this branch for tensor shape and dtype invariants, device placement, preprocessing parity, model lifecycle, batching, inference, and serving. Verify current backend and crate facts through `rust-research`; Design protocol version examples are not a dependency recommendation.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-gpu`](../../rust-gpu/references/gpu.md) — supporting; Device capabilities, memory hierarchy, transfer cost, alignment, coalescing, batching, synchronization, and measurement.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

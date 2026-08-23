@@ -1,10 +1,6 @@
 # obs-library-facade
 
-> Libraries emit through the tracing/log facade and never install a subscriber
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Libraries emit through the tracing/log facade and never install a subscriber## Decision
 
 Consider this rule only after its prerequisites are satisfied: Libraries emit through the tracing/log facade and never install a subscriber.
 

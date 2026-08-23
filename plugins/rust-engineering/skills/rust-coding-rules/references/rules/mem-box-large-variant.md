@@ -1,10 +1,6 @@
 # mem-box-large-variant
 
-> Box large enum variants to reduce overall enum size
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Box large enum variants to reduce overall enum size## Decision
 
 Consider this rule only after its prerequisites are satisfied: Box large enum variants to reduce overall enum size.
 

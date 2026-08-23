@@ -1,7 +1,4 @@
 # cargo-generate: reviewed scaffolding protocol
-
-<!-- laurigates-source-family: cargo-generate; source=rust-plugin/skills/cargo-generate/SKILL.md; sha256=a6cdb3bb09f86cc20060e3f9fdf887a7e3a01a4942a76552eb075b997f36e65f; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Use this reference only when a task explicitly creates or maintains a project template. The existence of `Cargo.toml` does not activate it.
 
 ## Ownership and hand-offs

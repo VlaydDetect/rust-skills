@@ -38,7 +38,7 @@ Unknown facts stay unknown. A crate name, keyword, or hypothetical future use is
 1. For an exact ID, open `references/rules/<id>.md`. Alias files remain addressable and route to their canonical rule.
 2. For a prefix or task, read [Rule routing](references/routing.md), then only the matching [category index](references/categories/).
 3. Select at most eight rules for a normal phase. Give one concrete reason for every selected ID and omit rules whose premise is not established.
-4. Read each selected rule fully, including `Apply When`, `Avoid When`, prerequisites, source guidance, trade-offs, and verification.
+4. Read each selected rule fully, including `Apply When`, `Avoid When`, prerequisites, rule guidance, trade-offs, and verification.
 5. Resolve conflicts using the precedence above. Conditional rules require their stated dependency, measurement, target, runtime, or compatibility premise.
 6. Return a compact `RuleSet`: selected IDs and reasons, prerequisites or conflicts, and deferred categories or batches.
 7. During implementation, re-run selection against the actual diff. During review, cite a rule ID only after opened code proves the trigger and impact.
@@ -53,15 +53,15 @@ LTO, codegen-unit changes, `target-cpu=native`, `panic=abort`, RwLock, boxing, a
 
 ## Tooling Command Gate
 
-Before using a rule's profiler, sanitizer, linker, target, artifact-path, nightly, or external-tool command, read the shared [low-level tooling baseline](../rust-research/references/low-level-tooling-baseline.md). Imported command blocks are illustrations, not authorization: resolve the project toolchain and target, derive artifacts from Cargo metadata, verify the installed tool's exact version, and classify build, network, install, privilege, configuration, and lockfile effects. Never install or switch tools implicitly.
+Before using a rule's profiler, sanitizer, linker, target, artifact-path, nightly, or external-tool command, read the shared [low-level tooling baseline](../rust-research/references/low-level-tooling-baseline.md). Command blocks are illustrations, not authorization: resolve the project toolchain and target, derive artifacts from Cargo metadata, verify the installed tool's exact version, and classify build, network, install, privilege, configuration, and lockfile effects. Never install or switch tools implicitly.
 
 ## Direct Invocation
 
 - Codex: `$rust-coding-rules <id|prefix|task>`
 - Claude Code: `/rust-engineering:rust-coding-rules <id|prefix|task>`
 
-Use [Rule routing](references/routing.md) for task and prefix selection. Category indexes link every one of the 265 source IDs to a full or alias rule file. For Actionbook's summarized coding guidance and legacy `/guideline` command, consult the [one-to-one crosswalk](references/actionbook/coding-guidelines/crosswalk.md) rather than creating duplicate rules.
+Use [Rule routing](references/routing.md) for task and prefix selection. Category indexes link every one of the 265 source IDs to a full or alias rule file. For Design protocol's summarized coding guidance and legacy `/guideline` command, consult the [one-to-one crosswalk](./references/guidelines/crosswalk.md) rather than creating duplicate rules.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/routing.md) and load only the matching family reference.

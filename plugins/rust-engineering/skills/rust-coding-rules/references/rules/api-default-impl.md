@@ -1,10 +1,6 @@
 # api-default-impl
 
-> Implement `Default` for types with sensible default values
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Implement `Default` for types with sensible default values## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Implement `Default` for types with sensible default values.
 

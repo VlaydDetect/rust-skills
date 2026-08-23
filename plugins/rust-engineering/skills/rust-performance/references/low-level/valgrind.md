@@ -1,9 +1,4 @@
-# Low-level Valgrind protocol
-
-<!-- low-level-source-family: valgrind; source=skills/profilers/valgrind/SKILL.md; sha256=9da280ba707bc94e6b7239bcd5ad0ce0cdf0a39415a257cdbdd2ed335e62ccf6; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/profilers/valgrind/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Valgrind protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-performance`.
@@ -28,7 +23,7 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

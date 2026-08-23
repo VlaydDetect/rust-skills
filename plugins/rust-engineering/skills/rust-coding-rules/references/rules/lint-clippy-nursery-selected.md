@@ -1,10 +1,6 @@
 # lint-clippy-nursery-selected
 
-> Enable high-value `clippy::nursery` lints selectively, not the whole group
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Enable high-value `clippy::nursery` lints selectively, not the whole group## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Enable high-value `clippy::nursery` lints selectively, not the whole group.
 

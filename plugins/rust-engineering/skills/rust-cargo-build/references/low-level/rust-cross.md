@@ -1,9 +1,4 @@
-# Low-level Rust Cross protocol
-
-<!-- low-level-source-family: rust-cross; source=skills/rust/rust-cross/SKILL.md; sha256=3834230005747c063552150d2d4c1a935a3cd0e10133fb4bc444d85fffb42f90; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-cross/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust Cross protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-cargo-build`.
@@ -28,7 +23,7 @@
 4. Change the owning manifest/config once; keep environment-only experiments local and reversible.
 5. Validate the affected package/target/profile matrix and review lockfile or artifact changes separately.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

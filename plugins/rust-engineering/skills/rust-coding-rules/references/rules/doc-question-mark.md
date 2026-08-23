@@ -1,10 +1,6 @@
 # doc-question-mark
 
-> Use `?` in examples, not `.unwrap()`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use `?` in examples, not `.unwrap()`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `?` in examples, not `.unwrap()`.
 

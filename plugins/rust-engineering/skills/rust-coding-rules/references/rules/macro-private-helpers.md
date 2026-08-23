@@ -1,10 +1,6 @@
 # macro-private-helpers
 
-> Hide macro-generated helper items behind a `#[doc(hidden)] pub mod __private`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Hide macro-generated helper items behind a `#[doc(hidden)] pub mod __private`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Hide macro-generated helper items behind a `#[doc(hidden)] pub mod __private`.
 

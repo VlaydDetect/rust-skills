@@ -1,10 +1,6 @@
 # conc-rayon-par-iter
 
-> Use rayon's `par_iter()` for CPU-bound data parallelism
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`, `rust-testing`; status=conditional -->
-
-## Decision
+> Use rayon's `par_iter()` for CPU-bound data parallelism## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use rayon's `par_iter()` for CPU-bound data parallelism.
 

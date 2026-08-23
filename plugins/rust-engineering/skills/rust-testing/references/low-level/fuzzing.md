@@ -1,9 +1,4 @@
-# Low-level Fuzzing protocol
-
-<!-- low-level-source-family: fuzzing; source=skills/runtimes/fuzzing/SKILL.md; sha256=8eadaeeb8baa10b54f4daf73ad9c787db6c8b617121615f02de8ecbe3fe51aaa; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/runtimes/fuzzing/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Fuzzing protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-testing`.
@@ -28,7 +23,7 @@
 4. Bound campaign time, memory, artifact retention and CI scope.
 5. Treat coverage growth as guidance; assert the actual safety or behavior contract separately.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

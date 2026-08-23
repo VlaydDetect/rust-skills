@@ -1,10 +1,6 @@
 # test-descriptive-names
 
-> Use descriptive test names that explain what is being tested
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=adapted -->
-
-## Decision
+> Use descriptive test names that explain what is being tested## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use descriptive test names that explain what is being tested.
 

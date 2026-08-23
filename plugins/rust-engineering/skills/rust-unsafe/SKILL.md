@@ -37,7 +37,7 @@ Own internal unsafe operations and the soundness boundary of safe Rust abstracti
 
 After writing the operation-by-operation safety proof, select only relevant IDs from the [`unsafe-` index](../rust-coding-rules/references/categories/unsafe.md). The rules supplement local invariant evidence and never justify introducing unsafe code.
 
-Then use the [Actionbook internal unsafe index](references/actionbook-checks/index.md)
+Then use the [Design protocol internal unsafe index](./references/safety-index.md)
 as an adversarial checklist. Load individual retained rules, not the whole
 corpus, and apply the product note at the top of each file. Report one finding
 under the canonical product rule when the two rulebooks overlap.
@@ -51,12 +51,12 @@ under the canonical product rule when the two rulebooks overlap.
 
 ## Detailed Reference
 
-Read [Unsafe Rust field guide](references/guide.md) before making a consequential design choice. For a new or reviewed unsafe boundary, also read the [Actionbook review protocol](references/actionbook-checks/overview.md) and select the relevant detailed rules from its [29-rule index](references/actionbook-checks/index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Unsafe Rust field guide](references/guide.md) before making a consequential design choice. For a new or reviewed unsafe boundary, also read the [Design protocol review protocol](./references/safety-overview.md) and select the relevant detailed rules from its [29-rule index](./references/safety-index.md). Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

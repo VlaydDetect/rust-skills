@@ -1,10 +1,6 @@
 # test-doctest-examples
 
-> Keep documentation examples as executable doctests
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Keep documentation examples as executable doctests## Decision
 
 Consider this rule only after its prerequisites are satisfied: Keep documentation examples as executable doctests.
 

@@ -1,10 +1,6 @@
 # err-from-impl
 
-> Implement `From<E>` for error conversions to enable `?` operator
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Implement `From<E>` for error conversions to enable `?` operator## Decision
 
 Consider this rule only after its prerequisites are satisfied: Implement `From<E>` for error conversions to enable `?` operator.
 

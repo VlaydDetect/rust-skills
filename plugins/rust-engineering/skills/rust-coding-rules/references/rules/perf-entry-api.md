@@ -1,10 +1,6 @@
 # perf-entry-api
 
-> Use entry API for map insert-or-update
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use entry API for map insert-or-update## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use entry API for map insert-or-update.
 

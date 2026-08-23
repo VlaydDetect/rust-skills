@@ -1,10 +1,6 @@
 # async-spawn-blocking
 
-> Use `spawn_blocking` for CPU-intensive work
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `spawn_blocking` for CPU-intensive work## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `spawn_blocking` for CPU-intensive work.
 

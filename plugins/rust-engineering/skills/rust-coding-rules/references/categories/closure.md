@@ -12,13 +12,13 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`closure-disjoint-capture`](../rules/closure-disjoint-capture.md) | `adapted` | `rust-traits` | Capture only what you use; lean on edition-2021 disjoint closure captures |
-| [`closure-fn-trait-bounds`](../rules/closure-fn-trait-bounds.md) | `adapted` | `rust-traits` | Require the least restrictive `Fn` trait a callback needs (`FnOnce` ⊇ `FnMut` ⊇ `Fn`) |
-| [`closure-impl-fn-return`](../rules/closure-impl-fn-return.md) | `adapted` | `rust-traits` | Return closures as `impl Fn`/`FnMut`/`FnOnce`, not `Box<dyn Fn>` |
+| [`closure-disjoint-capture`](../rules/closure-disjoint-capture.md) | `canonical` | `rust-traits` | Capture only what you use; lean on edition-2021 disjoint closure captures |
+| [`closure-fn-trait-bounds`](../rules/closure-fn-trait-bounds.md) | `canonical` | `rust-traits` | Require the least restrictive `Fn` trait a callback needs (`FnOnce` ⊇ `FnMut` ⊇ `Fn`) |
+| [`closure-impl-fn-return`](../rules/closure-impl-fn-return.md) | `canonical` | `rust-traits` | Return closures as `impl Fn`/`FnMut`/`FnOnce`, not `Box<dyn Fn>` |
 | [`closure-move-capture`](../rules/closure-move-capture.md) | `conditional` | `rust-traits` | Use `move` for closures that outlive the current scope; clone before `move` to keep the original |
-| [`closure-static-vs-dyn`](../rules/closure-static-vs-dyn.md) | `adapted` | `rust-traits` | Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them |
+| [`closure-static-vs-dyn`](../rules/closure-static-vs-dyn.md) | `canonical` | `rust-traits` | Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them |
 
 ## Batch Audit
 

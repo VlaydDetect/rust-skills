@@ -1,6 +1,6 @@
 # Rust Ownership Field Guide
 
-This guide is the detailed policy for `rust-ownership`. It synthesizes the craft ownership, borrowing, lifetimes, lifecycle, and pointer guides plus full-stack stable Rust ownership coverage; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-ownership`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,57 @@ This guide is the detailed policy for `rust-ownership`. It synthesizes the craft
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+Load only the branch that matches the controlling decision. These references preserve the source algorithms and examples; `rust-ownership` remains the owner and current project state overrides generic examples.
+
+## Ownership and lifetimes
+
+- [Core ownership questions](./ownership-overview.md)
+- [Cross-language ownership comparison](./ownership-comparison.md)
+- [Ownership best practices](./ownership-best-practices.md)
+- [Compiler-error patterns](./ownership-common-errors.md)
+- [Lifetime patterns](./ownership-lifetime-patterns.md)
+
+Start here for moves, borrows, escaping references, lifetime relationships, or repeated clone-based fixes. Trace upward only when the local ownership graph exposes a design or domain mismatch.
+
+## Resource topology
+
+- [Resource-management protocol](./resource-overview.md)
+
+Use this for `Box`, `Rc`, `Arc`, `Weak`, RAII, cycles, and drop ownership. Select from the actual single-thread, cross-thread, uniqueness, and lifecycle requirements.
+
+## Mutability
+
+- [Mutability protocol](./mutability-overview.md)
+
+Use this for exclusive borrows, interior mutability, lock-backed mutation, and the question of whether mutation belongs at the current layer. No lock or cell type is a default independent of topology.
+
+## Resource lifecycle
+
+- [Lifecycle, guards, cleanup, and initialization](./lifecycle-overview.md)
+
+Use this when acquisition, error, cancellation, shutdown, and drop paths must form one coherent resource protocol.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-async`](../../rust-concurrency/references/async.md) — supporting; Future lifecycle, cancellation safety, structured tasks, backpressure, bounded streams, joins, selection, and blocking boundaries.
+- [`rust-async-pattern`](../../rust-concurrency/references/async-pattern.md) — supporting; Async architecture choices, arenas, actors, owned snapshots, task topology, cancellation, and lifetime containment.
+- [`rust-concurrency`](../../rust-concurrency/references/concurrency.md) — supporting; Send/Sync, shared-state and message-passing choices, atomics, lock scope, thread/task ownership, cancellation, and shutdown.
+- [`rust-ffi`](../../rust-unsafe-ffi/references/ffi-boundaries.md) — supporting; ABI layout, ownership transfer, allocator pairing, strings, callbacks, panic containment, handles, and foreign-thread behavior.
+- [`rust-lifetime-complex`](./lifetime-complex.md) — primary; Lifetime diagnosis, variance, HRTBs, GATs, reborrowing, returned borrows, trait objects, and async lifetime boundaries.
+- [`rust-linear-type`](./linear-type.md) — primary; Affine resource semantics, exactly-once transitions, typestate, non-cloneable capabilities, RAII, and leak versus double-use analysis.
+- [`rust-mutability`](./mutability.md) — primary; Exclusive mutation, reborrowing, interior mutability, aliasing, lock/borrow scope, and observable API effects.
+- [`rust-ownership`](./ownership.md) — primary; Moves, borrows, reborrows, smart pointers, lifetime boundaries, clone decisions, and ownership-error diagnosis.
+- [`rust-pin`](../../rust-pin/references/pin.md) — supporting; Address sensitivity, Pin/Unpin, structural projection, self-reference, Future polling, and the drop guarantee.
+- [`rust-resource`](./resource.md) — primary; RAII, smart-pointer selection, pools, guards, acquisition ordering, partial construction, cleanup, and cancellation-safe release.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

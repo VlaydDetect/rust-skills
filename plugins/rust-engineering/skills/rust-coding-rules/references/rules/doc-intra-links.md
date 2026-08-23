@@ -1,10 +1,6 @@
 # doc-intra-links
 
-> Use intra-doc links to reference types and items
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Use intra-doc links to reference types and items## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use intra-doc links to reference types and items.
 

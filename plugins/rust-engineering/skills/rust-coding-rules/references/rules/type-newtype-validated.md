@@ -1,10 +1,6 @@
 # type-newtype-validated
 
-> Use newtypes to enforce validation at construction time
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use newtypes to enforce validation at construction time## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use newtypes to enforce validation at construction time.
 

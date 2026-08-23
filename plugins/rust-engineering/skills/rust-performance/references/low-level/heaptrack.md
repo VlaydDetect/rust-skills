@@ -1,9 +1,4 @@
-# Low-level Heaptrack protocol
-
-<!-- low-level-source-family: heaptrack; source=skills/profilers/heaptrack/SKILL.md; sha256=5af05cfc2fd208bb870d99ae375950caa0a1f8268ffef955859a31655a54de5b; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/profilers/heaptrack/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Heaptrack protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-performance`.
@@ -28,7 +23,7 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

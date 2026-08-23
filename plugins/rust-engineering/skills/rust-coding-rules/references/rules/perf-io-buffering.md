@@ -1,10 +1,6 @@
 # perf-io-buffering
 
-> Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations## Decision
 
 Consider this rule only after its prerequisites are satisfied: Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations.
 

@@ -1,10 +1,6 @@
 # mem-zero-copy
 
-> Use zero-copy patterns with slices and `Bytes`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use zero-copy patterns with slices and `Bytes`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use zero-copy patterns with slices and `Bytes`.
 

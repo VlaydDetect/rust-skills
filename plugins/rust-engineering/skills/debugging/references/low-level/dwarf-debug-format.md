@@ -1,9 +1,4 @@
-# Low-level Dwarf Debug Format protocol
-
-<!-- low-level-source-family: dwarf-debug-format; source=skills/debuggers/dwarf-debug-format/SKILL.md; sha256=d1a23a6c25756b7074b875bc4d4735809f43f9737291415840d29b06191772c5; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/debuggers/dwarf-debug-format/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Dwarf Debug Format protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$debugging`.
@@ -28,7 +23,7 @@
 4. Form one falsifiable hypothesis and collect only the state that distinguishes it.
 5. Record debugger limitations caused by inlining, optimization, missing frames, unsupported format, or timing perturbation.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

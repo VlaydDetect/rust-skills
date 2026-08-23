@@ -1,10 +1,6 @@
 # api-from-not-into
 
-> Implement `From<T>`, not `Into<U>` - From gives you Into for free
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Implement `From<T>`, not `Into<U>` - From gives you Into for free## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Implement `From<T>`, not `Into<U>` - From gives you Into for free.
 

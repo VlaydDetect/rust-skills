@@ -1,6 +1,6 @@
 # Rust Concurrency Field Guide
 
-This guide is the detailed policy for `rust-concurrency`. It synthesizes the merged craft and full-stack concurrency skills covering threads, async, patterns, channels, locks, atomics, and testing; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-concurrency`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -43,3 +43,38 @@ State the selected option, rejected alternatives that materially affect correctn
 ## Compiling Example
 
 The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. It demonstrates one boundary or decision and is intentionally smaller than a production integration. Validate it with `cargo test --manifest-path skills/rust-concurrency/examples/golden/Cargo.toml`; additional external-tool or target evidence in this guide still applies.
+
+## Design protocol map
+
+- [Concurrency decision model](./concurrency-overview.md)
+- [Concurrency comparison](./concurrency-comparison.md)
+- [Thread patterns](./concurrency-thread-patterns.md)
+- [Async patterns](./concurrency-async-patterns.md)
+- [Common concurrency failures](./concurrency-common-errors.md)
+
+Load only the relevant branch: threads, async tasks, locks, channels, atomics, or failure diagnosis. Select standard-library, runtime, crossbeam, or parking_lot facilities from topology, cancellation, backpressure, poisoning, fairness, MSRV, and dependency policy; the examples are alternatives, not defaults.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-actor`](./actor.md) — primary; Actor ownership, bounded mailboxes, request-response, supervision, restart policy, lifecycle, and backpressure.
+- [`rust-async`](./async.md) — primary; Future lifecycle, cancellation safety, structured tasks, backpressure, bounded streams, joins, selection, and blocking boundaries.
+- [`rust-async-pattern`](./async-pattern.md) — primary; Async architecture choices, arenas, actors, owned snapshots, task topology, cancellation, and lifetime containment.
+- [`rust-cache`](../../rust-architecture/references/domains/cache.md) — supporting; Cache ownership, key identity, freshness, invalidation, stampede control, capacity, failure behavior, and observability.
+- [`rust-concurrency`](./concurrency.md) — primary; Send/Sync, shared-state and message-passing choices, atomics, lock scope, thread/task ownership, cancellation, and shutdown.
+- [`rust-coroutine`](./coroutine.md) — primary; Stackless and stackful models, explicit state machines, suspension, scheduling, pinning, cancellation, and resource cleanup.
+- [`rust-distributed`](../../rust-distributed-systems/references/distributed.md) — supporting; Consistency, idempotency, retry budgets, leases, versioned contracts, saga/outbox coordination, consensus, and two-phase commit models.
+- [`rust-embedded`](../../rust-architecture/references/domains/embedded-runtime.md) — supporting; no_std constraints, HAL ownership, interrupts, bounded memory, timing, peripherals, power, and deterministic cleanup.
+- [`rust-middleware`](../../rust-architecture/references/domains/middleware.md) — supporting; Request pipelines, ordering, short-circuiting, context propagation, cancellation, retries, timeouts, and cross-cutting policy.
+- [`rust-mutability`](../../rust-ownership/references/mutability.md) — supporting; Exclusive mutation, reborrowing, interior mutability, aliasing, lock/borrow scope, and observable API effects.
+- [`rust-ownership`](../../rust-ownership/references/ownership.md) — supporting; Moves, borrows, reborrows, smart pointers, lifetime boundaries, clone decisions, and ownership-error diagnosis.
+- [`rust-pin`](../../rust-pin/references/pin.md) — supporting; Address sensitivity, Pin/Unpin, structural projection, self-reference, Future polling, and the drop guarantee.
+- [`rust-resource`](../../rust-ownership/references/resource.md) — supporting; RAII, smart-pointer selection, pools, guards, acquisition ordering, partial construction, cleanup, and cancellation-safe release.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

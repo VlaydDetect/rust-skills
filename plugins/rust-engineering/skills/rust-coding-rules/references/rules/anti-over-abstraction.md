@@ -1,10 +1,6 @@
 # anti-over-abstraction
 
-> Don't over-abstract with excessive generics
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=none; status=adapted -->
-
-## Decision
+> Don't over-abstract with excessive generics## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Don't over-abstract with excessive generics.
 

@@ -1,10 +1,6 @@
 # test-integration-dir
 
-> Put integration tests in the `tests/` directory
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Put integration tests in the `tests/` directory## Decision
 
 Consider this rule only after its prerequisites are satisfied: Put integration tests in the `tests/` directory.
 

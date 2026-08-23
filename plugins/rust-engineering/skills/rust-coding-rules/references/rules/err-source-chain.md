@@ -1,10 +1,6 @@
 # err-source-chain
 
-> Preserve error chains with `#[source]` or `source()` method
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Preserve error chains with `#[source]` or `source()` method## Decision
 
 Consider this rule only after its prerequisites are satisfied: Preserve error chains with `#[source]` or `source()` method.
 

@@ -1,10 +1,6 @@
 # name-into-ownership
 
-> Use `into_` prefix for ownership-consuming conversions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=conditional -->
-
-## Decision
+> Use `into_` prefix for ownership-consuming conversions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `into_` prefix for ownership-consuming conversions.
 

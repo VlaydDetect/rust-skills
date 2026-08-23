@@ -1,10 +1,6 @@
 # api-typestate
 
-> Use typestate pattern to encode state machine invariants in the type system
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use typestate pattern to encode state machine invariants in the type system## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use typestate pattern to encode state machine invariants in the type system.
 

@@ -1,10 +1,6 @@
 # err-result-over-panic
 
-> Return `Result<T, E>` instead of panicking for recoverable errors
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Return `Result<T, E>` instead of panicking for recoverable errors## Decision
 
 Consider this rule only after its prerequisites are satisfied: Return `Result<T, E>` instead of panicking for recoverable errors.
 

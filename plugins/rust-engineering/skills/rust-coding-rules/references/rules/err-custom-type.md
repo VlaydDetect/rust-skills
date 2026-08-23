@@ -1,10 +1,6 @@
 # err-custom-type
 
-> Define custom error types for domain-specific failures
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Define custom error types for domain-specific failures## Decision
 
 Consider this rule only after its prerequisites are satisfied: Define custom error types for domain-specific failures.
 

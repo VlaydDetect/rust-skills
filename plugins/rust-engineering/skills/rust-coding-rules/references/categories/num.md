@@ -12,13 +12,13 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`num-cast-try-from`](../rules/num-cast-try-from.md) | `adapted` | `rust-idioms` | Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing |
-| [`num-float-compare`](../rules/num-float-compare.md) | `adapted` | `rust-idioms` | Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering |
-| [`num-nonzero`](../rules/num-nonzero.md) | `adapted` | `rust-idioms` | Use `NonZero*` types to forbid zero and unlock the niche optimization |
-| [`num-overflow-explicit`](../rules/num-overflow-explicit.md) | `adapted` | `rust-idioms` | Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_` |
-| [`num-saturating-clamp`](../rules/num-saturating-clamp.md) | `adapted` | `rust-idioms` | Bound values with `clamp` and saturating arithmetic |
+| [`num-cast-try-from`](../rules/num-cast-try-from.md) | `canonical` | `rust-idioms` | Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing |
+| [`num-float-compare`](../rules/num-float-compare.md) | `canonical` | `rust-idioms` | Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering |
+| [`num-nonzero`](../rules/num-nonzero.md) | `canonical` | `rust-idioms` | Use `NonZero*` types to forbid zero and unlock the niche optimization |
+| [`num-overflow-explicit`](../rules/num-overflow-explicit.md) | `canonical` | `rust-idioms` | Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_` |
+| [`num-saturating-clamp`](../rules/num-saturating-clamp.md) | `canonical` | `rust-idioms` | Bound values with `clamp` and saturating arithmetic |
 
 ## Batch Audit
 

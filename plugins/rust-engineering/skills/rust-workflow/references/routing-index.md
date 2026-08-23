@@ -111,7 +111,7 @@ These are progressive references under existing owners, not standalone profiles.
 For a compound request, route by decision phase instead of loading every domain at once. For example, a Tauri application with SurrealDB and a binary export first uses `rust-tauri` for the IPC/capability phase, then `rust-database` for transaction and migration work, then `rust-serialization` for the export contract. A NixOS deployment uses the relevant Nix owner for environment or service configuration and starts a separate `rust-platforms` phase only for Rust program behavior on that OS.
 
 IoT, embedded, and cloud-native prompts start in `rust-architecture` with its
-Actionbook domain constraint maps, then route mechanics to the existing owners
+Design protocol domain constraint maps, then route mechanics to the existing owners
 such as concurrency, performance, observability, errors, dependencies, unsafe,
 or FFI. They do not require standalone framework profiles.
 
@@ -199,6 +199,20 @@ Use these ownership splits when descriptions overlap:
 
 When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
 
-For compiler diagnostics, the retained [Actionbook error-code index](actionbook-error-routing.md)
+For compiler diagnostics, the retained [Design protocol error-code index](./compiler-error-routing.md)
 is a quick entry-signal map. Confirm the full diagnostic and affected construct
 before routing; its source "common fixes" are hypotheses, not defaults.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-skill`](./skill-authoring.md) — primary; Problem-first classification, uncertainty reduction, owner selection, supporting constraints, and verification handoff.
+- [`rust-skill-index`](./skill-routing.md) — primary; Precise symptom-to-profile lookup, negative routing, manual invocation, and escalation from mechanics to design or domain reasoning.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

@@ -1,6 +1,6 @@
 # Rust Navigation Field Guide
 
-This guide is the detailed policy for `rust-navigation`. It synthesizes the craft Rust navigation workflow and full-stack module, workspace, Cargo, macro, and API guidance; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-navigation`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,33 @@ This guide is the detailed policy for `rust-navigation`. It synthesizes the craf
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+Choose one mode from the navigation question. Use the first available source in this order: fresh `graphify-out`, host-native LSP/rust-analyzer, locked offline Cargo commands, then `rg` plus source confirmation. A stale graph or textual match is a candidate, not proof.
+
+## Definitions and references
+
+- [Definitions, references, and workspace lookup](./modes/code-navigator.md)
+
+## Symbol inventory
+
+- [Document and workspace symbol analysis](./modes/symbol-analyzer.md)
+
+## Trait exploration
+
+- [Traits, implementations, methods, and dispatch](./modes/trait-explorer.md)
+
+Confirm receiver types, blanket impls, cfg branches, proc-macro generation, and dyn construction sites.
+
+## Call graph
+
+- [Incoming and outgoing call hierarchy](./modes/call-graph.md)
+
+Label edges `confirmed`, `candidate`, or `unknown`. Function pointers, trait objects, callbacks, macros, and FFI can make a static graph incomplete.
+
+## Dependency graph
+
+- [Cargo dependency visualization](./modes/deps-visualizer.md)
+
+Use `cargo metadata --format-version 1 --locked --offline` for identity and resolved edges. Use `cargo tree --locked --offline` only as a presentation or focused inversion aid. If locked offline resolution fails, report the exact gap rather than falling back to manifest grep.

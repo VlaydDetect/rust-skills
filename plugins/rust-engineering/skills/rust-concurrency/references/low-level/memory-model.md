@@ -1,9 +1,4 @@
-# Low-level Memory Model protocol
-
-<!-- low-level-source-family: memory-model; source=skills/low-level-programming/memory-model/SKILL.md; sha256=286469c6132de57d9ba01dc81cffc14e6df0d465b97700ea89fe68a1e733b8f0; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/low-level-programming/memory-model/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Memory Model protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-concurrency`.
@@ -28,7 +23,7 @@
 4. Bound work, queues, retries and spawned tasks; define who closes, drains and joins.
 5. Use schedule/race tools only after the invariant and minimized reproducer are explicit.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

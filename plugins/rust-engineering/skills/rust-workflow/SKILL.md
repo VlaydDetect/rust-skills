@@ -1,6 +1,6 @@
 ---
 name: rust-workflow
-description: Orchestrate project-aware Rust and Nix implementation by discovering effective state, selecting one primary and at most two supporting engineering profiles, making one coherent root-cause change, and producing risk-based evidence. Use for features, fixes, refactors, and other mutating coding work. Do not use for read-only review or verification-only requests.
+description: Orchestrate project-aware Rust implementation and opt-in setup by discovering effective state, selecting one primary and at most two supporting engineering profiles, making one coherent root-cause change, and producing risk-based evidence. Use for features, fixes, refactors, project bootstrap, toolchain setup, and other mutating coding work. Do not use for read-only review or verification-only requests.
 ---
 
 # Rust Workflow
@@ -39,6 +39,18 @@ Use host-native subagents when available; otherwise perform the same roles seque
 
 Available role contracts are `rust-scout`, `rust-researcher`, `rust-reviewer`, and `rust-verifier`. Give each a bounded `RoleBrief` from [Agent contracts](references/agent-contracts.md) plus the selected profile names. They return evidence; they never edit. Use the researcher only for one version-sensitive external question. The main agent decides, writes, integrates, and owns the final result. Avoid delegation for tiny tasks and avoid multiple agents reading the same scope. When re-reviewing fixes, prefer a fresh reviewer context.
 
+## Project Setup
+
+Setup is an opt-in phase of this workflow, not a separate skill.
+
+1. Inspect existing Rust files, Cargo manifests, toolchain files, CI, target configuration, and available commands before proposing anything.
+2. Offer only tools and files justified by those facts. State the exact commands and changes before running them.
+3. Wait for explicit user approval before invoking `rustup`, `cargo install`, package managers, generators, or before creating or modifying project files.
+4. Keep ordinary Rust setup separate from Nix. Route a requested Nix development shell through `nix-dev-env` and NixOS-specific work through `nixos`.
+5. Do not install optional tools such as `cargo-nextest`, `cargo-llvm-cov`, or `cargo-machete` unless the project evidence and requested workflow call for them.
+
+If there are Rust files without Cargo metadata, offer toolchain or project setup once. If a Cargo project is already configured, report its current context and offer one project-specific setup action. Treat `flake.nix`, `shell.nix`, a detected `nix` command, or NixOS as a separate Nix/NixOS offer.
+
 ## Routing Rules
 
 Keep automatic work cheap. Session hooks may discover context, but must not format files, modify lockfiles, download tools, run a full workspace test suite, publish, or perform security or network actions.
@@ -46,7 +58,3 @@ Keep automatic work cheap. Session hooks may discover context, but must not form
 Require explicit authorization before publishing, changing registry credentials, yanking releases, deleting user data, or broadening the task beyond the repository.
 
 Read [Project discovery](references/project-discovery.md) when the workspace, feature matrix, or repository-native commands are unclear. Use `addressing-findings` when a supplied review set must be closed. Unknown constraints remain unknown; do not invent them.
-
-## Huiali protocols
-
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.

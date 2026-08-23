@@ -38,12 +38,12 @@ Ordinary research is read-only. `crate sync` may create or refresh one project-l
 ## Detailed References
 
 - Read [Current Rust baseline](references/current-baseline.md) for the dated product snapshot and precedence rules.
-- Read the adapted [Rust and crate research protocol](references/actionbook/rust-learner/overview.md) for release, std, Clippy, and crate modes.
-- Read [Dynamic crate dossier protocol](references/actionbook/core-dynamic-skills/overview.md) only for inspect/sync/export/remove operations.
-- Read [Rust news protocol](references/actionbook/rust-daily/overview.md) only for explicit news requests.
-- Use the source-derived [research-agent lenses](references/actionbook-agents.md) when delegating one bounded read-only question.
-- Use [Actionbook command adapters](references/actionbook-commands.md) to translate legacy slash-command intent into host-neutral modes.
-- Read the retained [source docs-cache specification](references/actionbook/docs-cache-source-spec.md) only when designing dossier provenance or invalidation; its global cache paths, TTLs, and commands are not product behavior.
+- Read the [Rust and crate research protocol](./references/lenses/learner.md) for release, std, Clippy, and crate modes.
+- Read [Dynamic crate dossier protocol](./references/lenses/dynamic-skills.md) only for inspect/sync/export/remove operations.
+- Read [Rust news protocol](./references/news/daily-workflow.md) only for explicit news requests.
+- Use the [research-agent lenses](./references/research-lenses.md) when delegating one bounded read-only question.
+- Use [Command adapters](./references/command-adapters.md) to translate slash-command intent into host-neutral modes.
+- Read the [Dossier cache specification](./references/dossiers/dossier-cache-spec.md) only when designing dossier provenance or invalidation; its global cache paths, TTLs, and commands are not product behavior.
 
 ## Hand-offs
 
@@ -53,10 +53,6 @@ Ordinary research is read-only. `crate sync` may create or refresh one project-l
 - `rust-design-protocol` owns comparisons and cross-layer decisions.
 - `rust-workflow` remains the sole writer for repository implementation.
 
-## Huiali protocols
-
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
-
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

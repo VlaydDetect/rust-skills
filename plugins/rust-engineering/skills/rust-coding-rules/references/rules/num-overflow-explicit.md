@@ -1,10 +1,6 @@
 # num-overflow-explicit
 
-> Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stdlib`, `rust-stable`; status=adapted -->
-
-## Decision
+> Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_`.
 

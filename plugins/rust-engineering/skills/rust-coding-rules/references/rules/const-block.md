@@ -1,10 +1,6 @@
 # const-block
 
-> Use inline `const { }` blocks for compile-time evaluation and assertions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stable; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Use inline `const { }` blocks for compile-time evaluation and assertions## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use inline `const { }` blocks for compile-time evaluation and assertions.
 

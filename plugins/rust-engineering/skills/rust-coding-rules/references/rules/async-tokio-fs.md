@@ -1,10 +1,6 @@
 # async-tokio-fs
 
-> Use `tokio::fs` instead of `std::fs` in async code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `tokio::fs` instead of `std::fs` in async code## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `tokio::fs` instead of `std::fs` in async code.
 

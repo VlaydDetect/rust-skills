@@ -1,10 +1,6 @@
 # err-lowercase-msg
 
-> Start error messages lowercase, no trailing punctuation
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Start error messages lowercase, no trailing punctuation## Decision
 
 Consider this rule only after its prerequisites are satisfied: Start error messages lowercase, no trailing punctuation.
 

@@ -12,19 +12,19 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`doc-all-public`](../rules/doc-all-public.md) | `adapted` | `rust-documentation` | Document all public items with `///` doc comments |
+| [`doc-all-public`](../rules/doc-all-public.md) | `canonical` | `rust-documentation` | Document all public items with `///` doc comments |
 | [`doc-cargo-metadata`](../rules/doc-cargo-metadata.md) | `conditional` | `rust-documentation` | Fill `Cargo.toml` metadata for published crates |
-| [`doc-crate-readme`](../rules/doc-crate-readme.md) | `adapted` | `rust-documentation` | Unify the README and crate root docs with `#![doc = include_str!("../README.md")]` |
+| [`doc-crate-readme`](../rules/doc-crate-readme.md) | `canonical` | `rust-documentation` | Unify the README and crate root docs with `#![doc = include_str!("../README.md")]` |
 | [`doc-errors-section`](../rules/doc-errors-section.md) | `conditional` | `rust-documentation` | Include `# Errors` section for fallible functions |
-| [`doc-examples-section`](../rules/doc-examples-section.md) | `adapted` | `rust-documentation` | Include `# Examples` with runnable code |
-| [`doc-hidden-setup`](../rules/doc-hidden-setup.md) | `adapted` | `rust-documentation` | Use `# ` prefix to hide example setup code |
+| [`doc-examples-section`](../rules/doc-examples-section.md) | `canonical` | `rust-documentation` | Include `# Examples` with runnable code |
+| [`doc-hidden-setup`](../rules/doc-hidden-setup.md) | `canonical` | `rust-documentation` | Use `# ` prefix to hide example setup code |
 | [`doc-intra-links`](../rules/doc-intra-links.md) | `conditional` | `rust-documentation` | Use intra-doc links to reference types and items |
 | [`doc-link-types`](../rules/doc-link-types.md) | `alias` | `rust-documentation` | Use intra-doc links to connect related types and functions |
 | [`doc-module-inner`](../rules/doc-module-inner.md) | `conditional` | `rust-documentation` | Use `//!` for module-level documentation |
-| [`doc-panics-section`](../rules/doc-panics-section.md) | `adapted` | `rust-documentation` | Include `# Panics` section for functions that can panic |
-| [`doc-question-mark`](../rules/doc-question-mark.md) | `adapted` | `rust-documentation` | Use `?` in examples, not `.unwrap()` |
+| [`doc-panics-section`](../rules/doc-panics-section.md) | `canonical` | `rust-documentation` | Include `# Panics` section for functions that can panic |
+| [`doc-question-mark`](../rules/doc-question-mark.md) | `canonical` | `rust-documentation` | Use `?` in examples, not `.unwrap()` |
 | [`doc-safety-section`](../rules/doc-safety-section.md) | `conditional` | `rust-documentation` | Include `# Safety` section for unsafe functions |
 
 ## Batch Audit

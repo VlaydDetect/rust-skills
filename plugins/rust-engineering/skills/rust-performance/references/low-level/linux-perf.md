@@ -1,9 +1,4 @@
-# Low-level Linux Perf protocol
-
-<!-- low-level-source-family: linux-perf; source=skills/profilers/linux-perf/SKILL.md; sha256=37a36c26bf493d7c193df5d8f1e076013f0148ad84235daa15308f160ab5735c; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/profilers/linux-perf/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Linux Perf protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-performance`.
@@ -28,7 +23,7 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

@@ -1,10 +1,6 @@
 # obs-tracing-over-log
 
-> Use `tracing` for structured, span-aware diagnostics instead of `println!` or bare `log`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Use `tracing` for structured, span-aware diagnostics instead of `println!` or bare `log`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `tracing` for structured, span-aware diagnostics instead of `println!` or bare `log`.
 

@@ -1,10 +1,6 @@
 # closure-static-vs-dyn
 
-> Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-ownership`, `rust-api-design`; status=adapted -->
-
-## Decision
+> Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them.
 

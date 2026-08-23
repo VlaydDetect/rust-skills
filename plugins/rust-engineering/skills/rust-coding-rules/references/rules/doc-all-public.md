@@ -1,10 +1,6 @@
 # doc-all-public
 
-> Document all public items with `///` doc comments
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Document all public items with `///` doc comments## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Document all public items with `///` doc comments.
 

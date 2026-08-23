@@ -1,10 +1,6 @@
 # test-should-panic
 
-> Use `#[should_panic]` to test that code panics as expected
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=adapted -->
-
-## Decision
+> Use `#[should_panic]` to test that code panics as expected## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `#[should_panic]` to test that code panics as expected.
 

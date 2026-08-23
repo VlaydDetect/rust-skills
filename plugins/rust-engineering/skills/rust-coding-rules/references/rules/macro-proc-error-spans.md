@@ -1,10 +1,6 @@
 # macro-proc-error-spans
 
-> Report proc-macro errors as spanned compile errors, never by panicking
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Report proc-macro errors as spanned compile errors, never by panicking## Decision
 
 Consider this rule only after its prerequisites are satisfied: Report proc-macro errors as spanned compile errors, never by panicking.
 

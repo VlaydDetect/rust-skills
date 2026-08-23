@@ -1,10 +1,6 @@
 # api-sealed-trait
 
-> Use sealed traits to prevent external implementations while allowing use
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use sealed traits to prevent external implementations while allowing use## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use sealed traits to prevent external implementations while allowing use.
 

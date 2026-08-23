@@ -1,10 +1,6 @@
 # unsafe-minimize-scope
 
-> Keep `unsafe` blocks as small as possible — mark only the operation that requires unsafety, not the surrounding safe code.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=none; status=conditional -->
-
-## Decision
+> Keep `unsafe` blocks as small as possible — mark only the operation that requires unsafety, not the surrounding safe code.## Decision
 
 Consider this rule only after its prerequisites are satisfied: Keep `unsafe` blocks as small as possible — mark only the operation that requires unsafety, not the surrounding safe code.
 

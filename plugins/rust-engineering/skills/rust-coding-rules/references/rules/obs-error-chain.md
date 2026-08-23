@@ -1,10 +1,6 @@
 # obs-error-chain
 
-> Log errors with their full source chain, and log each error exactly once
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Log errors with their full source chain, and log each error exactly once## Decision
 
 Consider this rule only after its prerequisites are satisfied: Log errors with their full source chain, and log each error exactly once.
 

@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`async-async-fn-bounds`](../rules/async-async-fn-bounds.md) | `conditional` | `rust-concurrency` | Use `AsyncFn`/`AsyncFnMut`/`AsyncFnOnce` bounds instead of `F: Fn() -> Fut, Fut: Future` |
 | [`async-bounded-channel`](../rules/async-bounded-channel.md) | `conditional` | `rust-concurrency` | Use bounded channels to apply backpressure and prevent unbounded memory growth |

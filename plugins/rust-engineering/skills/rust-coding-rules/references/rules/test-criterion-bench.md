@@ -1,10 +1,6 @@
 # test-criterion-bench
 
-> Use `criterion` for benchmarking
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use `criterion` for benchmarking## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `criterion` for benchmarking.
 

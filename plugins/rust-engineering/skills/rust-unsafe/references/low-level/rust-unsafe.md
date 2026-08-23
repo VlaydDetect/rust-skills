@@ -1,9 +1,4 @@
-# Low-level Rust Unsafe protocol
-
-<!-- low-level-source-family: rust-unsafe; source=skills/rust/rust-unsafe/SKILL.md; sha256=96450d41663e02071ca414edbe89e1fd3b779139ce945726c48e665a838f934b; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-unsafe/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust Unsafe protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-unsafe`.
@@ -28,7 +23,7 @@
 4. Minimize the reproducer and interpret the first causally relevant diagnostic.
 5. Record what the run did not cover and keep the local safety proof authoritative.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

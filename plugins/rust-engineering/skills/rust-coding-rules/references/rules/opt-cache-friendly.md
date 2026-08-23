@@ -1,10 +1,6 @@
 # opt-cache-friendly
 
-> Organize data for cache-efficient access patterns
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Organize data for cache-efficient access patterns## Decision
 
 Consider this rule only after its prerequisites are satisfied: Organize data for cache-efficient access patterns.
 

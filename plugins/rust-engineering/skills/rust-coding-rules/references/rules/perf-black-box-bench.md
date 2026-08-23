@@ -1,10 +1,6 @@
 # perf-black-box-bench
 
-> Use black_box in benchmarks
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use black_box in benchmarks## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use black_box in benchmarks.
 

@@ -1,9 +1,4 @@
-# Low-level Gdb protocol
-
-<!-- low-level-source-family: gdb; source=skills/debuggers/gdb/SKILL.md; sha256=9206c53d89fbd330b826651ff97477514a3478dcf6dea676a256f37f4cc944e3; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/debuggers/gdb/SKILL.md` and 2 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Gdb protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$debugging`.
@@ -28,7 +23,7 @@
 4. Form one falsifiable hypothesis and collect only the state that distinguishes it.
 5. Record debugger limitations caused by inlining, optimization, missing frames, unsupported format, or timing perturbation.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

@@ -1,10 +1,6 @@
 # async-clone-before-await
 
-> Clone Arc/Rc data before await points to avoid holding references across suspension
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Clone Arc/Rc data before await points to avoid holding references across suspension## Decision
 
 Consider this rule only after its prerequisites are satisfied: Clone Arc/Rc data before await points to avoid holding references across suspension.
 

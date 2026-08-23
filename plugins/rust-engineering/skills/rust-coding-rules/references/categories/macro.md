@@ -12,16 +12,16 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`macro-export-crate-path`](../rules/macro-export-crate-path.md) | `adapted` | `rust-macros` | Export declarative macros with `#[macro_export]` and a clean import path |
-| [`macro-fragment-specifiers`](../rules/macro-fragment-specifiers.md) | `adapted` | `rust-macros` | Capture with precise fragment specifiers, not raw `:tt`, where you can |
-| [`macro-prefer-functions`](../rules/macro-prefer-functions.md) | `adapted` | `rust-macros` | Reach for a macro only when a function or generic cannot express it |
+| [`macro-export-crate-path`](../rules/macro-export-crate-path.md) | `canonical` | `rust-macros` | Export declarative macros with `#[macro_export]` and a clean import path |
+| [`macro-fragment-specifiers`](../rules/macro-fragment-specifiers.md) | `canonical` | `rust-macros` | Capture with precise fragment specifiers, not raw `:tt`, where you can |
+| [`macro-prefer-functions`](../rules/macro-prefer-functions.md) | `canonical` | `rust-macros` | Reach for a macro only when a function or generic cannot express it |
 | [`macro-private-helpers`](../rules/macro-private-helpers.md) | `conditional` | `rust-macros` | Hide macro-generated helper items behind a `#[doc(hidden)] pub mod __private` |
 | [`macro-proc-error-spans`](../rules/macro-proc-error-spans.md) | `conditional` | `rust-macros` | Report proc-macro errors as spanned compile errors, never by panicking |
 | [`macro-proc-syn-quote`](../rules/macro-proc-syn-quote.md) | `conditional` | `rust-macros` | Build procedural macros with `syn`, `quote`, and `proc-macro2` |
 | [`macro-proc-two-crate`](../rules/macro-proc-two-crate.md) | `conditional` | `rust-macros` | Put procedural macros in a dedicated `proc-macro = true` crate and re-export from the facade |
-| [`macro-rules-hygiene`](../rules/macro-rules-hygiene.md) | `adapted` | `rust-macros` | Rely on `macro_rules!` hygiene and use `$crate` for paths to your crate's items |
+| [`macro-rules-hygiene`](../rules/macro-rules-hygiene.md) | `canonical` | `rust-macros` | Rely on `macro_rules!` hygiene and use `$crate` for paths to your crate's items |
 
 ## Batch Audit
 

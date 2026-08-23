@@ -11,4 +11,17 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-unsafe`](../../rust-unsafe/references/low-level/rust-unsafe.md) — supporting; Unsafe operations, raw pointers, traits, safe wrappers, transmute, UnsafeCell, provenance, aliasing, initialization, and drop.
 - [`sanitizers`](../../rust-unsafe/references/low-level/sanitizers.md) — supporting; ASan, TSan, MSan, hardware-assisted modes, suppression and report concepts, and native dependency instrumentation.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-testing`](../../rust-testing/references/testing.md) — supporting; Unit, integration, property, compile-fail, concurrency, fuzz and regression strategy with observable failure criteria.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

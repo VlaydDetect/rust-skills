@@ -1,10 +1,6 @@
 # coll-binaryheap
 
-> Use `BinaryHeap` for a priority queue or repeated max-extraction
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-stdlib; supporters=`rust-performance`; status=adapted -->
-
-## Decision
+> Use `BinaryHeap` for a priority queue or repeated max-extraction## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `BinaryHeap` for a priority queue or repeated max-extraction.
 

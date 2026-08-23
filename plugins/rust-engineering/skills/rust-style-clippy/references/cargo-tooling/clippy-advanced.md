@@ -1,7 +1,4 @@
 # Advanced Clippy policy
-
-<!-- laurigates-source-family: clippy-advanced; source=rust-plugin/skills/clippy-advanced/SKILL.md; sha256=17e0eccdc7523805aa1bc52361d9a3e4bfa9ee38804e4f58e574efe37e551ee7; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Use this reference to design or repair a project-owned Clippy policy. Do not activate it for an ordinary Rust task merely because Clippy could run.
 
 ## Evidence and ownership

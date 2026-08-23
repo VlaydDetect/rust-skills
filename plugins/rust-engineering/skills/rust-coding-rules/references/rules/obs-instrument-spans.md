@@ -1,10 +1,6 @@
 # obs-instrument-spans
 
-> Use `#[tracing::instrument]` and spans to attach context to async tasks and requests
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Use `#[tracing::instrument]` and spans to attach context to async tasks and requests## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `#[tracing::instrument]` and spans to attach context to async tasks and requests.
 

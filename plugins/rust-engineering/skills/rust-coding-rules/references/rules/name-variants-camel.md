@@ -1,10 +1,6 @@
 # name-variants-camel
 
-> Use `UpperCamelCase` for enum variants
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use `UpperCamelCase` for enum variants## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `UpperCamelCase` for enum variants.
 

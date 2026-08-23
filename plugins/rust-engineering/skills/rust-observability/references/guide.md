@@ -1,6 +1,6 @@
 # Rust Observability Field Guide
 
-This guide is the detailed policy for `rust-observability`. It synthesizes the full-stack observability skill and its tracing, metrics, logging, correlation, testing, and overhead references; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-observability`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -43,3 +43,19 @@ State the selected option, rejected alternatives that materially affect correctn
 ## Compiling Example
 
 The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. It demonstrates one boundary or decision and is intentionally smaller than a production integration. Validate it with `cargo test --manifest-path skills/rust-observability/examples/golden/Cargo.toml`; additional external-tool or target evidence in this guide still applies.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-ebpf`](../../rust-systems-networking/references/ebpf.md) — supporting; Verifier constraints, bounded control flow, maps, XDP and probe attachment, no_std code, kernel/user ABI, and observability boundaries.
+- [`rust-middleware`](../../rust-architecture/references/domains/middleware.md) — supporting; Request pipelines, ordering, short-circuiting, context propagation, cancellation, retries, timeouts, and cross-cutting policy.
+- [`rust-observability`](./observability.md) — primary; Structured events, spans, metrics, correlation, cardinality, redaction, sampling, and operational failure evidence.
+- [`rust-performance`](../../rust-performance/references/performance.md) — supporting; Baselines, profiling, allocation, cache behavior, batching, contention, latency distributions, throughput, and regression evidence.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

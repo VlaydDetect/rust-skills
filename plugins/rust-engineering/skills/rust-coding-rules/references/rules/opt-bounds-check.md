@@ -1,10 +1,6 @@
 # opt-bounds-check
 
-> Use iterators and patterns that eliminate bounds checks in hot paths
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Use iterators and patterns that eliminate bounds checks in hot paths## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use iterators and patterns that eliminate bounds checks in hot paths.
 

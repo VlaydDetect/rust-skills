@@ -1,10 +1,6 @@
 # own-move-large
 
-> Move large types instead of copying; use `Box` if moves are expensive
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=conditional -->
-
-## Decision
+> Move large types instead of copying; use `Box` if moves are expensive## Decision
 
 Consider this rule only after its prerequisites are satisfied: Move large types instead of copying; use `Box` if moves are expensive.
 

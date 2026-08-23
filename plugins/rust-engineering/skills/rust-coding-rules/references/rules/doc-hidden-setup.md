@@ -1,10 +1,6 @@
 # doc-hidden-setup
 
-> Use `# ` prefix to hide example setup code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use `# ` prefix to hide example setup code## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `# ` prefix to hide example setup code.
 

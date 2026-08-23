@@ -1,10 +1,6 @@
 # conc-thread-local
 
-> Prefer `thread_local!` with `Cell`/`RefCell` over `static mut`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`, `rust-testing`; status=adapted -->
-
-## Decision
+> Prefer `thread_local!` with `Cell`/`RefCell` over `static mut`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Prefer `thread_local!` with `Cell`/`RefCell` over `static mut`.
 

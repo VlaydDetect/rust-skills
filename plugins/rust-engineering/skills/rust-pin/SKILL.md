@@ -40,12 +40,12 @@ Own the pinning contract: which value becomes address-sensitive, when that contr
 
 ## Detailed Reference
 
-Read [Rust Pinning field guide](references/guide.md) before creating an unsafe pinning abstraction. For source-derived algorithms and classified fragments, load only the [`rust-pin` Huiali protocol](references/huiali/rust-pin.md).
+Read [Rust Pinning field guide](references/guide.md) before creating an unsafe pinning abstraction. For detailed algorithms and classified fragments, load only the [`rust-pin` Specialized Rust protocol](./references/pin.md).
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

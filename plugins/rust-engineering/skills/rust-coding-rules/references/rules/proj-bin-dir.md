@@ -1,10 +1,6 @@
 # proj-bin-dir
 
-> Put multiple binaries in src/bin/
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-cargo-build; supporters=`rust-module-layout`; status=adapted -->
-
-## Decision
+> Put multiple binaries in src/bin/## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Put multiple binaries in src/bin/.
 

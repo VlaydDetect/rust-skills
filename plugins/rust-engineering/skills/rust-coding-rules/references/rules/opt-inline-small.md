@@ -1,10 +1,6 @@
 # opt-inline-small
 
-> Use `#[inline]` for small hot functions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Use `#[inline]` for small hot functions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `#[inline]` for small hot functions.
 

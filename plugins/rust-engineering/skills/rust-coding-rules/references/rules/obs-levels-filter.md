@@ -1,10 +1,6 @@
 # obs-levels-filter
 
-> Use log levels meaningfully and filter with `EnvFilter` / `RUST_LOG`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Use log levels meaningfully and filter with `EnvFilter` / `RUST_LOG`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use log levels meaningfully and filter with `EnvFilter` / `RUST_LOG`.
 

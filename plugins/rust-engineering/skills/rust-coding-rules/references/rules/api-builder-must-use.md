@@ -1,10 +1,6 @@
 # api-builder-must-use
 
-> Mark builder methods with `#[must_use]` to prevent silent drops
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Mark builder methods with `#[must_use]` to prevent silent drops## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Mark builder methods with `#[must_use]` to prevent silent drops.
 

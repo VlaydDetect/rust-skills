@@ -12,12 +12,12 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`conc-atomic-ordering`](../rules/conc-atomic-ordering.md) | `conditional` | `rust-concurrency` | Use the weakest correct memory `Ordering` for every atomic operation |
 | [`conc-rayon-par-iter`](../rules/conc-rayon-par-iter.md) | `conditional` | `rust-concurrency` | Use rayon's `par_iter()` for CPU-bound data parallelism |
 | [`conc-scoped-threads`](../rules/conc-scoped-threads.md) | `conditional` | `rust-concurrency` | Use `std::thread::scope` to borrow stack data across threads |
-| [`conc-thread-local`](../rules/conc-thread-local.md) | `adapted` | `rust-concurrency` | Prefer `thread_local!` with `Cell`/`RefCell` over `static mut` |
+| [`conc-thread-local`](../rules/conc-thread-local.md) | `canonical` | `rust-concurrency` | Prefer `thread_local!` with `Cell`/`RefCell` over `static mut` |
 
 ## Batch Audit
 

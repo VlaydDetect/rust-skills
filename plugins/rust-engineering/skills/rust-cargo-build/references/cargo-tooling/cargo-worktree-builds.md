@@ -1,7 +1,4 @@
 # Cargo builds in Git worktrees
-
-<!-- laurigates-source-family: cargo-worktree-builds; source=rust-plugin/skills/cargo-worktree-builds/SKILL.md; sha256=75997d34f785670cf36ceb6dbd81c5911c4dd5a6a96788bbab8d502673d88cb6; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Default to isolated writable Cargo state for each Git worktree. A common writable target directory is not a general-purpose compiler cache and is not this product's default.
 
 ## Ownership

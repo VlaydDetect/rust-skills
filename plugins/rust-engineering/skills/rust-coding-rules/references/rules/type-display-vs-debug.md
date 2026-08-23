@@ -1,10 +1,6 @@
 # type-display-vs-debug
 
-> Use `Display` for user-facing output and `Debug` for diagnostics; never swap them
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use `Display` for user-facing output and `Debug` for diagnostics; never swap them## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `Display` for user-facing output and `Debug` for diagnostics; never swap them.
 

@@ -1,10 +1,6 @@
 # own-lifetime-elision
 
-> Rely on lifetime elision rules; add explicit lifetimes only when required
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Rely on lifetime elision rules; add explicit lifetimes only when required## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Rely on lifetime elision rules; add explicit lifetimes only when required.
 

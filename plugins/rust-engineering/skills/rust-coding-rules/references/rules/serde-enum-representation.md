@@ -1,10 +1,6 @@
 # serde-enum-representation
 
-> Choose enum tagging deliberately: externally, internally, adjacently tagged, or untagged
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Choose enum tagging deliberately: externally, internally, adjacently tagged, or untagged## Decision
 
 Consider this rule only after its prerequisites are satisfied: Choose enum tagging deliberately: externally, internally, adjacently tagged, or untagged.
 

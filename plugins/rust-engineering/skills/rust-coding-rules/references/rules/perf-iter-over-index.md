@@ -1,10 +1,6 @@
 # perf-iter-over-index
 
-> Prefer iterators over manual indexing
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Prefer iterators over manual indexing## Decision
 
 Consider this rule only after its prerequisites are satisfied: Prefer iterators over manual indexing.
 

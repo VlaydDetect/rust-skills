@@ -1,10 +1,6 @@
 # type-never-diverge
 
-> Use `!` (never type) for functions that never return
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Use `!` (never type) for functions that never return## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `!` (never type) for functions that never return.
 

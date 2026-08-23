@@ -1,10 +1,6 @@
 # async-no-lock-await
 
-> Never hold `Mutex`/`RwLock` across `.await`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Never hold `Mutex`/`RwLock` across `.await`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Never hold `Mutex`/`RwLock` across `.await`.
 

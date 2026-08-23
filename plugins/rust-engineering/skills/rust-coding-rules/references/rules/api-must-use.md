@@ -1,10 +1,6 @@
 # api-must-use
 
-> Mark types and functions with `#[must_use]` when ignoring results is likely a bug
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Mark types and functions with `#[must_use]` when ignoring results is likely a bug## Decision
 
 Consider this rule only after its prerequisites are satisfied: Mark types and functions with `#[must_use]` when ignoring results is likely a bug.
 

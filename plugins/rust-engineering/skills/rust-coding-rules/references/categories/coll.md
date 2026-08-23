@@ -12,11 +12,11 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`coll-binaryheap`](../rules/coll-binaryheap.md) | `adapted` | `rust-stdlib` | Use `BinaryHeap` for a priority queue or repeated max-extraction |
+| [`coll-binaryheap`](../rules/coll-binaryheap.md) | `canonical` | `rust-stdlib` | Use `BinaryHeap` for a priority queue or repeated max-extraction |
 | [`coll-map-choice`](../rules/coll-map-choice.md) | `conditional` | `rust-stdlib` | Pick the map by access pattern: `HashMap` (fast, unordered), `BTreeMap` (sorted / range queries), `IndexMap` (insertion order) |
-| [`coll-seq-choice`](../rules/coll-seq-choice.md) | `adapted` | `rust-stdlib` | Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList` |
+| [`coll-seq-choice`](../rules/coll-seq-choice.md) | `canonical` | `rust-stdlib` | Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList` |
 | [`coll-set-membership`](../rules/coll-set-membership.md) | `conditional` | `rust-stdlib` | Use `HashSet`/`BTreeSet` for membership tests and dedup, not linear `Vec::contains` |
 
 ## Batch Audit

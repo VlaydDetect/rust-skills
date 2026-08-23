@@ -1,7 +1,4 @@
 # cargo-llvm-cov: coverage evidence protocol
-
-<!-- laurigates-source-family: cargo-llvm-cov; source=rust-plugin/skills/cargo-llvm-cov/SKILL.md; sha256=23ecfdf705c5248b27cd10e94a96f394e82c7f34ef80e558c8b20305d68f4d59; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Use this reference when LLVM source-based coverage is already part of the project or the user explicitly asks to design coverage evidence. Coverage is a test adequacy signal, not a substitute for contract-based assertions.
 
 ## Ownership

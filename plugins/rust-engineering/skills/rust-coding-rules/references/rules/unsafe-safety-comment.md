@@ -1,10 +1,6 @@
 # unsafe-safety-comment
 
-> Write a `// SAFETY:` comment above every `unsafe` block and a `# Safety` section in every `unsafe fn`.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=none; status=conditional -->
-
-## Decision
+> Write a `// SAFETY:` comment above every `unsafe` block and a `# Safety` section in every `unsafe fn`.## Decision
 
 Consider this rule only after its prerequisites are satisfied: Write a `// SAFETY:` comment above every `unsafe` block and a `# Safety` section in every `unsafe fn`.
 

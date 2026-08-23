@@ -40,8 +40,8 @@ Own cross-node failure and consistency decisions. Keep delivery semantics, time,
 
 ## Detailed Reference
 
-Read [Distributed Systems field guide](references/guide.md) before adding retries or coordination. Load the [`rust-distributed` Huiali protocol](references/huiali/rust-distributed.md) for detailed source algorithms and classified fragments.
+Read [Distributed Systems field guide](references/guide.md) before adding retries or coordination. Load the [`rust-distributed` Specialized Rust protocol](./references/distributed.md) for detailed source algorithms and classified fragments.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.

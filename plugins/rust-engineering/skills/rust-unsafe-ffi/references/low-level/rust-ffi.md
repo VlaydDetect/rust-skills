@@ -1,9 +1,4 @@
-# Low-level Rust Ffi protocol
-
-<!-- low-level-source-family: rust-ffi; source=skills/rust/rust-ffi/SKILL.md; sha256=79727406e3d3faf3d57e00caf894dd06010b56e53e5794fae7b7eb1b9720f8f3; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-ffi/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust Ffi protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-unsafe-ffi`.
@@ -28,7 +23,7 @@
 4. Contain panics/unwind and translate errors without borrowing temporary foreign storage.
 5. Verify symbols/layout with the actual target toolchain and at least one real foreign consumer.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

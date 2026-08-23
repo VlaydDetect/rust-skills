@@ -1,9 +1,6 @@
 # unsafe-miri-ci
 
 > Run targeted Miri coverage when the repository pins a compatible nightly and the exercised code is supported by Miri.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=none; status=conditional -->
-
 ## Decision
 
 Consider this rule only after its prerequisites are satisfied: add targeted Miri coverage for unsafe or otherwise validity-sensitive execution paths that Miri can model.

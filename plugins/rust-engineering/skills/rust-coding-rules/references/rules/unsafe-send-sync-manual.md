@@ -1,10 +1,6 @@
 # unsafe-send-sync-manual
 
-> Document the invariants when manually implementing `Send` or `Sync`; prefer letting the compiler derive them automatically.
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=none; status=adapted -->
-
-## Decision
+> Document the invariants when manually implementing `Send` or `Sync`; prefer letting the compiler derive them automatically.## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Document the invariants when manually implementing `Send` or `Sync`; prefer letting the compiler derive them automatically.
 

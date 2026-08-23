@@ -1,10 +1,6 @@
 # num-saturating-clamp
 
-> Bound values with `clamp` and saturating arithmetic
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stdlib`, `rust-stable`; status=adapted -->
-
-## Decision
+> Bound values with `clamp` and saturating arithmetic## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Bound values with `clamp` and saturating arithmetic.
 

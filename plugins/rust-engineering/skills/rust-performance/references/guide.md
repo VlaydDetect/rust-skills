@@ -1,6 +1,6 @@
 # Rust Performance Field Guide
 
-This guide is the detailed policy for `rust-performance`. It synthesizes the merged craft and full-stack performance skills covering benchmarking, profiling, optimization, build time, and regression control; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-performance`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -43,3 +43,32 @@ State the selected option, rejected alternatives that materially affect correctn
 ## Compiling Example
 
 The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. It demonstrates one boundary or decision and is intentionally smaller than a production integration. Validate it with `cargo test --manifest-path skills/rust-performance/examples/golden/Cargo.toml`; additional external-tool or target evidence in this guide still applies.
+
+## Design protocol map
+
+- [Measurement and optimization decision model](./performance-overview.md)
+- [Detailed optimization guide](./performance-optimization-guide.md)
+
+Begin from a reproducible workload and release-mode baseline. Treat suggested crates, SIMD, allocation strategies, and compiler settings as candidates that require current toolchain and target evidence.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-cache`](../../rust-architecture/references/domains/cache.md) — supporting; Cache ownership, key identity, freshness, invalidation, stampede control, capacity, failure behavior, and observability.
+- [`rust-concurrency`](../../rust-concurrency/references/concurrency.md) — supporting; Send/Sync, shared-state and message-passing choices, atomics, lock scope, thread/task ownership, cancellation, and shutdown.
+- [`rust-const`](../../rust-stable/references/const.md) — supporting; Const evaluation, const fn, const generics, compile-time constraints, static data, and supported-toolchain limits.
+- [`rust-database`](../../rust-architecture/references/domains/database.md) — supporting; Persistence boundaries, transactions, consistency, schema evolution, query ownership, pooling, and error translation.
+- [`rust-dpdk`](../../rust-systems-networking/references/dpdk.md) — supporting; Mempools, mbuf ownership, queues, burst processing, RSS, NUMA placement, affinity, and bounded packet-resource lifecycles.
+- [`rust-ebpf`](../../rust-systems-networking/references/ebpf.md) — supporting; Verifier constraints, bounded control flow, maps, XDP and probe attachment, no_std code, kernel/user ABI, and observability boundaries.
+- [`rust-gpu`](../../rust-gpu/references/gpu.md) — supporting; Device capabilities, memory hierarchy, transfer cost, alignment, coalescing, batching, synchronization, and measurement.
+- [`rust-observability`](../../rust-observability/references/observability.md) — supporting; Structured events, spans, metrics, correlation, cardinality, redaction, sampling, and operational failure evidence.
+- [`rust-performance`](./performance.md) — primary; Baselines, profiling, allocation, cache behavior, batching, contention, latency distributions, throughput, and regression evidence.
+- [`rust-zero-cost`](./zero-cost.md) — primary; Static versus dynamic dispatch, monomorphization, iterators, abstraction boundaries, code size, allocation, and measured runtime cost.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

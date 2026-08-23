@@ -33,7 +33,7 @@ Own cross-layer reasoning when no single local rule is sufficient. Apply this sk
 
 ## Output Contract
 
-Read [DesignBrief contract](references/design-brief.md) for the public decision artifact. For the complete layer router, comparison protocol, mental-model techniques, and worked examples, load only the needed branch from the [Actionbook protocol index](references/actionbook-index.md).
+Read [DesignBrief contract and topic map](references/design-brief.md) for the public decision artifact. For the complete layer router, comparison protocol, mental-model techniques, and worked examples, load only the needed branch from that topic map.
 
 ## Boundaries and Hand-offs
 

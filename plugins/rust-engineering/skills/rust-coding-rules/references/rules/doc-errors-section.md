@@ -1,10 +1,6 @@
 # doc-errors-section
 
-> Include `# Errors` section for fallible functions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Include `# Errors` section for fallible functions## Decision
 
 Consider this rule only after its prerequisites are satisfied: Include `# Errors` section for fallible functions.
 

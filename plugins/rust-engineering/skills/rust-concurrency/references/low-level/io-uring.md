@@ -1,9 +1,4 @@
-# Low-level Io Uring protocol
-
-<!-- low-level-source-family: io-uring; source=skills/async-io/io-uring/SKILL.md; sha256=0d395b4d6973995138d6623cce7cf9ef51d42037089bb144a96e41fd01c66e39; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/async-io/io-uring/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Io Uring protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-concurrency`.
@@ -28,7 +23,7 @@
 4. Bound work, queues, retries and spawned tasks; define who closes, drains and joins.
 5. Use schedule/race tools only after the invariant and minimized reproducer are explicit.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

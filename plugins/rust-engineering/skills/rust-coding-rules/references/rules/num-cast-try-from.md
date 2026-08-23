@@ -1,10 +1,6 @@
 # num-cast-try-from
 
-> Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stdlib`, `rust-stable`; status=adapted -->
-
-## Decision
+> Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing.
 

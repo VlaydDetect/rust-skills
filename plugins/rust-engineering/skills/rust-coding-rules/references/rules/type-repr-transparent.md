@@ -1,10 +1,6 @@
 # type-repr-transparent
 
-> Use `#[repr(transparent)]` for newtypes in FFI contexts
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Use `#[repr(transparent)]` for newtypes in FFI contexts## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `#[repr(transparent)]` for newtypes in FFI contexts.
 

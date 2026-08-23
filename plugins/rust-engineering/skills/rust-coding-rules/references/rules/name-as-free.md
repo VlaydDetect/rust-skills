@@ -1,10 +1,6 @@
 # name-as-free
 
-> `as_` prefix: free reference conversion
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=conditional -->
-
-## Decision
+> `as_` prefix: free reference conversion## Decision
 
 Consider this rule only after its prerequisites are satisfied: `as_` prefix: free reference conversion.
 

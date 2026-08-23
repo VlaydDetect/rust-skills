@@ -1,10 +1,6 @@
 # type-result-fallible
 
-> Use `Result<T, E>` for operations that can fail
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use `Result<T, E>` for operations that can fail## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `Result<T, E>` for operations that can fail.
 

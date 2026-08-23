@@ -1,9 +1,4 @@
-# Low-level Sanitizers protocol
-
-<!-- low-level-source-family: sanitizers; source=skills/runtimes/sanitizers/SKILL.md; sha256=86c1d69d8cc0b4272a2ec744cac374a8779fc26b8fb89acba405128890b5967d; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/runtimes/sanitizers/SKILL.md` and 2 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Sanitizers protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-unsafe`.
@@ -28,7 +23,7 @@
 4. Minimize the reproducer and interpret the first causally relevant diagnostic.
 5. Record what the run did not cover and keep the local safety proof authoritative.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

@@ -1,6 +1,6 @@
 # Cargo Build System Field Guide
 
-This guide is the detailed policy for `rust-cargo-build`. It synthesizes the full-stack Cargo build-system skill, its Cargo Guide workflow, and craft ecosystem build guidance; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-cargo-build`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

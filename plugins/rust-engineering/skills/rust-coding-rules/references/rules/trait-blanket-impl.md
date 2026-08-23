@@ -1,10 +1,6 @@
 # trait-blanket-impl
 
-> Use a blanket impl `impl<T: Bound> Trait for T` to give behaviour to every type that satisfies a bound
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use a blanket impl `impl<T: Bound> Trait for T` to give behaviour to every type that satisfies a bound## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use a blanket impl `impl<T: Bound> Trait for T` to give behaviour to every type that satisfies a bound.
 

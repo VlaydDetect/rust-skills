@@ -1,10 +1,6 @@
 # err-question-mark
 
-> Use `?` operator for clean propagation
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-errors; supporters=`rust-api-design`, `rust-observability`; status=conditional -->
-
-## Decision
+> Use `?` operator for clean propagation## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `?` operator for clean propagation.
 

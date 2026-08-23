@@ -1,10 +1,6 @@
 # mem-write-over-format
 
-> Use `write!()` into existing buffers instead of `format!()` allocations
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `write!()` into existing buffers instead of `format!()` allocations## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `write!()` into existing buffers instead of `format!()` allocations.
 

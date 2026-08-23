@@ -1,10 +1,6 @@
 # own-rwlock-readers
 
-> Use `RwLock<T>` when reads significantly outnumber writes
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `RwLock<T>` when reads significantly outnumber writes## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `RwLock<T>` when reads significantly outnumber writes.
 

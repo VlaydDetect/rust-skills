@@ -1,10 +1,6 @@
 # api-parse-dont-validate
 
-> Parse into validated types at boundaries
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Parse into validated types at boundaries## Decision
 
 Consider this rule only after its prerequisites are satisfied: Parse into validated types at boundaries.
 

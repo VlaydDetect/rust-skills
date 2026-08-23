@@ -1,10 +1,6 @@
 # type-generic-bounds
 
-> Add trait bounds only where needed, prefer where clauses for readability
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Add trait bounds only where needed, prefer where clauses for readability## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Add trait bounds only where needed, prefer where clauses for readability.
 

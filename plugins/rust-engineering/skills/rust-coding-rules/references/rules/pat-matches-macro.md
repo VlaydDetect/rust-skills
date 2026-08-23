@@ -1,10 +1,6 @@
 # pat-matches-macro
 
-> Use `matches!()` for boolean pattern tests
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stable`; status=adapted -->
-
-## Decision
+> Use `matches!()` for boolean pattern tests## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `matches!()` for boolean pattern tests.
 

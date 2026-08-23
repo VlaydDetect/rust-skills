@@ -1,10 +1,6 @@
 # mem-thinvec
 
-> Use `ThinVec<T>` for nullable collections with minimal overhead
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `ThinVec<T>` for nullable collections with minimal overhead## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `ThinVec<T>` for nullable collections with minimal overhead.
 

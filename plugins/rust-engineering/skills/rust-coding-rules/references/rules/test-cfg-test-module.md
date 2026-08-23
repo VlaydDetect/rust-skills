@@ -1,10 +1,6 @@
 # test-cfg-test-module
 
-> Put unit tests in `#[cfg(test)] mod tests { }` within each module
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=adapted -->
-
-## Decision
+> Put unit tests in `#[cfg(test)] mod tests { }` within each module## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Put unit tests in `#[cfg(test)] mod tests { }` within each module.
 

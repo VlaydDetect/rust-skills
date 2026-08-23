@@ -1,10 +1,6 @@
 # test-use-super
 
-> Use `use super::*;` in test modules to access parent module items
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use `use super::*;` in test modules to access parent module items## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `use super::*;` in test modules to access parent module items.
 

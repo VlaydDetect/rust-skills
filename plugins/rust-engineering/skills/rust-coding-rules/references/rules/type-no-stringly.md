@@ -1,10 +1,6 @@
 # type-no-stringly
 
-> Avoid stringly-typed APIs; use enums, newtypes, or validated types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Avoid stringly-typed APIs; use enums, newtypes, or validated types## Decision
 
 Consider this rule only after its prerequisites are satisfied: Avoid stringly-typed APIs; use enums, newtypes, or validated types.
 

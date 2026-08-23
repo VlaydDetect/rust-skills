@@ -1,10 +1,6 @@
 # serde-flatten
 
-> Inline nested structs or capture extra keys with `#[serde(flatten)]`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-errors`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Inline nested structs or capture extra keys with `#[serde(flatten)]`## Decision
 
 Consider this rule only after its prerequisites are satisfied: Inline nested structs or capture extra keys with `#[serde(flatten)]`.
 

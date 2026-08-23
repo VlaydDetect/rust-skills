@@ -1,10 +1,6 @@
 # type-enum-states
 
-> Use enums for mutually exclusive states
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use enums for mutually exclusive states## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use enums for mutually exclusive states.
 

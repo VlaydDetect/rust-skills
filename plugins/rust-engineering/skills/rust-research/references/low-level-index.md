@@ -18,4 +18,4 @@ Read the shared [tooling baseline](low-level-tooling-baseline.md) first when a c
 - [`rustc-basics`](../../rust-cargo-build/references/low-level/rustc-basics.md) — supporting; Cargo profiles, rustflags precedence, target inspection, MIR/LLVM/assembly evidence, monomorphization, size, and diagnostic triage.
 - [`virtual-memory-paging-and-tlb`](../../rust-performance/references/low-level/virtual-memory-paging-and-tlb.md) — supporting; Page translation, faults, TLB pressure, huge pages, mapping evidence, and embedded contrasts.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

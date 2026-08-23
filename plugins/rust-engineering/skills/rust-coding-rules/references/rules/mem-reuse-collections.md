@@ -1,10 +1,6 @@
 # mem-reuse-collections
 
-> Clear and reuse collections instead of creating new ones in loops
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Clear and reuse collections instead of creating new ones in loops## Decision
 
 Consider this rule only after its prerequisites are satisfied: Clear and reuse collections instead of creating new ones in loops.
 

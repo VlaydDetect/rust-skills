@@ -1,10 +1,6 @@
 # obs-no-sensitive-data
 
-> Never log secrets or PII; redact or skip them
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-observability; supporters=`rust-errors`, `rust-performance`; status=conditional -->
-
-## Decision
+> Never log secrets or PII; redact or skip them## Decision
 
 Consider this rule only after its prerequisites are satisfied: Never log secrets or PII; redact or skip them.
 

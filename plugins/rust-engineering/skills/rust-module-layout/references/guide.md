@@ -1,6 +1,6 @@
 # Rust Module Layout Field Guide
 
-This guide is the detailed policy for `rust-module-layout`. It synthesizes the full-stack module-layout skill and its detailed module, visibility, testing, facade, and generated-code references; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-module-layout`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

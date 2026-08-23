@@ -1,10 +1,6 @@
 # closure-fn-trait-bounds
 
-> Require the least restrictive `Fn` trait a callback needs (`FnOnce` ⊇ `FnMut` ⊇ `Fn`)
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-ownership`, `rust-api-design`; status=adapted -->
-
-## Decision
+> Require the least restrictive `Fn` trait a callback needs (`FnOnce` ⊇ `FnMut` ⊇ `Fn`)## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Require the least restrictive `Fn` trait a callback needs (`FnOnce` ⊇ `FnMut` ⊇ `Fn`).
 

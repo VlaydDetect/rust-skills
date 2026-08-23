@@ -1,10 +1,6 @@
 # perf-collect-once
 
-> Don't collect intermediate iterators
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Don't collect intermediate iterators## Decision
 
 Consider this rule only after its prerequisites are satisfied: Don't collect intermediate iterators.
 

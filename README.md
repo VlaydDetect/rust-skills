@@ -1,148 +1,134 @@
-# Rust Engineering Plugin
+# Rust Engineering
 
-Dual-target плагин для Codex и Claude Code с 55 навыками: общий workflow, read-only review/verify, 51 профильный инженерный навык и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
+Rust Engineering — единый плагин для Codex, ChatGPT Desktop, Claude Code и Claude Desktop. Он поставляет 55 сфокусированных скиллов, адресуемый rulebook из 265 Rust-правил, быстрый SessionStart-контекст и воспроизводимый цикл реализации, review и проверки.
 
-## Как работает маршрутизация
+Продуктовый исходник находится в `plugins/rust-engineering/`. Плагин не требует сетевого доступа или дополнительных runtime-зависимостей.
 
-SessionStart hook выполняет только три дешёвых read-only действия: ищет Cargo workspace, читает версии `rustc` и `cargo`, затем добавляет рекомендацию маршрутизации в контекст хоста. Hook работает offline, не форматирует файлы, не меняет lockfile, не устанавливает инструменты и не запускает сборку или тесты.
+## Как работает плагин
 
-Для задачи с изменением репозитория автоматической точкой входа служит `rust-workflow`:
+SessionStart сначала проверяет только локальные признаки проекта. В нерелевантном каталоге hook ничего не выводит. Для Rust-файлов без Cargo он один раз предлагает opt-in настройку toolchain; для Cargo workspace добавляет путь к manifest, версии `rustc`/`cargo` и предложение проектной настройки. Если обнаружены `flake.nix`, `shell.nix`, Nix в `PATH` или NixOS, предложение Nix/NixOS выводится отдельно.
+
+Hook остаётся быстрым, offline и read-only: он не устанавливает инструменты, не создаёт файлы, не меняет lockfile и не запускает сборку, форматирование или тесты.
 
 ```text
 запрос на изменение
   -> rust-workflow
-     -> discovery + TaskBrief
-     -> при необходимости: L1/L2/L3 trace через rust-design-protocol
-     -> при необходимости: датированные upstream facts через rust-research
-     -> 1 primary profile + максимум 2 supporting profiles
-     -> RuleQuery + до 8 правил из rust-coding-rules
-     -> изменение выполняет только главный агент
-     -> rust-verify: минимальная матрица доказательств
-     -> rust-review: независимый findings-first review при необходимости
+     -> локальный discovery и TaskBrief
+     -> 1 основной скилл + не более 2 вспомогательных
+     -> RuleQuery и до 8 релевантных правил rust-coding-rules
+     -> основной агент вносит единое изменение
+     -> rust-verify собирает минимально достаточные доказательства
+     -> rust-review при запросе или повышенном риске
 ```
 
-Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 55 навыков можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
+`rust-workflow` владеет изменяющими задачами и остаётся единственной точкой записи. Основной профиль принимает решение, вспомогательные профили добавляют ограничения, а rulebook не занимает профильный слот и не переопределяет контракт пользователя, репозитория, MSRV, target или feature matrix.
 
-Ручной синтаксис: `$profile-name` в Codex и `/rust-engineering:profile-name` в Claude Code. Внутренние hand-off ссылки используют host-neutral имена профилей.
+Read-only задачи могут входить напрямую:
 
-Read-only запросы имеют отдельные точки входа:
+- `rust-review` проверяет ограниченный diff и возвращает findings-first verdict;
+- `rust-verify` запускает существующие проверки и классифицирует evidence;
+- `rust-architecture-review` проверяет структуру проекта целиком;
+- `nix-review` проверяет Nix-изменения.
 
-- `rust-review` — review ограниченного diff или PR, доказательные findings и verdict без правок;
-- `rust-verify` — выполнение существующих проверок и классификация evidence без правок;
-- `rust-architecture-review` — аудит структуры всего проекта;
-- `nix-review` — Nix-specific review.
+Все 55 скиллов доступны вручную: `$skill-name` в Codex и `/rust-engineering:skill-name` в Claude Code.
 
-## Каталог навыков
+## Области работы
 
-### Точки входа
+- Процесс: `rust-workflow`, `addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-navigation`, `rust-design-protocol`, `rust-research`, `specs`.
+- Язык и безопасность: `rust-stable`, `rust-stdlib`, `rust-by-example`, `rust-ownership`, `rust-traits`, `rust-errors`, `rust-idioms`, `rust-unsafe`, `rust-unsafe-ffi`, `rust-pin`.
+- API и Cargo: `rust-api-design`, `rust-cargo-build`, `rust-workspace`, `rust-module-layout`, `rust-dependencies`, `rust-crate-discovery`, `rust-semver`, `rust-documentation`, `rust-style-clippy`, `rust-ecosystem`.
+- Архитектура и runtime: `rust-architecture`, `rust-concurrency`, `rust-testing`, `rust-performance`, `rust-observability`, `rust-platforms`, `rust-serialization`, `rust-data`, `rust-database`, `rust-tauri`.
+- Специализированный Rust: `rust-macros`, `rust-lombok-macros`, `rust-uniffi-building`, `rust-ml`, `rust-gpu`, `rust-systems-networking`, `rust-distributed-systems`.
+- Nix: `nix-flakes`, `nix-dev-env`, `nix-packaging`, `nixos`, `nix-review`.
 
-`rust-workflow`, `rust-review`, `rust-verify`.
+`rust-coding-rules` выбирает конкретные ID по коду и границе изменения. Обычный набор содержит не более восьми правил; широкий аудит разбивается на последовательные пакеты. `rust-design-protocol` подключается только для реального межслойного решения, а `rust-research` — для датированных внешних фактов.
 
-### Справочный overlay
+## Настройка Rust-проекта
 
-`rust-coding-rules` — 265 адресуемых ID в 26 category indexes. Обычная фаза выбирает не более восьми правил; широкий аудит идёт пакетами. Прямой вызов: `$rust-coding-rules <id|prefix|task>` в Codex и `/rust-engineering:rust-coding-rules ...` в Claude Code.
+Настройка входит в `rust-workflow` и всегда начинается с read-only инвентаризации manifest, toolchain, CI, targets и уже доступных команд. До явного согласия пользователя плагин не запускает `rustup`, `cargo install`, package managers или генераторы и не создаёт файлы.
 
-### Инженерный процесс
+После согласия предлагаются только подтверждённые проектом действия. Опциональные инструменты вроде `cargo-nextest`, `cargo-llvm-cov` и `cargo-machete` не устанавливаются «на всякий случай». Nix development shell направляется в `nix-dev-env`, а NixOS-настройка — в `nixos` отдельным предложением и не входит в обычный Rust setup.
 
-`addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-navigation`, `rust-design-protocol`, `rust-research`, `specs`.
+## Установка
 
-### Язык Rust и безопасность
+Релиз-кандидат устанавливается из фиксированного Git-тега `v1.0.0-rc`. Установщики не устанавливают Codex, Claude, Node.js, uv или Rust.
 
-`rust-stable`, `rust-stdlib`, `rust-by-example`, `rust-ownership`, `rust-traits`, `rust-errors`, `rust-idioms`, `rust-unsafe`, `rust-pin`.
+### Через uv
 
-### API, Cargo и структура проекта
+```powershell
+uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.0-rc/installers/install.py --target all
+```
 
-`rust-api-design`, `rust-cargo-build`, `rust-workspace`, `rust-module-layout`, `rust-dependencies`, `rust-crate-discovery`, `rust-semver`, `rust-documentation`, `rust-style-clippy`, `rust-ecosystem`.
+### Через npx, npm или pnpm
 
-### Архитектура
+```powershell
+npx --yes github:VlaydDetect/rust-skills#v1.0.0-rc --target all
+npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.0-rc -- rust-engineering-install --target all
+pnpm dlx github:VlaydDetect/rust-skills#v1.0.0-rc --target all
+```
 
-`rust-architecture`, `rust-architecture-review`.
+Оба установщика поддерживают:
 
-### Runtime, interop и специализированные системы
+- `--target codex-cli|chatgpt-desktop|claude-code|claude-desktop|all`, по умолчанию `all`;
+- `--scope user|project|local` для Claude, по умолчанию `user`;
+- `--dry-run` для печати плана без действий;
+- `--yes` для пропуска одного CLI-подтверждения.
 
-`rust-concurrency`, `rust-testing`, `rust-performance`, `rust-observability`, `rust-unsafe-ffi`, `rust-platforms`, `rust-serialization`, `rust-data`, `rust-database`, `rust-tauri`, `rust-macros`, `rust-lombok-macros`, `rust-uniffi-building`, `rust-ml`, `rust-gpu`, `rust-systems-networking`, `rust-distributed-systems`.
+Скрипты проверяют наличие host CLI, обновляют уже известный marketplace и останавливаются, если имя `rust-skills` занято другим source.
 
-Новые профили вызываются напрямую тем же синтаксисом, например `$rust-platforms`, `$rust-serialization`, `$rust-data`, `$rust-database`, `$rust-tauri` в Codex и `/rust-engineering:rust-platforms` и аналогично в Claude Code.
+### Нативные CLI-команды
 
-### Nix
+Codex:
 
-`nix-flakes`, `nix-dev-env`, `nix-packaging`, `nixos`, `nix-review`.
+```powershell
+codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.0-rc
+codex plugin add rust-engineering@rust-skills
+```
 
-Точные границы владения и конфликтные случаи собраны в `skills/rust-workflow/references/routing-index.md`. Например:
+Для обновления уже установленного плагина достаточно обновить marketplace; установщик проверяет поле `installed` и не вызывает повторный `plugin add`:
 
-- `rust-testing` проектирует и пишет тесты, а `rust-verify` только запускает evidence;
-- `rust-unsafe` доказывает внутренние unsafe-инварианты, `rust-unsafe-ffi` владеет ABI и foreign lifecycle, `rust-uniffi-building` — UniFFI workflow;
-- `rust-crate-discovery` оценивает crate до принятия, `rust-dependencies` управляет уже принятой dependency;
-- `rust-workspace` владеет границами crates, `rust-module-layout` — структурой внутри crate;
-- `rust-review` проверяет diff, `rust-architecture-review` — проект целиком, `nix-review` — Nix-изменения.
-- `rust-pin` владеет pinning contract, `rust-unsafe` — доказательством unsafe projection, `rust-concurrency` — lifecycle `Future`;
-- `rust-gpu` владеет device/memory execution, `rust-ml` — model semantics, `rust-performance` — измерением bottleneck;
-- `rust-platforms` владеет поведением Rust-программы на Unix/Windows, а Nix-профили — окружением, packaging и NixOS;
-- `rust-serialization` владеет byte contract, `rust-data` — access-pattern layout/query execution, `rust-database` — transaction/persistence lifecycle, `rust-tauri` — desktop IPC/security;
-- `rust-systems-networking` владеет eBPF/DPDK execution environment, а `rust-observability`, `rust-unsafe` и `rust-performance` добавляют профильные ограничения;
-- `rust-distributed-systems` владеет cross-node failure/consistency, `rust-architecture` — границами системы, `rust-concurrency` — внутрипроцессным выполнением.
+```powershell
+codex plugin marketplace upgrade rust-skills
+```
 
-## Глубина содержимого
+Если marketplace известен, но сам плагин ещё не установлен, выполните `codex plugin add rust-engineering@rust-skills`.
 
-Каждый профиль содержит:
+Claude Code:
 
-- уникальный `SKILL.md` с триггерами, процессом, правилами решений и hand-off границами;
-- подробный `references/guide.md` либо специализированный reference entrypoint;
-- metadata `agents/openai.yaml` для ручного вызова в Codex;
-- для 25 code-oriented профилей — оригинальный dependency-free golden example, который компилируется offline.
+```powershell
+claude plugin marketplace add VlaydDetect/rust-skills@v1.0.0-rc --scope user
+claude plugin install rust-engineering@rust-skills --scope user
+```
 
-`provenance/source-coverage.json` фиксирует все 61 исходный skill и 385 supporting files из craft/full-stack корпусов. В продукт адаптированы 46 исходных skills и сведены к 41 владельцу знаний; `rust-workflow` и `rust-verify` дополняют этот каталог. Пять новых профилей являются product-native и опираются на датированные первичные источники. Пятнадцать внешних вертикальных domain skills исключены явно с причиной, а не потеряны молча.
+Для другого уровня замените `user` на `project` или `local`. Повторная установка использует `claude plugin marketplace update rust-skills` и `claude plugin update rust-engineering@rust-skills --scope <scope>`.
 
-Leonardomso-корпус перенесён без сжатия: `provenance/rule-coverage.json` фиксирует все 265 исходных ID, source/target SHA-256, owners, aliases, сохранённые facets и финальный статус. Полные правила находятся в `rust-coding-rules/references/rules/`, а progressive disclosure идёт через 26 indexes. Reference-корпусы, Graphify и Cargo harness не требуются runtime-плагину.
+### Desktop
 
-Actionbook интегрирован как cognitive protocol, а не как второй конкурирующий plugin. `provenance/actionbook-coverage.json` учитывает все 242 файла pinned revision: полные L1/L2 mental models, design tracing, IoT/embedded/cloud-native constraint maps, ML, LSP/Graphify/`rg` navigation, symbol/trait/dependency/call graphs, Cargo-metadata dossiers, learner/docs/news и 47 unsafe/FFI rules. У каждого unsafe rule сохранён исходный ID и полный текст, а устаревшие или универсальные рекомендации снабжены локальной product correction. Автоматически остаётся только быстрый SessionStart router; тяжёлые, сетевые и мутирующие действия выбираются явно. Лицензионный и revision audit находится в `provenance/THIRD_PARTY_NOTICES.md`.
+Desktop-конфигурации и кэши намеренно не редактируются скриптами. Для ChatGPT Desktop откройте каталог плагинов, выберите `rust-engineering` из `rust-skills`, подтвердите установку и начните новую задачу. Для Claude Desktop откройте `/plugin` в локальной сессии, добавьте marketplace с тегом, установите плагин и выполните `/reload-plugins` либо перезапустите приложение. UI-подтверждение обязательно.
 
-Huiali-корпус интегрирован по 39 source families без создания 35 конкурирующих skills. Четыре уникальных владельца — `rust-pin`, `rust-gpu`, `rust-systems-networking` и `rust-distributed-systems`; actor/async/coroutine, complex lifetime/affine resource, proc-macro, learning, type/const/zero-cost и доменные constraint maps раскрываются через отдельные `references/huiali/*.md` у существующих владельцев. Эти references содержат 13 836 непустых строк адаптированных workflow, алгоритмов и примеров. `provenance/huiali-coverage.json` учитывает все 348 файлов, 150 exact duplicates и все 500 Rust-блоков: 423 уникальных решения, из которых 414 retained, 1 corrected и 8 rejected с причиной. Устаревшие Aya/generator examples не выдаются за современный код; dependency- и hardware-specific snippets маркируются fragments.
-
-Low-level корпус интегрирован как проверяемый tooling protocol, а не как набор новых пересекающихся skills. 52 source families распределены между существующими владельцами debugging, performance, Cargo/build, unsafe/FFI, concurrency, architecture, dependencies, testing, systems networking, verify и research. Общий `low-level-tooling-baseline.md` требует официальное Rust/Cargo evidence либо документацию владельца внешнего инструмента, фиксирует channel/platform/target/effects и запрещает автоматические install, network, privilege, global-config и toolchain mutations. `provenance/low-level-dev-coverage.json` учитывает 213 файлов (`52 adapted + 33 merged + 128 excluded`) и 740 source blocks как 738 уникальных bodies и 2 aliases; исходные командные fences не поставляются как исполняемые инструкции, но каждый получает индивидуальный disposition и command contract в ledger.
-
-Laurigates Rust plugin интегрирован как шесть progressive Cargo-tool references у существующих владельцев: cargo-generate и Git-worktree build state у `rust-cargo-build`, nextest и cargo-llvm-cov у `rust-testing`, cargo-machete у `rust-dependencies`, advanced Clippy у `rust-style-clippy`. `rust-development` используется только как umbrella-аудит отсутствующих tool boundaries; устаревшие WASI/embedded/unsafe/optimization recipes и blanket crate preferences не копируются. `mockito-http-mocking` явно исключён. `provenance/laurigates-coverage.json` учитывает все 83 файла (`6 adapted + 5 merged + 72 excluded`), 10 выбранных Markdown-файлов, 2 364 непустые строки и 130 уникальных fenced blocks с per-command version/channel/platform/effects contract. Общий baseline запрещает скрытые installs, network, uploads, GUI, global config и lockfile mutations.
-
-## Agents и права на изменения
-
-Плагин поставляет четыре общие read-only роли Claude Code: `rust-scout`, `rust-researcher`, `rust-reviewer`, `rust-verifier`. В Codex тот же контракт может выполняться native subagents. Делегирование необязательно и применяется только к независимым вопросам, которые реально уменьшают неопределённость.
-
-Главный агент остаётся единственным writer, принимает cross-profile решения, интегрирует результат и отвечает за final diff. Для post-fix re-review предпочтителен свежий reviewer context.
-
-## Структура продукта
-
-- `.codex-plugin/plugin.json` — Codex manifest;
-- `.claude-plugin/plugin.json` — Claude Code manifest;
-- `hooks/hooks.json` и `hooks/claude.json` — раздельные host schema;
-- `scripts/session-context.*` — быстрый общий SessionStart detector;
-- `skills/` — 55 host-neutral навыков и их references/examples;
-- `agents/` — четыре read-only Claude agents;
-- `evals/evals.json` — schema v7: 125 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali, 48 low-level и 32 Laurigates cases;
-- `evals/actionbook-cases.json` — model, cross-layer, navigation, research, unsafe, ML и negative сценарии;
-- `evals/huiali-cases.json` — 16 new-profile, 16 merged-topic, 8 conflict и 8 negative сценариев; вместе с base/Actionbook это 217 routing/protocol cases;
-- `evals/low-level-cases.json` — по 8 debugging/profiling, Cargo/build-time, cross/linker, sanitizer/Miri/security, async/system/hardware и conflict/negative сценариев; итоговый routing/protocol корпус — 265 cases;
-- `evals/laurigates-cases.json` — по 4 cargo-generate, nextest, LLVM coverage, cargo-machete, worktree-build и advanced-Clippy сценария, плюс 4 ownership conflicts и 4 negative/safety cases; итоговый routing/protocol корпус — 297 cases;
-- `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
-- `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
-- `provenance/actionbook-coverage.json` — per-file учёт 242 Actionbook sources;
-- `provenance/huiali-coverage.json` — per-file и per-Rust-block учёт Huiali snapshot;
-- `provenance/low-level-dev-coverage.json` — per-file, per-block, command-contract и official-evidence учёт low-level snapshot;
-- `provenance/laurigates-coverage.json` и `laurigates-index.md` — per-file/per-block учёт Laurigates snapshot, dispositions и карта шести владельцев;
-- `checks/rulebook/` — dev-only locked Cargo harness и stdlib-only генератор classified examples;
-- `checks/metadata-workspace/` — path-only fixture для inherited, renamed, optional и target-specific Cargo dependencies;
-- `checks/low-level/` — четыре dependency-free data fixtures для timings path, sanitizer matrix, cross-resolution и command side effects;
-- `checks/cargo-tooling/` — пять dependency-free data fixtures для generator trust/effects, nextest/coverage modes, machete exits/lockfile, worktree isolation/sccache и Clippy priorities/config boundaries;
-- `scripts/validate.py` — стандартно-библиотечный валидатор продукта.
-
-## Проверка
+## Разработка и проверка
 
 Из корня репозитория:
 
 ```powershell
-python plugins/rust-engineering/scripts/validate.py --examples
+uv run --no-project plugins/rust-engineering/scripts/validate.py --examples
+node installers/install.mjs --target all --dry-run
 claude plugin validate ./plugins/rust-engineering
+git diff --check
 ```
 
-Первая команда проверяет оба manifest, 55 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting, Laurigates `83/83` ledger с `130/130/0` block accounting и command contracts, 297 base/Actionbook/Huiali/low-level/Laurigates routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture, четыре low-level и пять Cargo-tool safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
+Внутренний validator проверяет 55 скиллов и ссылки, предельную глубину `references`, 265 rule ID/alias, 47 unsafe/FFI rules, 341 eval-сценарий схемы 8, manifests и marketplaces, общий installer config, parity Python/Node dry-run, поведение повторной установки и конфликта source, read-only hooks и fixtures. `claude plugin validate` выполняется только при наличии Claude CLI.
 
-Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.
+## Лицензия
+
+Проект распространяется по [MIT License](plugins/rust-engineering/LICENSE). Канонические атрибуции и тексты сторонних лицензий находятся в [THIRD_PARTY_NOTICES.md](plugins/rust-engineering/THIRD_PARTY_NOTICES.md).
+
+## Источники
+
+- [gurinderu/craft](https://github.com/gurinderu/craft), revision `d9caf7faf36b565a59534c581fdc27516e87600a`.
+- [full-stack-skills/rust-skills](https://github.com/full-stack-skills/rust-skills), revision `25e44452df00055ca246ec806425d99028eaae19`.
+- [leonardomso/rust-skills](https://github.com/leonardomso/rust-skills), revision `fd2a861ab0406a4ac536a55274d14ea6fd1ca9c9`.
+- [actionbook/rust-skills](https://github.com/actionbook/rust-skills), revision `fa60f7931223646fb71c4586b4a6c8545016076a`.
+- [huiali/rust-skills](https://github.com/huiali/rust-skills), revision `947bf77509d9b421035037e983da6662d08cbb8e`.
+- [mohitmishra786/low-level-dev-skills](https://github.com/mohitmishra786/low-level-dev-skills), revision `bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608`.
+- [laurigates/claude-plugins](https://github.com/laurigates/claude-plugins), revision `a1e72ed186b97555256d8c058ff291c182332df7`.

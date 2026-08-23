@@ -1,10 +1,6 @@
 # opt-inline-never-cold
 
-> Use `#[inline(never)]` and `#[cold]` for error paths and rarely-executed code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Use `#[inline(never)]` and `#[cold]` for error paths and rarely-executed code## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `#[inline(never)]` and `#[cold]` for error paths and rarely-executed code.
 

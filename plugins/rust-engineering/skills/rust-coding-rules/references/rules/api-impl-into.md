@@ -1,10 +1,6 @@
 # api-impl-into
 
-> Accept `impl Into<T>` for flexible APIs, implement `From<T>` for conversions
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Accept `impl Into<T>` for flexible APIs, implement `From<T>` for conversions## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Accept `impl Into<T>` for flexible APIs, implement `From<T>` for conversions.
 

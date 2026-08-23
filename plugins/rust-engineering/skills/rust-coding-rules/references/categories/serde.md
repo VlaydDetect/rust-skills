@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`serde-custom-with`](../rules/serde-custom-with.md) | `conditional` | `rust-api-design` | Customize a field's (de)serialization with `with` / `serialize_with` / `deserialize_with` |
 | [`serde-default-compat`](../rules/serde-default-compat.md) | `conditional` | `rust-api-design` | Use `#[serde(default)]` for optional and backward-compatible fields |

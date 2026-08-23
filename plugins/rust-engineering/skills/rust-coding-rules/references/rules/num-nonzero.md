@@ -1,10 +1,6 @@
 # num-nonzero
 
-> Use `NonZero*` types to forbid zero and unlock the niche optimization
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-idioms; supporters=`rust-stdlib`, `rust-stable`; status=adapted -->
-
-## Decision
+> Use `NonZero*` types to forbid zero and unlock the niche optimization## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `NonZero*` types to forbid zero and unlock the niche optimization.
 

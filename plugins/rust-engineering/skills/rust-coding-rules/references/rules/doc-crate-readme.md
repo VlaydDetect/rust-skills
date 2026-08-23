@@ -1,10 +1,6 @@
 # doc-crate-readme
 
-> Unify the README and crate root docs with `#![doc = include_str!("../README.md")]`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Unify the README and crate root docs with `#![doc = include_str!("../README.md")]`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Unify the README and crate root docs with `#![doc = include_str!("../README.md")]`.
 

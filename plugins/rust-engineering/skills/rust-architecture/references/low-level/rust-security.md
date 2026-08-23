@@ -1,9 +1,4 @@
-# Low-level Rust Security protocol
-
-<!-- low-level-source-family: rust-security; source=skills/rust/rust-security/SKILL.md; sha256=48dcd633d20b5ae4a97abac8fc325c0bdd404df4a4df69e44c931f3cb9a3737d; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-security/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust Security protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-architecture`.
@@ -28,7 +23,7 @@
 4. Route dependency policy, unsafe proof, fuzzing and artifact hardening to their existing owners.
 5. Prove one target-specific vertical slice and document what host-only evidence cannot establish.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

@@ -1,10 +1,6 @@
 # api-extension-trait
 
-> Use extension traits to add methods to external types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Use extension traits to add methods to external types## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use extension traits to add methods to external types.
 

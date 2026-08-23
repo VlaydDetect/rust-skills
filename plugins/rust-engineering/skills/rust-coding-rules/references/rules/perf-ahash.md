@@ -1,10 +1,6 @@
 # perf-ahash
 
-> Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-stdlib`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed.
 

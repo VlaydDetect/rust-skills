@@ -42,4 +42,4 @@ Own targeted repository navigation once the question to trace is known. Apply th
 
 ## Detailed Reference
 
-Read [Rust Navigation field guide](references/guide.md) before making a consequential design choice. Load exactly one mode from the [Actionbook navigation index](references/actionbook-index.md) for definitions, symbols, traits, calls, or dependencies. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Navigation field guide](references/guide.md) before making a consequential design choice. Load exactly one mode from the [Design protocol navigation index](./references/guide.md) for definitions, symbols, traits, calls, or dependencies. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.

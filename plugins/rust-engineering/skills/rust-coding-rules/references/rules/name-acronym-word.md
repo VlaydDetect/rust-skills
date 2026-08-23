@@ -1,10 +1,6 @@
 # name-acronym-word
 
-> Treat acronyms as words in identifiers: `HttpServer`, not `HTTPServer`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Treat acronyms as words in identifiers: `HttpServer`, not `HTTPServer`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Treat acronyms as words in identifiers: `HttpServer`, not `HTTPServer`.
 

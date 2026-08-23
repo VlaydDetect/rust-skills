@@ -1,7 +1,4 @@
 # cargo-machete: unused-dependency evidence protocol
-
-<!-- laurigates-source-family: cargo-machete; source=rust-plugin/skills/cargo-machete/SKILL.md; sha256=924a6c4372df995df89f0fc35d729a35ba4d36b7cf61e81630ef5f596ca719a1; revision=a1e72ed186b97555256d8c058ff291c182332df7 -->
-
 Use cargo-machete as a fast heuristic that proposes dependency-removal candidates. `$rust-dependencies` owns the decision; the tool never proves that removal is safe.
 
 ## Current contract
@@ -15,7 +12,7 @@ The [tool-owner documentation](https://github.com/bnjbvr/cargo-machete) describe
 - optional JSON output is a versioned external-tool interface and must be tested against the installed version;
 - metadata-assisted analysis can be more accurate but may modify project lockfiles.
 
-The source corpus's workspace/package/exclude and automatic-removal recipes are not current product policy. Check `cargo machete --version` and matching help before every version-sensitive invocation. If the tool is absent, return `SKIP`; do not install it.
+Workspace/package/exclude and automatic-removal recipes are not current product policy. Check `cargo machete --version` and matching help before every version-sensitive invocation. If the tool is absent, return `SKIP`; do not install it.
 
 ## Ownership and routing
 

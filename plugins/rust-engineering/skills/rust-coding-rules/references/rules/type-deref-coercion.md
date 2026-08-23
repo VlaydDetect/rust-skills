@@ -1,10 +1,6 @@
 # type-deref-coercion
 
-> Implement `Deref`/`DerefMut` only for smart-pointer and transparent wrapper types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Implement `Deref`/`DerefMut` only for smart-pointer and transparent wrapper types## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Implement `Deref`/`DerefMut` only for smart-pointer and transparent wrapper types.
 

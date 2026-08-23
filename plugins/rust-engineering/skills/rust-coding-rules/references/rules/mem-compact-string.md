@@ -1,10 +1,6 @@
 # mem-compact-string
 
-> Use compact string types for memory-constrained string storage
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use compact string types for memory-constrained string storage## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use compact string types for memory-constrained string storage.
 

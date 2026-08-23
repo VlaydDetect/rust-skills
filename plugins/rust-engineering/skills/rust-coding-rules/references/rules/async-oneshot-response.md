@@ -1,10 +1,6 @@
 # async-oneshot-response
 
-> Use `oneshot` channel for request-response patterns
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-concurrency; supporters=`rust-ownership`; status=conditional -->
-
-## Decision
+> Use `oneshot` channel for request-response patterns## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `oneshot` channel for request-response patterns.
 

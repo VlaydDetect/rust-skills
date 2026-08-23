@@ -1,10 +1,6 @@
 # closure-move-capture
 
-> Use `move` for closures that outlive the current scope; clone before `move` to keep the original
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-ownership`, `rust-api-design`; status=conditional -->
-
-## Decision
+> Use `move` for closures that outlive the current scope; clone before `move` to keep the original## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `move` for closures that outlive the current scope; clone before `move` to keep the original.
 

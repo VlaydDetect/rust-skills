@@ -1,6 +1,6 @@
 # Rust Traits and Type-Driven Design Field Guide
 
-This guide is the detailed policy for `rust-traits`. It synthesizes the craft trait dispatch and type-driven design guides plus full-stack stable and API design guidance; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-traits`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,36 @@ This guide is the detailed policy for `rust-traits`. It synthesizes the craft tr
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+Use these references after the API and ownership constraints are known. They preserve Design protocol's mechanical questions without treating every compile-time encoding as desirable.
+
+## Zero-cost abstractions
+
+- [Generics, dispatch, and monomorphization](./zero-cost-overview.md)
+
+Use when choosing generics, `impl Trait`, trait objects, or manual specialization. Include code-size, compile-time, object-safety, and dynamic-dispatch costs in the decision.
+
+## Type-driven design
+
+- [Newtypes, typestate, markers, and sealed traits](./type-driven-overview.md)
+
+Use when invalid states can be excluded at a stable boundary. Reject typestate or marker machinery when runtime validation is clearer or when state growth makes the API harder to use.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-const`](../../rust-stable/references/const.md) — supporting; Const evaluation, const fn, const generics, compile-time constraints, static data, and supported-toolchain limits.
+- [`rust-lifetime-complex`](../../rust-ownership/references/lifetime-complex.md) — supporting; Lifetime diagnosis, variance, HRTBs, GATs, reborrowing, returned borrows, trait objects, and async lifetime boundaries.
+- [`rust-linear-type`](../../rust-ownership/references/linear-type.md) — supporting; Affine resource semantics, exactly-once transitions, typestate, non-cloneable capabilities, RAII, and leak versus double-use analysis.
+- [`rust-type-driven`](./type-driven.md) — primary; Newtypes, typestate, sealed states, capability types, trait bounds, associated types, and invalid-state elimination.
+- [`rust-zero-cost`](../../rust-performance/references/zero-cost.md) — supporting; Static versus dynamic dispatch, monomorphization, iterators, abstraction boundaries, code size, allocation, and measured runtime cost.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

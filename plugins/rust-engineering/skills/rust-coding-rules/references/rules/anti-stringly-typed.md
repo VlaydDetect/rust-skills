@@ -1,18 +1,14 @@
 # anti-stringly-typed
 
-> Don't use strings where enums or newtypes would provide type safety
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=alias -->
-
-## Canonical Rule
+> Don't use strings where enums or newtypes would provide type safety## Canonical Rule
 
 Apply [`type-no-stringly`](type-no-stringly.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't use strings where enums or newtypes would provide type safety
 

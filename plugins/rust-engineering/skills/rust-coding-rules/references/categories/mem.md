@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`mem-arena-allocator`](../rules/mem-arena-allocator.md) | `conditional` | `rust-performance` | Use arena allocators for batch allocations |
 | [`mem-arrayvec`](../rules/mem-arrayvec.md) | `conditional` | `rust-performance` | Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate |

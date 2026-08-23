@@ -1,10 +1,6 @@
 # macro-proc-two-crate
 
-> Put procedural macros in a dedicated `proc-macro = true` crate and re-export from the facade
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Put procedural macros in a dedicated `proc-macro = true` crate and re-export from the facade## Decision
 
 Consider this rule only after its prerequisites are satisfied: Put procedural macros in a dedicated `proc-macro = true` crate and re-export from the facade.
 

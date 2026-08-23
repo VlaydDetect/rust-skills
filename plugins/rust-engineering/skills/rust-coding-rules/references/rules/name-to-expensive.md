@@ -1,10 +1,6 @@
 # name-to-expensive
 
-> Use `to_` prefix for expensive conversions that allocate or compute
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-style-clippy`; status=adapted -->
-
-## Decision
+> Use `to_` prefix for expensive conversions that allocate or compute## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `to_` prefix for expensive conversions that allocate or compute.
 

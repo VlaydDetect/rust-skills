@@ -1,10 +1,6 @@
 # doc-examples-section
 
-> Include `# Examples` with runnable code
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Include `# Examples` with runnable code## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Include `# Examples` with runnable code.
 

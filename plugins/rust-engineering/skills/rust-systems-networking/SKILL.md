@@ -40,12 +40,12 @@ Own execution-environment constraints for kernel eBPF and userspace packet pipel
 
 ## Detailed Reference
 
-Read [Systems Networking field guide](references/guide.md), then load only the conditional [`rust-ebpf`](references/huiali/rust-ebpf.md) or [`rust-dpdk`](references/huiali/rust-dpdk.md) Huiali protocol.
+Read [Systems Networking field guide](references/guide.md), then load only the conditional [`rust-ebpf`](./references/ebpf.md) or [`rust-dpdk`](./references/dpdk.md) Specialized Rust protocol.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

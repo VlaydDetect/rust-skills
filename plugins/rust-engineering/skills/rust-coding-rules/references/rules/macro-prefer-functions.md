@@ -1,10 +1,6 @@
 # macro-prefer-functions
 
-> Reach for a macro only when a function or generic cannot express it
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-macros; supporters=`rust-api-design`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Reach for a macro only when a function or generic cannot express it## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Reach for a macro only when a function or generic cannot express it.
 

@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`opt-bounds-check`](../rules/opt-bounds-check.md) | `conditional` | `rust-performance` | Use iterators and patterns that eliminate bounds checks in hot paths |
 | [`opt-cache-friendly`](../rules/opt-cache-friendly.md) | `conditional` | `rust-performance` | Organize data for cache-efficient access patterns |

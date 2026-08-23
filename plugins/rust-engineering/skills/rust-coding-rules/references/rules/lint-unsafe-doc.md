@@ -1,10 +1,6 @@
 # lint-unsafe-doc
 
-> Require documentation for unsafe blocks
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-stable`, `rust-cargo-build`; status=conditional -->
-
-## Decision
+> Require documentation for unsafe blocks## Decision
 
 Consider this rule only after its prerequisites are satisfied: Require documentation for unsafe blocks.
 

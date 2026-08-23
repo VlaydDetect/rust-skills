@@ -1,6 +1,6 @@
 # Rust Lombok-Style Macros Field Guide
 
-This guide is the detailed policy for `rust-lombok-macros`. It synthesizes the full-stack Lombok-macros specialization and its constructor, accessor, builder, validation, diagnostics, and testing references; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-lombok-macros`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 

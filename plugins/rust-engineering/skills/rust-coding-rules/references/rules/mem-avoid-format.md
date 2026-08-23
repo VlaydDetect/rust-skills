@@ -1,10 +1,6 @@
 # mem-avoid-format
 
-> Avoid `format!()` when string literals work
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Avoid `format!()` when string literals work## Decision
 
 Consider this rule only after its prerequisites are satisfied: Avoid `format!()` when string literals work.
 

@@ -1,12 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "rust-engineering",
-  "version": "0.8.0",
-  "description": "Automatic Rust engineering orchestration with 55 focused skills, a 265-rule coding rulebook, and reviewed Actionbook, Huiali, low-level, and Laurigates Cargo-tool protocols.",
+  "version": "1.0.0-rc",
+  "description": "Project-aware Rust engineering with 55 focused skills, a 265-rule coding rulebook, read-only context discovery, and risk-based verification.",
   "author": {
     "name": "rust-skills contributors"
   },
   "license": "MIT",
+  "homepage": "https://github.com/VlaydDetect/rust-skills",
+  "repository": "https://github.com/VlaydDetect/rust-skills",
   "keywords": [
     "rust",
     "coding",

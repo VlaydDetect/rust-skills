@@ -1,9 +1,4 @@
-# Low-level Embedded Rust protocol
-
-<!-- low-level-source-family: embedded-rust; source=skills/embedded/embedded-rust/SKILL.md; sha256=91f6001a285003617fbd2f54ae123a57b9b9e52c3b7a8b0f43134e5dbc914729; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/embedded/embedded-rust/SKILL.md` and 1 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Embedded Rust protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-architecture`.
@@ -28,7 +23,7 @@
 4. Route dependency policy, unsafe proof, fuzzing and artifact hardening to their existing owners.
 5. Prove one target-specific vertical slice and document what host-only evidence cannot establish.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

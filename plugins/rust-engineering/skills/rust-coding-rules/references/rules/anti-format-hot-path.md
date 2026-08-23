@@ -1,18 +1,14 @@
 # anti-format-hot-path
 
-> Don't use format! in hot paths
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=alias -->
-
-## Canonical Rule
+> Don't use format! in hot paths## Canonical Rule
 
 Apply [`mem-write-over-format`](mem-write-over-format.md). This source ID remains addressable for compatibility; the canonical rule owns the decision and verification.
 
 ## Alias Reason
 
-The two source rules express the same decision. The material below is retained so examples, rationale, exceptions, and source-specific wording are not lost; route decisions through the canonical rule first.
+These IDs express the same decision. The material below preserves examples, rationale, and exceptions; route decisions through the canonical rule first.
 
-## Preserved Source Guidance
+## Preserved Guidance
 
 > Don't use format! in hot paths
 

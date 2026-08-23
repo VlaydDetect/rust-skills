@@ -28,3 +28,16 @@ Record EAL configuration, ports, queues, descriptors, mempool ownership, mbuf he
 
 The dependency-free fixture in `../examples/golden/` models bounded packet ownership through receive, process, transmit, retry, and recycle outcomes. It intentionally avoids claiming DPDK hardware execution.
 
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-dpdk`](./dpdk.md) — primary; Mempools, mbuf ownership, queues, burst processing, RSS, NUMA placement, affinity, and bounded packet-resource lifecycles.
+- [`rust-ebpf`](./ebpf.md) — primary; Verifier constraints, bounded control flow, maps, XDP and probe attachment, no_std code, kernel/user ABI, and observability boundaries.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

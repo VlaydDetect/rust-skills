@@ -1,10 +1,6 @@
 # own-slice-over-vec
 
-> Accept `&[T]` not `&Vec<T>`, `&str` not `&String`
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=adapted -->
-
-## Decision
+> Accept `&[T]` not `&Vec<T>`, `&str` not `&String`## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Accept `&[T]` not `&Vec<T>`, `&str` not `&String`.
 

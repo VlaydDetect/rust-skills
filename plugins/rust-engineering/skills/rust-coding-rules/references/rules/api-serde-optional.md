@@ -1,10 +1,6 @@
 # api-serde-optional
 
-> Make serde a feature flag, not a hard dependency for library crates
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=conditional -->
-
-## Decision
+> Make serde a feature flag, not a hard dependency for library crates## Decision
 
 Consider this rule only after its prerequisites are satisfied: Make serde a feature flag, not a hard dependency for library crates.
 

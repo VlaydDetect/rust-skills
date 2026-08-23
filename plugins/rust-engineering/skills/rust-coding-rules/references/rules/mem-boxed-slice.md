@@ -1,10 +1,6 @@
 # mem-boxed-slice
 
-> Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data.
 

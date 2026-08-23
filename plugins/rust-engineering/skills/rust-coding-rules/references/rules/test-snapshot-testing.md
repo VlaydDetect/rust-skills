@@ -1,10 +1,6 @@
 # test-snapshot-testing
 
-> Use snapshot testing (insta) for complex or serialized output
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-testing; supporters=`rust-verify`; status=conditional -->
-
-## Decision
+> Use snapshot testing (insta) for complex or serialized output## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use snapshot testing (insta) for complex or serialized output.
 

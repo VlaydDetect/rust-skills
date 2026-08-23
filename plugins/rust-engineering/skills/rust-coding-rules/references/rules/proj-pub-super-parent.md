@@ -1,10 +1,6 @@
 # proj-pub-super-parent
 
-> Use pub(super) for parent-only visibility
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-module-layout; supporters=`rust-workspace`, `rust-cargo-build`; status=adapted -->
-
-## Decision
+> Use pub(super) for parent-only visibility## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use pub(super) for parent-only visibility.
 

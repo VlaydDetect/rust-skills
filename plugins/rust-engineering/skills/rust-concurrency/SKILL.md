@@ -46,12 +46,12 @@ After task/thread ownership, bounds, cancellation, and shutdown are defined, sel
 
 ## Detailed Reference
 
-Read [Rust Concurrency field guide](references/guide.md) before making a consequential design choice. Load only the needed branch of the [Actionbook concurrency protocol](references/actionbook-index.md) for its detailed algorithms and examples. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+Read [Rust Concurrency field guide](references/guide.md) before making a consequential design choice. Load only the needed branch of the [Design protocol concurrency protocol](./references/guide.md) for its detailed algorithms and examples. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
 
-## Huiali protocols
+## Specialized Rust protocols
 
-For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
 
 ## Low-level protocols
 
-For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

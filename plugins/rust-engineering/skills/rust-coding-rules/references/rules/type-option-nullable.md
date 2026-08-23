@@ -1,10 +1,6 @@
 # type-option-nullable
 
-> Use `Option<T>` for values that might not exist
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Use `Option<T>` for values that might not exist## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `Option<T>` for values that might not exist.
 

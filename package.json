@@ -1,0 +1,12 @@
+{
+  "name": "rust-engineering-installer",
+  "version": "1.0.0-rc",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "rust-engineering-install": "./installers/install.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

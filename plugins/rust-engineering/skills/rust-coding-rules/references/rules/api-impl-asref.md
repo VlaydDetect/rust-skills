@@ -1,10 +1,6 @@
 # api-impl-asref
 
-> Use `AsRef<T>` when you only need to borrow the inner data
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-api-design; supporters=`rust-traits`, `rust-ownership`; status=adapted -->
-
-## Decision
+> Use `AsRef<T>` when you only need to borrow the inner data## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `AsRef<T>` when you only need to borrow the inner data.
 

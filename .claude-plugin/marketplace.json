@@ -1,0 +1,13 @@
+{
+  "name": "rust-skills",
+  "owner": {
+    "name": "rust-skills contributors"
+  },
+  "plugins": [
+    {
+      "name": "rust-engineering",
+      "source": "./plugins/rust-engineering",
+      "description": "Project-aware Rust engineering workflows, focused references, review, and verification."
+    }
+  ]
+}

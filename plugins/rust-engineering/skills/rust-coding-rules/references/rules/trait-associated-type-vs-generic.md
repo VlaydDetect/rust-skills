@@ -1,10 +1,6 @@
 # trait-associated-type-vs-generic
 
-> Use an associated type when each impl has exactly one output type; use a generic parameter when a type can implement the trait for many input types
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-traits; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use an associated type when each impl has exactly one output type; use a generic parameter when a type can implement the trait for many input types## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use an associated type when each impl has exactly one output type; use a generic parameter when a type can implement the trait for many input types.
 

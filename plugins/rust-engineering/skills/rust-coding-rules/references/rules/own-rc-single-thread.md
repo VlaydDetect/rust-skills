@@ -1,10 +1,6 @@
 # own-rc-single-thread
 
-> Use `Rc<T>` for shared ownership in single-threaded contexts
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-ownership; supporters=`rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `Rc<T>` for shared ownership in single-threaded contexts## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `Rc<T>` for shared ownership in single-threaded contexts.
 
@@ -30,7 +26,7 @@ Less cloning can increase lifetime coupling; shared ownership and interior mutab
 ## Prerequisites
 
 - The user and project contract, actual callers, edition, MSRV, toolchain, target, and feature matrix take precedence over this rule.
-- Apply only after the rule-specific condition in the source guidance is observed in the current repository.
+- Apply only after the rule-specific condition in the rule guidance is observed in the current repository.
 
 ## Verification
 

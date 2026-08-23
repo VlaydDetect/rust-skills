@@ -1,10 +1,6 @@
 # mem-take-replace
 
-> Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-ownership`, `rust-stdlib`; status=conditional -->
-
-## Decision
+> Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning## Decision
 
 Consider this rule only after its prerequisites are satisfied: Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning.
 

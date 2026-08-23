@@ -14,4 +14,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-ffi`](low-level/rust-ffi.md) — primary; Manual and generated bindings, sys-crate layering, safe wrappers, exported C APIs, linking, ownership transfer, and error translation.
 - [`sanitizers`](../../rust-unsafe/references/low-level/sanitizers.md) — supporting; ASan, TSan, MSan, hardware-assisted modes, suppression and report concepts, and native dependency instrumentation.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Source family names are references, not additional product skills.
+`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

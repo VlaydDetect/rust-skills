@@ -12,7 +12,7 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Rules
 
-| Rule | Status | Owner | Source decision |
+| Rule | Status | Owner | Decision |
 |---|---|---|---|
 | [`err-anyhow-app`](../rules/err-anyhow-app.md) | `conditional` | `rust-errors` | Use `anyhow` for application error handling |
 | [`err-context-chain`](../rules/err-context-chain.md) | `conditional` | `rust-errors` | Add context with `.context()` or `.with_context()` |

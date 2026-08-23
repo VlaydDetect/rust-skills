@@ -1,10 +1,6 @@
 # opt-cold-unlikely
 
-> Mark unlikely code paths with `#[cold]` to help compiler optimization
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
-
-## Decision
+> Mark unlikely code paths with `#[cold]` to help compiler optimization## Decision
 
 Consider this rule only after its prerequisites are satisfied: Mark unlikely code paths with `#[cold]` to help compiler optimization.
 

@@ -1,6 +1,6 @@
 # Rust Idioms Field Guide
 
-This guide is the detailed policy for `rust-idioms`. It synthesizes the craft idiom patterns and anti-patterns plus full-stack style, stable, stdlib, and API guidance; it is adapted for a dual-host workflow rather than copied as an upstream transcript.
+This guide is the detailed policy for `rust-idioms`. It consolidates the decisions, workflows, and examples required by this profile in the dual-host plugin.
 
 ## Core Model
 
@@ -39,3 +39,24 @@ This guide is the detailed policy for `rust-idioms`. It synthesizes the craft id
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.
+
+## Design protocol map
+
+- [Anti-pattern decision model](./anti-pattern-overview.md)
+- [Detailed common mistakes](./anti-pattern-common-mistakes.md)
+
+Use a source pattern as a diagnostic hypothesis. Confirm the violated invariant, impact, and smallest correction before calling it a finding.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-anti-pattern`](./anti-pattern.md) — primary; Symptom-to-cause diagnosis for cloning, allocation, stringly APIs, panic, locking, abstraction, collection, and async mistakes.
+- [`rust-coding`](../../rust-style-clippy/references/coding.md) — supporting; Readable Rust, naming, formatting, Clippy scope, documentation, control flow, API conventions, and reviewable diffs.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

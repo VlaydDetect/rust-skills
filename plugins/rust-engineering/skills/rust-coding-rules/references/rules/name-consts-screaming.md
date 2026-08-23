@@ -1,10 +1,6 @@
 # name-consts-screaming
 
-> Use `SCREAMING_SNAKE_CASE` for constants and statics
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-style-clippy; supporters=`rust-api-design`; status=adapted -->
-
-## Decision
+> Use `SCREAMING_SNAKE_CASE` for constants and statics## Decision
 
 Use this context-sensitive Rust decision when its premise is established: Use `SCREAMING_SNAKE_CASE` for constants and statics.
 

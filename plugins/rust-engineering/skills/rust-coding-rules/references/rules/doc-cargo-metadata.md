@@ -1,10 +1,6 @@
 # doc-cargo-metadata
 
-> Fill `Cargo.toml` metadata for published crates
-
-<!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-documentation; supporters=`rust-api-design`; status=conditional -->
-
-## Decision
+> Fill `Cargo.toml` metadata for published crates## Decision
 
 Consider this rule only after its prerequisites are satisfied: Fill `Cargo.toml` metadata for published crates.
 

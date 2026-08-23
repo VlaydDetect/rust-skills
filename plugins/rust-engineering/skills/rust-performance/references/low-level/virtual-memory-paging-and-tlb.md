@@ -1,9 +1,4 @@
-# Low-level Virtual Memory Paging And Tlb protocol
-
-<!-- low-level-source-family: virtual-memory-paging-and-tlb; source=skills/computer-architecture/virtual-memory-paging-and-tlb/SKILL.md; sha256=7cbb03f2e2e4084c76a9fd27760486199f1b82d37be5f370b2cd85ab0e7fcf5e; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/computer-architecture/virtual-memory-paging-and-tlb/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Virtual Memory Paging And Tlb protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-performance`.
@@ -28,7 +23,7 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

@@ -37,9 +37,23 @@ Verify every recommended stabilization against official release notes and record
 - Workspace-wide all-features checks are not universal because targets/features can be mutually exclusive.
 - Preserve project lint configuration. Enable individual pedantic/nursery lints only with demonstrated value and documented exceptions; do not set `pedantic = "warn"` or `-D warnings` globally by default.
 
-## Huiali modernization notes
+## Specialized Rust modernization notes
 
 - Pinning decisions use the current [`std::pin`](https://doc.rust-lang.org/std/pin/) contract. `Pin::new_unchecked`, `get_unchecked_mut`, and unsafe projection require a local proof of address stability, structural pinning, and destruction.
 - The old `generators` and `generator_trait` feature names are not current guidance. The current nightly-only names are [`coroutines` and `coroutine_trait`](https://doc.rust-lang.org/beta/unstable-book/language-features/coroutines.html); prefer stable `Future`, streams, iterators, or explicit state machines unless nightly is an explicit project constraint.
 - Procedural macros follow the Rust Reference's three forms: [function-like, derive, and attribute macros](https://doc.rust-lang.org/reference/procedural-macros.html). Generated-token hygiene and diagnostics are part of their public contract.
 - Aya, GPU backends, DPDK bindings, runtimes, frameworks, and ecosystem crate APIs are version-sensitive. Query `cargo metadata` and exact-version official documentation before emitting dependency-specific code.
+
+## Specialized topic map
+
+Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+
+- [`rust-ecosystem`](../../rust-ecosystem/references/ecosystem.md) — supporting; Solution classes, ecosystem maturity, maintenance, portability, interoperability, and evidence-led crate selection.
+- [`rust-learner`](./lenses/learning-workflow.md) — primary; Current-feature adoption, MSRV and Edition evidence, release-note research, feedback, and dependency-ordered practice.
+
+## Shared constraints
+
+- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
+- Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
+- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+- Return ownership to the primary profile when supporting constraints have been stated.

@@ -1,9 +1,4 @@
-# Low-level Rust No Std protocol
-
-<!-- low-level-source-family: rust-no-std; source=skills/rust/rust-no-std/SKILL.md; sha256=41f4c5d8561ce5059d814f91f94a42ea5012aa6c904aee5293d66b0d45c78f5f; revision=bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608 -->
-
-> Reviewed adaptation of `skills/rust/rust-no-std/SKILL.md` and 0 supporting Markdown file(s). The source is evidence, not executable product policy.
-
+# Low-level Rust No Std protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
 - Primary owner: `$rust-architecture`.
@@ -28,7 +23,7 @@
 4. Route dependency policy, unsafe proof, fuzzing and artifact hardening to their existing owners.
 5. Prove one target-specific vertical slice and document what host-only evidence cannot establish.
 
-## Source-derived knowledge map
+## Decision map
 
 The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
 

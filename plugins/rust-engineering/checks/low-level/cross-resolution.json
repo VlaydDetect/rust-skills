@@ -1,0 +1,18 @@
+{
+  "host": "x86_64-pc-windows-msvc",
+  "target": "aarch64-unknown-linux-gnu",
+  "rust_standard_library_present": true,
+  "linker": null,
+  "runner": null,
+  "native_dependencies_resolved": false,
+  "expected_missing": [
+    "linker",
+    "runner-or-target-execution-environment",
+    "target-native-dependencies"
+  ],
+  "evidence": [
+    "rustup-cross",
+    "rustc-platform-support",
+    "cargo-config"
+  ]
+}

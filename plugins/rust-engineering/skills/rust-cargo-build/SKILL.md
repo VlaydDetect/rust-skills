@@ -47,3 +47,7 @@ After resolving effective Cargo state, select relevant build-boundary entries fr
 ## Detailed Reference
 
 Read [Cargo Build System field guide](references/guide.md) before making a consequential design choice. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
+
+## Low-level protocols
+
+For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.

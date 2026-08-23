@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "policy": {
     "manual": "Every profile is directly invocable.",
     "automatic": "Mutating Rust work enters rust-workflow, which chooses one primary and at most two supporting profiles. Read-only specialist reviews and verification may enter their focused skill directly.",
@@ -8,6 +8,7 @@
   },
   "actionbook_cases_file": "actionbook-cases.json",
   "huiali_cases_file": "huiali-cases.json",
+  "low_level_cases_file": "low-level-cases.json",
   "cases": [
     {
       "id": "manual-rust-workflow",

@@ -368,7 +368,7 @@
       "status": "alias",
       "canonical_id": "perf-profile-first",
       "target_path": "skills/rust-coding-rules/references/rules/anti-premature-optimize.md",
-      "target_sha256": "cd58e9a489a71e595f1d243ad1967fbafc5c9b6500b9e500d47190a9eb1c0791",
+      "target_sha256": "ff4e79d746446956555a002c7d91ca047bb7b5f214aadf86124872865c5d3523",
       "facets": {
         "rationale": true,
         "algorithm": true,
@@ -6081,7 +6081,7 @@
       "status": "conditional",
       "canonical_id": "opt-target-cpu",
       "target_path": "skills/rust-coding-rules/references/rules/opt-target-cpu.md",
-      "target_sha256": "2f143bbe3709a4b9a73dfb6dfbfde7f5e503e52c0cbd474d39e2a06d1730afde",
+      "target_sha256": "7a24cff0a63b6a922d2f08e2bdb8fdf66ac0c5391e3bf6bc5e6350ed6fd7d7e9",
       "facets": {
         "rationale": true,
         "algorithm": true,
@@ -7104,7 +7104,7 @@
       "status": "conditional",
       "canonical_id": "perf-profile-first",
       "target_path": "skills/rust-coding-rules/references/rules/perf-profile-first.md",
-      "target_sha256": "2c40316e85e84a825e7e7b515d3576a0d4e49d97946ca03e3709e9c3af4911e5",
+      "target_sha256": "29db73e84c821215c0fa71783a976811da62547cac252f51f7e8d66344a753d7",
       "facets": {
         "rationale": true,
         "algorithm": true,
@@ -9227,7 +9227,7 @@
       "status": "conditional",
       "canonical_id": "unsafe-miri-ci",
       "target_path": "skills/rust-coding-rules/references/rules/unsafe-miri-ci.md",
-      "target_sha256": "161d1f3e5b9a1e734934c0d2df6e883bf0b0ef9822530bfa66844b9736b388af",
+      "target_sha256": "e07638a151cd2b2e6802d99a1d57d71ddf4fd578ef81c9794e514b43328bbb20",
       "facets": {
         "rationale": true,
         "algorithm": true,

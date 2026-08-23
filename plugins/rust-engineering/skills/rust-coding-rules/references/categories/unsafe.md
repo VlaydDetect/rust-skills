@@ -17,7 +17,7 @@ Load this index only when the current Rust decision matches the category. Select
 | [`unsafe-extern-block`](../rules/unsafe-extern-block.md) | `conditional` | `rust-unsafe` | In Rust 2024, wrap `extern` blocks in `unsafe extern { }` and annotate each item as `safe` or `unsafe`. |
 | [`unsafe-maybeuninit`](../rules/unsafe-maybeuninit.md) | `adapted` | `rust-unsafe` | Use `MaybeUninit<T>` for uninitialized memory; never use `mem::uninitialized()` or `mem::zeroed()` for types with validity invariants. |
 | [`unsafe-minimize-scope`](../rules/unsafe-minimize-scope.md) | `conditional` | `rust-unsafe` | Keep `unsafe` blocks as small as possible — mark only the operation that requires unsafety, not the surrounding safe code. |
-| [`unsafe-miri-ci`](../rules/unsafe-miri-ci.md) | `conditional` | `rust-unsafe` | Run `cargo miri test` in CI for every crate that contains `unsafe` code. |
+| [`unsafe-miri-ci`](../rules/unsafe-miri-ci.md) | `conditional` | `rust-unsafe` | Run targeted Miri coverage when a compatible pinned nightly and supported execution path exist. |
 | [`unsafe-no-mangle-unsafe`](../rules/unsafe-no-mangle-unsafe.md) | `adapted` | `rust-unsafe` | In Rust 2024, write `#[unsafe(no_mangle)]`, `#[unsafe(export_name = "...")]`, and `#[unsafe(link_section = "...")]` — not the bare attribute forms. |
 | [`unsafe-safety-comment`](../rules/unsafe-safety-comment.md) | `conditional` | `rust-unsafe` | Write a `// SAFETY:` comment above every `unsafe` block and a `# Safety` section in every `unsafe fn`. |
 | [`unsafe-send-sync-manual`](../rules/unsafe-send-sync-manual.md) | `adapted` | `rust-unsafe` | Document the invariants when manually implementing `Send` or `Sync`; prefer letting the compiler derive them automatically. |

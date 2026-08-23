@@ -28,11 +28,11 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 |---|---|---|
 | `addressing-findings` | Stable finding ledger, triage, ordered fixes, closure, fresh re-review | Findings already exist and must be accepted, rejected, deferred, fixed, and closed. |
 | `codebase-onboarding` | First broad project map | The repository or affected subsystem is unfamiliar. |
-| `debugging` | Reproduction, hypothesis, isolation, root cause | A compiler, test, runtime, timing, or integration failure is unexplained. |
+| `debugging` | Reproduction, hypothesis, isolation, debugger/core/trace evidence, root cause | A compiler, test, runtime, timing, symbol, crash, hang, or integration failure is unexplained. |
 | `refactoring` | Structural change under a preserved contract | Behavior should stay stable while code moves, splits, or simplifies. |
 | `rust-navigation` | Bounded symbol, dispatch, cfg, macro, and call-path tracing | The project is known but the real definition, caller, impl, or effect path is not. |
 | `rust-design-protocol` | Cross-layer mechanics/design/domain trace and evidence-backed `DesignBrief` | Repeated local failures, comparisons, or consequential ambiguity require adjacent-layer constraints. |
-| `rust-research` | Dated Rust, Cargo, Clippy, std, crate, docs, or news evidence | Correctness depends on current upstream facts not fixed by the repository. |
+| `rust-research` | Dated Rust, Cargo, Clippy, std, crate, target, external-tool, docs, or news evidence | Correctness depends on current upstream or resolved-tool facts not fixed by the repository. |
 | `specs` | Normative rules, examples, acceptance scenarios, non-goals | Product behavior is ambiguous or needs an executable contract. |
 
 ## Rust Language and Safety
@@ -46,7 +46,7 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-traits` | Traits, bounds, associated types, dispatch, coherence, newtypes, typestate | Polymorphism or type-driven design is the main constraint. |
 | `rust-errors` | Error taxonomy, propagation, context, recovery, panic policy | Caller-visible failure semantics are the main constraint. |
 | `rust-idioms` | Semantic Rust patterns and anti-patterns | Correct code needs a Rust-native expression or pattern assessment. |
-| `rust-unsafe` | Internal unsafe invariants, raw memory, validity, aliasing, layout, Miri | Unsafe is internal to Rust and does not cross a foreign ABI. |
+| `rust-unsafe` | Internal unsafe invariants, raw memory, validity, aliasing, layout, Miri and Rust sanitizers | Unsafe is internal to Rust and does not cross a foreign ABI. |
 | `rust-pin` | Address sensitivity, Pin/Unpin, structural projection, self-reference, pinned destruction | Moving a value after a defined point could invalidate an internal address-dependent invariant. |
 
 ## Project, Cargo, and Public Contract
@@ -54,10 +54,10 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | Profile | Owns | Route here when |
 |---|---|---|
 | `rust-api-design` | Caller-visible Rust contract, visibility, ownership, extension policy | A public or independently evolving Rust API is added or changed. |
-| `rust-cargo-build` | Effective Cargo state, targets, features, config, profiles, build scripts | Cargo mechanics determine behavior. |
+| `rust-cargo-build` | Effective Cargo state, targets, features, config, profiles, build scripts, linker and cache mechanics | Cargo or cross-build mechanics determine behavior. |
 | `rust-workspace` | Crate boundaries, workspace policy, shared metadata, release relationships | The design unit is packages and their dependency direction. |
 | `rust-module-layout` | In-crate modules, files, visibility, re-exports, tests | The design unit is structure inside one crate. |
-| `rust-dependencies` | Adopted dependency versions, features, sources, audit, licenses, removal | A dependency already exists or adoption has been approved. |
+| `rust-dependencies` | Adopted dependency versions, features, sources, advisories, licenses, supply policy, removal | A dependency already exists or adoption has been approved. |
 | `rust-crate-discovery` | Pre-adoption candidate research and build-versus-buy decision | A new external crate is being considered. |
 | `rust-semver` | Released compatibility, baseline comparison, deprecation, migration | Downstream breakage or release classification is at issue. |
 | `rust-documentation` | Rustdoc, doctests, examples, README, changelog, migration docs | The developer-facing contract or discoverability changes. |
@@ -75,9 +75,9 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 
 | Profile | Owns | Route here when |
 |---|---|---|
-| `rust-concurrency` | Threads, async, channels, locks, atomics, cancellation, backpressure, shutdown | Correctness or liveness spans execution contexts. |
-| `rust-testing` | Test design and implementation across test techniques | The primary deliverable is new or improved tests. |
-| `rust-performance` | Reproducible benchmarks, profiles, optimization, regression guards | A measured metric or regression controls the work. |
+| `rust-concurrency` | Threads, async/Future/Waker internals, channels, locks, atomics, cancellation, backpressure, shutdown | Correctness or liveness spans execution contexts. |
+| `rust-testing` | Test design and implementation, including bounded fuzz targets and crash regressions | The primary deliverable is new or improved tests. |
+| `rust-performance` | Reproducible benchmarks, perf/flamegraphs/counters, allocation/size/build-time profiles, optimization, regression guards | A measured metric or regression controls the work. |
 | `rust-observability` | Structured logs, spans, metrics, correlation, redaction, cardinality | Runtime behavior must become operationally diagnosable. |
 | `rust-unsafe-ffi` | Foreign ABI, layout, handles, buffers, strings, callbacks, unwind | Unsafe crosses a language or runtime boundary. |
 | `rust-macros` | Declarative and procedural macro syntax, expansion, diagnostics, compile cost | Compile-time Rust token generation is necessary. |
@@ -85,7 +85,7 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | `rust-uniffi-building` | UniFFI UDL or proc-macro interfaces, scaffolding, bindings, packaging | UniFFI exposes Rust to supported foreign languages. |
 | `rust-ml` | Models, tensors, preprocessing, devices, inference, batching, serving | ML pipeline semantics control the Rust system. |
 | `rust-gpu` | Device capabilities, memory hierarchy, transfer, layout, dispatch, synchronization | GPU execution and host-device memory behavior control correctness or measured performance. |
-| `rust-systems-networking` | eBPF verifier/map/ABI and DPDK mempool/mbuf/queue/NUMA execution | Kernel probes or userspace packet pipelines impose environment-specific resource rules. |
+| `rust-systems-networking` | eBPF verifier/map/ABI, AF_XDP UMEM/rings, and DPDK mempool/mbuf/queue/NUMA execution | Kernel probes or userspace packet pipelines impose environment-specific resource rules. |
 | `rust-distributed-systems` | Cross-node failure, consistency, idempotency, retries, leases, versioned contracts, coordination | An operation crosses a process or node boundary and partial failure changes its meaning. |
 
 IoT, embedded, and cloud-native prompts start in `rust-architecture` with its
@@ -115,9 +115,14 @@ Use these ownership splits when descriptions overlap:
 - `rust-cargo-build` owns build mechanics; `rust-workspace` owns crate topology; `rust-module-layout` owns structure inside a crate.
 - `rust-stable` specializes toolchain and general language stability, then hands borrowing, traits, errors, std, unsafe, and examples to their focused owners.
 - `rust-performance` requires a metric and comparable baseline; an unmeasured slowdown symptom starts in `debugging`.
+- `rust-performance` owns build-time diagnosis and comparable measurements; `rust-cargo-build` owns Cargo profiles, linker, target, wrapper and cache configuration.
+- `rust-unsafe` owns Miri/sanitizer interpretation and residual soundness proof; `rust-verify` runs the selected evidence; `debugging` localizes a particular failure.
 - `refactoring` preserves a named contract; `rust-architecture` may intentionally change boundaries or contracts after that decision is authorized.
 - `rust-coding-rules` is selected after the owning profile. User and project contracts, effective toolchain and target state, and the owner profile override any rulebook recommendation.
 - `rust-pin` owns the pinning contract; `rust-unsafe` proves unsafe projection; `rust-concurrency` owns Future cancellation and task lifecycle.
+- `rust-concurrency` owns Future/Waker/executor lifecycle; `rust-pin` owns address stability; `debugging` owns hangs, lost wakes and debugger evidence.
+- `rust-cargo-build` owns cross-build mechanics; `rust-stable` and `rust-research` establish target/toolchain support; `rust-unsafe-ffi` owns ABI and native-library contracts.
+- Security work is split by decision: `rust-architecture` owns threats/trust boundaries, `rust-dependencies` owns advisories and supply policy, `rust-unsafe`/`rust-unsafe-ffi` own soundness and ABI, and `rust-testing` owns fuzz targets.
 - `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-performance` owns bottleneck measurement.
 - `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-performance` add telemetry, soundness, and measurement constraints.
 - `rust-distributed-systems` owns cross-node failure and consistency; `rust-architecture` owns system boundaries; `rust-concurrency` owns in-process execution.
@@ -141,6 +146,10 @@ Use these ownership splits when descriptions overlap:
 | Plan GPU batching for a tensor pipeline | `rust-gpu` | `rust-ml`, `rust-performance` | Device memory and transfer own execution; model semantics and measurement constrain it. |
 | Diagnose an XDP verifier rejection | `rust-systems-networking` | `rust-observability`, `rust-unsafe` | eBPF program type and verifier own acceptance; telemetry and layout proofs support it. |
 | Add retries to an at-least-once consumer | `rust-distributed-systems` | `rust-errors`, `rust-observability` | Cross-node uncertainty owns idempotency and aggregate retry budget. |
+| Investigate a slow incremental Rust build | `rust-performance` | `rust-cargo-build`, `rust-research` | Timings and invalidation own diagnosis; Cargo owns effective config and research verifies version-sensitive backend/cache facts. |
+| Run Miri after changing a raw-buffer wrapper | `rust-unsafe` | `rust-verify`, `debugging` | The unsafe proof owns meaning; verification runs supported paths and debugging localizes a finding. |
+| Cross-compile a C-linked CLI for ARM Linux | `rust-cargo-build` | `rust-unsafe-ffi`, `rust-research` | Cargo owns target/linker mechanics, FFI owns native ABI and research confirms current target/tool support. |
+| Profile an AF_XDP packet loop | `rust-systems-networking` | `rust-performance`, `rust-unsafe` | UMEM/ring ownership controls execution; measurement and buffer soundness constrain it. |
 
 When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
 

@@ -1,0 +1,9 @@
+{
+  "metadata": {
+    "target_directory": "D:/work/custom-target"
+  },
+  "report_suffix": "cargo-timings/cargo-timing.html",
+  "expected_report": "D:/work/custom-target/cargo-timings/cargo-timing.html",
+  "forbidden_assumption": "build/cargo-timings/cargo-timing.html",
+  "evidence": "cargo-timings"
+}

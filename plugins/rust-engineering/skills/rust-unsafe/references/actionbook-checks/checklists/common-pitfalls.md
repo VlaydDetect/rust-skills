@@ -276,7 +276,7 @@ fn good() {
 |---------|-----------|-----|
 | Dangling pointer | Miri | Extend lifetime or heap allocate |
 | Uninitialized read | Miri | Use MaybeUninit properly |
-| Misaligned access | Miri, UBsan | read_unaligned, copy by value |
+| Misaligned access | Miri for supported Rust execution; native UBSan only for instrumented foreign code | Prove alignment or use an explicitly unaligned operation when its contract fits |
 | Data race | TSan | Use atomics or mutex |
 | Double free | ASan | Track ownership carefully |
 | Invalid enum | Manual review | Use TryFrom |

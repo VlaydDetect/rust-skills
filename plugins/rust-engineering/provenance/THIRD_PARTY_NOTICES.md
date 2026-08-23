@@ -50,11 +50,56 @@ counts, status, targets, and reasons for all 348 files. It also accounts for all
 body is retained, corrected, or rejected explicitly. The 150 exact
 `.codex/skills/**` mirrors are aliases of `skills/**`, not second product copies.
 
+## mohitmishra786/low-level-dev-skills
+
+- Repository: <https://github.com/mohitmishra786/low-level-dev-skills>
+- Pinned revision: `bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608`
+- Commit date: `2026-06-27`
+- Declared license: MIT
+- Copyright: 2026 chessMan
+
+The integration reviews 52 selected source families into existing product
+owners. It adds no standalone profiling, cross, security, or tooling skill and
+does not ship upstream commands as executable policy. Official Rust/Cargo or
+tool-owner evidence, exact project/tool versions, platform/target constraints,
+and side effects are required before execution.
+
+[`low-level-dev-coverage.json`](low-level-dev-coverage.json) records SHA-256,
+byte and line counts, status, target, and explicit reason for all 213 source
+files. It accounts for 84 selected Markdown files, 16,211 lines, and 740 fenced
+blocks as 738 unique bodies and two aliases. Every unique block is classified;
+command-like blocks additionally record a version/channel/platform/effects
+contract. The development source tree remains optional at plugin runtime.
+
 ### Huiali MIT License
 
 MIT License
 
 Copyright (c) 2026 李偏偏 <huiali@hotmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+### low-level-dev-skills MIT License
+
+MIT License
+
+Copyright (c) 2026 chessMan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

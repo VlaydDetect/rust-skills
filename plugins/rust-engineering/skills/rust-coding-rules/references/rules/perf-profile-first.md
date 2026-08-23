@@ -86,14 +86,13 @@ fn process(data: &[Item]) -> Vec<Output> {
 
 ## Profiling Tools
 
+These commands require an already-installed, version-checked tool. Derive the selected binary from Cargo metadata and the effective target/profile; do not assume `target/release` or install a profiler from this rule.
+
 ### Flamegraphs (Recommended Start)
 
 ```bash
-# Install
-cargo install flamegraph
-
-# Profile
-cargo flamegraph --bin myapp -- <args>
+# cargo-flamegraph must already be present
+cargo flamegraph --bin myapp
 
 # Opens flamegraph.svg showing call stacks by time
 ```
@@ -101,7 +100,7 @@ cargo flamegraph --bin myapp -- <args>
 ### perf (Linux)
 
 ```bash
-# Record
+# Record; choose frame-pointer, DWARF, or LBR mode from the actual binary and CPU
 perf record -g cargo run --release
 
 # Report
@@ -114,10 +113,7 @@ perf script | inferno-collapse-perf | inferno-flamegraph > flamegraph.svg
 ### Instruments (macOS)
 
 ```bash
-# Install cargo-instruments
-cargo install cargo-instruments
-
-# Time profiler
+# cargo-instruments must already be present; verify syntax for its resolved version
 cargo instruments -t time --release
 
 # Allocations profiler

@@ -138,19 +138,21 @@ struct FormatterPool {
 
 ## Profile Tools
 
+Use only already-installed, version-checked tools. Resolve `$ARTIFACT` from Cargo metadata plus the actual target/profile; the examples do not authorize installation or host-policy changes.
+
 ```bash
 # Sampling profiler
-perf record ./target/release/app && perf report
+perf record "$ARTIFACT"
+perf report
 
-# Flamegraph
-cargo install flamegraph
+# Flamegraph; cargo-flamegraph must already be present
 cargo flamegraph
 
 # Criterion benchmarks
 cargo bench
 
 # Memory profiling
-valgrind --tool=massif ./target/release/app
+valgrind --tool=massif "$ARTIFACT"
 ```
 
 ## Document Optimizations

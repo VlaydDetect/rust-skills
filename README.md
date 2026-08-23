@@ -95,6 +95,8 @@ Actionbook интегрирован как cognitive protocol, а не как в
 
 Huiali-корпус интегрирован по 39 source families без создания 35 конкурирующих skills. Четыре уникальных владельца — `rust-pin`, `rust-gpu`, `rust-systems-networking` и `rust-distributed-systems`; actor/async/coroutine, complex lifetime/affine resource, proc-macro, learning, type/const/zero-cost и доменные constraint maps раскрываются через отдельные `references/huiali/*.md` у существующих владельцев. Эти references содержат 13 836 непустых строк адаптированных workflow, алгоритмов и примеров. `provenance/huiali-coverage.json` учитывает все 348 файлов, 150 exact duplicates и все 500 Rust-блоков: 423 уникальных решения, из которых 414 retained, 1 corrected и 8 rejected с причиной. Устаревшие Aya/generator examples не выдаются за современный код; dependency- и hardware-specific snippets маркируются fragments.
 
+Low-level корпус интегрирован как проверяемый tooling protocol, а не как набор новых пересекающихся skills. 52 source families распределены между существующими владельцами debugging, performance, Cargo/build, unsafe/FFI, concurrency, architecture, dependencies, testing, systems networking, verify и research. Общий `low-level-tooling-baseline.md` требует официальное Rust/Cargo evidence либо документацию владельца внешнего инструмента, фиксирует channel/platform/target/effects и запрещает автоматические install, network, privilege, global-config и toolchain mutations. `provenance/low-level-dev-coverage.json` учитывает 213 файлов (`52 adapted + 33 merged + 128 excluded`) и 740 source blocks как 738 уникальных bodies и 2 aliases; исходные командные fences не поставляются как исполняемые инструкции, но каждый получает индивидуальный disposition и command contract в ledger.
+
 ## Agents и права на изменения
 
 Плагин поставляет четыре общие read-only роли Claude Code: `rust-scout`, `rust-researcher`, `rust-reviewer`, `rust-verifier`. В Codex тот же контракт может выполняться native subagents. Делегирование необязательно и применяется только к независимым вопросам, которые реально уменьшают неопределённость.
@@ -109,15 +111,18 @@ Huiali-корпус интегрирован по 39 source families без со
 - `scripts/session-context.*` — быстрый общий SessionStart detector;
 - `skills/` — 50 host-neutral навыков и их references/examples;
 - `agents/` — четыре read-only Claude agents;
-- `evals/evals.json` — schema v5: 108 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook и 48 Huiali cases;
+- `evals/evals.json` — schema v6: 108 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali и 48 low-level cases;
 - `evals/actionbook-cases.json` — model, cross-layer, navigation, research, unsafe, ML и negative сценарии;
 - `evals/huiali-cases.json` — 16 new-profile, 16 merged-topic, 8 conflict и 8 negative сценариев; вместе с base/Actionbook это 200 routing/protocol cases;
+- `evals/low-level-cases.json` — по 8 debugging/profiling, Cargo/build-time, cross/linker, sanitizer/Miri/security, async/system/hardware и conflict/negative сценариев; итоговый routing/protocol корпус — 248 cases;
 - `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
 - `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
 - `provenance/actionbook-coverage.json` — per-file учёт 242 Actionbook sources;
 - `provenance/huiali-coverage.json` — per-file и per-Rust-block учёт Huiali snapshot;
+- `provenance/low-level-dev-coverage.json` — per-file, per-block, command-contract и official-evidence учёт low-level snapshot;
 - `checks/rulebook/` — dev-only locked Cargo harness и stdlib-only генератор classified examples;
 - `checks/metadata-workspace/` — path-only fixture для inherited, renamed, optional и target-specific Cargo dependencies;
+- `checks/low-level/` — четыре dependency-free data fixtures для timings path, sanitizer matrix, cross-resolution и command side effects;
 - `scripts/validate.py` — стандартно-библиотечный валидатор продукта.
 
 ## Проверка
@@ -129,6 +134,6 @@ python plugins/rust-engineering/scripts/validate.py --examples
 claude plugin validate ./plugins/rust-engineering
 ```
 
-Первая команда проверяет оба manifest, 50 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, 200 base/Actionbook/Huiali routing cases и 44 rulebook overlay cases, а также locked/offline Cargo metadata fixture. С `--examples` она дополнительно компилирует 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
+Первая команда проверяет оба manifest, 50 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting и command contracts, 248 base/Actionbook/Huiali/low-level routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture и четыре low-level safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
 
 Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.

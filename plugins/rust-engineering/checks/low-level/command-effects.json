@@ -1,0 +1,34 @@
+{
+  "cases": [
+    {
+      "command": "cargo metadata --format-version 1 --locked --offline",
+      "effects": ["read-only-host"],
+      "automatic_allowed": true
+    },
+    {
+      "command": "cargo build --timings",
+      "effects": ["build-artifacts"],
+      "automatic_allowed": false
+    },
+    {
+      "command": "cargo install cargo-flamegraph",
+      "effects": ["install", "network"],
+      "automatic_allowed": false
+    },
+    {
+      "command": "rustup target add aarch64-unknown-linux-gnu",
+      "effects": ["install", "toolchain-mutation", "network"],
+      "automatic_allowed": false
+    },
+    {
+      "command": "sudo sysctl kernel.perf_event_paranoid=1",
+      "effects": ["privilege", "global-host-config"],
+      "automatic_allowed": false
+    },
+    {
+      "command": "cargo update",
+      "effects": ["lockfile-mutation", "network"],
+      "automatic_allowed": false
+    }
+  ]
+}

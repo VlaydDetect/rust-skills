@@ -1,7 +1,7 @@
 {
   "name": "rust-engineering",
-  "version": "0.5.0",
-  "description": "Automatic Rust engineering orchestration with 50 focused skills, a 265-rule coding rulebook, and adapted Actionbook and Huiali cognitive protocols.",
+  "version": "0.6.0",
+  "description": "Automatic Rust engineering orchestration with 50 focused skills, a 265-rule coding rulebook, and reviewed Actionbook, Huiali, and low-level protocols.",
   "author": {
     "name": "rust-skills contributors"
   },
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Rust Engineering",
     "shortDescription": "Route Rust work through focused skills.",
-    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Adapted Actionbook and Huiali protocols add cross-layer design, current research, Pin, GPU, eBPF/DPDK, distributed systems, actor/async/resource/macro guidance, and a conditional 47-rule unsafe and FFI corpus without adding automatic heavy hooks.",
+    "longDescription": "Starts with a fast read-only Rust context hook, then routes implementation through one primary and at most two supporting engineering profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Adapted Actionbook and Huiali protocols add cross-layer design and specialized Rust models. Reviewed low-level protocols add debugging, profiling, Cargo build-time, cross-target, sanitizer/Miri, async-internal, security, and hardware workflows behind official-evidence and command-safety gates, without adding automatic heavy hooks.",
     "developerName": "rust-skills contributors",
     "category": "Productivity",
     "capabilities": [

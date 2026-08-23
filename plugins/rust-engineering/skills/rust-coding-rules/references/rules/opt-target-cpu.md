@@ -1,12 +1,12 @@
 # opt-target-cpu
 
-> Use `target-cpu=native` for maximum performance on known deployment targets
+> Evaluate `target-cpu` only for a measured workload and an exactly known deployment CPU contract
 
 <!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-performance; supporters=`rust-cargo-build`, `rust-stable`; status=conditional -->
 
 ## Decision
 
-Consider this rule only after its prerequisites are satisfied: Use `target-cpu=native` for maximum performance on known deployment targets.
+Consider this rule only after its prerequisites are satisfied: compare an explicit deployment baseline with a target-specific build, preserving a portable fallback when the fleet is heterogeneous.
 
 ## Apply When
 
@@ -38,7 +38,7 @@ Compare repeated release-like measurements and artifact or codegen evidence whil
 
 ## Why It Matters
 
-By default, Rust compiles for a generic x86-64 baseline (roughly Sandy Bridge era). Modern CPUs have SIMD extensions (AVX2, AVX-512), improved instructions, and micro-architectural optimizations that go unused. `target-cpu=native` enables all features of your current CPU, potentially unlocking significant speedups.
+The effective CPU baseline comes from the target specification and selected toolchain. `target-cpu=native` asks that toolchain to tune for the build host and may enable host features, but it does not guarantee a speedup or compatibility with another machine. Inspect generated code and compare the real deployment workload.
 
 ## Bad
 
@@ -51,47 +51,21 @@ By default, Rust compiles for a generic x86-64 baseline (roughly Sandy Bridge er
 
 ## Good
 
-```toml
-# .cargo/config.toml - for known deployment target
-[build]
-rustflags = ["-C", "target-cpu=native"]
-
-# Or specific CPU for cross-compilation
-# rustflags = ["-C", "target-cpu=skylake"]
-```
+For a homogeneous, documented deployment fleet, keep the setting target-scoped in `.cargo/config.toml` and use only a CPU name accepted by the pinned rustc for that target. Record the portable baseline and rollback condition beside the measurement; do not copy a placeholder or build-host value.
 
 ## Via Environment
 
 ```bash
-# Build with native optimizations
+# Local experiment on this build host; do not commit as a portable default
 RUSTFLAGS="-C target-cpu=native" cargo build --release
 
 # Check what features are enabled
 rustc --print cfg -C target-cpu=native | grep target_feature
 ```
 
-## Common Target CPUs
+## Target CPU Availability
 
-```bash
-# x86-64 targets
-target-cpu=native          # Current machine
-target-cpu=x86-64          # Baseline (SSE2)
-target-cpu=x86-64-v2       # SSE4.2, POPCNT
-target-cpu=x86-64-v3       # AVX2, BMI2
-target-cpu=x86-64-v4       # AVX-512
-
-# Intel specific
-target-cpu=skylake         # 6th gen Core
-target-cpu=alderlake       # 12th gen Core
-
-# AMD specific
-target-cpu=znver3          # Zen 3
-target-cpu=znver4          # Zen 4
-
-# ARM
-target-cpu=apple-m1        # Apple Silicon
-target-cpu=neoverse-n1     # AWS Graviton2
-```
+Do not preserve a static CPU-name table: accepted names and tuning behavior belong to the exact rustc/LLVM toolchain and target. Query that toolchain, then record the selected CPU, required features, oldest supported deployment host, and portable fallback in the measurement evidence.
 
 ## Feature Detection at Runtime
 
@@ -122,39 +96,11 @@ fn process_generic(data: &[u8]) -> u64 {
 
 ## Multi-Architecture Builds
 
-```bash
-# Build multiple binaries
-RUSTFLAGS="-C target-cpu=x86-64" cargo build --release
-mv target/release/app target/release/app-generic
-
-RUSTFLAGS="-C target-cpu=x86-64-v3" cargo build --release
-mv target/release/app target/release/app-avx2
-
-# Select at runtime
-if supports_avx2; then
-    ./app-avx2
-else
-    ./app-generic
-fi
-```
+Build and test each explicit target/CPU variant under a distinct, derived Cargo target directory and preserve its build metadata. Do not move files from an assumed `target/release` layout. Prefer one portable binary with runtime feature detection when its complexity and measured cost are justified.
 
 ## Cargo Configuration
 
-```toml
-# .cargo/config.toml
-
-# Native builds for development
-[target.x86_64-unknown-linux-gnu]
-rustflags = ["-C", "target-cpu=native"]
-
-# AWS deployment (Graviton2)
-[target.aarch64-unknown-linux-gnu]
-rustflags = ["-C", "target-cpu=neoverse-n1"]
-
-# Intel server deployment
-[target.x86_64-unknown-linux-gnu.deployment]
-rustflags = ["-C", "target-cpu=skylake-avx512"]
-```
+Cargo configuration must use a valid `[target.<triple>]` table for the exact deployment triple. Cargo has no arbitrary `[target.<triple>.deployment]` profile namespace. Check rustflags precedence and host/build-script effects in the shared tooling baseline before committing a target policy.
 
 ## What Changes
 
@@ -184,7 +130,7 @@ rustc --print cfg -C target-cpu=native | grep feature
 rustc --print cfg -C target-cpu=x86-64 | grep feature
 rustc --print cfg -C target-cpu=native | grep feature
 
-# View generated assembly
+# View generated assembly only if cargo-asm is already present and version-checked
 cargo asm --rust --release my_crate::hot_function
 ```
 

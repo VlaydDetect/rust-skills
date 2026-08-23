@@ -51,6 +51,10 @@ Tokio, Serde, anyhow, thiserror, tracing, rayon, SmallVec, loom, test frameworks
 
 LTO, codegen-unit changes, `target-cpu=native`, `panic=abort`, RwLock, boxing, arenas, compact integers, custom hashers, SIMD, PGO, and similar choices require representative evidence plus portability and correctness review. They are never global defaults from this skill.
 
+## Tooling Command Gate
+
+Before using a rule's profiler, sanitizer, linker, target, artifact-path, nightly, or external-tool command, read the shared [low-level tooling baseline](../rust-research/references/low-level-tooling-baseline.md). Imported command blocks are illustrations, not authorization: resolve the project toolchain and target, derive artifacts from Cargo metadata, verify the installed tool's exact version, and classify build, network, install, privilege, configuration, and lockfile effects. Never install or switch tools implicitly.
+
 ## Direct Invocation
 
 - Codex: `$rust-coding-rules <id|prefix|task>`

@@ -1,22 +1,22 @@
 # Rust Performance Optimization Guide
 
+> Tool commands below are conditional examples. Use the resolved artifact path from Cargo metadata and only tools already present at a verified version; installation, network access, privilege changes, and host configuration require explicit authorization. A comparable measurement, not the tool choice, owns the conclusion.
+
 ## Profiling First
 
 ### Tools
 ```bash
-# CPU profiling
-cargo install flamegraph
+# CPU profiling; cargo-flamegraph must already be available
 cargo flamegraph --bin myapp
 
-# Memory profiling
-cargo install cargo-instruments  # macOS
-heaptrack ./target/release/myapp  # Linux
+# Memory profiling; on macOS verify the resolved cargo-instruments syntax first
+heaptrack "$ARTIFACT"  # Linux; ARTIFACT comes from effective Cargo metadata/profile
 
 # Benchmarking
 cargo bench  # with criterion
 
 # Cache analysis
-valgrind --tool=cachegrind ./target/release/myapp
+valgrind --tool=cachegrind "$ARTIFACT"
 ```
 
 ### Criterion Benchmarks

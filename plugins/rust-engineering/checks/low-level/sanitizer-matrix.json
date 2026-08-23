@@ -1,0 +1,17 @@
+{
+  "channel": "nightly",
+  "target_matrix_required": true,
+  "cases": [
+    {
+      "mode": "address",
+      "decision": "conditional",
+      "reason": "Allowed only when the current rustc sanitizer target matrix lists the selected target."
+    },
+    {
+      "mode": "undefined",
+      "decision": "rejected",
+      "reason": "Rust has no documented undefined sanitizer mode."
+    }
+  ],
+  "evidence": "rust-sanitizers"
+}

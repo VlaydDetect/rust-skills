@@ -1,12 +1,12 @@
 # unsafe-miri-ci
 
-> Run `cargo miri test` in CI for every crate that contains `unsafe` code.
+> Run targeted Miri coverage when the repository pins a compatible nightly and the exercised code is supported by Miri.
 
 <!-- rulebook-meta: source=leonardomso/rust-skills@1.5.1; owner=rust-unsafe; supporters=none; status=conditional -->
 
 ## Decision
 
-Consider this rule only after its prerequisites are satisfied: Run `cargo miri test` in CI for every crate that contains `unsafe` code.
+Consider this rule only after its prerequisites are satisfied: add targeted Miri coverage for unsafe or otherwise validity-sensitive execution paths that Miri can model.
 
 ## Apply When
 
@@ -21,7 +21,8 @@ Do not apply mechanically when a safe standard-library or already accepted crate
 1. Inspect the actual callers, invariants, repository instructions, toolchain, target, features, and accepted dependencies.
 2. Confirm the concrete trigger for this rule; a keyword or hypothetical future need is insufficient.
 3. List every unsafe precondition, prove each from adjacent checks or types, and minimize the operation and caller obligations.
-4. Implement the smallest coherent option, compare material alternatives, and run evidence that can falsify the decision.
+4. Select supported tests or binaries, record Miri's platform and FFI limits, and vary seeds only when concurrency scheduling matters.
+5. Run the repository-pinned command without installing or switching toolchains implicitly, then keep the manual safety proof and other platform evidence explicit.
 
 ## Trade-offs
 
@@ -39,14 +40,14 @@ Audit every constructor and destruction path, compile relevant targets, and run 
 
 ## Why It Matters
 
-Miri is the only tool that *dynamically* detects undefined behavior in Rust programs at test time. It catches out-of-bounds memory accesses, use-after-free, reads of uninitialized memory, invalid pointer provenance, data races in `unsafe` multithreaded code, and violations of the Stacked Borrows / Tree Borrows aliasing models. The Rust standard library, tokio, serde, and many foundational crates all run Miri in CI before merging changes that touch unsafe code.
+Miri is an interpreter for Rust MIR that detects several classes of undefined behavior along the concrete executions it explores, including invalid memory accesses, uninitialized reads, some provenance or aliasing violations, and data races in supported executions. Sanitizers, fuzzers, platform integration tests, static reasoning, and review cover different failure classes.
 
-Static analysis and code review can miss subtle UB that only manifests at specific memory layouts; Miri's interpreted execution catches it unconditionally.
+Miri can expose failures missed by ordinary tests, but a passing run is not unconditional evidence: it does not enumerate all inputs or schedules, model every platform API or FFI call, or reproduce optimized native execution. The local operation-by-operation safety proof remains authoritative.
 
 ## Bad
 
 ```yaml
-# CI that tests but never runs Miri — unsafe code ships unverified.
+# CI assumes an ordinary test run proves unsafe soundness.
 - name: Test
   run: cargo test --all-features
 ```
@@ -54,44 +55,24 @@ Static analysis and code review can miss subtle UB that only manifests at specif
 ## Good
 
 ```yaml
-# .github/workflows/miri.yml
-name: Miri
-
-on: [push, pull_request]
-
-jobs:
-  miri:
-    name: Miri (nightly)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install nightly toolchain with Miri
-        run: |
-          rustup toolchain install nightly --component miri
-          rustup override set nightly
-          cargo miri setup
-
-      - name: Run Miri
-        env:
-          MIRIFLAGS: "-Zmiri-strict-provenance"
-        run: cargo miri test --all-features
+# Prerequisite: rust-toolchain.toml already pins a nightly with the Miri component.
+- name: Run the supported unsafe-core subset under Miri
+  run: cargo miri test -p unsafe-core raw_buffer_regressions
 ```
 
 ## Key Points
 
-- **Nightly only**: Miri requires a nightly toolchain. Pin a specific nightly date in `rust-toolchain.toml` if you need reproducible CI.
-- **Slow**: Miri interprets rather than compiles, so test suites run 100–1000× slower than normal. Run Miri on a reduced set of tests or on a separate slower CI job if the full suite is prohibitive.
-- **`MIRIFLAGS`**: `-Zmiri-strict-provenance` enables stricter pointer provenance checks, catching casts that violate the provenance model. Add `-Zmiri-tree-borrows` to opt into the newer Tree Borrows model.
-- **Stacked Borrows**: Miri's default aliasing model. It catches violations of Rust's borrow rules at the pointer level — invaluable for raw-pointer and FFI code.
-- **Setup command**: `cargo miri setup` pre-builds the Miri sysroot so the first test run is not cold. Run it once per CI cache key.
-- Only crates with `unsafe` blocks need Miri coverage. Pure-safe crates gain nothing from it.
+- **Nightly component**: use the project's pinned nightly and current Miri documentation. Tool availability is a prerequisite, not permission to install or switch it.
+- **Execution scope**: select tests that exercise the actual invariant. Record skipped platform, I/O, FFI, or dependency paths.
+- **Flags are version-sensitive**: do not copy provenance, aliasing-model, isolation, seed, or leak flags from this rule. Confirm them against the pinned Miri version.
+- **Concurrency is sampled**: seeds may explore additional schedules, but a finite set cannot prove race freedom.
+- **Prioritization is contextual**: unsafe boundaries are high-value targets. A safe-only crate can still trigger a defect in dependencies or unsafe internals, so absence of local `unsafe` is not proof of zero benefit.
 
 ## When It's Acceptable to Skip
 
-- Crates with zero `unsafe` code (safe-only crates get no benefit).
-- Generated code or proc-macro output you do not control (audit the generator instead).
-- Very large integration tests that make Miri impractical — run a targeted unit-test subset instead.
+- The relevant code path depends on unsupported platform APIs, FFI, or another Miri limitation; use native integration evidence and keep the manual proof.
+- The pinned toolchain lacks Miri; report `SKIP` rather than changing the toolchain implicitly.
+- A broad suite is impractical; retain a targeted subset that reaches the invariant and state the residual coverage gap.
 
 ## Related Rules
 - [unsafe-maybeuninit](unsafe-maybeuninit.md) - use `MaybeUninit<T>` for uninitialized memory

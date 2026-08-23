@@ -16,6 +16,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 import huiali_coverage as huiali
+import low_level_coverage as low_level
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +28,19 @@ ACTIONBOOK_SKILLS = {"rust-design-protocol", "rust-research"}
 HU_NEW_SKILLS = {"rust-pin", "rust-gpu", "rust-systems-networking", "rust-distributed-systems"}
 HU_KINDS = {"new_profile": 16, "merged": 16, "conflict": 8, "negative": 8}
 HU_BLOCK_MARKER = re.compile(r"<!-- huiali-source: .*; sha256=([0-9a-f]{64}) -->")
+LOW_LEVEL_KINDS = {
+    "debugging_profiling": 8,
+    "cargo_build_time": 8,
+    "cross_linker_target": 8,
+    "sanitizer_miri_security": 8,
+    "async_system_hardware": 8,
+    "safety_conflict_negative": 8,
+}
+LOW_LEVEL_CHANNELS = {"stable", "nightly", "external", "project"}
+LOW_LEVEL_EFFECTS = {"read-only-host", "build-artifacts", "profiler-output"}
+LOW_LEVEL_FAMILY_MARKER = re.compile(
+    r"<!-- low-level-source-family: ([a-z0-9-]+); source=([^;]+); sha256=([0-9a-f]{64}); revision=([0-9a-f]{40}) -->"
+)
 ACTIONBOOK_STATUSES = {"pending", "in_progress", "adapted", "merged", "conditional", "excluded"}
 ACTIONBOOK_KINDS = {
     "model_routing": 14,
@@ -164,14 +178,14 @@ def validate_manifests() -> None:
     codex = load_json(ROOT / ".codex-plugin" / "plugin.json")
     assert (ROOT / "LICENSE").is_file()
     assert claude["name"] == codex["name"] == "rust-engineering"
-    assert claude["version"] == codex["version"] == "0.5.0"
+    assert claude["version"] == codex["version"] == "0.6.0"
     assert re.fullmatch(r"\d+\.\d+\.\d+", claude["version"])
     assert tuple(map(int, claude["version"].split("."))) >= (0, 2, 0)
     assert claude["author"]["name"] and codex["author"]["name"]
     assert all(isinstance(keyword, str) and keyword for keyword in claude["keywords"])
     assert all(isinstance(keyword, str) and keyword for keyword in codex["keywords"])
-    assert "50" in claude["description"] and "265" in claude["description"] and "Huiali" in claude["description"]
-    assert "50" in codex["description"] and "265" in codex["description"] and "Huiali" in codex["description"]
+    assert all(term in claude["description"] for term in ("50", "265", "Huiali", "low-level"))
+    assert all(term in codex["description"] for term in ("50", "265", "Huiali", "low-level"))
     assert set(claude) <= {
         "$schema", "name", "version", "description", "author", "license", "keywords", "hooks",
     }
@@ -184,6 +198,7 @@ def validate_manifests() -> None:
     assert "265" in interface["longDescription"]
     assert "Actionbook" in interface["longDescription"]
     assert "Huiali" in interface["longDescription"]
+    assert "low-level" in interface["longDescription"]
     assert interface["defaultPrompt"] and "$rust-workflow" in interface["defaultPrompt"][0]
     assert "$rust-coding-rules" in interface["defaultPrompt"][0]
 
@@ -442,6 +457,71 @@ def validate_huiali_coverage(skills: set[str]) -> dict:
     return coverage
 
 
+def validate_low_level_coverage(skills: set[str]) -> dict:
+    low_level.verify()
+    coverage = load_json(ROOT / "provenance" / "low-level-dev-coverage.json")
+    assert coverage["source_metrics"] == {
+        "all_markdown_files": 205,
+        "all_skill_files": 142,
+        "selected_markdown_files": 84,
+        "selected_markdown_lines": 16211,
+        "source_blocks": 740,
+        "unique_source_blocks": 738,
+        "source_block_aliases": 2,
+    }
+    assert coverage["summary"]["source_files"] == 213
+    assert {
+        key: coverage["summary"][key]
+        for key in ("adapted", "merged", "excluded", "duplicate", "pending", "in_progress")
+    } == {"adapted": 52, "merged": 33, "excluded": 128, "duplicate": 0, "pending": 0, "in_progress": 0}
+    assert coverage["summary"]["block_decisions"] == {
+        "corrected": 0, "fragment": 650, "pending": 0, "rejected": 88, "retained": 0,
+    }
+
+    by_path = {entry["source_path"]: entry for entry in coverage["entries"]}
+    assert len(by_path) == 213
+    command_blocks = 0
+    for block in coverage["blocks"]:
+        contract = block.get("command_contract")
+        if block["language"] in low_level.COMMAND_LANGUAGES:
+            assert contract, f"missing command contract: {block['source_sha256']}"
+        if not contract:
+            continue
+        command_blocks += 1
+        assert contract["status"] in {"stable", "nightly", "external"}
+        assert contract["tools"] and contract["applicable_version"]
+        assert contract["os_constraints"] and contract["target_constraints"]
+        assert contract["side_effects"] and contract["evidence_ids"] == block["evidence_ids"]
+        assert set(contract["evidence_ids"]) <= set(coverage["evidence"])
+        assert contract["decision"] == block["status"] and contract["reason"]
+    assert command_blocks == coverage["summary"]["command_blocks"] >= 386
+
+    family_files = []
+    for family, config in low_level.FAMILY_CONFIG.items():
+        assert {config["owner"], *config["supporting"]} <= skills
+        target = ROOT / low_level.target_for_family(family)
+        family_files.append(target)
+        content = target.read_text(encoding="utf-8")
+        marker = next((LOW_LEVEL_FAMILY_MARKER.fullmatch(line) for line in content.splitlines() if line.startswith("<!-- low-level-source-family:")), None)
+        assert marker and marker.group(1) == family and marker.group(4) == coverage["source"]["revision"]
+        source_entry = by_path[marker.group(2)]
+        assert marker.group(3) == source_entry["source_sha256"]
+        assert "```" not in content, f"source command/code block leaked into runtime reference: {target}"
+
+    baseline_path = ROOT / "skills" / "rust-research" / "references" / "low-level-tooling-baseline.md"
+    baseline = baseline_path.read_text(encoding="utf-8")
+    assert all(term in baseline for term in (
+        "Rust 1.98", "Edition 2024", "resolver 3", "cargo build --timings",
+        "cargo metadata --format-version 1 --locked --offline", "mode named `undefined` is not supported",
+        "passing a run is not proof", "never install tools or components",
+        "cargo-bloat does not support WASM", "unoptimized LLVM IR lines, not runtime cost",
+    ))
+    combined = baseline + "\n" + "\n".join(path.read_text(encoding="utf-8") for path in family_files)
+    assert "-Zsanitizer=undefined" not in combined and "build/cargo-timings" not in combined
+    assert not re.search(r"image\s*=.*:main\b", combined, re.IGNORECASE)
+    return coverage
+
+
 def validate_rule_examples(path: Path, content: str) -> Counter:
     lines = content.splitlines()
     counts: Counter = Counter()
@@ -667,9 +747,10 @@ def validate_hooks() -> None:
 
 def validate_evals(skills: set[str]) -> int:
     evals = load_json(ROOT / "evals" / "evals.json")
-    assert evals["schema_version"] == 5
+    assert evals["schema_version"] == 6
     assert evals["actionbook_cases_file"] == "actionbook-cases.json"
     assert evals["huiali_cases_file"] == "huiali-cases.json"
+    assert evals["low_level_cases_file"] == "low-level-cases.json"
     cases = evals["cases"]
     ids = [case["id"] for case in cases]
     assert len(cases) == 108 and len(ids) == len(set(ids)), "routing corpus must have 108 unique cases"
@@ -848,7 +929,38 @@ def validate_evals(skills: set[str]) -> int:
 
     assert new_profile_primary == {skill: 4 for skill in HU_NEW_SKILLS}
     assert HU_NEW_SKILLS <= huiali_primary
-    return len(cases) + len(actionbook_cases) + len(huiali_cases)
+
+    low_level_evals = load_json(ROOT / "evals" / evals["low_level_cases_file"])
+    assert low_level_evals["schema_version"] == 1
+    assert low_level_evals["source"] == {
+        "name": "mohitmishra786/low-level-dev-skills",
+        "revision": "bdc58472fa9f309ed1b3f7d985a0d8e9bd8f4608",
+    }
+    low_level_cases = low_level_evals["cases"]
+    low_level_ids = [case["id"] for case in low_level_cases]
+    assert len(low_level_cases) == 48 and len(low_level_ids) == len(set(low_level_ids))
+    assert Counter(case["kind"] for case in low_level_cases) == LOW_LEVEL_KINDS
+    assert not set(low_level_ids) & set().union(*all_id_sets)
+    family_names = set(low_level.FAMILY_CONFIG)
+    activations: Counter = Counter()
+    for case in low_level_cases:
+        expected = case["expected"]
+        assert case["prompt"] and case["tags"] and expected["forbidden"]
+        assert isinstance(expected["activate"], bool)
+        assert len(expected["supporting_profiles"]) <= 2
+        assert set(expected["supporting_profiles"]) <= profile_skills
+        assert set(expected["references"]) <= family_names
+        assert set(expected["allowed_effects"]) <= LOW_LEVEL_EFFECTS
+        activations[expected["activate"]] += 1
+        if expected["activate"]:
+            assert expected["primary_profile"] in profile_skills
+            assert expected["references"] and expected["channel"] in LOW_LEVEL_CHANNELS
+            assert expected["allowed_effects"]
+        else:
+            assert expected["primary_profile"] is None and expected["channel"] is None
+            assert not expected["supporting_profiles"] and not expected["references"] and not expected["allowed_effects"]
+    assert activations == {True: 44, False: 4}
+    return len(cases) + len(actionbook_cases) + len(huiali_cases) + len(low_level_cases)
 
 
 def validate_metadata_fixture() -> None:
@@ -877,6 +989,44 @@ def validate_metadata_fixture() -> None:
     assert dependencies["unix-util"]["name"] == "metadata-local-util"
     assert dependencies["unix-util"]["optional"] is False
     assert dependencies["unix-util"]["target"] == "cfg(unix)"
+
+
+def validate_low_level_fixtures() -> None:
+    root = ROOT / "checks" / "low-level"
+    assert {path.name for path in root.glob("*.json")} == {
+        "timings-path.json", "sanitizer-matrix.json", "cross-resolution.json", "command-effects.json",
+    }
+
+    timings = load_json(root / "timings-path.json")
+    report = (Path(timings["metadata"]["target_directory"]) / timings["report_suffix"]).as_posix()
+    assert report == timings["expected_report"]
+    assert timings["forbidden_assumption"] != report and timings["evidence"] == "cargo-timings"
+
+    sanitizers = load_json(root / "sanitizer-matrix.json")
+    matrix = {case["mode"]: case for case in sanitizers["cases"]}
+    assert sanitizers["channel"] == "nightly" and sanitizers["target_matrix_required"]
+    assert matrix["address"]["decision"] == "conditional"
+    assert matrix["undefined"]["decision"] == "rejected"
+    assert sanitizers["evidence"] == "rust-sanitizers"
+
+    cross = load_json(root / "cross-resolution.json")
+    assert cross["host"] != cross["target"] and cross["rust_standard_library_present"]
+    assert cross["linker"] is cross["runner"] is None and not cross["native_dependencies_resolved"]
+    assert set(cross["expected_missing"]) == {
+        "linker", "runner-or-target-execution-environment", "target-native-dependencies",
+    }
+
+    effects = load_json(root / "command-effects.json")["cases"]
+    assert len(effects) == 6
+    allowed = [case for case in effects if case["automatic_allowed"]]
+    assert allowed == [{
+        "command": "cargo metadata --format-version 1 --locked --offline",
+        "effects": ["read-only-host"],
+        "automatic_allowed": True,
+    }]
+    forbidden_effects = {"install", "network", "privilege", "global-host-config", "toolchain-mutation", "lockfile-mutation"}
+    assert all(not case["automatic_allowed"] for case in effects if set(case["effects"]) & forbidden_effects)
+    assert next(case for case in effects if case["command"] == "cargo build --timings")["effects"] == ["build-artifacts"]
 
 
 def validate_examples(example_owners: set[str]) -> None:
@@ -998,23 +1148,26 @@ def main() -> None:
     validate_skills(expected_skills, golden_owners)
     actionbook = validate_actionbook_coverage(expected_skills)
     huiali_ledger = validate_huiali_coverage(expected_skills)
+    low_level_ledger = validate_low_level_coverage(expected_skills)
     rule_count, rule_examples = validate_rulebook(expected_skills)
     validate_links()
     validate_agents()
     validate_hooks()
     eval_count = validate_evals(expected_skills)
     validate_metadata_fixture()
+    validate_low_level_fixtures()
     fixture_skip = None
     if args.examples:
         validate_examples(golden_owners)
         rule_examples, fixture_skip = validate_rulebook_examples()
     print(
         f"OK: {len(expected_skills)} skills, {len(AGENTS)} read-only agents, "
-        f"{eval_count} routing, Actionbook, and Huiali evals, {coverage['summary']['adapted']} adapted source skills, "
+        f"{eval_count} routing, Actionbook, Huiali, and low-level evals, {coverage['summary']['adapted']} adapted source skills, "
         f"{coverage['summary']['out_of_scope']} explicit exclusions, {rule_count} coding rules, "
         f"{sum(rule_examples.values())} classified rule examples, {len(golden_owners)} golden examples, "
         f"{actionbook['summary']['source_files']} accounted Actionbook files, "
-        f"{huiali_ledger['summary']['source_files']} accounted Huiali files"
+        f"{huiali_ledger['summary']['source_files']} accounted Huiali files, "
+        f"{low_level_ledger['summary']['source_files']} accounted low-level files"
         + (" compiled" if args.examples else " statically checked")
     )
     if fixture_skip:

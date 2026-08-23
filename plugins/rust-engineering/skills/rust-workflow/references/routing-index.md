@@ -22,6 +22,21 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 |---|---|---|
 | `rust-coding-rules` | Addressable concrete rules selected after an owner profile | An exact rule ID or prefix is requested, or workflow/review needs a RuleSet of at most eight context-matched rules. It never occupies a primary or supporting slot. |
 
+## Reviewed Cargo-tool overlays
+
+These are progressive references under existing owners, not standalone profiles. Load one only when the named tool or its specific capability controls the task; a generic Rust request or the mere presence of `Cargo.toml` is not enough.
+
+| Trigger | Primary owner | Supporting profiles | Reference |
+|---|---|---|---|
+| Project generation from a local/remote template; Liquid, placeholders, conditionals, Rhai hooks | `rust-cargo-build` | `rust-workspace`, `rust-research` | `cargo-generate` |
+| Nextest filters, profiles, groups, retries, timeouts, JUnit, or process-per-test behavior | `rust-testing` | `rust-verify`, `debugging` | `cargo-nextest` |
+| LLVM source coverage, reports, thresholds, nextest integration, branch/doctest coverage | `rust-testing` | `rust-verify`, `rust-research` | `cargo-llvm-cov` |
+| cargo-machete unused-dependency findings, false positives, exit codes, or metadata-assisted scan | `rust-dependencies` | `rust-cargo-build`, `rust-verify` | `cargo-machete` |
+| Cargo target/build state across Git linked worktrees, cache contention, or artifact identity | `rust-cargo-build` | `rust-performance`, `rust-verify` | `cargo-worktree-builds` |
+| Clippy groups/priorities, workspace inheritance, typed config, disallowed items, or lint-policy migration | `rust-style-clippy` | `rust-stable`, `rust-verify` | `clippy-advanced` |
+
+`mockito-http-mocking` is intentionally absent: it has no profile, reference, trigger, agent, hook, or positive route.
+
 ## Engineering Process
 
 | Profile | Owns | Route here when |
@@ -54,14 +69,14 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | Profile | Owns | Route here when |
 |---|---|---|
 | `rust-api-design` | Caller-visible Rust contract, visibility, ownership, extension policy | A public or independently evolving Rust API is added or changed. |
-| `rust-cargo-build` | Effective Cargo state, targets, features, config, profiles, build scripts, linker and cache mechanics | Cargo or cross-build mechanics determine behavior. |
+| `rust-cargo-build` | Effective Cargo state, targets, features, config, profiles, build scripts, linker/cache mechanics, explicit template generation, and worktree build layout | Cargo, cross-build, scaffolding, or linked-worktree build mechanics determine behavior. |
 | `rust-workspace` | Crate boundaries, workspace policy, shared metadata, release relationships | The design unit is packages and their dependency direction. |
 | `rust-module-layout` | In-crate modules, files, visibility, re-exports, tests | The design unit is structure inside one crate. |
-| `rust-dependencies` | Adopted dependency versions, features, sources, advisories, licenses, supply policy, removal | A dependency already exists or adoption has been approved. |
+| `rust-dependencies` | Adopted dependency versions, features, sources, advisories, licenses, supply policy, unused-dependency evidence, and removal | A dependency already exists or adoption has been approved. |
 | `rust-crate-discovery` | Pre-adoption candidate research and build-versus-buy decision | A new external crate is being considered. |
 | `rust-semver` | Released compatibility, baseline comparison, deprecation, migration | Downstream breakage or release classification is at issue. |
 | `rust-documentation` | Rustdoc, doctests, examples, README, changelog, migration docs | The developer-facing contract or discoverability changes. |
-| `rust-style-clippy` | rustfmt, Clippy, lint levels and exceptions | Formatting or lint tooling is the controlling issue. |
+| `rust-style-clippy` | rustfmt, Clippy, lint levels/priorities, typed config, and exceptions | Formatting or lint tooling is the controlling issue. |
 | `rust-ecosystem` | Broad project shape and solution class before candidate selection | A new project or subsystem needs high-level Rust orientation. |
 
 ## Architecture
@@ -76,7 +91,7 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 | Profile | Owns | Route here when |
 |---|---|---|
 | `rust-concurrency` | Threads, async/Future/Waker internals, channels, locks, atomics, cancellation, backpressure, shutdown | Correctness or liveness spans execution contexts. |
-| `rust-testing` | Test design and implementation, including bounded fuzz targets and crash regressions | The primary deliverable is new or improved tests. |
+| `rust-testing` | Test and coverage strategy/implementation, including nextest execution policy, bounded fuzz targets, and crash regressions | Tests, their runner policy, or coverage contract is the primary deliverable. |
 | `rust-performance` | Reproducible benchmarks, perf/flamegraphs/counters, allocation/size/build-time profiles, optimization, regression guards | A measured metric or regression controls the work. |
 | `rust-observability` | Structured logs, spans, metrics, correlation, redaction, cardinality | Runtime behavior must become operationally diagnosable. |
 | `rust-unsafe-ffi` | Foreign ABI, layout, handles, buffers, strings, callbacks, unwind | Unsafe crosses a language or runtime boundary. |
@@ -108,6 +123,12 @@ or FFI. They do not require standalone framework profiles.
 Use these ownership splits when descriptions overlap:
 
 - `rust-testing` decides which tests to create; `rust-verify` runs the evidence matrix and never edits tests.
+- `rust-testing` defines nextest and coverage strategy; `rust-verify` only executes an already selected tool/profile/threshold contract.
+- `rust-dependencies` decides whether a dependency can be removed; cargo-machete contributes heuristic evidence and never owns the edit.
+- `rust-cargo-build` owns Git-worktree build layout; `rust-workspace` joins only when Cargo package topology changes.
+- `rust-style-clippy` owns lint policy and tool configuration; `rust-review` judges the semantic correctness of a proposed lint fix.
+- Coverage remains under `rust-testing` unless the request concerns a measured runtime or build-time metric; then `rust-performance` may support it.
+- A general Rust task does not activate cargo-generate, nextest, LLVM coverage, machete, worktree-build, or advanced-Clippy references solely because a manifest exists.
 - `rust-review` reviews a bounded diff; `rust-architecture-review` assesses whole-project structure; `nix-review` owns Nix-specific findings.
 - `rust-unsafe` owns Rust-internal validity and aliasing; `rust-unsafe-ffi` adds ABI and foreign lifecycle; `rust-uniffi-building` owns the UniFFI generation workflow.
 - `rust-idioms` owns semantic patterns; `rust-style-clippy` owns formatter and lint policy; `rust-api-design` owns public caller contracts.
@@ -150,6 +171,12 @@ Use these ownership splits when descriptions overlap:
 | Run Miri after changing a raw-buffer wrapper | `rust-unsafe` | `rust-verify`, `debugging` | The unsafe proof owns meaning; verification runs supported paths and debugging localizes a finding. |
 | Cross-compile a C-linked CLI for ARM Linux | `rust-cargo-build` | `rust-unsafe-ffi`, `rust-research` | Cargo owns target/linker mechanics, FFI owns native ABI and research confirms current target/tool support. |
 | Profile an AF_XDP packet loop | `rust-systems-networking` | `rust-performance`, `rust-unsafe` | UMEM/ring ownership controls execution; measurement and buffer soundness constrain it. |
+| Generate a service from a reviewed local template | `rust-cargo-build` | `rust-workspace`, `rust-research` | Generator effects and Cargo integration own the operation; template version and topology constrain it. |
+| Configure nextest groups for database tests | `rust-testing` | `rust-verify`, `debugging` | Test-resource policy owns grouping; verification runs it and debugging handles unexplained flakes. |
+| Establish an LLVM line-coverage regression gate | `rust-testing` | `rust-verify`, `rust-research` | Test adequacy and threshold scope own the gate; execution and version facts support it. |
+| Review a cargo-machete candidate used by generated code | `rust-dependencies` | `rust-cargo-build`, `rust-verify` | Dependency ownership decides removal; build/generated paths explain the heuristic false positive. |
+| Stop duplicate builds across three Git worktrees | `rust-cargo-build` | `rust-performance`, `rust-verify` | Isolated directory/cache mechanics own the design; measurements decide whether optimization helps. |
+| Add workspace Clippy priorities and one disallowed API | `rust-style-clippy` | `rust-stable`, `rust-review` | Lint policy owns configuration; toolchain support and semantic boundary review constrain it. |
 
 When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
 

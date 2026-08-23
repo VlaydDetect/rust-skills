@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "layouts": [
+    {"mode":"default-per-worktree","writable_identity":"workspace-root","isolated":true,"shared_compiler_cache":false,"recommended":true,"requires":["none"]},
+    {"mode":"external-per-worktree","writable_identity":"canonical-workspace-path-hash","isolated":true,"shared_compiler_cache":false,"recommended":true,"requires":["approved-cache-root","validated-cleanup-target"]},
+    {"mode":"templated-build-dir","writable_identity":"workspace-path-hash","isolated":true,"shared_compiler_cache":false,"recommended":true,"requires":["pinned-cargo-support","approved-cache-root"]},
+    {"mode":"one-writable-target","writable_identity":"shared-path","isolated":false,"shared_compiler_cache":false,"recommended":false,"requires":["explicit-experiment","divergent-worktree-validation","contention-measurement"]},
+    {"mode":"existing-sccache","writable_identity":"compiler-cache-key","isolated":true,"shared_compiler_cache":true,"recommended":true,"requires":["preinstalled-configured-tool","incremental-tradeoff","hit-miss-measurement"]}
+  ],
+  "diagnostic_rule": "reproduce-in-isolated-build-state-before-classification",
+  "forbidden_recovery": ["mutate-source-timestamps", "delete-unresolved-shared-root", "declare-compiler-error-spurious"]
+}

@@ -71,6 +71,29 @@ blocks as 738 unique bodies and two aliases. Every unique block is classified;
 command-like blocks additionally record a version/channel/platform/effects
 contract. The development source tree remains optional at plugin runtime.
 
+## laurigates/claude-plugins
+
+- Repository: <https://github.com/laurigates/claude-plugins>
+- Pinned revision: `a1e72ed186b97555256d8c058ff291c182332df7`
+- Commit date: `2026-08-23T09:39:01Z`
+- Source Rust plugin version: `1.7.0`
+- Declared license: MIT
+- Copyright: 2026 Lauri Gates
+
+The integration adapts six specialized Cargo-tool skills into existing owners:
+cargo-generate, cargo-nextest, cargo-llvm-cov, cargo-machete, Git-worktree
+builds, and advanced Clippy. The generic `rust-development` skill and reference
+are an umbrella audit only. Incorrect or blanket commands and preferences were
+rejected against current Rust/Cargo or tool-owner documentation.
+`mockito-http-mocking` is explicitly excluded and has no runtime route.
+
+[`laurigates-coverage.json`](laurigates-coverage.json) records SHA-256, byte and
+line counts, status, targets, and reasons for all 83 files. It accounts for 10
+selected Markdown files, 2,364 non-empty lines, and 130 unique fenced blocks with no
+aliases. Command-bearing blocks record resolved-version/channel/platform/effect
+contracts. The integration adds no skill, agent, hook, MCP server, runtime
+dependency, installation, or automatic network action.
+
 ### Huiali MIT License
 
 MIT License
@@ -100,6 +123,30 @@ SOFTWARE.
 MIT License
 
 Copyright (c) 2026 chessMan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+### laurigates/claude-plugins MIT License
+
+MIT License
+
+Copyright (c) 2026 Lauri Gates
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

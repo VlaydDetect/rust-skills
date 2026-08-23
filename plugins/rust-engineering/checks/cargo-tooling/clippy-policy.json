@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "lint_table": {
+    "location": "workspace.lints.clippy",
+    "group": {"name":"pedantic","level":"warn","priority":-1},
+    "individual": {"name":"missing_errors_doc","level":"allow","priority":0},
+    "member_inheritance": "lints.workspace=true"
+  },
+  "typed_config": {
+    "location": "clippy.toml",
+    "keys": ["cognitive-complexity-threshold", "too-many-arguments-threshold", "allowed-idents-below-min-chars", "disallowed-methods"],
+    "owns_lint_levels": false,
+    "requires_pinned_schema_check": true
+  },
+  "groups": {
+    "blanket_allowed": ["all"],
+    "selective_only": ["pedantic", "nursery", "cargo", "restriction"]
+  },
+  "remediation": {
+    "automatic_source_fix": false,
+    "semantic_review_required": ["public-api", "msrv", "allocation", "evaluation-order", "drop-order", "error-context", "concurrency", "readability"]
+  }
+}

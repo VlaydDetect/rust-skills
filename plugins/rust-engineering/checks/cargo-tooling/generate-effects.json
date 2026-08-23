@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"mode":"local-reviewed-fresh","template":"local","revision_reviewed":true,"destination":"fresh-temp","hooks":"reviewed-no-command","effects":["source-writes"],"automatic_allowed":false,"required_gate":"explicit-generation-request"},
+    {"mode":"remote-pinned-fresh","template":"remote","revision_reviewed":true,"destination":"fresh-temp","hooks":"reviewed-no-command","effects":["network","source-writes"],"automatic_allowed":false,"required_gate":"network-and-generation-authorization"},
+    {"mode":"remote-moving-revision","template":"remote","revision_reviewed":false,"destination":"fresh-temp","hooks":"unknown","effects":["network","source-writes"],"automatic_allowed":false,"required_gate":"reject-until-pinned-and-reviewed"},
+    {"mode":"init-existing","template":"local","revision_reviewed":true,"destination":"existing","hooks":"reviewed-no-command","effects":["source-writes","overwrite-risk","workspace-mutation"],"automatic_allowed":false,"required_gate":"in-place-diff-authorization"},
+    {"mode":"overwrite-existing","template":"local","revision_reviewed":true,"destination":"existing","hooks":"reviewed-no-command","effects":["source-writes","overwrite-risk"],"automatic_allowed":false,"required_gate":"per-target-overwrite-authorization"},
+    {"mode":"command-enabled-hook","template":"local","revision_reviewed":true,"destination":"fresh-temp","hooks":"external-command","effects":["source-writes","process-execution","transitive-effects"],"automatic_allowed":false,"required_gate":"exact-hook-and-command-review"}
+  ]
+}

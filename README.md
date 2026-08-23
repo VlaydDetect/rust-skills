@@ -97,6 +97,8 @@ Huiali-корпус интегрирован по 39 source families без со
 
 Low-level корпус интегрирован как проверяемый tooling protocol, а не как набор новых пересекающихся skills. 52 source families распределены между существующими владельцами debugging, performance, Cargo/build, unsafe/FFI, concurrency, architecture, dependencies, testing, systems networking, verify и research. Общий `low-level-tooling-baseline.md` требует официальное Rust/Cargo evidence либо документацию владельца внешнего инструмента, фиксирует channel/platform/target/effects и запрещает автоматические install, network, privilege, global-config и toolchain mutations. `provenance/low-level-dev-coverage.json` учитывает 213 файлов (`52 adapted + 33 merged + 128 excluded`) и 740 source blocks как 738 уникальных bodies и 2 aliases; исходные командные fences не поставляются как исполняемые инструкции, но каждый получает индивидуальный disposition и command contract в ledger.
 
+Laurigates Rust plugin интегрирован как шесть progressive Cargo-tool references у существующих владельцев: cargo-generate и Git-worktree build state у `rust-cargo-build`, nextest и cargo-llvm-cov у `rust-testing`, cargo-machete у `rust-dependencies`, advanced Clippy у `rust-style-clippy`. `rust-development` используется только как umbrella-аудит отсутствующих tool boundaries; устаревшие WASI/embedded/unsafe/optimization recipes и blanket crate preferences не копируются. `mockito-http-mocking` явно исключён. `provenance/laurigates-coverage.json` учитывает все 83 файла (`6 adapted + 5 merged + 72 excluded`), 10 выбранных Markdown-файлов, 2 364 непустые строки и 130 уникальных fenced blocks с per-command version/channel/platform/effects contract. Общий baseline запрещает скрытые installs, network, uploads, GUI, global config и lockfile mutations.
+
 ## Agents и права на изменения
 
 Плагин поставляет четыре общие read-only роли Claude Code: `rust-scout`, `rust-researcher`, `rust-reviewer`, `rust-verifier`. В Codex тот же контракт может выполняться native subagents. Делегирование необязательно и применяется только к независимым вопросам, которые реально уменьшают неопределённость.
@@ -111,18 +113,21 @@ Low-level корпус интегрирован как проверяемый to
 - `scripts/session-context.*` — быстрый общий SessionStart detector;
 - `skills/` — 50 host-neutral навыков и их references/examples;
 - `agents/` — четыре read-only Claude agents;
-- `evals/evals.json` — schema v6: 108 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali и 48 low-level cases;
+- `evals/evals.json` — schema v7: 108 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali, 48 low-level и 32 Laurigates cases;
 - `evals/actionbook-cases.json` — model, cross-layer, navigation, research, unsafe, ML и negative сценарии;
 - `evals/huiali-cases.json` — 16 new-profile, 16 merged-topic, 8 conflict и 8 negative сценариев; вместе с base/Actionbook это 200 routing/protocol cases;
 - `evals/low-level-cases.json` — по 8 debugging/profiling, Cargo/build-time, cross/linker, sanitizer/Miri/security, async/system/hardware и conflict/negative сценариев; итоговый routing/protocol корпус — 248 cases;
+- `evals/laurigates-cases.json` — по 4 cargo-generate, nextest, LLVM coverage, cargo-machete, worktree-build и advanced-Clippy сценария, плюс 4 ownership conflicts и 4 negative/safety cases; итоговый routing/protocol корпус — 280 cases;
 - `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
 - `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
 - `provenance/actionbook-coverage.json` — per-file учёт 242 Actionbook sources;
 - `provenance/huiali-coverage.json` — per-file и per-Rust-block учёт Huiali snapshot;
 - `provenance/low-level-dev-coverage.json` — per-file, per-block, command-contract и official-evidence учёт low-level snapshot;
+- `provenance/laurigates-coverage.json` и `laurigates-index.md` — per-file/per-block учёт Laurigates snapshot, dispositions и карта шести владельцев;
 - `checks/rulebook/` — dev-only locked Cargo harness и stdlib-only генератор classified examples;
 - `checks/metadata-workspace/` — path-only fixture для inherited, renamed, optional и target-specific Cargo dependencies;
 - `checks/low-level/` — четыре dependency-free data fixtures для timings path, sanitizer matrix, cross-resolution и command side effects;
+- `checks/cargo-tooling/` — пять dependency-free data fixtures для generator trust/effects, nextest/coverage modes, machete exits/lockfile, worktree isolation/sccache и Clippy priorities/config boundaries;
 - `scripts/validate.py` — стандартно-библиотечный валидатор продукта.
 
 ## Проверка
@@ -134,6 +139,6 @@ python plugins/rust-engineering/scripts/validate.py --examples
 claude plugin validate ./plugins/rust-engineering
 ```
 
-Первая команда проверяет оба manifest, 50 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting и command contracts, 248 base/Actionbook/Huiali/low-level routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture и четыре low-level safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
+Первая команда проверяет оба manifest, 50 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting, Laurigates `83/83` ledger с `130/130/0` block accounting и command contracts, 280 base/Actionbook/Huiali/low-level/Laurigates routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture, четыре low-level и пять Cargo-tool safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
 
 Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.

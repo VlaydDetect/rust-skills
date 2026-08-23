@@ -1,6 +1,6 @@
 ---
 name: rust-dependencies
-description: Govern adopted Rust dependencies, versions, features, sources, duplication, security, licensing, updates, and removal. Use after a crate is selected or when an existing dependency graph needs policy and maintenance.
+description: Govern adopted Rust dependencies, versions, features, sources, duplication, security, licensing, unused-dependency evidence, updates, and removal. Use after selection or when an existing dependency graph needs policy.
 ---
 
 # Rust Dependency Governance
@@ -47,3 +47,7 @@ Read [Rust Dependency Governance field guide](references/guide.md) before making
 ## Low-level protocols
 
 For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+
+## Reviewed Cargo tooling
+
+For cargo-machete findings, false positives, exit codes, Cargo metadata, and safe manual removal, read [cargo-machete: unused-dependency evidence protocol](references/cargo-tooling/cargo-machete.md). Treat the tool as a fast heuristic; this profile owns the decision and post-removal matrix.

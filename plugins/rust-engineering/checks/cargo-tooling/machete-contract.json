@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "exit_codes": {
+    "0": "clean",
+    "1": "findings",
+    "2": "processing-error"
+  },
+  "false_positive_metadata": {
+    "package_ignored": "package.metadata.cargo-machete.ignored",
+    "workspace_ignored": "workspace.metadata.cargo-machete.ignored",
+    "package_renamed": "package.metadata.cargo-machete.renamed",
+    "workspace_renamed": "workspace.metadata.cargo-machete.renamed"
+  },
+  "modes": [
+    {"mode":"directory-scan","effects":["read-only-host"],"automatic_allowed":true,"decision":"heuristic-only"},
+    {"mode":"metadata-assisted","effects":["lockfile","possible-network"],"automatic_allowed":false,"decision":"explicit-authorization"},
+    {"mode":"manual-removal","effects":["source-writes","lockfile","build-artifacts"],"automatic_allowed":false,"decision":"owner-review-and-matrix"}
+  ],
+  "required_review_paths": ["cfg", "build-scripts", "proc-macros", "generated-code", "examples", "benches", "doctests", "fuzz-targets", "feature-matrix", "target-specific-dependencies", "public-reexports"]
+}

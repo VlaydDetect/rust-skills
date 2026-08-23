@@ -1,6 +1,6 @@
 ---
 name: rust-style-clippy
-description: Apply rustfmt, Clippy, lint levels, allow policies, naming, readability, and CI style gates without turning tooling into unreviewed semantics. Use for formatting and lint configuration or when interpreting and fixing Clippy output.
+description: Apply rustfmt, Clippy, workspace lint levels and priorities, typed Clippy configuration, exceptions, readability, and CI style gates. Use when lint tooling or its remediation controls the task.
 ---
 
 # Rust Style and Clippy
@@ -51,3 +51,7 @@ Read [Rust Style and Clippy field guide](references/guide.md) before making a co
 ## Huiali protocols
 
 For source-derived detail relevant to this profile, read the [Huiali integration index](references/huiali-index.md) and load only the matching family reference.
+
+## Reviewed Cargo tooling
+
+For lint groups, priorities, workspace inheritance, supported `clippy.toml` keys, disallowed items, CI scope, or toolchain migration, read [Advanced Clippy policy](references/cargo-tooling/clippy-advanced.md). Lint success does not replace semantic review.

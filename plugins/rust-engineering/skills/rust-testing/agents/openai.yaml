@@ -1,6 +1,6 @@
 interface:
   display_name: "Rust Testing"
-  short_description: "Design and write Rust tests"
-  default_prompt: "Use $rust-testing to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+  short_description: "Design Rust tests and coverage"
+  default_prompt: "Use $rust-testing to design the test contract, loading reviewed nextest or LLVM coverage guidance only when the task explicitly requires it."
 policy:
   allow_implicit_invocation: true

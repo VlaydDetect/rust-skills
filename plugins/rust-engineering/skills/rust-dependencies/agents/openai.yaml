@@ -1,6 +1,6 @@
 interface:
   display_name: "Rust Dependency Governance"
   short_description: "Govern Rust dependency graphs"
-  default_prompt: "Use $rust-dependencies to analyze the relevant Rust engineering decisions and return repository-grounded guidance."
+  default_prompt: "Use $rust-dependencies to govern the adopted dependency graph and treat cargo-machete findings as heuristic evidence rather than automatic removal."
 policy:
   allow_implicit_invocation: true

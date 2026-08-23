@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "modes": [
+    {"mode":"nextest-run","channel":"external","population":"non-doctest-tests","formats":["human","experimental-versioned-libtest","junit"],"effects":["build-artifacts","process-execution"],"separate_gate":null},
+    {"mode":"nextest-doctests","channel":"project","population":"doctests","formats":["cargo-test-output"],"effects":["build-artifacts","process-execution"],"separate_gate":"cargo-test-doc"},
+    {"mode":"llvm-cov-stable","channel":"external","population":"selected-test-runner","formats":["text","html","lcov","json","cobertura"],"effects":["build-artifacts","process-execution","report-artifacts"],"separate_gate":null},
+    {"mode":"llvm-cov-branch","channel":"nightly","population":"supported-target-and-tests","formats":["resolved-tool-formats"],"effects":["build-artifacts","process-execution","report-artifacts"],"separate_gate":"pinned-nightly-support"},
+    {"mode":"llvm-cov-doctest","channel":"nightly","population":"doctests","formats":["resolved-tool-formats"],"effects":["build-artifacts","process-execution","report-artifacts"],"separate_gate":"pinned-nightly-support"},
+    {"mode":"multi-report","channel":"external","population":"one-retained-raw-data-set","formats":["lcov","html"],"effects":["report-artifacts"],"separate_gate":"run-no-report-then-report"}
+  ],
+  "forbidden_defaults": ["suite-wide-retries", "universal-threshold", "automatic-gui", "automatic-upload", "generic-unversioned-run-json"]
+}

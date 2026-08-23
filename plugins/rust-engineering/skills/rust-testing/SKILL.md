@@ -1,6 +1,6 @@
 ---
 name: rust-testing
-description: Design and write Rust unit, integration, doc, property, async, concurrency, fuzz, snapshot, mock, and end-to-end tests. Use when the primary task is test strategy or test implementation; use rust-verify to execute evidence after changes.
+description: Design and write Rust unit, integration, doc, property, async, concurrency, fuzz, snapshot, coverage, nextest, mock, and end-to-end tests. Use when test strategy or implementation controls the task; rust-verify executes chosen evidence.
 ---
 
 # Rust Testing
@@ -55,3 +55,9 @@ For source-derived detail relevant to this profile, read the [Huiali integration
 ## Low-level protocols
 
 For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+
+## Reviewed Cargo tooling
+
+- For nextest profiles, filters, process isolation, groups, retries, timeouts, reports, or the doctest gap, read [cargo-nextest: execution and isolation protocol](references/cargo-tooling/cargo-nextest.md).
+- For LLVM source coverage, report lifecycle, thresholds, nextest integration, or nightly-only coverage modes, read [cargo-llvm-cov: coverage evidence protocol](references/cargo-tooling/cargo-llvm-cov.md).
+- Choose test and coverage policy here; hand exact approved commands to `$rust-verify`. Missing tools are `SKIP`, not permission to install.

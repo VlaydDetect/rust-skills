@@ -1,6 +1,6 @@
 ---
 name: rust-cargo-build
-description: Diagnose and design Cargo manifests, targets, features, build scripts, profiles, configuration, metadata, lockfiles, and build commands. Use when Cargo mechanics or effective build state controls the task.
+description: Diagnose and design Cargo manifests, targets, features, build scripts, profiles, configuration, metadata, lockfiles, scaffolding, worktree build state, and commands. Use when Cargo mechanics or effective build state controls the task.
 ---
 
 # Cargo Build System
@@ -51,3 +51,9 @@ Read [Cargo Build System field guide](references/guide.md) before making a conse
 ## Low-level protocols
 
 For source-derived debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail relevant to this profile, read the [Low-level integration index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+
+## Reviewed Cargo tooling
+
+- For an explicit project-template task, read [cargo-generate: reviewed scaffolding protocol](references/cargo-tooling/cargo-generate.md). Prefer `cargo new` when a template adds no real value.
+- For parallel or persistent Git-worktree build state, read [Cargo builds in Git worktrees](references/cargo-tooling/cargo-worktree-builds.md). Keep writable state isolated unless measured evidence supports a reviewed alternative.
+- Tool presence and a `Cargo.toml` alone do not activate these references. Resolve tool version/help and effects through the [external tooling baseline](../rust-research/references/low-level-tooling-baseline.md).

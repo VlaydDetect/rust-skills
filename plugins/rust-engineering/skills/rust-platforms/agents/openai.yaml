@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Platform Engineering"
+  short_description: "Engineer Unix and Windows boundaries"
+  default_prompt: "Use $rust-platforms to design this Rust OS boundary and resource lifecycle across the required targets."
+policy:
+  allow_implicit_invocation: true

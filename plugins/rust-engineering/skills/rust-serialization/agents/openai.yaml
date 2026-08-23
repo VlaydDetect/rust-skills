@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Binary Serialization"
+  short_description: "Design durable binary byte contracts"
+  default_prompt: "Use $rust-serialization to choose and verify a bounded, evolvable binary format for this Rust boundary."
+policy:
+  allow_implicit_invocation: true

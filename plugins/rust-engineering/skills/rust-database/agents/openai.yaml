@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Database Engineering"
+  short_description: "Design reliable persistence lifecycles"
+  default_prompt: "Use $rust-database to design this Rust transaction, migration, or SurrealDB integration safely."
+policy:
+  allow_implicit_invocation: true

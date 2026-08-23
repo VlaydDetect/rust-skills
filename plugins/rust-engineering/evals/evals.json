@@ -1341,7 +1341,9 @@
         "supporting_profiles": [
           "rust-performance"
         ],
-        "forbidden_primary_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-gpu"
+        ],
         "overlays": []
       },
       "tags": [
@@ -1485,7 +1487,9 @@
         "supporting_profiles": [
           "nix-packaging"
         ],
-        "forbidden_primary_profiles": [],
+        "forbidden_primary_profiles": [
+          "rust-platforms"
+        ],
         "overlays": []
       },
       "tags": [
@@ -1911,6 +1915,349 @@
         "rust-coding-rules",
         "overlay",
         "post-diff"
+      ]
+    },
+    {
+      "id": "manual-rust-platforms",
+      "mode": "manual",
+      "prompt": "Use $rust-platforms to choose safe Unix and Windows bindings, native resource ownership, and an evidence-based global allocator policy.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-platforms",
+        "primary_profile": "rust-platforms",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "manual",
+        "rust-platforms"
+      ]
+    },
+    {
+      "id": "automatic-rust-platforms",
+      "mode": "automatic",
+      "prompt": "Реализуй типизированные RAII wrappers для Unix fd и Windows handles с partial I/O, capability fallback и target tests.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-platforms",
+        "supporting_profiles": [
+          "rust-unsafe-ffi",
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": [
+          "nixos"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "automatic",
+        "rust-platforms"
+      ]
+    },
+    {
+      "id": "manual-rust-serialization",
+      "mode": "manual",
+      "prompt": "Use $rust-serialization to compare bincode, Protobuf, binrw, rkyv, Borsh, and postcard for this versioned untrusted byte contract.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-serialization",
+        "primary_profile": "rust-serialization",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "manual",
+        "rust-serialization"
+      ]
+    },
+    {
+      "id": "automatic-rust-serialization",
+      "mode": "automatic",
+      "prompt": "Добавь версионированный binary envelope с decode limits, exact framing, golden bytes, old-to-new fixtures и malformed-input tests.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-serialization",
+        "supporting_profiles": [
+          "rust-api-design",
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "automatic",
+        "rust-serialization"
+      ]
+    },
+    {
+      "id": "manual-rust-data",
+      "mode": "manual",
+      "prompt": "Use $rust-data to choose AoS, SoA, ECS, ndarray, Polars, Arrow, or DataFusion from these access patterns and memory limits.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-data",
+        "primary_profile": "rust-data",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "manual",
+        "rust-data"
+      ]
+    },
+    {
+      "id": "automatic-rust-data",
+      "mode": "automatic",
+      "prompt": "Перестрой горячий row loop в измеряемый batch layout и проверь lazy query plan, null semantics, retained buffers и peak memory.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-data",
+        "supporting_profiles": [
+          "rust-performance",
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "automatic",
+        "rust-data"
+      ]
+    },
+    {
+      "id": "manual-rust-database",
+      "mode": "manual",
+      "prompt": "Use $rust-database to design the SurrealDB client lifecycle, short transactions, schemafull migrations, live-query recovery, and backup contract.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-database",
+        "primary_profile": "rust-database",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "manual",
+        "rust-database"
+      ]
+    },
+    {
+      "id": "automatic-rust-database",
+      "mode": "automatic",
+      "prompt": "Реализуй SurrealDB query через bind, проверь per-statement errors, добавь versioned migration и integration tests для retry и cancel.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-database",
+        "supporting_profiles": [
+          "rust-testing",
+          "rust-distributed-systems"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-tauri"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "automatic",
+        "rust-database"
+      ]
+    },
+    {
+      "id": "manual-rust-tauri",
+      "mode": "manual",
+      "prompt": "Use $rust-tauri to review this Tauri 2 capability, command, updater, plugin, and Specta TypeScript binding contract.",
+      "mutation": false,
+      "expected": {
+        "entry_skill": "rust-tauri",
+        "primary_profile": "rust-tauri",
+        "supporting_profiles": [],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "manual",
+        "rust-tauri"
+      ]
+    },
+    {
+      "id": "automatic-rust-tauri",
+      "mode": "automatic",
+      "prompt": "Добавь Tauri 2 command с минимальной capability, runtime validation, typed error и детерминированными Specta bindings, затем скомпилируй TypeScript consumer.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-tauri",
+        "supporting_profiles": [
+          "rust-api-design",
+          "rust-testing"
+        ],
+        "forbidden_primary_profiles": [],
+        "overlays": []
+      },
+      "tags": [
+        "automatic",
+        "rust-tauri"
+      ]
+    },
+    {
+      "id": "contrast-nixos-platforms",
+      "mode": "contrast",
+      "prompt": "Добавь NixOS module options, service hardening и secret delivery для уже готового Rust daemon; код OS API не меняется.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "nixos",
+        "supporting_profiles": [
+          "nix-packaging"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-platforms"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "nixos",
+        "rust-platforms"
+      ]
+    },
+    {
+      "id": "contrast-platforms-ffi",
+      "mode": "contrast",
+      "prompt": "Выбери windows или windows-sys и спроектируй UTF-16, HRESULT и exact handle close lifecycle; raw ABI proof только поддерживает решение.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-platforms",
+        "supporting_profiles": [
+          "rust-unsafe-ffi"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-unsafe-ffi"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-platforms",
+        "rust-unsafe-ffi"
+      ]
+    },
+    {
+      "id": "contrast-serialization-distributed",
+      "mode": "contrast",
+      "prompt": "Зафиксируй Protobuf field evolution, presence, framing и decode limits для существующего транспорта; delivery semantics не меняются.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-serialization",
+        "supporting_profiles": [
+          "rust-distributed-systems"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-distributed-systems"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-serialization",
+        "rust-distributed-systems"
+      ]
+    },
+    {
+      "id": "contrast-data-performance",
+      "mode": "contrast",
+      "prompt": "Выбери ECS table или sparse-set и AoS или SoA по structural changes и access patterns; benchmark только подтверждает layout.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-data",
+        "supporting_profiles": [
+          "rust-performance"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-performance"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-data",
+        "rust-performance"
+      ]
+    },
+    {
+      "id": "contrast-gpu-ml",
+      "mode": "contrast",
+      "prompt": "Исправь bounds, alignment, staging, synchronization и device-loss handling в wgpu compute kernel; model semantics отсутствуют.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-gpu",
+        "supporting_profiles": [
+          "rust-performance"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-ml"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-gpu",
+        "rust-ml"
+      ]
+    },
+    {
+      "id": "contrast-tauri-specta-serialization",
+      "mode": "contrast",
+      "prompt": "Сгенерируй Specta TypeScript types для Tauri 2 commands и согласуй serde tags; отдельного binary format здесь нет.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-tauri",
+        "supporting_profiles": [
+          "rust-api-design"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-serialization"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-tauri",
+        "rust-serialization"
+      ]
+    },
+    {
+      "id": "contrast-tauri-surrealdb",
+      "mode": "contrast",
+      "prompt": "В Tauri приложении добавь короткую SurrealDB transaction и expand-cutover-contract migration; IPC capability уже определена.",
+      "mutation": true,
+      "expected": {
+        "entry_skill": "rust-workflow",
+        "primary_profile": "rust-database",
+        "supporting_profiles": [
+          "rust-tauri"
+        ],
+        "forbidden_primary_profiles": [
+          "rust-tauri"
+        ],
+        "overlays": []
+      },
+      "tags": [
+        "contrast",
+        "rust-database",
+        "rust-tauri"
       ]
     }
   ],

@@ -27,6 +27,7 @@ ENTRY_SKILLS = {"rust-workflow", "rust-review", "rust-verify"}
 RULEBOOK_SKILL = "rust-coding-rules"
 ACTIONBOOK_SKILLS = {"rust-design-protocol", "rust-research"}
 HU_NEW_SKILLS = {"rust-pin", "rust-gpu", "rust-systems-networking", "rust-distributed-systems"}
+PRODUCT_NATIVE_SKILLS = {"rust-platforms", "rust-serialization", "rust-data", "rust-database", "rust-tauri"}
 HU_KINDS = {"new_profile": 16, "merged": 16, "conflict": 8, "negative": 8}
 HU_BLOCK_MARKER = re.compile(r"<!-- huiali-source: .*; sha256=([0-9a-f]{64}) -->")
 LOW_LEVEL_KINDS = {
@@ -193,19 +194,20 @@ def validate_links() -> None:
             assert target_path.exists(), f"broken link in {path}: {target}"
 
 
-def validate_manifests() -> None:
+def validate_manifests(skill_count: int) -> None:
     claude = load_json(ROOT / ".claude-plugin" / "plugin.json")
     codex = load_json(ROOT / ".codex-plugin" / "plugin.json")
     assert (ROOT / "LICENSE").is_file()
     assert claude["name"] == codex["name"] == "rust-engineering"
-    assert claude["version"] == codex["version"] == "0.7.0"
+    assert claude["version"] == codex["version"] == "0.8.0"
     assert re.fullmatch(r"\d+\.\d+\.\d+", claude["version"])
     assert tuple(map(int, claude["version"].split("."))) >= (0, 2, 0)
     assert claude["author"]["name"] and codex["author"]["name"]
     assert all(isinstance(keyword, str) and keyword for keyword in claude["keywords"])
     assert all(isinstance(keyword, str) and keyword for keyword in codex["keywords"])
-    assert all(term in claude["description"] for term in ("50", "265", "Huiali", "low-level", "Laurigates"))
-    assert all(term in codex["description"] for term in ("50", "265", "Huiali", "low-level", "Laurigates"))
+    description_terms = (str(skill_count), "265", "Huiali", "low-level", "Laurigates")
+    assert all(term in claude["description"] for term in description_terms)
+    assert all(term in codex["description"] for term in description_terms)
     assert set(claude) <= {
         "$schema", "name", "version", "description", "author", "license", "keywords", "hooks",
     }
@@ -473,7 +475,8 @@ def validate_huiali_coverage(skills: set[str]) -> dict:
             assert index.is_file() and f"`{family}`" in index.read_text(encoding="utf-8")
 
     merged_names = {family for family, config in huiali.FAMILY_CONFIG.items() if config["owner"] != family}
-    assert not (merged_names & skills), f"standalone merged Huiali profiles leaked into product: {sorted(merged_names & skills)}"
+    leaked_merged_names = (merged_names - PRODUCT_NATIVE_SKILLS) & skills
+    assert not leaked_merged_names, f"standalone merged Huiali profiles leaked into product: {sorted(leaked_merged_names)}"
     assert HU_NEW_SKILLS <= skills
     return coverage
 
@@ -797,7 +800,7 @@ def validate_skills(expected_skills: set[str], example_owners: set[str]) -> None
     skill_root = ROOT / "skills"
     skill_dirs = {path.name for path in skill_root.iterdir() if path.is_dir()}
     assert skill_dirs == expected_skills, f"unexpected skills: {sorted(skill_dirs ^ expected_skills)}"
-    assert len(skill_dirs) == 50
+    assert len(skill_dirs) == len(expected_skills)
     assert not (skill_root / "rust-workflow" / "references" / "engineering-domains.md").exists()
 
     descriptions = []
@@ -835,7 +838,7 @@ def validate_skills(expected_skills: set[str], example_owners: set[str]) -> None
 
     actual_examples = {path.parents[2].name for path in skill_root.glob("*/examples/golden/Cargo.toml")}
     assert actual_examples == example_owners, f"golden example coverage mismatch: {sorted(actual_examples ^ example_owners)}"
-    assert len(actual_examples) == 25
+    assert len(actual_examples) == len(example_owners)
     for skill in actual_examples:
         assert "## Compiling Example" in "\n".join(
             path.read_text(encoding="utf-8") for path in (skill_root / skill / "references").glob("*.md")
@@ -884,12 +887,17 @@ def validate_evals(skills: set[str]) -> int:
     assert evals["laurigates_cases_file"] == "laurigates-cases.json"
     cases = evals["cases"]
     ids = [case["id"] for case in cases]
-    assert len(cases) == 108 and len(ids) == len(set(ids)), "routing corpus must have 108 unique cases"
-    modes = Counter(case["mode"] for case in cases)
-    assert modes == {"manual": 44, "automatic": 44, "contrast": 8, "negative": 12}
-
     profile_skills = skills - {RULEBOOK_SKILL}
     legacy_profile_skills = profile_skills - ACTIONBOOK_SKILLS - HU_NEW_SKILLS
+    expected_modes = {
+        "manual": len(legacy_profile_skills) + 1,
+        "automatic": len(legacy_profile_skills) + 1,
+        "contrast": 15,
+        "negative": 12,
+    }
+    assert len(cases) == sum(expected_modes.values()) and len(ids) == len(set(ids)), "routing corpus size or IDs differ"
+    modes = Counter(case["mode"] for case in cases)
+    assert modes == expected_modes
     manual_profiles = set()
     automatic_profiles = set()
     manual_overlay = automatic_overlay = 0
@@ -1353,7 +1361,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     coverage, owners, example_owners = validate_source_coverage()
-    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL} | ACTIONBOOK_SKILLS | HU_NEW_SKILLS
+    expected_skills = owners | {"rust-workflow", "rust-verify", RULEBOOK_SKILL} | ACTIONBOOK_SKILLS | HU_NEW_SKILLS | PRODUCT_NATIVE_SKILLS
     golden_owners = example_owners | HU_NEW_SKILLS
     assert ENTRY_SKILLS <= expected_skills
     if args.rule:
@@ -1369,7 +1377,7 @@ def main() -> None:
             print(fixture_skip)
         return
 
-    validate_manifests()
+    validate_manifests(len(expected_skills))
     validate_skills(expected_skills, golden_owners)
     actionbook = validate_actionbook_coverage(expected_skills)
     huiali_ledger = validate_huiali_coverage(expected_skills)

@@ -95,6 +95,11 @@ These are progressive references under existing owners, not standalone profiles.
 | `rust-performance` | Reproducible benchmarks, perf/flamegraphs/counters, allocation/size/build-time profiles, optimization, regression guards | A measured metric or regression controls the work. |
 | `rust-observability` | Structured logs, spans, metrics, correlation, redaction, cardinality | Runtime behavior must become operationally diagnosable. |
 | `rust-unsafe-ffi` | Foreign ABI, layout, handles, buffers, strings, callbacks, unwind | Unsafe crosses a language or runtime boundary. |
+| `rust-platforms` | Unix and Windows APIs, OS-specific resource lifecycle, runtime capabilities, global allocator selection | Rust program behavior depends on POSIX/Linux/BSD/macOS/Windows APIs or a measured allocator decision; Nix environment and packaging work stays with Nix profiles. |
+| `rust-serialization` | Binary byte formats, schema evolution, canonicality, validation, framing, decode limits | The durable or transported byte representation itself controls correctness. |
+| `rust-data` | Data-oriented layout, ECS, arrays, columnar memory, query execution | Access patterns, shape, traversal, or analytical execution determine the representation. |
+| `rust-database` | Transactions, client/pool lifecycle, schema migrations, retries, backup/restore, SurrealDB | Persistence semantics or database lifecycle owns the change, whether or not a desktop UI calls it. |
+| `rust-tauri` | Tauri 2 IPC, capabilities, CSP, plugins, updater security, Specta TypeScript bindings | A Tauri window/webview trust boundary, plugin, packaging/update path, or generated frontend contract controls the work. |
 | `rust-macros` | Declarative and procedural macro syntax, expansion, diagnostics, compile cost | Compile-time Rust token generation is necessary. |
 | `rust-lombok-macros` | Lombok-style generated builders, accessors, constructors, validation | The request specifically concerns annotation-driven boilerplate APIs. |
 | `rust-uniffi-building` | UniFFI UDL or proc-macro interfaces, scaffolding, bindings, packaging | UniFFI exposes Rust to supported foreign languages. |
@@ -102,6 +107,8 @@ These are progressive references under existing owners, not standalone profiles.
 | `rust-gpu` | Device capabilities, memory hierarchy, transfer, layout, dispatch, synchronization | GPU execution and host-device memory behavior control correctness or measured performance. |
 | `rust-systems-networking` | eBPF verifier/map/ABI, AF_XDP UMEM/rings, and DPDK mempool/mbuf/queue/NUMA execution | Kernel probes or userspace packet pipelines impose environment-specific resource rules. |
 | `rust-distributed-systems` | Cross-node failure, consistency, idempotency, retries, leases, versioned contracts, coordination | An operation crosses a process or node boundary and partial failure changes its meaning. |
+
+For a compound request, route by decision phase instead of loading every domain at once. For example, a Tauri application with SurrealDB and a binary export first uses `rust-tauri` for the IPC/capability phase, then `rust-database` for transaction and migration work, then `rust-serialization` for the export contract. A NixOS deployment uses the relevant Nix owner for environment or service configuration and starts a separate `rust-platforms` phase only for Rust program behavior on that OS.
 
 IoT, embedded, and cloud-native prompts start in `rust-architecture` with its
 Actionbook domain constraint maps, then route mechanics to the existing owners
@@ -144,7 +151,13 @@ Use these ownership splits when descriptions overlap:
 - `rust-concurrency` owns Future/Waker/executor lifecycle; `rust-pin` owns address stability; `debugging` owns hangs, lost wakes and debugger evidence.
 - `rust-cargo-build` owns cross-build mechanics; `rust-stable` and `rust-research` establish target/toolchain support; `rust-unsafe-ffi` owns ABI and native-library contracts.
 - Security work is split by decision: `rust-architecture` owns threats/trust boundaries, `rust-dependencies` owns advisories and supply policy, `rust-unsafe`/`rust-unsafe-ffi` own soundness and ABI, and `rust-testing` owns fuzz targets.
-- `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-performance` owns bottleneck measurement.
+- Nix profiles own flakes, development environments, packages, and NixOS configuration; `rust-platforms` owns Unix/Windows behavior inside the Rust program.
+- `rust-platforms` owns the OS API and native resource lifecycle; `rust-unsafe-ffi` supports raw ABI proofs, and `rust-cargo-build` supports target/linker mechanics.
+- `rust-serialization` owns byte format and evolution; `rust-distributed-systems` owns delivery, retries, and cross-node failure after the message contract exists.
+- `rust-data` owns access-pattern-driven representation and query execution; `rust-performance` owns comparable measurement rather than becoming primary for every layout change.
+- `rust-database` owns generic transactions, migrations, and SurrealDB; `rust-tauri` owns desktop IPC and capabilities, not persistence merely because it is called from a command.
+- `rust-tauri` owns Specta-generated command contracts; `rust-serialization` supports an actual byte-format decision but does not become primary for ordinary typed IPC.
+- `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-data` owns host data layout; `rust-performance` owns bottleneck measurement.
 - `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-performance` add telemetry, soundness, and measurement constraints.
 - `rust-distributed-systems` owns cross-node failure and consistency; `rust-architecture` owns system boundaries; `rust-concurrency` owns in-process execution.
 
@@ -165,6 +178,12 @@ Use these ownership splits when descriptions overlap:
 | Build an exact dossier for a resolved crate | `rust-research` | `rust-dependencies` | Cargo package identity and dated docs own the evidence; dependency policy owns later adoption changes. |
 | Review unsafe projection in a custom Future | `rust-pin` | `rust-unsafe`, `rust-concurrency` | Pinning owns structural stability; unsafe proves the operation and concurrency owns cancellation. |
 | Plan GPU batching for a tensor pipeline | `rust-gpu` | `rust-ml`, `rust-performance` | Device memory and transfer own execution; model semantics and measurement constrain it. |
+| Wrap Linux descriptors and Windows handles safely | `rust-platforms` | `rust-unsafe-ffi`, `rust-testing` | OS lifecycle and capability behavior own the API; ABI and regression evidence support it. |
+| Configure a NixOS service for an existing Rust daemon | `nixos` | `nix-packaging`, `rust-cargo-build` | Declarative service configuration owns the task; no Rust OS-API behavior is changing. |
+| Version a bounded Protobuf message over a stream | `rust-serialization` | `rust-distributed-systems`, `rust-testing` | Field evolution and framing own the byte contract; delivery and malformed-input evidence constrain it. |
+| Choose ECS storage for frequently changing components | `rust-data` | `rust-performance`, `rust-architecture` | Access patterns and structural changes own representation; measurement and system boundaries support it. |
+| Add a SurrealDB migration to a Tauri application | `rust-database` | `rust-tauri`, `rust-testing` | Transaction and schema lifecycle own the phase; desktop lifecycle and migration evidence constrain it. |
+| Expose typed Tauri 2 commands with Specta | `rust-tauri` | `rust-api-design`, `rust-testing` | IPC trust boundary and generated TypeScript contract own the change. |
 | Diagnose an XDP verifier rejection | `rust-systems-networking` | `rust-observability`, `rust-unsafe` | eBPF program type and verifier own acceptance; telemetry and layout proofs support it. |
 | Add retries to an at-least-once consumer | `rust-distributed-systems` | `rust-errors`, `rust-observability` | Cross-node uncertainty owns idempotency and aggregate retry budget. |
 | Investigate a slow incremental Rust build | `rust-performance` | `rust-cargo-build`, `rust-research` | Timings and invalidation own diagnosis; Cargo owns effective config and research verifies version-sensitive backend/cache facts. |

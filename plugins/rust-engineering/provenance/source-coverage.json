@@ -1277,7 +1277,7 @@
       "knowledge_owner": null,
       "supporting_targets": [],
       "coverage_notes": null,
-      "exclusion_reason": "Database product-domain specialization is outside the universal engineering layer.",
+      "exclusion_reason": "The external rust-database skill remains excluded: the product-native rust-database profile is independently based on current primary documentation, source, releases, and advisories rather than adapted from this corpus.",
       "skill_md": {
         "lines": 144,
         "sha256": "b46bc0afad1e8f89373e107c11bb821b8ca5a148e569ac81944c0a4059df5fc5"

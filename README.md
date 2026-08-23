@@ -1,6 +1,6 @@
 # Rust Engineering Plugin
 
-Dual-target плагин для Codex и Claude Code с 50 навыками: общий workflow, read-only review/verify, 46 профильных инженерных навыков и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
+Dual-target плагин для Codex и Claude Code с 55 навыками: общий workflow, read-only review/verify, 51 профильный инженерный навык и адресуемый Rust rulebook overlay. Продуктовый исходник находится в `plugins/rust-engineering/`; каталоги `references/`, `graphify-out/` и `gpt_report.md` служат сравнительной и навигационной базой, но не нужны плагину во время работы.
 
 ## Как работает маршрутизация
 
@@ -21,7 +21,7 @@ SessionStart hook выполняет только три дешёвых read-onl
      -> rust-review: независимый findings-first review при необходимости
 ```
 
-Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 50 навыков можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
+Если задача требует больше трёх профилей, workflow делит её на фазы и выполняет новую маршрутизацию для каждой фазы. Профили не конкурируют за решение: primary владеет решением, supporting только добавляют ограничения. Rulebook не занимает профильный слот и не переопределяет user/project contract, MSRV, target или owner-профиль. Все 55 навыков можно вызвать вручную; для focused-вопроса профиль не обязан проходить через общий workflow.
 
 Ручной синтаксис: `$profile-name` в Codex и `/rust-engineering:profile-name` в Claude Code. Внутренние hand-off ссылки используют host-neutral имена профилей.
 
@@ -60,7 +60,9 @@ Read-only запросы имеют отдельные точки входа:
 
 ### Runtime, interop и специализированные системы
 
-`rust-concurrency`, `rust-testing`, `rust-performance`, `rust-observability`, `rust-unsafe-ffi`, `rust-macros`, `rust-lombok-macros`, `rust-uniffi-building`, `rust-ml`, `rust-gpu`, `rust-systems-networking`, `rust-distributed-systems`.
+`rust-concurrency`, `rust-testing`, `rust-performance`, `rust-observability`, `rust-unsafe-ffi`, `rust-platforms`, `rust-serialization`, `rust-data`, `rust-database`, `rust-tauri`, `rust-macros`, `rust-lombok-macros`, `rust-uniffi-building`, `rust-ml`, `rust-gpu`, `rust-systems-networking`, `rust-distributed-systems`.
+
+Новые профили вызываются напрямую тем же синтаксисом, например `$rust-platforms`, `$rust-serialization`, `$rust-data`, `$rust-database`, `$rust-tauri` в Codex и `/rust-engineering:rust-platforms` и аналогично в Claude Code.
 
 ### Nix
 
@@ -75,6 +77,8 @@ Read-only запросы имеют отдельные точки входа:
 - `rust-review` проверяет diff, `rust-architecture-review` — проект целиком, `nix-review` — Nix-изменения.
 - `rust-pin` владеет pinning contract, `rust-unsafe` — доказательством unsafe projection, `rust-concurrency` — lifecycle `Future`;
 - `rust-gpu` владеет device/memory execution, `rust-ml` — model semantics, `rust-performance` — измерением bottleneck;
+- `rust-platforms` владеет поведением Rust-программы на Unix/Windows, а Nix-профили — окружением, packaging и NixOS;
+- `rust-serialization` владеет byte contract, `rust-data` — access-pattern layout/query execution, `rust-database` — transaction/persistence lifecycle, `rust-tauri` — desktop IPC/security;
 - `rust-systems-networking` владеет eBPF/DPDK execution environment, а `rust-observability`, `rust-unsafe` и `rust-performance` добавляют профильные ограничения;
 - `rust-distributed-systems` владеет cross-node failure/consistency, `rust-architecture` — границами системы, `rust-concurrency` — внутрипроцессным выполнением.
 
@@ -87,7 +91,7 @@ Read-only запросы имеют отдельные точки входа:
 - metadata `agents/openai.yaml` для ручного вызова в Codex;
 - для 25 code-oriented профилей — оригинальный dependency-free golden example, который компилируется offline.
 
-`provenance/source-coverage.json` фиксирует все 61 исходный skill и 385 supporting files из craft/full-stack корпусов. В продукт адаптированы 46 исходных skills и сведены к 41 владельцу знаний; `rust-workflow` и `rust-verify` дополняют этот каталог. Пятнадцать вертикальных domain skills исключены явно с причиной, а не потеряны молча.
+`provenance/source-coverage.json` фиксирует все 61 исходный skill и 385 supporting files из craft/full-stack корпусов. В продукт адаптированы 46 исходных skills и сведены к 41 владельцу знаний; `rust-workflow` и `rust-verify` дополняют этот каталог. Пять новых профилей являются product-native и опираются на датированные первичные источники. Пятнадцать внешних вертикальных domain skills исключены явно с причиной, а не потеряны молча.
 
 Leonardomso-корпус перенесён без сжатия: `provenance/rule-coverage.json` фиксирует все 265 исходных ID, source/target SHA-256, owners, aliases, сохранённые facets и финальный статус. Полные правила находятся в `rust-coding-rules/references/rules/`, а progressive disclosure идёт через 26 indexes. Reference-корпусы, Graphify и Cargo harness не требуются runtime-плагину.
 
@@ -111,13 +115,13 @@ Laurigates Rust plugin интегрирован как шесть progressive Ca
 - `.claude-plugin/plugin.json` — Claude Code manifest;
 - `hooks/hooks.json` и `hooks/claude.json` — раздельные host schema;
 - `scripts/session-context.*` — быстрый общий SessionStart detector;
-- `skills/` — 50 host-neutral навыков и их references/examples;
+- `skills/` — 55 host-neutral навыков и их references/examples;
 - `agents/` — четыре read-only Claude agents;
-- `evals/evals.json` — schema v7: 108 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali, 48 low-level и 32 Laurigates cases;
+- `evals/evals.json` — schema v7: 125 базовых routing cases, 44 rulebook overlay cases и ссылки на 44 Actionbook, 48 Huiali, 48 low-level и 32 Laurigates cases;
 - `evals/actionbook-cases.json` — model, cross-layer, navigation, research, unsafe, ML и negative сценарии;
-- `evals/huiali-cases.json` — 16 new-profile, 16 merged-topic, 8 conflict и 8 negative сценариев; вместе с base/Actionbook это 200 routing/protocol cases;
-- `evals/low-level-cases.json` — по 8 debugging/profiling, Cargo/build-time, cross/linker, sanitizer/Miri/security, async/system/hardware и conflict/negative сценариев; итоговый routing/protocol корпус — 248 cases;
-- `evals/laurigates-cases.json` — по 4 cargo-generate, nextest, LLVM coverage, cargo-machete, worktree-build и advanced-Clippy сценария, плюс 4 ownership conflicts и 4 negative/safety cases; итоговый routing/protocol корпус — 280 cases;
+- `evals/huiali-cases.json` — 16 new-profile, 16 merged-topic, 8 conflict и 8 negative сценариев; вместе с base/Actionbook это 217 routing/protocol cases;
+- `evals/low-level-cases.json` — по 8 debugging/profiling, Cargo/build-time, cross/linker, sanitizer/Miri/security, async/system/hardware и conflict/negative сценариев; итоговый routing/protocol корпус — 265 cases;
+- `evals/laurigates-cases.json` — по 4 cargo-generate, nextest, LLVM coverage, cargo-machete, worktree-build и advanced-Clippy сценария, плюс 4 ownership conflicts и 4 negative/safety cases; итоговый routing/protocol корпус — 297 cases;
 - `provenance/source-coverage.json` — проверяемая карта исходного корпуса;
 - `provenance/rule-coverage.json` — проверяемое покрытие 265 Leonardomso rules;
 - `provenance/actionbook-coverage.json` — per-file учёт 242 Actionbook sources;
@@ -139,6 +143,6 @@ python plugins/rust-engineering/scripts/validate.py --examples
 claude plugin validate ./plugins/rust-engineering
 ```
 
-Первая команда проверяет оба manifest, 50 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting, Laurigates `83/83` ledger с `130/130/0` block accounting и command contracts, 280 base/Actionbook/Huiali/low-level/Laurigates routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture, четыре low-level и пять Cargo-tool safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
+Первая команда проверяет оба manifest, 55 skills и `openai.yaml`, 265 Leonardomso rules, 47 Actionbook unsafe/FFI rules, aliases, indexes, pinned source hashes, classified Rust blocks, Markdown links, SessionStart-only hooks, четыре agent-контракта, 242-file Actionbook ledger, Huiali `348/348` ledger с `500/423/77` block accounting, low-level `213/213` ledger с `740/738/2` block accounting, Laurigates `83/83` ledger с `130/130/0` block accounting и command contracts, 297 base/Actionbook/Huiali/low-level/Laurigates routing cases, 44 rulebook overlay cases, locked/offline Cargo metadata fixture, четыре low-level и пять Cargo-tool safety fixtures. С `--examples` она дополнительно компилирует неизменные 25 dependency-free golden examples, три standalone rulebook examples и один ожидаемый compile-fail; шесть fixture examples сначала проверяются `cargo --locked --offline`. Если crate отсутствует в Cargo cache, validator сообщает environment skip и требует отдельного разрешения перед `cargo fetch --locked`.
 
 Дополнительно skill и Codex manifest можно прогнать штатными валидаторами `skill-creator` и `plugin-creator`. Существующий Graphify-граф помогает искать связи в исходных корпусах, но не является runtime-зависимостью или обязательным build gate; вывод графа всегда подтверждается по текущим файлам.

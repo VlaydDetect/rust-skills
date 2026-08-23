@@ -16,7 +16,7 @@ Own device and memory execution contracts without assuming a backend. Keep devic
 ## Workflow
 
 1. Record target OS, GPU class, driver/API constraints, device capabilities, workload shapes, precision, and correctness tolerances.
-2. Resolve the project's existing backend and exact dependency versions before using crate APIs.
+2. Resolve the project's backend, shader toolchain, exact dependency versions, and supported adapter limits before using crate APIs.
 3. Map every buffer's element type, byte layout, alignment, ownership, access direction, lifetime, and synchronization state.
 4. Minimize transfers and dispatch overhead with measured batching; keep latency and memory ceilings explicit.
 5. Validate shader/kernel bounds, work partitioning, barriers, queue ordering, device loss, and fallback behavior.
@@ -25,6 +25,7 @@ Own device and memory execution contracts without assuming a backend. Keep devic
 ## Decision Rules
 
 - Do not select `wgpu`, CUDA, Vulkan, OpenCL, or another backend universally.
+- Treat `rust-gpu` as an experimental Rust-to-SPIR-V compiler with a pinned nightly toolchain, not as a production-ready general GPU API.
 - GPU acceleration is conditional on workload size, arithmetic intensity, transfer cost, supported operations, and deployment evidence.
 - Rust type layout is not automatically a portable device ABI; define byte layout and alignment at the boundary.
 - Coalescing and occupancy advice depends on the actual device and kernel; measure rather than copy fixed launch dimensions.
@@ -34,8 +35,9 @@ Own device and memory execution contracts without assuming a backend. Keep devic
 ## Boundaries and Hand-offs
 
 - `rust-ml` owns model and tensor semantics; this profile owns device execution and memory behavior.
+- `rust-data` owns host-side array, columnar, and batch semantics before a device boundary.
 - `rust-performance` owns benchmark design and bottleneck evidence after GPU-specific phases are separated.
-- `rust-unsafe` owns host-side unsafe layout or pointer proofs.
+- `rust-unsafe-ffi` owns host-side foreign ABI, pointer, and layout proofs.
 - Use `rust-research` for exact backend/version APIs and `rust-workflow` for implementation.
 
 ## Detailed Reference

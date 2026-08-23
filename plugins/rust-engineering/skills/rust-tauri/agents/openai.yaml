@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Tauri 2 Engineering"
+  short_description: "Secure Tauri IPC and typed bindings"
+  default_prompt: "Use $rust-tauri to design this Tauri 2 command, capability, plugin, or Specta binding boundary."
+policy:
+  allow_implicit_invocation: true

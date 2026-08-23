@@ -32,10 +32,12 @@ Own ML model integration and serving contracts in Rust, including data, device, 
 - Quantization and reduced precision need task-level accuracy evaluation, not only faster benchmarks.
 - Keep untrusted model and input parsing within resource and format limits.
 - Current framework recommendations require current primary-source research before substantial adoption.
+- Choose `linfa`, `smartcore`, `tch-rs`, Candle, Burn, or another framework from the required algorithm, model ecosystem, backend, maturity, and deployment evidence rather than popularity.
 
 ## Boundaries and Hand-offs
 
 - `rust-crate-discovery` owns current candidate evaluation for ML frameworks and runtimes.
+- `rust-data` owns host data layout and columnar or array processing; `rust-gpu` owns device buffers, kernels, transfers, and synchronization.
 - `rust-performance`, `rust-concurrency`, and `rust-observability` own their general mechanisms once ML-specific contracts are defined.
 - Use `rust-workflow` when the task includes implementation across the repository.
 - Use `rust-review` for read-only findings and `rust-verify` for command evidence.

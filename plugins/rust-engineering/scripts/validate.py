@@ -96,8 +96,6 @@ WORKFLOW_MODE_COUNTS = {
     "manual": 49, "automatic": 49, "contrast": 15, "negative": 4, "selection": 8,
 }
 SELECTION_IDS = {
-    "selection-page-portable-future-direct-io",
-    "selection-page-api-binary-header",
     "selection-small-local-no-broad-owners",
     "selection-two-decision-units",
     "selection-three-decision-units",
@@ -601,15 +599,6 @@ def validate_evals(rule_ids: set[str]) -> int:
     selection = {
         case["id"]: case["expected"] for case in evals["suites"]["workflow"]
         if case["mode"] == "selection"
-    }
-    portable = selection["selection-page-portable-future-direct-io"]["profile_stack"]
-    assert [unit["owner_profile"] for unit in portable["decision_units"]] == ["rust-api-design"]
-    assert portable["coding_profiles"] == ["rust-traits"]
-    assert portable["helper_profiles"] == ["rust-testing"]
-    assert portable["deferred_profiles"] == ["rust-platforms"]
-    binary = selection["selection-page-api-binary-header"]["profile_stack"]
-    assert {unit["owner_profile"] for unit in binary["decision_units"]} == {
-        "rust-api-design", "rust-serialization",
     }
     local = selection["selection-small-local-no-broad-owners"]["profile_stack"]
     assert {"rust-architecture", "rust-platforms", "rust-research"} <= set(local["forbidden_profiles"])

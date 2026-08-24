@@ -536,9 +536,9 @@ fn ttl_with_jitter(base_secs: u64, jitter_pct: u64) -> u64 {
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 缓存管理器实现
+//! Cache-manager implementation
 //!
-//! 提供分布式 Redis 缓存的通用模式
+//! Provides a general pattern for distributed Redis caching
 
 use redis::{aio::ConnectionManager, AsyncCommands};
 use serde::{de::DeserializeOwned, Serialize};
@@ -546,31 +546,31 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::RwLock;
 
-/// 缓存管理器
+/// Cache manager
 pub struct CacheManager {
-    /// 配置
+    /// Configuration
     config: CacheConfig,
-    /// Redis 连接管理器
+    /// Redis connection manager
     redis: Option<ConnectionManager>,
-    /// 统计信息
+    /// Statistics
     stats: Arc<RwLock<CacheStats>>,
 }
 
 impl CacheManager {
-    /// 创建新的缓存管理器（带超时控制）
+    /// Create a cache manager with timeout control
     pub async fn new(config: CacheConfig) -> Result<Self, CacheError> {
         let redis = if config.enabled && config.redis.enabled {
-            // 创建 Redis 客户端
+            // Create the Redis client
             let client = redis::Client::open(config.redis.url.as_str())
-                .map_err(|e| CacheError::Connection(format!("Redis 连接失败: {}", e)))?;
+                .map_err(|e| CacheError::Connection(format!("Redis connection failed: {}", e)))?;
 
-            // 超时控制（适应远程 Redis）
+            // Timeout control for remote Redis
             let timeout = Duration::from_secs(30);
 
             match tokio::time::timeout(timeout, ConnectionManager::new(client)).await {
                 Ok(Ok(conn)) => Some(conn),
-                Ok(Err(e)) => return Err(CacheError::Connection(format!("Redis 连接失败: {}", e))),
-                Err(_) => return Err(CacheError::Timeout(format!("Redis 连接超时（{}秒）", timeout.as_secs()))),
+                Ok(Err(e)) => return Err(CacheError::Connection(format!("Redis connection failed: {}", e))),
+                Err(_) => return Err(CacheError::Timeout(format!("Redis connection timed out after {} seconds", timeout.as_secs()))),
             }
         } else {
             None
@@ -583,13 +583,13 @@ impl CacheManager {
         })
     }
 
-    /// 获取缓存
+    /// Get a cached value
     pub async fn get<T: DeserializeOwned>(&self, key: &str) -> Result<Option<T>, CacheError> {
         if !self.config.enabled {
             return Ok(None);
         }
 
-        // 增加请求计数
+        // Increment the request count
         {
             let mut stats = self.stats.write().await;
             stats.total_requests += 1;
@@ -598,7 +598,7 @@ impl CacheManager {
         if let Some(mut redis) = self.redis.clone() {
             match redis.get::<&str, Vec<u8>>(key).await {
                 Ok(bytes) if !bytes.is_empty() => {
-                    // 更新统计
+                    // Update statistics
                     {
                         let mut stats = self.stats.write().await;
                         stats.redis_hits += 1;
@@ -611,10 +611,10 @@ impl CacheManager {
                     Ok(None)
                 }
                 Err(e) => {
-                    log::warn!("Redis 读取失败: key={}, error={}", key, e);
+                    log::warn!("Redis read failed: key={}, error={}", key, e);
                     let mut stats = self.stats.write().await;
                     stats.redis_misses += 1;
-                    Ok(None)  // 缓存失败不应影响业务
+                    Ok(None)  // A cache failure should not affect domain behavior
                 }
             }
         } else {
@@ -622,7 +622,7 @@ impl CacheManager {
         }
     }
 
-    /// 设置缓存（带 TTL）
+    /// Cache a value with a TTL
     pub async fn set<T: Serialize>(
         &self,
         key: &str,
@@ -638,33 +638,33 @@ impl CacheManager {
         if let Some(mut redis) = self.redis.clone() {
             let ttl_seconds = ttl.unwrap_or(self.config.default_ttl);
             match redis.set_ex::<&str, Vec<u8>, ()>(key, bytes, ttl_seconds).await {
-                Ok(_) => log::debug!("Redis 写入: key={}, ttl={}s", key, ttl_seconds),
-                Err(e) => log::warn!("Redis 写入失败: key={}, error={}", key, e),
+                Ok(_) => log::debug!("Redis write: key={}, ttl={}s", key, ttl_seconds),
+                Err(e) => log::warn!("Redis write failed: key={}, error={}", key, e),
             }
         }
 
         Ok(())
     }
 
-    /// 删除缓存
+    /// Delete a cached value
     pub async fn delete(&self, key: &str) -> Result<(), CacheError> {
         if let Some(mut redis) = self.redis.clone() {
             match redis.del::<&str, ()>(key).await {
-                Ok(_) => log::debug!("Redis 删除: {}", key),
-                Err(e) => log::warn!("Redis 删除失败: key={}, error={}", key, e),
+                Ok(_) => log::debug!("Redis delete: {}", key),
+                Err(e) => log::warn!("Redis delete failed: key={}, error={}", key, e),
             }
         }
         Ok(())
     }
 
-    /// 序列化
+    /// Serialize a value
     fn serialize<T: Serialize>(&self, value: &T) -> Result<Vec<u8>, CacheError> {
         serde_json::to_vec(value).map_err(|e| {
-            CacheError::Serialization(format!("序列化失败: {}", e))
+            CacheError::Serialization(format!("Serialization failed: {}", e))
         })
     }
 
-    /// 反序列化
+    /// Deserialize a value
     fn deserialize<T: DeserializeOwned>(&self, bytes: &[u8]) -> Result<Option<T>, CacheError> {
         if bytes.is_empty() {
             return Ok(None);
@@ -673,14 +673,14 @@ impl CacheManager {
         match serde_json::from_slice(bytes) {
             Ok(value) => Ok(Some(value)),
             Err(e) => {
-                log::warn!("反序列化失败: {}", e);
-                Ok(None)  // 损坏数据应跳过，不返回错误
+                log::warn!("Deserialization failed: {}", e);
+                Ok(None)  // Skip corrupted data rather than returning an error
             }
         }
     }
 }
 
-/// 缓存统计信息
+/// Cache statistics
 #[derive(Debug, Clone, Default)]
 pub struct CacheStats {
     pub total_requests: u64,
@@ -693,7 +693,7 @@ impl CacheStats {
         Self::default()
     }
 
-    /// 命中率
+    /// Hit rate
     pub fn hit_rate(&self) -> f64 {
         if self.total_requests == 0 {
             0.0
@@ -703,39 +703,39 @@ impl CacheStats {
     }
 }
 
-/// 缓存错误类型
+/// Cache error type
 #[derive(Debug, thiserror::Error)]
 pub enum CacheError {
-    #[error("连接错误: {0}")]
+    #[error("Connection error: {0}")]
     Connection(String),
-    #[error("超时错误: {0}")]
+    #[error("Timeout error: {0}")]
     Timeout(String),
-    #[error("序列化错误: {0}")]
+    #[error("Serialization error: {0}")]
     Serialization(String),
-    #[error("Redis 错误: {0}")]
+    #[error("Redis error: {0}")]
     Redis(#[from] redis::RedisError),
 }
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// 缓存键生成器
+/// Cache-key generator
 ///
-/// 设计原则：
-/// 1. 使用命名空间前缀避免 key 冲突
-/// 2. 包含业务标识便于问题排查
-/// 3. 支持版本控制便于缓存更新
+/// Design principles:
+/// 1. Use namespace prefixes to avoid key collisions
+/// 2. Include domain identifiers to simplify troubleshooting
+/// 3. Support versioning to simplify cache updates
 pub struct CacheKeyBuilder;
 
 impl CacheKeyBuilder {
-    /// 构建带命名空间的键
-    /// 格式: {namespace}:{entity}:{id}
+    /// Build a namespaced key
+    /// Format: {namespace}:{entity}:{id}
     pub fn build(namespace: &str, entity: &str, id: impl std::fmt::Display) -> String {
         format!("{}:{}:{}", namespace, entity, id)
     }
 
-    /// 构建列表缓存键
-    /// 格式: {namespace}:{entity}:list:{query_hash}
+    /// Build a list-cache key
+    /// Format: {namespace}:{entity}:list:{query_hash}
     pub fn list_key(namespace: &str, entity: &str, query: &str) -> String {
         use sha2::{Digest, Sha256};
         let mut hasher = Sha256::new();
@@ -744,14 +744,14 @@ impl CacheKeyBuilder {
         format!("{}:{}:list:{}", namespace, entity, &hash[..8])
     }
 
-    /// 构建模式匹配键
-    /// 格式: {namespace}:{entity}:*
+    /// Build a pattern-matching key
+    /// Format: {namespace}:{entity}:*
     pub fn pattern(namespace: &str, entity: &str) -> String {
         format!("{}:{}:*", namespace, entity)
     }
 
-    /// 构建版本化键
-    /// 格式: {namespace}:{entity}:{id}:v{version}
+    /// Build a versioned key
+    /// Format: {namespace}:{entity}:{id}:v{version}
     pub fn versioned(namespace: &str, entity: &str, id: impl std::fmt::Display, version: u64) -> String {
         format!("{}:{}:{}:v{}", namespace, entity, id, version)
     }
@@ -761,9 +761,9 @@ impl CacheKeyBuilder {
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 impl CacheManager {
-    /// 批量删除缓存（支持模式匹配）
+    /// Delete cached values in bulk with pattern matching
     ///
-    /// 使用 SCAN 命令遍历删除，避免 DEL 阻塞
+    /// Iterate with SCAN to avoid blocking on DEL
     pub async fn delete_pattern(&self, pattern: &str) -> Result<usize, CacheError> {
         let mut deleted_count = 0;
 
@@ -797,13 +797,13 @@ impl CacheManager {
                         }
                     }
                     Err(e) => {
-                        log::warn!("Redis SCAN 失败: {}", e);
+                        log::warn!("Redis SCAN failed: {}", e);
                         break;
                     }
                 }
             }
 
-            log::info!("批量删除完成: pattern={}, deleted={}", pattern, deleted_count);
+            log::info!("Bulk deletion complete: pattern={}, deleted={}", pattern, deleted_count);
         }
 
         Ok(deleted_count)
@@ -813,12 +813,12 @@ impl CacheManager {
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// 缓存配置
+/// Cache configuration
 #[derive(Debug, Clone)]
 pub struct CacheConfig {
     pub enabled: bool,
     pub redis: RedisConfig,
-    pub default_ttl: u64,  // 默认 TTL（秒）
+    pub default_ttl: u64,  // Default TTL in seconds
 }
 
 #[derive(Debug, Clone)]
@@ -839,7 +839,7 @@ impl Default for CacheConfig {
                 pool_size: 10,
                 max_retries: 3,
             },
-            default_ttl: 3600,  // 默认 1 小时
+            default_ttl: 3600,  // Default: 1 hour
         }
     }
 }
@@ -847,27 +847,27 @@ impl Default for CacheConfig {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// TTL 分层设计
+/// Tiered TTL design
 pub struct CacheTTL {
-    pub short: u64 = 300,     // 5 分钟 - 热数据
-    pub medium: u64 = 3600,   // 1 小时 - 中频数据
-    pub long: u64 = 86400,    // 24 小时 - 低频数据
-    pub static_data: u64 = 604800,  // 7 天 - 静态数据
+    pub short: u64 = 300,     // 5 minutes - hot data
+    pub medium: u64 = 3600,   // 1 hour - medium-frequency data
+    pub long: u64 = 86400,    // 24 hours - low-frequency data
+    pub static_data: u64 = 604800,  // 7 days - static data
 }
 
-/// 使用示例
+/// Usage example
 impl CacheManager {
-    /// 存储高频访问数据 - 5 分钟
+    /// Store frequently accessed data for 5 minutes
     pub async fn set_hot_data<T: Serialize>(&self, key: &str, data: &T) -> Result<()> {
         self.set(key, data, Some(300)).await
     }
 
-    /// 存储中频数据 - 1 小时
+    /// Store medium-frequency data for 1 hour
     pub async fn set_medium_data<T: Serialize>(&self, key: &str, data: &T) -> Result<()> {
         self.set(key, data, Some(3600)).await
     }
 
-    /// 存储低频数据 - 24 小时
+    /// Store low-frequency data for 24 hours
     pub async fn set_cold_data<T: Serialize>(&self, key: &str, data: &T) -> Result<()> {
         self.set(key, data, Some(86400)).await
     }
@@ -876,7 +876,7 @@ impl CacheManager {
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// 缓存穿透防护
+/// Cache-penetration protection
 pub struct CacheBreaker<K, T> {
     manager: Arc<CacheManager>,
     _phantom: std::marker::PhantomData<(K, T)>,
@@ -891,21 +891,21 @@ where
         Self { manager, _phantom: std::marker::PhantomData }
     }
 
-    /// 获取数据（带缓存保护）
+    /// Get data with cache protection
     pub async fn get_or_load<F, Fut>(&self, key: &str, loader: F) -> Result<Option<T>>
     where
         F: FnOnce() -> Fut,
         Fut: std::future::Future<Output = Result<Option<T>>>,
     {
-        // 1. 尝试从缓存获取
+        // 1. Try to load from the cache
         if let Some(cached) = self.manager.get::<T>(key).await? {
             return Ok(Some(cached));
         }
 
-        // 2. 缓存未命中，从数据源加载
+        // 2. On a cache miss, load from the data source
         let result = loader().await?;
 
-        // 3. 将结果写入缓存
+        // 3. Write the result to the cache
         if let Some(ref value) = result {
             self.manager.set(key, value, None).await?;
         }
@@ -917,14 +917,14 @@ where
 
 ### `SKILL_ZH.md` example 7<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// 缓存雪崩防护：随机 TTL 抖动
+/// Cache-avalanche protection: random TTL jitter
 fn calculate_jitter_ttl(base_ttl: u64) -> u64 {
     let jitter = (base_ttl as f64 * 0.1)..(base_ttl as f64 * 0.2);
     let jitter_seconds = rand::thread_rng().gen_range(jitter);
     (base_ttl as f64 + jitter_seconds) as u64
 }
 
-/// 使用示例
+/// Usage example
 pub async fn set_with_jitter(
     cache: &CacheManager,
     key: &str,
@@ -940,7 +940,7 @@ pub async fn set_with_jitter(
 ```rust
 use prometheus::{Counter, Histogram, Gauge};
 
-/// 缓存指标
+/// Cache metrics
 #[derive(Debug)]
 pub struct CacheMetrics {
     pub hits: Counter,

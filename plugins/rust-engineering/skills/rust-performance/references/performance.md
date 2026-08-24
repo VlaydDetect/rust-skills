@@ -366,13 +366,13 @@ These code-only deltas appeared in the condensed English or localized source. Th
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 每次增长都分配
+// ❌ Allocate on every growth step
 let mut vec = Vec::new();
 for i in 0..1000 {
     vec.push(i);
 }
 
-// ✅ 预分配已知大小
+// ✅ Preallocate the known size
 let mut vec = Vec::with_capacity(1000);
 for i in 0..1000 {
     vec.push(i);
@@ -381,13 +381,13 @@ for i in 0..1000 {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不必要的 clone
+// ❌ Unnecessary clone
 fn process(item: &Item) {
     let data = item.data.clone();
     // ...
 }
 
-// ✅ 使用引用
+// ✅ Use a reference
 fn process(item: &Item) {
     let data = &item.data;
     // ...
@@ -396,21 +396,21 @@ fn process(item: &Item) {
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 多次数据库调用
+// ❌ Multiple database calls
 for user_id in user_ids {
     db.update(user_id, status)?;
 }
 
-// ✅ 批量更新
+// ✅ Batch update
 db.update_all(user_ids, status)?;
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 常用小集合用 SmallVec
+// Use SmallVec for frequently used small collections
 use smallvec::SmallVec;
 let mut vec: SmallVec<[u8; 16]> = SmallVec::new();
-// 16 个以内不分配堆内存
+// Up to 16 elements require no heap allocation
 ```
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
@@ -424,7 +424,7 @@ let sum: i32 = data
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 问题代码：多个 AtomicU64 挤在一个 struct 里
+// Problematic code: multiple AtomicU64 values packed into one struct
 struct ShardCounters {
     inflight: AtomicU64,
     completed: AtomicU64,
@@ -433,7 +433,7 @@ struct ShardCounters {
 
 ### `SKILL_ZH.md` example 7<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 每个字段独立一个 cache line
+// Give each field its own cache line
 #[repr(align(64))]
 struct PaddedAtomicU64(AtomicU64);
 
@@ -445,20 +445,20 @@ struct ShardCounters {
 
 ### `SKILL_ZH.md` example 8<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Benchmark 对比
-fn bench_naive() { /* 多个 AtomicU64 */ }
-fn bench_padded() { /* 独立 cache line */ }
+// Benchmark comparison
+fn bench_naive() { /* Multiple AtomicU64 values */ }
+fn bench_padded() { /* Separate cache lines */ }
 ```
 
 ### `SKILL_ZH.md` example 9<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 全局共享 HashMap，所有线程竞争同一把锁
+// A globally shared HashMap makes every thread contend for the same lock
 let shared: Arc<Mutex<HashMap<String, usize>>> = Arc::new(Mutex::new(HashMap::new()));
 ```
 
 ### `SKILL_ZH.md` example 10<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 每个线程本地 HashMap，最后合并
+// Give each thread a local HashMap and merge them at the end
 pub fn parallel_count(data: &[String], num_threads: usize) -> HashMap<String, usize> {
     let mut handles = Vec::new();
 
@@ -468,11 +468,11 @@ pub fn parallel_count(data: &[String], num_threads: usize) -> HashMap<String, us
             for key in chunk {
                 *local.entry(key).or_insert(0) += 1;
             }
-            local  // 返回本地计数
+            local  // Return local counts
         }));
     }
 
-    // 合并所有本地结果
+    // Merge all local results
     let mut result = HashMap::new();
     for handle in handles {
         for (k, v) in handle.join().unwrap() {
@@ -485,29 +485,29 @@ pub fn parallel_count(data: &[String], num_threads: usize) -> HashMap<String, us
 
 ### `SKILL_ZH.md` example 11<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 多 socket 服务器，内存分配在远端 NUMA node
+// On a multi-socket server, memory is allocated on a remote NUMA node
 let pool = ArenaPool::new(num_threads);
-// Rayon work-stealing 让任务在任意线程执行
-// 跨 NUMA 访问导致严重的内存迁移延迟
+// Rayon work stealing allows tasks to run on any thread
+// Cross-NUMA access causes substantial memory-migration latency
 ```
 
 ### `SKILL_ZH.md` example 12<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 1. NUMA 节点绑定
+// 1. Bind to a NUMA node
 let numa_node = detect_numa_node();
 let pool = NumaAwarePool::new(numa_node);
 
-// 2. 统一 allocator（jemalloc）
+// 2. Use one allocator (jemalloc)
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
-// 3. 避免跨 NUMA 的对象 clone
-// 直接借用，不做数据拷贝
+// 3. Avoid cloning objects across NUMA nodes
+// Borrow directly without copying data
 ```
 
 ### `SKILL_ZH.md` example 13<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 大量读取，少量更新
+// Many reads and few updates
 struct Config {
     map: RwLock<HashMap<String, ConfigValue>>,
 }

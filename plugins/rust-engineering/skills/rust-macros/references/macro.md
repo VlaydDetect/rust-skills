@@ -423,9 +423,9 @@ struct MyStruct {
 ```rust
 #[proc_macro]
 pub fn my_func_macro(input: TokenStream) -> TokenStream {
-    // 转换输入
+    // Transform the input
     let tokens = input.into_iter().collect::<Vec<_>>();
-    // 生成代码
+    // Generate code
     quote::quote! { /* ... */ }.into()
 }
 ```

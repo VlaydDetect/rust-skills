@@ -14,32 +14,32 @@
 
 ## Result vs Option vs panic
 
-| 类型 | 何时使用 | 示例 |
+| Type | When to use | Example |
 |-----|---------|-----|
-| `Result<T, E>` | 预期会失败的操作 | 文件读取、网络请求 |
-| `Option<T>` | absence 正常 | 查找、可能为空的值 |
-| `panic!` | bug 或不变式违规 | 程序逻辑错误、不可恢复错误 |
-| `unreachable!()` | 理论上不会执行到的代码 | 匹配穷举 |
+| `Result<T, E>` | An operation is expected to fail | File reads, network requests |
+| `Option<T>` | Absence is normal | Lookups, values that may be empty |
+| `panic!` | A bug or invariant violation | Program logic errors, unrecoverable errors |
+| `unreachable!()` | Code that should be impossible to reach | Exhaustive matching |
 
 
-## 错误处理决策
+## Error-Handling Decision
 
 ```
-失败是预期的吗？
+Is failure expected?
     │
-    ├─ 是 → 这是库代码？
-    │   ├─ 是 → thiserror（类型化错误）
-    │   └─ 否 → anyhow（易用性）
+    ├─ Yes → Is this library code?
+    │   ├─ Yes → thiserror (typed errors)
+    │   └─ No → anyhow (ease of use)
     │
-    ├─ 否，absence 正常？
+    ├─ No → Is absence normal?
     │   └─ Option<T>
     │
-    └─ 否，bug 或不变式违规
+    └─ No → Bug or invariant violation
         └─ panic!, assert!
 ```
 
 
-## thiserror（库代码）<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## thiserror (Library Code)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use thiserror::Error;
 
@@ -61,7 +61,7 @@ pub enum MyError {
     },
 }
 
-// 使用 ? 传播
+// Propagate with ?
 fn read_config() -> Result<Config, MyError> {
     let content = std::fs::read_to_string("config.toml")?;
     Ok(toml::from_str(&content)?)
@@ -69,7 +69,7 @@ fn read_config() -> Result<Config, MyError> {
 ```
 
 
-## anyhow（应用代码）<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## anyhow (Application Code)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use anyhow::{Context, Result, bail};
 
@@ -84,7 +84,7 @@ fn process_user(id: u64) -> Result<User> {
     Ok(user)
 }
 
-// 组合多个错误源
+// Combine multiple error sources
 fn complex_operation() -> Result<()> {
     let a = operation_a().context("operation A failed")?;
     let b = operation_b().context("operation B failed")?;
@@ -93,38 +93,38 @@ fn complex_operation() -> Result<()> {
 ```
 
 
-## 错误设计原则
+## Error-Design Principles
 
-| 场景 | 建议 |
+| Scenario | Recommendation |
 |-----|------|
-| 库代码 | thiserror，精确的错误类型 |
-| 应用代码 | anyhow，易于传播和添加上下文 |
-| 库依赖库 | 传递第三方错误（`#[from]`） |
-| 需要错误码 | 枚举变体 |
-| 需要错误链 | `context()` + `with_context()` |
+| Library code | thiserror and precise error types |
+| Application code | anyhow for easy propagation and added context |
+| Errors from library dependencies | Forward third-party errors with `#[from]` |
+| Error codes are required | Enum variants |
+| An error chain is required | `context()` + `with_context()` |
 
 
-## 常见反模式
+## Common Anti-Patterns
 
-| 反模式 | 问题 | 解决 |
+| Anti-pattern | Problem | Solution |
 |-------|------|-----|
-| 处处 `unwrap()` | 库中 panic | 用 `?` |
-| `Box<dyn Error>` | 丢失类型信息 | thiserror 变体 |
-| 丢失上下文 | 调试困难 | `.context()` |
-| 错误变体过多 | 过度设计 | 简化或合并 |
+| `unwrap()` everywhere | Panics in a library | Use `?` |
+| `Box<dyn Error>` | Loses type information | Use thiserror variants |
+| Lost context | Difficult debugging | Use `.context()` |
+| Too many error variants | Over-engineering | Simplify or merge them |
 
 
-## panic 使用场景<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## When to Use panic<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 1. 不变量验证（公开 API）
+// 1. Invariant validation (public API)
 pub fn divide(a: f64, b: f64) -> f64 {
     if b == 0.0 {
-        panic!("division by zero");  // 公开 API，确保调用者不传入 0
+        panic!("division by zero");  // Public API: ensure callers do not pass 0
     }
     a / b
 }
 
-// 2. 不可恢复错误
+// 2. Unrecoverable error
 fn start_engine() {
     let config = load_critical_config();
     if config.is_corrupted() {
@@ -132,30 +132,30 @@ fn start_engine() {
     }
 }
 
-// 3. 匹配穷举（理论上的永远执行不到）
+// 3. Exhaustive matching (theoretically unreachable)
 fn process_status(status: Status) {
     match status {
         Status::Running => { /* ... */ }
         Status::Stopped => { /* ... */ }
-        // 未来可能添加新状态
+        // A new state may be added in the future
         // _ => unreachable!("unknown status: {:?}", status),
     }
 }
 
-// 4. 内部不变量
+// 4. Internal invariant
 assert!(!queue.is_empty(), "queue should never be empty here");
 ```
 
 
-## 错误链<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Error Chains<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 map_err 转换错误
+// Convert an error with map_err
 fn high_level() -> Result<()> {
     low_level()
         .map_err(|e| MyError::from_low_level(e, "high level operation failed"))
 }
 
-// 使用 with_context 添加调用链信息
+// Add call-chain information with with_context
 fn middle_layer() -> Result<()> {
     low_level()
         .with_context(|| format!("while processing request {}", request_id))?;
@@ -164,11 +164,11 @@ fn middle_layer() -> Result<()> {
 ```
 
 
-## 最佳实践
+## Best Practices
 
-1. **库代码**：精确的错误类型（thiserror）
-2. **应用代码**：易用性优先（anyhow）
-3. **传播错误**：用 `?` 而非 `unwrap()`
-4. **添加上下文**：使用 `.context()` 或 `with_context()`
-5. **保留错误源**：用 `#[from]` 保留底层错误
-6. **区分 panic 场景**：bug 用 panic，预期失败用 Result
+1. **Library code**: use precise error types with thiserror.
+2. **Application code**: prioritize ease of use with anyhow.
+3. **Propagating errors**: use `?` instead of `unwrap()`.
+4. **Adding context**: use `.context()` or `with_context()`.
+5. **Preserving error sources**: use `#[from]` to retain the underlying error.
+6. **Distinguishing panic cases**: use panic for bugs and Result for expected failures.

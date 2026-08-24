@@ -461,59 +461,59 @@ let data = vec![0u8; size];
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不好：躲避借用检查
+// ❌ Bad: evading borrow checking
 fn process(user: User) {
-    let name = user.name.clone();  // 为什么需要 clone？
+    let name = user.name.clone();  // Why is this clone needed?
     // ...
 }
 
-// ✅ 好：直接使用引用
+// ✅ Good: use a reference directly
 fn process(user: &User) {
-    let name = &user.name;  // 借用即可
+    let name = &user.name;  // A borrow is sufficient
 }
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不好：可能 panic
+// ❌ Bad: may panic
 let config = File::open("config.json").unwrap();
 
-// ✅ 好：传播错误
+// ✅ Good: propagate the error
 let config = File::open("config.json")?;
 
-// ✅ 好：带上下文
+// ✅ Good: include context
 let config = File::open("config.json")
     .context("failed to open config")?;
 ```
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不好：不必要的分配
+// ❌ Bad: unnecessary allocation
 fn greet(name: String) {
     println!("Hello, {}", name);
 }
 
-// ✅ 好：借用即可
+// ✅ Good: a borrow is sufficient
 fn greet(name: &str) {
     println!("Hello, {}", name);
 }
 
-// 确实需要 String 的场景：需要持有或修改
+// A String is appropriate when the value must be owned or modified
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不好：容易出错，效率低
+// ❌ Bad: error-prone and inefficient
 for i in 0..items.len() {
     println!("{}: {}", i, items[i]);
 }
 
-// ✅ 好：直接迭代
+// ✅ Good: iterate directly
 for item in &items {
     println!("{}", item);
 }
 
-// ✅ 好：需要索引
+// ✅ Good: use an index when it is needed
 for (i, item) in items.iter().enumerate() {
     println!("{}: {}", i, item);
 }
@@ -521,13 +521,13 @@ for (i, item) in items.iter().enumerate() {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不好：为了省事用 unsafe
+// ❌ Bad: using unsafe merely for convenience
 unsafe {
     let ptr = data.as_mut_ptr();
-    // ... 复杂的内存操作
+    // ... complex memory operations
 }
 
-// ✅ 好：寻找安全的抽象
+// ✅ Good: find a safe abstraction
 let mut data: Vec<u8> = vec![0; size];
-// Vec 已经处理了内存管理
+// Vec already handles memory management
 ```

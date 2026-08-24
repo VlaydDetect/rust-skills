@@ -83,7 +83,7 @@ Use a comparison brief only when alternatives or missing context materially affe
 **Disclosed Gaps:** [Gaps user should know]
 ```
 
-> **详细协议见:** `patterns/negotiation.md`
+> **For the detailed protocol, see:** `patterns/negotiation.md`
 
 ---
 

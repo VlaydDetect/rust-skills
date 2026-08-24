@@ -340,14 +340,14 @@ let arr: Array<i32, 5> = Array { data: [0; 5] };
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 栈上固定大小数组
+// Fixed-size array on the stack
 let arr: [i32; 100] = [0; 100];
 
-// MaybeUninit 用于未初始化内存
+// MaybeUninit represents uninitialized memory
 use std::mem::MaybeUninit;
 let mut arr: [MaybeUninit<i32>; 100] = [MaybeUninit::uninit(); 100];
 
-// 初始化后使用
+// Use after initialization
 unsafe {
     let arr: [i32; 100] = arr.map(|x| x.assume_init());
 }
@@ -359,9 +359,9 @@ const fn double(x: i32) -> i32 {
     x * 2
 }
 
-const VAL: i32 = double(5);  // 编译时计算
+const VAL: i32 = double(5);  // Evaluated at compile time
 
-// 编译时检查
+// Compile-time check
 const fn checked_div(a: i32, b: i32) -> i32 {
     assert!(b != 0, "division by zero");
     a / b
@@ -370,28 +370,28 @@ const fn checked_div(a: i32, b: i32) -> i32 {
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 有些操作 const fn 还不能做
+// Some operations are not yet allowed in const fn
 const fn heap_alloc() -> Vec<i32> {
-    Vec::new()  // ❌ 还不支持
+    Vec::new()  // ❌ Not supported yet
 }
 
 const fn dynamic_size(n: usize) -> [i32; n] {
-    // ❌ 数组大小必须是 const
+    // ❌ The array size must be const
     [0; n]
 }
 ```
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 数组长度检查
+// Array-length check
 const fn assert_len<T>(slice: &[T], len: usize) {
     assert!(slice.len() == len);
 }
 
-// 使用
-const _: () = assert_len(&[1, 2, 3], 3);  // 编译时断言
+// Usage
+const _: () = assert_len(&[1, 2, 3], 3);  // Compile-time assertion
 
-// 类型级状态机
+// Type-level state machine
 struct StateMachine<S: State> {
     data: Vec<u8>,
     _phantom: std::marker::PhantomData<S>,
@@ -414,7 +414,7 @@ impl StateMachine<Initial> {
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 安全初始化模式
+// Safe initialization pattern
 fn init_array<T: Default + Copy>(len: usize) -> Vec<T> {
     let mut vec = Vec::with_capacity(len);
     for _ in 0..len {
@@ -428,7 +428,7 @@ fn init_array<T: Default + Copy>(len: usize) -> Vec<T> {
     vec
 }
 
-// 大数组：栈可能溢出
+// Large array: the stack may overflow
 fn big_array_on_heap() -> Box<[u8; 1024 * 1024]> {
     Box::new([0; 1024 * 1024])
 }

@@ -439,22 +439,22 @@ impl UserId {
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 变量和函数：snake_case
+// Variables and functions: snake_case
 let max_connections = 100;
 fn process_data() { ... }
 
-// 类型和 trait：CamelCase
+// Types and traits: CamelCase
 struct UserSession;
 trait Cacheable {}
 
-// 常量：SCREAMING_SAME_CASE
+// Constants: SCREAMING_SAME_CASE
 const MAX_CONNECTIONS: usize = 100;
 static CONFIG:once_cell::sync::Lazy<Config> = ...
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 好的错误处理
+// ✅ Good error handling
 fn read_config() -> Result<Config, ConfigError> {
     let content = std::fs::read_to_string("config.toml")
         .map_err(ConfigError::from)?;
@@ -462,7 +462,7 @@ fn read_config() -> Result<Config, ConfigError> {
         .map_err(ConfigError::parse)
 }
 
-// ❌ 避免
+// ❌ Avoid
 fn read_config() -> Config {
     std::fs::read_to_string("config.toml").unwrap()  // panic!
 }
@@ -470,10 +470,10 @@ fn read_config() -> Config {
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-/// 模块文档
-//! 本模块处理用户认证...
+/// Module documentation
+//! This module handles user authentication...
 
-/// 结构体文档
+/// Struct documentation
 ///
 /// # Examples
 /// ```
@@ -481,18 +481,18 @@ fn read_config() -> Config {
 /// ```
 pub struct User { ... }
 
-/// 方法文档
+/// Method documentation
 ///
 /// # Arguments
 ///
-/// * `name` - 用户名
+/// * `name` - User name
 ///
 /// # Returns
 ///
-/// 初始化后的用户实例
+/// The initialized user instance
 ///
 /// # Panics
 ///
-/// 当用户名为空时 panic
+/// Panics when the user name is empty
 pub fn new(name: &str) -> Self { ... }
 ```

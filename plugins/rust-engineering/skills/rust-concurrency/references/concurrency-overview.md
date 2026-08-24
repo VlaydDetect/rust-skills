@@ -56,7 +56,7 @@ Before adding concurrency:
 | Context Keywords | Load Domain Skill | Key Constraint |
 |-----------------|-------------------|----------------|
 | Web API, HTTP, axum, actix, handler | **domain-web** | Handlers run on any thread |
-| 交易, 支付, trading, payment | **domain-fintech** | Audit + thread safety |
+| transactions, payments, trading, payment | **domain-fintech** | Audit + thread safety |
 | gRPC, kubernetes, microservice | **domain-cloud-native** | Distributed tracing |
 | CLI, terminal, clap | **domain-cli** | Usually single-thread OK |
 

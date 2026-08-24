@@ -3,58 +3,58 @@
 > retain progressive disclosure and isolation heuristics, but do not force context forks, three-agent parallelism, fixed token estimates, or host-specific commands. Load one needed branch and delegate only bounded independent read-only work.
 
 
-> Rust Skills 上下文优化策略与效果
+> Rust Skills context-optimization strategies and results
 
-## 概述
+## Overview
 
-Rust Skills 采用三种方法优化上下文消耗，综合可节省约 **68%** 的 token 使用量。
+Rust Skills uses three methods to optimize context consumption, reducing token usage by approximately **68%** in combination.
 
-| 优化方法 | 类型 | 适用场景 | 节省比例 |
+| Optimization method | Type | Applicable scenario | Savings |
 |---------|------|---------|---------|
-| **Skill 内容拆分** | 静态 | 大型参考 skill | 50-60% |
-| **context: fork** | 动态 | 任务执行型 skill | 75-85% |
-| **三层并行 Fork** | 动态 | 多 skill 协作分析 | 65-75% |
+| **Split Skill content** | Static | Large reference skills | 50-60% |
+| **context: fork** | Dynamic | Task-execution skills | 75-85% |
+| **Three-layer parallel Fork** | Dynamic | Collaborative analysis across multiple skills | 65-75% |
 
 ---
 
-## 方法一：Skill 内容拆分（静态优化）
+## Method One: Split Skill Content (Static Optimization)
 
-### 原理
+### Principle
 
-将大型 Skill 的非核心内容拆分到子文件，主 SKILL.md 只保留核心路由逻辑，其他内容按需加载。
+Move non-core content from a large Skill into supporting files. Keep only the core routing logic in the main SKILL.md and load other content on demand.
 
-### 实施案例：rust-router
+### Implementation Example: rust-router
 
-| 指标 | 优化前 | 优化后 | 节省 |
+| Metric | Before | After | Savings |
 |------|--------|--------|------|
-| 文件大小 | 18.7 KB | 8.1 KB | **56%** |
-| 约 Token | ~4,700 | ~2,000 | **~2,700 tokens** |
+| File size | 18.7 KB | 8.1 KB | **56%** |
+| Approximate tokens | ~4,700 | ~2,000 | **~2,700 tokens** |
 
-### 文件结构
+### File Structure
 
 ```
 skills/rust-router/
-├── SKILL.md (8.1KB - 核心路由，始终加载)
+├── SKILL.md (8.1 KB - core routing, always loaded)
 ├── patterns/
-│   └── negotiation.md (协商协议，按需加载)
+│   └── negotiation.md (negotiation protocol, loaded on demand)
 ├── examples/
-│   └── workflow.md (工作流示例，按需加载)
+│   └── workflow.md (workflow example, loaded on demand)
 └── integrations/
-    └── os-checker.md (集成说明，按需加载)
+    └── os-checker.md (integration notes, loaded on demand)
 ```
 
-### 移出内容详情
+### Moved Content
 
-| 内容 | 移动到 | 大小 |
+| Content | Moved to | Size |
 |------|--------|------|
 | Negotiation Protocol | `patterns/negotiation.md` | 4.5 KB |
 | Workflow Example | `examples/workflow.md` | 2.3 KB |
 | OS-Checker Integration | `integrations/os-checker.md` | 1.3 KB |
-| Skill File Paths | 删除（冗余） | 1.5 KB |
+| Skill File Paths | Deleted (redundant) | 1.5 KB |
 
-### 关键点：自动触发不受影响
+### Key Point: Automatic Triggering Is Unaffected
 
-Claude Code 的自动触发机制仅依赖 frontmatter 中的 `description` 字段：
+Claude Code's automatic triggering mechanism depends only on the `description` field in the frontmatter:
 
 ```yaml
 ---
@@ -64,249 +64,249 @@ Triggers on: Rust, cargo, rustc, E0382, E0597..."
 ---
 ```
 
-SKILL.md body 内容是触发**之后**的指导逻辑，移出到子文件不影响触发。
+The SKILL.md body contains guidance used **after** triggering, so moving content into supporting files does not affect triggering.
 
-### 适用场景
+### Applicable Scenarios
 
-- 包含大量参考内容的 Skill
-- 有多种使用场景的 Skill
-- 包含详细示例/模板的 Skill
+- Skills containing substantial reference material
+- Skills with multiple usage scenarios
+- Skills containing detailed examples or templates
 
 ---
 
-## 方法二：context: fork 隔离执行（动态优化）
+## Method Two: Isolated Execution with context: fork (Dynamic Optimization)
 
-### 原理
+### Principle
 
-使用 `context: fork` 让 Skill 在隔离的 subagent 上下文中执行，中间过程不污染主上下文，只返回摘要结果。
+Use `context: fork` to run the Skill in an isolated subagent context. Intermediate work does not consume the main context; only a summarized result is returned.
 
-### 配置方式
+### Configuration
 
 ```yaml
 ---
 name: my-task-skill
 description: "Task description"
 context: fork
-agent: general-purpose  # 或 Explore
+agent: general-purpose  # Or Explore
 ---
 ```
 
-### 实施案例
+### Implementation Examples
 
-| Skill | 典型执行 Token | Fork 后主上下文 | 节省 |
+| Skill | Typical execution tokens | Main context after Fork | Savings |
 |-------|---------------|----------------|------|
-| `rust-skill-creator` | ~3,000 | ~500 (摘要) | **~83%** |
+| `rust-skill-creator` | ~3,000 | ~500 (summary) | **~83%** |
 | `core-dynamic-skills` | ~2,000 | ~400 | **~80%** |
 | `core-fix-skill-docs` | ~1,500 | ~300 | **~80%** |
 | `rust-daily` | ~2,500 | ~500 | **~80%** |
 
-### Fork 特性
+### Fork Characteristics
 
-| 特性 | 说明 |
+| Characteristic | Description |
 |------|------|
-| 隔离执行 | Skill 在新的独立上下文中运行 |
-| 无对话历史 | Subagent **不能访问**主对话历史 |
-| 结果摘要 | 输出被摘要后返回主对话 |
-| 环境继承 | 工作目录、CLAUDE.md、环境变量继承 |
+| Isolated execution | The Skill runs in a new, independent context |
+| No conversation history | The subagent **cannot access** the main conversation history |
+| Result summary | Output is summarized before returning to the main conversation |
+| Environment inheritance | The working directory, CLAUDE.md, and environment variables are inherited |
 
-### 继承关系
+### Inheritance
 
 ```
-主上下文 (Main Context)
-├── 对话历史 ──────────────► ❌ 不继承
-├── 当前工作目录 ──────────► ✅ 继承
-├── CLAUDE.md ─────────────► ✅ 继承 (作为参考)
-├── 预加载的 skills ────────► ✅ 可访问
-└── 环境变量 ──────────────► ✅ 继承
+Main Context
+├── Conversation history ─────► ❌ Not inherited
+├── Current working directory ─► ✅ Inherited
+├── CLAUDE.md ─────────────────► ✅ Inherited (as a reference)
+├── Preloaded skills ──────────► ✅ Accessible
+└── Environment variables ─────► ✅ Inherited
 ```
 
-### 适用场景
+### Applicable Scenarios
 
-- 独立执行的任务（创建文件、同步数据等）
-- 不需要对话历史的操作
-- 探索/研究类任务
+- Independently executed tasks such as creating files or synchronizing data
+- Operations that do not need conversation history
+- Exploration or research tasks
 
-### 不适用场景
+### Inapplicable Scenarios
 
-- 需要交互式追问用户
-- 需要完整推理过程可见
-- 结果细节很重要，不能被摘要
+- Tasks that require interactive follow-up questions
+- Tasks where the complete reasoning process must remain visible
+- Tasks whose result details are too important to summarize
 
 ---
 
-## 方法三：三层并行 Fork（实验性）
+## Method Three: Three-Layer Parallel Fork (Experimental)
 
-### 原理
+### Principle
 
-基于元认知框架的三层模型，将分析任务并行分发到三个隔离的 layer analyzer，各自独立分析后返回摘要，在主上下文进行跨层综合。
+Using the meta-cognition framework's three-layer model, distribute analysis in parallel to three isolated layer analyzers. Each analyzes independently and returns a summary, and the main context performs cross-layer synthesis.
 
-### 架构
+### Architecture
 
 ```
 User Question
      │
      ▼
-meta-cognition-parallel (协调者)
+meta-cognition-parallel (coordinator)
      │
-     ├─── Fork → layer1-analyzer ──► L1 摘要
-     │           (语言机制分析)
+     ├─── Fork → layer1-analyzer ──► L1 summary
+     │           (language-mechanics analysis)
      │
-     ├─── Fork → layer2-analyzer ──► L2 摘要    [并行]
-     │           (设计选择分析)
+     ├─── Fork → layer2-analyzer ──► L2 summary    [parallel]
+     │           (design-choice analysis)
      │
-     └─── Fork → layer3-analyzer ──► L3 摘要
-                 (领域约束分析)
+     └─── Fork → layer3-analyzer ──► L3 summary
+                 (domain-constraint analysis)
      │
      ▼
-Cross-Layer Synthesis (主上下文)
+Cross-Layer Synthesis (main context)
      │
-     └─► 领域正确的架构方案
+     └─► Domain-correct architectural solution
 ```
 
-### 上下文消耗对比
+### Context-Consumption Comparison
 
-**传统方式（主上下文）:**
+**Conventional approach (main context):**
 ```
-├── 读取 m01-ownership    +1,200 tokens
-├── 读取 m02-resource     +1,000 tokens
-├── 读取 domain-fintech   +1,500 tokens
-├── 中间推理              +2,500 tokens
-└── 最终回答              +1,800 tokens
+├── Read m01-ownership        +1,200 tokens
+├── Read m02-resource         +1,000 tokens
+├── Read domain-fintech       +1,500 tokens
+├── Intermediate reasoning    +2,500 tokens
+└── Final answer              +1,800 tokens
                           ────────────
                           ~8,000 tokens
 ```
 
-**三层并行 Fork:**
+**Three-layer parallel Fork:**
 ```
-├── L1 摘要返回           +600 tokens
-├── L2 摘要返回           +600 tokens
-├── L3 摘要返回           +600 tokens
-└── 跨层综合+回答         +700 tokens
+├── L1 summary returned             +600 tokens
+├── L2 summary returned             +600 tokens
+├── L3 summary returned             +600 tokens
+└── Cross-layer synthesis + answer  +700 tokens
                           ────────────
                           ~2,500 tokens
 ```
 
-**节省：~69%**
+**Savings: ~69%**
 
-### 相关文件
+### Related Files
 
-- `skills/meta-cognition-parallel/SKILL.md` - 协调 Skill
-- `agents/layer1-analyzer.md` - 语言机制分析 (m01-m07)
-- `agents/layer2-analyzer.md` - 设计选择分析 (m09-m15)
-- `agents/layer3-analyzer.md` - 领域约束分析 (domain-*)
+- `skills/meta-cognition-parallel/SKILL.md` - Coordination Skill
+- `agents/layer1-analyzer.md` - Language-mechanics analysis (m01-m07)
+- `agents/layer2-analyzer.md` - Design-choice analysis (m09-m15)
+- `agents/layer3-analyzer.md` - Domain-constraint analysis (domain-*)
 
-### 使用命令
+### Command
 
 ```bash
 /meta-parallel <your Rust question>
 ```
 
-### 测试场景
+### Test Scenarios
 
 ```bash
-# 测试 1: 交易系统
-/meta-parallel 交易系统报 E0382，trade record 被 move 了
+# Test 1: trading system
+/meta-parallel The trading system reports E0382 because the trade record was moved
 
-# 测试 2: Web API
-/meta-parallel Web API 中多个 handler 需要共享数据库连接池
+# Test 2: Web API
+/meta-parallel Multiple handlers in a Web API need to share a database connection pool
 
-# 测试 3: CLI 工具
-/meta-parallel CLI 工具如何处理配置文件和命令行参数的优先级
+# Test 3: CLI tool
+/meta-parallel How should a CLI tool prioritize configuration files and command-line arguments?
 ```
 
 ---
 
-## 综合效果估算
+## Estimated Combined Effect
 
-假设一次典型的 Rust 问答会话：
+Assume a typical Rust question-and-answer session:
 
-| 阶段 | 优化前 | 优化后 |
+| Stage | Before | After |
 |------|--------|--------|
-| rust-router 加载 | 4,700 | 2,000 |
-| 多 skill 分析 | 8,000 | 2,500 |
-| 任务执行 | 3,000 | 500 |
-| **总计** | **15,700** | **5,000** |
-| **节省** | - | **~68%** |
+| rust-router loading | 4,700 | 2,000 |
+| Multi-skill analysis | 8,000 | 2,500 |
+| Task execution | 3,000 | 500 |
+| **Total** | **15,700** | **5,000** |
+| **Savings** | - | **~68%** |
 
 ---
 
-## 选择决策树
+## Selection Decision Tree
 
 ```
-问题类型
+Question type
     │
-    ├── 大型参考 Skill?
-    │   └── YES → 方法一: 内容拆分
-    │             将非核心内容移至子文件
+    ├── Large reference Skill?
+    │   └── YES → Method one: split content
+    │             Move non-core content to supporting files
     │
-    ├── 独立执行任务?
-    │   └── YES → 方法二: context: fork
-    │             添加 context: fork 到 frontmatter
+    ├── Independently executed task?
+    │   └── YES → Method two: context: fork
+    │             Add context: fork to the frontmatter
     │
-    └── 多层协作分析?
-        └── YES → 方法三: 三层并行 Fork
-                  使用 meta-cognition-parallel
+    └── Multi-layer collaborative analysis?
+        └── YES → Method three: three-layer parallel Fork
+                  Use meta-cognition-parallel
 ```
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### 1. 内容拆分原则
+### 1. Content-Splitting Principles
 
-- 核心路由逻辑保留在 SKILL.md
-- 示例、模板移至 `examples/`
-- 集成说明移至 `integrations/`
-- 详细参考移至 `references/`
+- Keep core routing logic in SKILL.md
+- Move examples and templates to `examples/`
+- Move integration notes to `integrations/`
+- Move detailed references to `references/`
 
-### 2. Fork 使用原则
+### 2. Fork Usage Principles
 
-- 只对任务型 Skill 使用 fork
-- 参考/指导型 Skill 不用 fork
-- 需要用户交互的不用 fork
+- Use fork only for task-oriented Skills
+- Do not use fork for reference or guidance Skills
+- Do not use fork when user interaction is required
 
-### 3. 并行分析原则
+### 3. Parallel-Analysis Principles
 
-- 各分析任务应独立，无依赖
-- 综合推理在主上下文完成
-- 显式传递所有必要信息给 fork
+- Each analysis task should be independent and have no dependencies
+- Complete synthesis and reasoning in the main context
+- Explicitly pass all necessary information to each fork
 
 ---
 
-## 验证清单
+## Validation Checklist
 
-### 方法一验证
+### Method-One Validation
 
-- [ ] rust-router 自动触发测试
+- [ ] Test automatic rust-router triggering
   ```bash
-  claude -p "E0382 错误怎么解决"
-  claude -p "比较 tokio 和 async-std"
+  claude -p "How do I fix E0382?"
+  claude -p "Compare tokio and async-std"
   ```
 
-### 方法二验证
+### Method-Two Validation
 
-- [ ] Fork skill 执行测试
+- [ ] Test Fork skill execution
   ```bash
   /sync-crate-skills
   /rust-daily
   ```
 
-### 方法三验证
+### Method-Three Validation
 
-- [ ] 三层并行分析测试
+- [ ] Test three-layer parallel analysis
   ```bash
-  /meta-parallel 交易系统报 E0382
+  /meta-parallel The trading system reports E0382
   ```
 
 ---
 
-## 版本历史
+## Version History
 
-| 版本 | 日期 | 优化内容 |
+| Version | Date | Optimization |
 |------|------|---------|
-| 2.0.0 | 2025-01-22 | rust-router 内容拆分 (56% 节省) |
-| 2.0.4 | 2025-01-22 | 4 个 skills 添加 context: fork (thanks @pinghe) |
-| 2.0.5 | 2025-01-22 | 三层并行 Fork 实验性支持 |
+| 2.0.0 | 2025-01-22 | Split rust-router content (56% savings) |
+| 2.0.4 | 2025-01-22 | Added context: fork to four skills (thanks @pinghe) |
+| 2.0.5 | 2025-01-22 | Experimental support for three-layer parallel Fork |
 
 ---
 

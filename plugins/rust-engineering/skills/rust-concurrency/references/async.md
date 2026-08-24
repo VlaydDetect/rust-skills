@@ -500,7 +500,7 @@ use tokio_stream::{self as Stream, StreamExt};
 
 async fn process_stream(stream: impl Stream<Item = Data>) {
     stream
-        .chunks(100)           // 批量处理
+        .chunks(100)           // Process in batches
         .for_each(|batch| async {
             process_batch(batch).await;
         })
@@ -512,7 +512,7 @@ async fn process_stream(stream: impl Stream<Item = Data>) {
 ```rust
 use tokio::sync::Semaphore;
 
-let semaphore = Semaphore::new(10);  // 最多 10 个并发
+let semaphore = Semaphore::new(10);  // At most 10 concurrent operations
 
 let stream = tokio_stream::iter(0..1000)
     .map(|i| {
@@ -522,7 +522,7 @@ let stream = tokio_stream::iter(0..1000)
             process(i).await
         }
     })
-    .buffer_unordered(100);  // 最多 100 并发
+    .buffer_unordered(100);  // At most 100 concurrent operations
 ```
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
@@ -539,9 +539,9 @@ async fn multiplex() {
                 }
             }
             _ = sleep(Duration::from_secs(5)) => {
-                // 超时处理
+                // Handle the timeout
             }
-            else => break,  // 所有分支都完成
+            else => break,  // All branches have completed
         }
     }
 }
@@ -555,30 +555,30 @@ async fn with_timeout() -> Result<Value, TimeoutError> {
     timeout(Duration::from_secs(5), long_operation()).await
 }
 
-// 协作式取消
+// Cooperative cancellation
 let mut task = tokio::spawn(async move {
     loop {
-        // 检查取消
+        // Check for cancellation
         if task.is_cancelled() {
             return;
         }
-        // 继续工作
+        // Continue working
     }
 });
 
-// 取消任务
+// Cancel the task
 task.abort();
 ```
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 并行执行，不等待完成
+// Run concurrently without waiting for each operation to finish
 let (a, b) = tokio::join!(async_a(), async_b());
 
-// 全部成功才成功
+// Succeed only if every operation succeeds
 let (a, b) = tokio::try_join!(async_a(), async_b())?;
 
-// 错误传播
+// Error propagation
 fn combined() -> impl Future<Output = Result<(A, B), E>> {
     async {
         let (a, b) = try_join!(op_a(), op_b())?;

@@ -403,29 +403,29 @@ These code-only deltas appeared in the condensed English or localized source. Th
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 查找操作，找不到是正常情况
+// A lookup where not finding a value is a normal outcome
 fn find_user(id: u32) -> Option<User> {
     users.get(&id)
 }
 
-// 使用
+// Usage
 let user = find_user(123);
 if let Some(u) = user {
     println!("Found: {}", u.name);
 }
 
-// 或者用 ? 传播（但要包装成 Result）
+// Or propagate with ? after converting the absence into a Result
 let user = find_user(123).ok_or(UserNotFound)?;
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 文件可能不存在
+// The file might not exist
 fn read_file(path: &Path) -> Result<String, io::Error> {
     std::fs::read_to_string(path)
 }
 
-// 网络请求可能超时
+// The network request might time out
 fn fetch(url: &str) -> Result<Response, reqwest::Error> {
     reqwest::blocking::get(url)?
 }
@@ -468,7 +468,7 @@ fn process_config() -> Result<Config> {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 好：明确区分错误类型
+// ✅ Good: clearly distinguish error types
 fn validate() -> Result<(), ValidationError> {
     if name.is_empty() {
         return Err(ValidationError::EmptyName);
@@ -476,29 +476,29 @@ fn validate() -> Result<(), ValidationError> {
     Ok(())
 }
 
-// ✅ 好：传播时添加上下文
+// ✅ Good: add context while propagating
 let config = File::open("config.json")
     .map_err(|e| ConfigError::with_context("config", e))?;
 
-// ✅ 好：使用 ? 运算符
+// ✅ Good: use the ? operator
 let data = read_file(&path)?;
 
-// ❌ 差：unwrap() 在可能失败的操作上
+// ❌ Bad: unwrap() on an operation that can fail
 let content = std::fs::read_to_string("config.json").unwrap();
 
-// ❌ 差：静默忽略错误
+// ❌ Bad: silently ignore an error
 let _ = some_fallible_function();
 ```
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 可接受：初始化检查
+// ✅ Acceptable: initialization check
 let home = std::env::var("HOME")
     .expect("HOME environment variable must be set");
 
-// ✅ 可接受：测试断言
+// ✅ Acceptable: test assertion
 assert!(!users.is_empty(), "should have at least one user");
 
-// ❌ 不可接受：用户输入验证失败
+// ❌ Unacceptable: failed validation of user input
 let num: i32 = input.parse().unwrap();
 ```

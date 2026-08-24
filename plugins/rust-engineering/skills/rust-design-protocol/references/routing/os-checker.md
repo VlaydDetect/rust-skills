@@ -2,7 +2,7 @@
 
 > Use only tools already present in the project or explicitly approved; these names are options, not plugin dependencies.
 
-> 代码审查和安全审计工具集成
+> Integration with code-review and security-audit tools
 
 ## Available Commands
 

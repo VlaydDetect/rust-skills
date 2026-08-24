@@ -694,7 +694,7 @@ impl Handler<Increment> for CounterActor {
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Actor 基础 trait
+// Base Actor trait
 trait Actor: Send + 'static {
     type Message: Send + 'static;
     type Error: std::error::Error;
@@ -702,7 +702,7 @@ trait Actor: Send + 'static {
     fn receive(&mut self, ctx: &mut Context<Self::Message>, msg: Self::Message);
 }
 
-// Actor 上下文
+// Actor context
 struct Context<A: Actor> {
     mailbox: Receiver<A::Message>,
     sender: Sender<A::Message>,
@@ -721,7 +721,7 @@ enum ActorState {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 同步消息
+// Synchronous message
 fn sync_request<A: Actor, R>(
     actor: &Addr<A>,
     msg: A::Message,
@@ -738,12 +738,12 @@ fn sync_request<A: Actor, R>(
     rx.recv_timeout(timeout)?
 }
 
-// 异步消息
+// Asynchronous message
 fn async_send<A: Actor>(actor: &Addr<A>, msg: A::Message) {
     actor.send(msg);
 }
 
-// 消息信封
+// Message envelope
 enum Envelope<A: Actor> {
     Async(A::Message),
     Request {
@@ -756,15 +756,15 @@ enum Envelope<A: Actor> {
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 1. 避免循环等待：使用唯一消息顺序
+// 1. Avoid circular waits by using one canonical message order
 enum GlobalMessage {
-    // 按固定顺序排列
+    // Sort in a fixed order
     UserMsg(UserMessage),
     SystemMsg(SystemMessage),
     InternalMsg(InternalMessage),
 }
 
-// 2. 超时机制
+// 2. Timeout mechanism
 fn send_with_timeout<A: Actor, M: Send + 'static>(
     addr: &Addr<A>,
     msg: M,
@@ -779,7 +779,7 @@ fn send_with_timeout<A: Actor, M: Send + 'static>(
         .map_err(|_| SendError::Timeout)
 }
 
-// 3. 限制邮箱大小（背压）
+// 3. Limit mailbox size (backpressure)
 struct BoundedMailbox<A: Actor> {
     receiver: Receiver<A::Message>,
     sender: Sender<A::Message>,
@@ -795,11 +795,11 @@ impl<A: Actor> Mailbox for BoundedMailbox<A> {
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Supervision 策略
+// Supervision strategy
 enum SupervisionStrategy {
-    OneForOne,    // 只重启出错的子 actor
-    AllForOne,    // 一个出错，全部重启
-    RestForOne,   // 出错的和之后的重启
+    OneForOne,    // Restart only the failed child actor
+    AllForOne,    // Restart all children when one fails
+    RestForOne,   // Restart the failed child and those started after it
 }
 
 struct Supervisor {
@@ -830,7 +830,7 @@ impl Supervisor {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Actor 内部状态
+// Internal actor state
 struct UserActor {
     id: UserId,
     session: Option<Session>,
@@ -862,7 +862,7 @@ impl Actor for UserActor {
     }
 }
 
-// 状态快照
+// State snapshot
 impl UserActor {
     fn snapshot(&self) -> UserSnapshot {
         UserSnapshot {
@@ -877,7 +877,7 @@ impl UserActor {
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 生命周期事件
+// Lifecycle events
 enum LifecycleEvent {
     PreStart,
     PostStart,
@@ -888,19 +888,19 @@ enum LifecycleEvent {
 
 trait LifecycleHandler: Actor {
     fn pre_start(&mut self, ctx: &mut Context<Self::Message>) {
-        // 初始化资源
+        // Initialize resources
     }
 
     fn post_start(&mut self, ctx: &mut Context<Self::Message>) {
-        // 启动定时器、连接等
+        // Start timers, connections, and similar resources
     }
 
     fn pre_restart(&mut self, ctx: &mut Context<Self::Message>, error: &dyn std::error::Error) {
-        // 清理资源
+        // Clean up resources
     }
 
     fn post_stop(&mut self) {
-        // 保存状态、关闭连接
+        // Save state and close connections
     }
 }
 ```
@@ -935,7 +935,7 @@ impl Handler<Increment> for MyActor {
     }
 }
 
-// 使用
+// Usage
 let actor = MyActor { counter: 0 }.start();
 let result = actor.send(Increment).await?;
 ```

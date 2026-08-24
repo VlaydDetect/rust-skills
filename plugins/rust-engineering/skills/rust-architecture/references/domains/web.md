@@ -556,21 +556,21 @@ async fn main() {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 从路径获取参数
+// Extract a parameter from the path
 async fn get_user(Path(id): Path<u32>) -> Json<User> {
     User::find(id).await
         .map(Json)
         .ok_or_else(|| StatusCode::NOT_FOUND)
 }
 
-// 从 JSON body 获取
+// Extract from the JSON body
 async fn create_user(Json(user): Json<CreateUserRequest>) -> Result<Json<User>, StatusCode> {
     User::create(user).await
         .map(Json)
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
 }
 
-// 查询参数
+// Query parameters
 async fn list_users(Query(params): Query<ListUsersParams>) -> Json<Vec<User>> {
     User::list(params).await
 }
@@ -578,13 +578,13 @@ async fn list_users(Query(params): Query<ListUsersParams>) -> Json<Vec<User>> {
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// AppState 类型
+// AppState type
 type AppState = Arc<Pool<Postgres>>;
 
-// 提取状态
+// Extract state
 async fn handler(state: State<AppState>) { ... }
 
-// 共享状态
+// Shared state
 let pool = PgPoolOptions::new()
     .max_connections(5)
     .connect(&db_url)
@@ -631,7 +631,7 @@ impl IntoResponse for ApiError {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 记录请求日志
+// Log the request
 async fn log_requests(req: Request, next: Next) -> Result<Response, Infallible> {
     let start = Instant::now();
     let method = req.method().clone();
@@ -650,7 +650,7 @@ async fn log_requests(req: Request, next: Next) -> Result<Response, Infallible> 
     Ok(response)
 }
 
-// 使用
+// Usage
 let app = Router::new()
     .route("/", get(handler))
     .layer(layer_fn(log_requests));
@@ -658,7 +658,7 @@ let app = Router::new()
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 定义模型
+// Define the model
 #[derive(Debug, FromRow)]
 struct User {
     id: i32,
@@ -667,14 +667,14 @@ struct User {
     created_at: chrono::DateTime<Utc>,
 }
 
-// 查询
+// Query
 async fn get_user(pool: &Pool<Postgres>, id: i32) -> Result<User, sqlx::Error> {
     sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
         .fetch_one(pool)
         .await
 }
 
-// 事务
+// Transaction
 let mut tx = pool.begin().await?;
 sqlx::query!("INSERT INTO ...") .execute(&mut *tx).await?;
 tx.commit().await?;

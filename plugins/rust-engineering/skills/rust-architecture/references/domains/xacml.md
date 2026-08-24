@@ -12,25 +12,25 @@
 
 ## Workflow
 
-## 核心模式
+## Core Patterns
 
-### 1. 策略评估器<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 1. Policy Evaluator<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 策略评估器
+//! Policy evaluator
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-/// 请求上下文
+/// Request context
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RequestContext {
-    pub subject: Subject,      // 主体
-    pub resource: Resource,    // 资源
-    pub action: String,        // 操作
-    pub environment: HashMap<String, String>,  // 环境
+    pub subject: Subject,      // Subject
+    pub resource: Resource,    // Resource
+    pub action: String,        // Action
+    pub environment: HashMap<String, String>,  // Environment
 }
 
-/// 主体
+/// Subject
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Subject {
     pub id: String,
@@ -38,7 +38,7 @@ pub struct Subject {
     pub attributes: HashMap<String, String>,
 }
 
-/// 资源
+/// Resource
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Resource {
     pub id: String,
@@ -46,7 +46,7 @@ pub struct Resource {
     pub attributes: HashMap<String, String>,
 }
 
-/// 决策结果
+/// Decision result
 #[derive(Debug, Clone, PartialEq)]
 pub enum Decision {
     Permit,
@@ -55,7 +55,7 @@ pub enum Decision {
     Indeterminate(String),
 }
 
-/// 策略定义
+/// Policy definition
 #[derive(Debug, Clone)]
 pub struct Policy {
     pub id: String,
@@ -64,15 +64,15 @@ pub struct Policy {
     pub combining_algorithm: CombiningAlgorithm,
 }
 
-/// 策略目标（匹配条件）
+/// Policy target (matching conditions)
 #[)]
 pub struct PolicyTarget {
-    pubderive(Debug, Clone subjects: Vec<Vec<String>>,  // 角色组合
+    pubderive(Debug, Clone subjects: Vec<Vec<String>>,  // Role combinations
     pub resources: Vec<String>,
     pub actions: Vec<String>,
 }
 
-/// 访问规则
+/// Access rule
 #[derive(Debug, Clone)]
 pub struct Rule {
     pub id: String,
@@ -86,16 +86,16 @@ pub enum RuleEffect {
     Deny,
 }
 
-/// 策略组合算法
+/// Policy-combining algorithm
 #[derive(Debug, Clone, Copy)]
 pub enum CombiningAlgorithm {
-    DenyOverrides,      // Deny 优先
-    PermitOverrides,    // Permit 优先
-    FirstApplicable,    // 首个适用
-    OnlyOneApplicable,  // 仅一个适用
+    DenyOverrides,      // Deny takes precedence
+    PermitOverrides,    // Permit takes precedence
+    FirstApplicable,    // First applicable policy
+    OnlyOneApplicable,  // Exactly one applicable policy
 }
 
-/// 策略评估器
+/// Policy evaluator
 pub struct PolicyEvaluator {
     policies: Vec<Policy>,
 }
@@ -105,7 +105,7 @@ impl PolicyEvaluator {
         Self { policies }
     }
 
-    /// 评估请求
+    /// Evaluate a request
     pub fn evaluate(&self, context: &RequestContext) -> Decision {
         let mut applicable_policies: Vec<&Policy> = self.policies
             .iter()
@@ -116,7 +116,7 @@ impl PolicyEvaluator {
             return Decision::NotApplicable;
         }
 
-        // 根据组合算法计算最终决策
+        // Compute the final decision using the combining algorithm
         match applicable_policies.first().map(|p| p.combining_algorithm).unwrap_or(CombiningAlgorithm::FirstApplicable) {
             CombiningAlgorithm::DenyOverrides => self.deny_overrides(&applicable_policies, context),
             CombiningAlgorithm::PermitOverrides => self.permit_overrides(&applicable_policies, context),
@@ -132,17 +132,17 @@ impl PolicyEvaluator {
     }
 
     fn is_target_matched(&self, policy: &Policy, context: &RequestContext) -> bool {
-        // 检查 Subjects
+        // Check subjects
         let subject_matches = policy.target.subjects.is_empty() ||
             policy.target.subjects.iter().any(|roles| {
                 roles.iter().all(|r| context.subject.roles.contains(r))
             });
 
-        // 检查 Resources
+        // Check resources
         let resource_matches = policy.target.resources.is_empty() ||
             policy.target.resources.contains(&context.resource.r#type);
 
-        // 检查 Actions
+        // Check actions
         let action_matches = policy.target.actions.is_empty() ||
             policy.target.actions.contains(&context.action);
 
@@ -220,31 +220,31 @@ impl PolicyEvaluator {
 }
 ```
 
-### 2. RBAC 权限检查<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 2. RBAC Permission Checking<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! RBAC 权限检查
+//! RBAC permission checking
 
 use std::collections::HashMap;
 
-/// RBAC 配置
+/// RBAC configuration
 #[derive(Debug, Clone)]
 pub struct RbacConfig {
-    /// 角色层级
+    /// Role hierarchy
     pub role_hierarchy: HashMap<String, Vec<String>>,
-    /// 角色权限映射
+    /// Role-to-permission mapping
     pub role_permissions: HashMap<String, Vec<String>>,
-    /// 权限定义
+    /// Permission definitions
     pub permissions: HashMap<String, PermissionDef>,
 }
 
-/// 权限定义
+/// Permission definition
 #[derive(Debug, Clone)]
 pub struct PermissionDef {
     pub resource: String,
     pub actions: Vec<String>,
 }
 
-/// RBAC 检查器
+/// RBAC checker
 pub struct RbacChecker {
     config: RbacConfig,
 }
@@ -254,17 +254,17 @@ impl RbacChecker {
         Self { config }
     }
 
-    /// 检查用户是否有权限
+    /// Check whether a user has permission
     pub fn check_permission(
         &self,
         user_roles: &[String],
         resource: &str,
         action: &str,
     ) -> bool {
-        // 获取所有继承的角色
+        // Get all inherited roles
         let all_roles = self.expand_roles(user_roles);
 
-        // 检查是否有权限
+        // Check for permission
         for role in &all_roles {
             if let Some(perms) = self.config.role_permissions.get(role) {
                 for perm_id in perms {
@@ -280,7 +280,7 @@ impl RbacChecker {
         false
     }
 
-    /// 展开角色层级
+    /// Expand the role hierarchy
     fn expand_roles(&self, roles: &[String]) -> Vec<String> {
         let mut expanded = Vec::new();
         let mut visited = std::collections::HashSet::new();
@@ -309,7 +309,7 @@ impl RbacChecker {
         expanded
     }
 
-    /// 获取用户的所有权限
+    /// Get all permissions for a user
     pub fn get_user_permissions(&self, user_roles: &[String]) -> Vec<String> {
         let all_roles = self.expand_roles(user_roles);
         let mut permissions = std::collections::HashSet::new();
@@ -327,29 +327,29 @@ impl RbacChecker {
 }
 ```
 
-### 3. 策略缓存<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 3. Policy Cache<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 策略缓存
+//! Policy cache
 
 use crate::{Policy, PolicyEvaluator};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use std::time::{Duration, Instant};
 
-/// 缓存配置
+/// Cache configuration
 #[derive(Debug, Clone)]
 pub struct PolicyCacheConfig {
     pub ttl: Duration,
     pub max_size: usize,
 }
 
-/// 缓存条目
+/// Cache entry
 struct CacheEntry {
     policy: Policy,
     inserted_at: Instant,
 }
 
-/// 策略缓存
+/// Policy cache
 pub struct PolicyCache {
     config: PolicyCacheConfig,
     cache: Arc<RwLock<HashMap<String, CacheEntry>>>,
@@ -363,21 +363,21 @@ impl PolicyCache {
         }
     }
 
-    /// 获取策略
+    /// Get a policy
     pub async fn get(&self, policy_id: &str) -> Option<Policy> {
         let cache = self.cache.read().await;
         cache.get(policy_id).map(|entry| entry.policy.clone())
     }
 
-    /// 存储策略
+    /// Store a policy
     pub async fn set(&self, policy: Policy) {
         let mut cache = self.cache.write().await;
 
-        // 清理过期条目
+        // Remove expired entries
         let now = Instant::now();
         cache.retain(|_, v| now.duration_since(v.inserted_at) < self.config.ttl);
 
-        // 清理超出大小的条目
+        // Remove entries beyond the size limit
         if cache.len() >= self.config.max_size {
             let to_remove = cache.len() - self.config.max_size + 1;
             let keys: Vec<String> = cache.keys().take(to_remove).cloned().collect();
@@ -392,13 +392,13 @@ impl PolicyCache {
         });
     }
 
-    /// 失效策略
+    /// Invalidate a policy
     pub async fn invalidate(&self, policy_id: &str) {
         let mut cache = self.cache.write().await;
         cache.remove(policy_id);
     }
 
-    /// 清理所有
+    /// Clear all policies
     pub async fn clear(&self) {
         let mut cache = self.cache.write().await;
         cache.clear();
@@ -407,15 +407,15 @@ impl PolicyCache {
 ```
 
 
-## 最佳实践
+## Best Practices
 
-### 1. 策略定义 DSL<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 1. Policy-Definition DSL<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 策略构建器
+//! Policy builder
 
 use crate::{Policy, PolicyTarget, Rule, RuleEffect, CombiningAlgorithm};
 
-/// 策略构建器
+/// Policy builder
 pub struct PolicyBuilder {
     policy: Policy,
 }
@@ -475,18 +475,18 @@ impl PolicyBuilder {
     }
 }
 
-/// 使用示例
+/// Usage example
 fn example_policy() -> Policy {
     PolicyBuilder::new("read-policy")
         .with_subject_roles(&["user", "admin"])
         .with_resource("document")
         .with_action("read")
         .add_rule("own-document", RuleEffect::Permit, |ctx| {
-            // 自己创建的文档可以读取
+            // A subject may read a document it created
             ctx.resource.attributes.get("owner") == Some(&ctx.subject.id)
         })
         .add_rule("public-document", RuleEffect::Permit, |ctx| {
-            // 公开文档可以读取
+            // Public documents may be read
             ctx.resource.attributes.get("visibility") == Some(&"public".to_string())
         })
         .with_combining_algorithm(CombiningAlgorithm::DenyOverrides)
@@ -495,18 +495,18 @@ fn example_policy() -> Policy {
 ```
 
 
-## 常见问题
+## Common Problems
 
-| 问题 | 原因 | 解决方案 |
+| Problem | Cause | Solution |
 |-----|------|---------|
-| 决策不一致 | 组合算法选择不当 | 根据业务选择合适的算法 |
-| 性能差 | 策略过多 | 使用缓存和索引 |
-| 权限绕过 | 规则顺序问题 | DenyOverrides 优先 |
+| Inconsistent decisions | Incorrect combining algorithm | Choose an algorithm appropriate to the domain |
+| Poor performance | Too many policies | Use caching and indexing |
+| Authorization bypass | Incorrect rule order | Give DenyOverrides precedence |
 
 
-## 关联技能
+## Related Skills
 
-- `rust-auth` - 认证授权
-- `rust-web` - Web 集成
-- `rust-cache` - 策略缓存
-- `rust-performance` - 性能优化
+- `rust-auth` - Authentication and authorization
+- `rust-web` - Web integration
+- `rust-cache` - Policy caching
+- `rust-performance` - Performance optimization

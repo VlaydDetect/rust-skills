@@ -44,7 +44,7 @@ Domain-Correct Architectural Solution
 
 **Example:**
 ```
-/meta-parallel 我的交易系统报 E0382 错误，应该用 clone 吗？
+/meta-parallel My trading system reports E0382. Should I use clone?
 ```
 
 ## Execution Mode Detection
@@ -307,21 +307,21 @@ L1 Mechanism: [Feature]
 
 ### Test 1: Trading System E0382
 ```
-/meta-parallel 交易系统报 E0382，trade record 被 move 了
+/meta-parallel The trading system reports E0382 because the trade record was moved
 ```
 
 Expected: L3 identifies FinTech constraints → L2 suggests shared immutable → L1 recommends Arc<T>
 
 ### Test 2: Web API Concurrency
 ```
-/meta-parallel Web API 中多个 handler 需要共享数据库连接池
+/meta-parallel Multiple handlers in a Web API need to share a database connection pool
 ```
 
 Expected: L3 identifies Web constraints → L2 suggests connection pooling → L1 recommends Arc<Pool>
 
 ### Test 3: CLI Tool Config
 ```
-/meta-parallel CLI 工具如何处理配置文件和命令行参数的优先级
+/meta-parallel How should a CLI tool prioritize configuration files and command-line arguments?
 ```
 
 Expected: L3 identifies CLI constraints → L2 suggests config precedence pattern → L1 recommends builder pattern

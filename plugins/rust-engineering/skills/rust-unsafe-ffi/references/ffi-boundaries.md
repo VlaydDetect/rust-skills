@@ -389,14 +389,14 @@ fn get_version() -> String {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 安全方式
+// ✅ Safe approach
 fn process_c_string(s: &CStr) {
     unsafe {
         some_c_function(s.as_ptr());
     }
 }
 
-// 需要 String 时
+// When a String is required
 fn get_c_string() -> CString {
     CString::new("hello").unwrap()
 }
@@ -431,18 +431,18 @@ fn call_c_api() -> Result<(), Box<dyn std::error::Error>> {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// FFI 边界上的 panic 应该被捕获或禁止
+// Panics at an FFI boundary must be caught or prohibited
 #[no_mangle]
 pub extern "C" fn safe_call() {
     std::panic::catch_unwind(|| {
         rust_code_that_might_panic()
-    }).ok();  // 忽略 panic
+    }).ok();  // Ignore the panic
 }
 ```
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 cxx 实现安全的 C++ FFI
+// Use cxx for safe C++ FFI
 use cxx::CxxString;
 use cxx::CxxVector;
 
@@ -495,8 +495,8 @@ impl Drop for RustWrapper {
 
 ### `SKILL_ZH.md` example 7<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// C++ 抛出的异常会转换为 Rust panic
-// 需要用 catch_unwind 捕获
+// An exception thrown by C++ becomes a Rust panic
+// Catch it with catch_unwind
 
 #[no_mangle]
 pub extern "C" fn safe_cpp_call() -> i32 {
@@ -509,13 +509,13 @@ pub extern "C" fn safe_cpp_call() -> i32 {
     match result {
         Ok(value) => value,
         Err(_) => {
-            // C++ 异常被捕获，返回错误码
+            // The C++ exception was caught; return an error code
             -1
         }
     }
 }
 
-// 更好的方式：自定义错误转换
+// Better approach: custom error conversion
 #[no_mangle]
 pub extern "C" fn checked_cpp_call(error_code: *mut i32) -> *const c_char {
     let result = std::panic::catch_unwind(|| {
@@ -526,18 +526,18 @@ pub extern "C" fn checked_cpp_call(error_code: *mut i32) -> *const c_char {
 
     match result {
         Ok(Ok(value)) => {
-            // 成功
+            // Success
             value.as_ptr()
         }
         Ok(Err(e)) => {
-            // C++ 错误
+            // C++ error
             if !error_code.is_null() {
                 unsafe { *error_code = e.code(); }
             }
             std::ptr::null()
         }
         Err(_) => {
-            // C++ 异常
+            // C++ exception
             if !error_code.is_null() {
                 unsafe { *error_code = -999; }
             }
@@ -549,42 +549,42 @@ pub extern "C" fn checked_cpp_call(error_code: *mut i32) -> *const c_char {
 
 ### `SKILL_ZH.md` example 8<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// C++ 栈展开与 Rust 的交互很复杂
+// Interaction between C++ stack unwinding and Rust is complex
 
-// 1. 禁止 panic 跨越 FFI 边界
+// 1. Prevent panics from crossing the FFI boundary
 #[no_mangle]
 pub extern "C" fn rust_function() {
-    // Rust 代码可能 panic
-    // 但这会导致 C++ 栈展开时调用 Rust 的 drop，
-    // 可能导致 UB
+    // Rust code may panic,
+    // but this can make C++ stack unwinding invoke Rust drop code,
+    // potentially causing undefined behavior
 
-    // 解决方案：catch_unwind
+    // Solution: catch_unwind
     let _ = std::panic::catch_unwind(|| {
         risky_rust_code()
     });
 }
 
-// 2. C++ 析构函数与 Rust Drop
-// C++ 析构函数在栈展开时会调用
-// Rust Drop 在 panic 时也会调用
-// 两者同时存在可能导致问题
+// 2. C++ destructors and Rust Drop
+// C++ destructors run during stack unwinding
+// Rust Drop implementations also run during a panic
+// Combining the two can cause problems
 
-// 解决方案：使用 ManuallyDrop
+// Solution: use ManuallyDrop
 struct Wrapper {
     inner: ManuallyDrop<InnerType>,
 }
 
 impl Drop for Wrapper {
     fn drop(&mut self) {
-        // 防止两次清理
-        // 但 C++ 析构函数可能仍然会调用
+        // Prevent double cleanup
+        // The C++ destructor may still run, however
     }
 }
 ```
 
 ### `SKILL_ZH.md` example 9<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 cxx 桥接 std::unique_ptr
+// Bridge std::unique_ptr with cxx
 #[cxx::bridge]
 mod ffi {
     unsafe extern "C++" {
@@ -592,16 +592,16 @@ mod ffi {
 
         type UniquePtr<T>;
 
-        // 所有权转移：Rust → C++
+        // Transfer ownership: Rust → C++
         fn take_unique_ptr(ptr: Box<UniquePtr<T>>) -> *mut T;
 
-        // 所有权转移：C++ → Rust
+        // Transfer ownership: C++ → Rust
         fn create_unique_ptr() -> Box<UniquePtr<T>>;
         fn release_unique_ptr(ptr: Box<UniquePtr<T>>) -> *mut T;
     }
 }
 
-// 手动桥接 std::shared_ptr
+// Bridge std::shared_ptr manually
 struct SharedPtr<T> {
     ptr: *mut T,
     ref_count: usize,
@@ -623,7 +623,7 @@ impl<T> SharedPtr<T> {
         self.ref_count -= 1;
         if self.ref_count == 0 {
             unsafe {
-                // 调用 C++ delete
+                // Call C++ delete
                 cpp_delete(self.ptr);
             }
         }

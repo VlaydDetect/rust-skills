@@ -12,25 +12,25 @@
 
 ## Workflow
 
-## 协程 vs 线程
+## Coroutines vs Threads
 
-| 特性 | OS 线程 | 协程 |
+| Property | OS thread | Coroutine |
 |-----|--------|------|
-| 调度 | 内核 | 用户态 |
-| 切换开销 | ~1μs | ~100ns |
-| 数量限制 | 数千 | 数十万 |
-| 栈大小 | 1-8MB | 几 KB |
-| 抢占 | 抢占式 | 协作式 |
+| Scheduling | Kernel | User space |
+| Context-switch cost | ~1 μs | ~100 ns |
+| Practical count | Thousands | Hundreds of thousands |
+| Stack size | 1-8 MB | A few KB |
+| Preemption | Preemptive | Cooperative |
 
 
-## Rust 原生 Generator
+## Native Rust Generators
 
 > Rejected Specialized Rust Rust block `3e9c1ebe143d`: Obsolete generator feature/API example was rejected; use current nightly coroutines only when required, otherwise stable Future/stream/state-machine code.
 
 
-## 栈式协程 (Stackful Coroutine)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Stackful Coroutines<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 stackful 协程库
+// Use a stackful coroutine library
 use corosensei::{Coroutine, Pin, Unpin};
 
 fn runner<'a>(start: bool, coroutine: &'a Coroutine<'_, ()>) {
@@ -53,7 +53,7 @@ fn main() {
     unsafe { pin.as_mut().set_running(true) };
 
     println!("Main: first resume");
-    unsafe { pin.resume(false) }; // false = 不是第一次
+    unsafe { pin.resume(false) }; // false = not the first resume
 
     println!("Main: second resume");
     unsafe { pin.resume(false) };
@@ -66,9 +66,9 @@ fn main() {
 ```
 
 
-## 栈式协程设计模式
+## Stackful Coroutine Design Patterns
 
-### 1. 协程状态机<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 1. Coroutine State Machine<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 enum CoroutineState {
     Init,
@@ -112,7 +112,7 @@ impl StatefulCoroutine {
 }
 ```
 
-### 2. 协程池<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### 2. Coroutine Pool<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use std::sync::Arc;
 use std::thread;
@@ -138,7 +138,7 @@ impl CoroutinePool {
                 let receiver = Arc::clone(&receiver);
                 thread::spawn(move || {
                     while let Ok(job) = receiver.recv() {
-                        // 处理 job
+                        // Process the job
                         let result = process_job(&job);
                         let _ = job.result_tx.send(result);
                     }
@@ -163,13 +163,13 @@ fn process_job(job: &Job) -> Result<Vec<u8>, ()> {
 ```
 
 
-## 栈无关协程 (Stackless Coroutine)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Stackless Coroutines<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 async/await 实现栈无关协程
+// Implement stackless coroutines with async/await
 async fn async_task(id: u32) -> u32 {
     println!("Task {} started", id);
 
-    // 模拟 I/O 操作
+    // Simulate an I/O operation
     tokio::time::sleep(std::time::Duration::from_millis(100)).await;
 
     println!("Task {} resumed", id);
@@ -177,7 +177,7 @@ async fn async_task(id: u32) -> u32 {
 }
 
 async fn main() {
-    // 并发执行多个协程
+    // Run multiple coroutines concurrently
     let results = futures::future::join_all(
         (0..10).map(|i| async_task(i))
     ).await;
@@ -187,9 +187,9 @@ async fn main() {
 ```
 
 
-## 上下文切换机制<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Context-Switching Mechanism<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 手动上下文切换
+// Manual context switching
 use std::arch::asm;
 
 struct Context {
@@ -226,8 +226,8 @@ impl Context {
             "push r13",
             "push r14",
             "push r15",
-            "mov [rdi], rsp",     // 保存当前栈指针
-            "mov rsp, [rsi]",     // 切换到新栈
+            "mov [rdi], rsp",     // Save the current stack pointer
+            "mov rsp, [rsi]",     // Switch to the new stack
             "pop r15",
             "pop r14",
             "pop r13",
@@ -242,9 +242,9 @@ impl Context {
 ```
 
 
-## 协程调度器<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Coroutine Scheduler<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 简单协程调度器
+// Simple coroutine scheduler
 enum Task {
     Coroutine(fn(&mut Scheduler)),
     Finished,
@@ -280,22 +280,22 @@ impl Scheduler {
 ```
 
 
-## 常见问题
+## Common Problems
 
-| 问题 | 原因 | 解决 |
+| Problem | Cause | Solution |
 |-----|------|-----|
-| 协程不执行 | 缺少调度器 | 实现或使用调度器 |
-| 栈溢出 | 递归太深 | 使用堆分配栈 |
-| 内存泄漏 | 任务未完成 | 正确清理协程 |
-| 死锁 | 循环等待 | 避免循环依赖 |
+| Coroutine does not run | Missing scheduler | Implement or use a scheduler |
+| Stack overflow | Recursion is too deep | Use a heap-allocated stack |
+| Memory leak | Task never completes | Clean up coroutines correctly |
+| Deadlock | Circular wait | Avoid circular dependencies |
 
 
-## 与其他技能关联
+## Related Skills
 
 ```
 rust-coroutine
     │
-    ├─► rust-async → async/await 实现
-    ├─► rust-concurrency → 并发模型
-    └─► rust-performance → 性能优化
+    ├─► rust-async → async/await implementations
+    ├─► rust-concurrency → concurrency models
+    └─► rust-performance → performance optimization
 ```

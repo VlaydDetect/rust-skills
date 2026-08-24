@@ -1,6 +1,6 @@
 # Comparison and ambiguity protocol
 
-> 比较查询和跨领域问题的处理协议
+> Protocol for comparison queries and cross-domain questions
 
 ## When to Enable Negotiation
 

@@ -295,7 +295,7 @@ These code-only deltas appeared in the condensed English or localized source. Th
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ HRTB 不能装进 dyn trait object
+// ❌ An HRTB cannot be placed in a dyn trait object
 pub type ConnFn<T> =
     dyn for<'c> FnOnce(&'c mut PgConnection) -> BoxFuture<'c, T> + Send;
 
@@ -306,7 +306,7 @@ let f = Box::new(move |conn: &mut PgConnection| -> BoxFuture<'_, i64> {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ HRTB 只在调用点使用泛型
+// ✅ Use an HRTB generically only at the call site
 impl Db {
     pub async fn with_conn<F, T, Fut>(&self, f: F) -> Result<T, DbError>
     where
@@ -322,38 +322,38 @@ impl Db {
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 db.with_conn(|conn| async move {
-    // 这里 'c 由调用时确定，不需要 dyn
+    // Here 'c is determined at the call site, so dyn is unnecessary
     sqlx::query("...").fetch_all(conn).await
 }).await
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ GAT 不能和 dyn Trait 一起用
+// ❌ A GAT cannot be used with dyn Trait
 trait ReportRepo: Send + Sync {
     type Row<'r>: RowView<'r>;  // ❌ GAT
 }
 
-let repo: Arc<dyn ReportRepo> = ...;  // ❌ 编译错误
+let repo: Arc<dyn ReportRepo> = ...;  // ❌ Compile error
 ```
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 内部：GAT + 借用（高性能）
+// Internal: GAT + borrowing (high performance)
 trait InternalRepo {
     type Row<'r>: RowView<'r>;
     async fn query<'c>(&'c self) -> Vec<Self::Row<'c>>;
 }
 
-// 外部：owned DTO（兼容 GraphQL）
+// External: owned DTO (GraphQL-compatible)
 pub trait PublicRepo: Send + Sync {
     async fn query(&self) -> Vec<ReportDto>;  // owned
 }
 
-// 适配层
+// Adapter layer
 impl PublicRepo for PgRepo {
     async fn query(&self) -> Vec<ReportDto> {
-        let rows = self.internal.query().await;  // 借用内部
+        let rows = self.internal.query().await;  // Borrow internally
         rows.into_iter().map(|r| r.to_dto()).collect()
     }
 }
@@ -361,16 +361,16 @@ impl PublicRepo for PgRepo {
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// async-graphql 要求 schema 是 'static
-// 但 repo 方法返回借用数据
+// async-graphql requires the schema to be 'static,
+// but the repository method returns borrowed data
 async fn resolve(&self) -> Result<&'r Row<'r>> {
-    // ❌ 'r 不能 outlive 'static
+    // ❌ 'r cannot outlive 'static
 }
 ```
 
 ### `SKILL_ZH.md` example 7<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 不要在 API 层暴露借用
+// Do not expose borrows at the API layer
 async fn resolve(&self) -> Result<ReportDto> {
     let row = self.repo.query().await?;  // owned
     Ok(row.to_dto())
@@ -379,14 +379,14 @@ async fn resolve(&self) -> Result<ReportDto> {
 
 ### `SKILL_ZH.md` example 8<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 性能收益 vs 复杂性
+// Performance benefit vs complexity
 fn should_borrow() -> bool {
-    // 大数据结构 → 借用
-    // 高频访问 → 借用
-    // 生命周期简单 → 借用
+    // Large data structures → borrow
+    // Frequent access → borrow
+    // Simple lifetimes → borrow
 
-    // 复杂生命周期 → owned
-    // API 边界 → owned
-    // 异步上下文 → owned
+    // Complex lifetimes → owned
+    // API boundary → owned
+    // Asynchronous context → owned
 }
 ```

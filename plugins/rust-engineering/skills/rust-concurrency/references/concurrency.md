@@ -374,7 +374,7 @@ use tokio;
 #[tokio::main]
 async fn main() {
     let handle = tokio::spawn(async {
-        // 异步任务
+        // Asynchronous task
     });
 
     handle.await.unwrap();

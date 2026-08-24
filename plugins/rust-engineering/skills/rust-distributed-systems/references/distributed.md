@@ -12,29 +12,29 @@
 
 ## Workflow
 
-## Raft 共识算法
+## Raft Consensus Algorithm
 
-### Raft 核心概念
+### Core Raft Concepts
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   Raft 集群                          │
+│                   Raft cluster                       │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
 │   ┌─────────┐     ┌─────────┐     ┌─────────┐      │
 │   │ Leader  │ ◄──►│ Follower│ ◄──►│ Follower│      │
-│   │  节点   │     │  节点   │     │  节点   │      │
+│   │  node   │     │  node   │     │  node   │      │
 │   └────┬────┘     └─────────┘     └─────────┘      │
 │        │                                           │
-│   - 处理客户端请求                                  │
-│   - 复制日志到 Follower                            │
-│   - 管理心跳和选举                                  │
+│   - Handle client requests                          │
+│   - Replicate logs to followers                     │
+│   - Manage heartbeats and elections                 │
 └─────────────────────────────────────────────────────┘
 ```
 
-### 状态机<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### State Machine<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Raft 节点状态
+// Raft node state
 enum RaftState {
     Follower,
     Candidate,
@@ -49,17 +49,17 @@ struct RaftNode {
     commit_index: usize,
     last_applied: usize,
 
-    // 选举相关
+    // Election state
     election_timeout: Duration,
     last_heartbeat: Instant,
 
-    // 集群配置
+    // Cluster configuration
     node_id: u64,
     peers: Vec<u64>,
 }
 ```
 
-### 日志复制<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Log Replication<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 struct LogEntry {
     term: u64,
@@ -68,7 +68,7 @@ struct LogEntry {
 }
 
 impl RaftNode {
-    // Leader 复制日志到 Follower
+    // The leader replicates logs to a follower
     fn replicate_log(&mut self, peer: u64) {
         let prev_log_index = self.get_last_log_index_for(peer);
         let prev_log_term = self.get_last_log_term_for(peer);
@@ -91,7 +91,7 @@ impl RaftNode {
 }
 ```
 
-### 选举机制<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Election Mechanism<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 impl RaftNode {
     fn start_election(&mut self) {
@@ -101,7 +101,7 @@ impl RaftNode {
 
         let mut votes = 1;
 
-        // 向所有节点请求投票
+        // Request votes from every node
         for peer in &self.peers {
             let request = RequestVoteRequest {
                 term: self.current_term,
@@ -121,16 +121,16 @@ impl RaftNode {
             }
         }
 
-        // 选举失败，回到 Follower
+        // The election failed; return to Follower
         self.state = RaftState::Follower;
     }
 }
 ```
 
 
-## 两阶段提交 (2PC)
+## Two-Phase Commit (2PC)
 
-### 协调者<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Coordinator<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 struct TwoPhaseCommitCoordinator {
     transaction_id: u128,
@@ -150,7 +150,7 @@ impl TwoPhaseCommitCoordinator {
     pub fn start_transaction(&mut self) {
         self.state = TwoPCState::WaitingPrepare;
 
-        // 第一阶段：发送 prepare
+        // Phase one: send prepare
         for participant in &self.participants {
             participant.send(PrepareMessage {
                 transaction_id: self.transaction_id,
@@ -164,7 +164,7 @@ impl TwoPhaseCommitCoordinator {
         } else if self.all_prepared() {
             self.state = TwoPCState::WaitingCommit;
 
-            // 第二阶段：发送 commit
+            // Phase two: send commit
             for participant in &self.participants {
                 participant.send(CommitMessage {
                     transaction_id: self.transaction_id,
@@ -175,7 +175,7 @@ impl TwoPhaseCommitCoordinator {
 }
 ```
 
-### 参与者<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Participant<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 struct Participant {
     transaction_manager: TransactionManager,
@@ -191,7 +191,7 @@ enum ParticipantState {
 
 impl Participant {
     pub fn handle_prepare(&mut self, msg: PrepareMessage) {
-        // 执行本地事务操作
+        // Execute the local transaction operation
         let result = self.transaction_manager.execute();
 
         match result {
@@ -213,40 +213,40 @@ impl Participant {
 }
 ```
 
-### 2PC 问题与解决方案
+### 2PC Problems and Solutions
 
-| 问题 | 原因 | 解决方案 |
+| Problem | Cause | Solution |
 |-----|------|---------|
-| 阻塞 | 协调者故障 | 超时机制、备份协调者 |
-| 单点故障 | 依赖协调者 | 分布式协调者 (etcd/ZooKeeper) |
-| 性能 | 多次网络往返 | 批量提交、优化超时 |
+| Blocking | Coordinator failure | Timeouts and a backup coordinator |
+| Single point of failure | Coordinator dependency | Distributed coordinator (etcd/ZooKeeper) |
+| Performance | Multiple network round trips | Batch commits and tuned timeouts |
 
 
-## 分布式一致性模型<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Distributed Consistency Models<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 最终一致性
+// Eventual consistency
 trait EventuallyConsistent {
     fn put(&self, key: &str, value: &str);
     fn get(&self, key: &str) -> Option<String>;
 }
 
-// 强一致性（线性化）
+// Strong consistency (linearizability)
 trait Linearizable {
     fn put(&self, key: &str, value: &str) -> Result<()>;
     fn get(&self, key: &str) -> Result<String>;
 }
 
-// 顺序一致性
+// Sequential consistency
 trait SequentialConsistent {
     fn put(&self, key: &str, value: &str);
-    fn get(&self, key: &str) -> Vec<String>; // 返回历史版本
+    fn get(&self, key: &str) -> Vec<String>; // Return historical versions
 }
 ```
 
 
-## 分布式 ID 生成<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Distributed ID Generation<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// Snowflake 算法
+// Snowflake algorithm
 struct SnowflakeGenerator {
     worker_id: u64,
     datacenter_id: u64,
@@ -259,9 +259,9 @@ impl SnowflakeGenerator {
         let timestamp = current_timestamp();
 
         if timestamp == self.last_timestamp {
-            self.sequence = (self.sequence + 1) & 0xFFF; // 12位
+            self.sequence = (self.sequence + 1) & 0xFFF; // 12 bits
             if self.sequence == 0 {
-                // 等待下一毫秒
+                // Wait for the next millisecond
                 while current_timestamp() == timestamp {}
             }
         } else {
@@ -270,16 +270,16 @@ impl SnowflakeGenerator {
 
         self.last_timestamp = timestamp;
 
-        (timestamp << 22)       // 41位时间戳
-        | (self.datacenter_id << 17)  // 5位数据中心
-        | (self.worker_id << 12)      // 5位工作节点
-        | self.sequence               // 12位序列号
+        (timestamp << 22)       // 41-bit timestamp
+        | (self.datacenter_id << 17)  // 5-bit data-center ID
+        | (self.worker_id << 12)      // 5-bit worker-node ID
+        | self.sequence               // 12-bit sequence number
     }
 }
 ```
 
 
-## 分布式锁<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Distributed Locks<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use std::sync::{Arc, atomic::{AtomicU64, Ordering}};
 use std::time::Duration;
@@ -291,7 +291,7 @@ struct DistributedLock {
 }
 
 impl DistributedLock {
-    // 基于 etcd 的分布式锁
+    // Distributed lock backed by etcd
     pub async fn try_lock(&self, owner: u64, ttl: Duration) -> Result<bool, LockError> {
         let response = etcd_client.put(
             format!("/lock/{}", self.key),
@@ -299,12 +299,12 @@ impl DistributedLock {
             Some(PutOptions::new().with_ttl(ttl))
         ).await?;
 
-        // 如果是第一个设置者，获得锁
+        // Acquire the lock when this is the first setter
         Ok(response.prev_key().is_none())
     }
 
     pub async fn unlock(&self, owner: u64) -> Result<(), LockError> {
-        // 只能由锁的持有者释放
+        // Only the lock holder may release it
         let response = etcd_client.get(format!("/lock/{}", self.key)).await?;
 
         if response.value() == owner.to_string() {
@@ -317,9 +317,9 @@ impl DistributedLock {
 ```
 
 
-## 分布式事件溯源<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Distributed Event Sourcing<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 事件溯源模式
+// Event-sourcing pattern
 trait EventSourced {
     type Event;
 
@@ -358,22 +358,22 @@ impl Aggregate {
 ```
 
 
-## 常见问题
+## Common Problems
 
-| 问题 | 原因 | 解决 |
+| Problem | Cause | Solution |
 |-----|------|-----|
-| 脑裂 | 网络分区 | 法定人数、任期机制 |
-| 活锁 | 选举超时冲突 | 随机化超时 |
-| 数据不一致 | 并发写入 | 冲突解决策略 |
-| 性能瓶颈 | 单点写入 | 分片、复制 |
+| Split brain | Network partition | Quorums and term management |
+| Livelock | Conflicting election timeouts | Randomized timeouts |
+| Data inconsistency | Concurrent writes | Conflict-resolution strategy |
+| Performance bottleneck | Single write point | Sharding and replication |
 
 
-## 与其他技能关联
+## Related Skills
 
 ```
 rust-distributed
     │
-    ├─► rust-concurrency → 并发控制
-    ├─► rust-performance → 性能优化
-    └─► rust-async → 异步通信
+    ├─► rust-concurrency → concurrency control
+    ├─► rust-performance → performance optimization
+    └─► rust-async → asynchronous communication
 ```

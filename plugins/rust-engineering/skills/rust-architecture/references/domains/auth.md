@@ -465,38 +465,38 @@ struct Claims {
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! JWT 认证模块
+//! JWT authentication module
 
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
 use std::time::{Duration, SystemTime};
 use thiserror::Error;
 
-/// JWT 错误类型
+/// JWT error type
 #[derive(Error, Debug)]
 pub enum JwtError {
-    #[error("Token 解析失败: {0}")]
+    #[error("Token parsing failed: {0}")]
     ParseError(String),
-    #[error("Token 验证失败: {0}")]
+    #[error("Token validation failed: {0}")]
     ValidationError(String),
-    #[error("Token 已过期")]
+    #[error("Token has expired")]
     Expired,
-    #[error("Token 签名无效")]
+    #[error("Token signature is invalid")]
     InvalidSignature,
 }
 
-/// Token 声明（通用结构）
+/// Token claims (generic structure)
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    pub sub: String,          // 主体标识
-    pub name: Option<String>, // 名称
-    pub roles: Vec<String>,   // 角色列表
-    pub exp: u64,             // 过期时间
-    pub iat: u64,             // 签发时间
-    // 业务字段可通过扩展字段添加
+    pub sub: String,          // Subject identifier
+    pub name: Option<String>, // Name
+    pub roles: Vec<String>,   // List of roles
+    pub exp: u64,             // Expiration time
+    pub iat: u64,             // Issued-at time
+    // Domain fields can be added through extension fields
 }
 
-/// JWT 服务
+/// JWT service
 pub struct JwtService {
     encoding_key: EncodingKey,
     decoding_key: DecodingKey,
@@ -516,7 +516,7 @@ impl JwtService {
         }
     }
 
-    /// 生成 Token
+    /// Generate a token
     pub fn generate_token(&self, subject: &str, roles: &[String]) -> Result<String, JwtError> {
         let now = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
@@ -535,7 +535,7 @@ impl JwtService {
             .map_err(|e| JwtError::ParseError(e.to_string()))
     }
 
-    /// 验证并解析 Token
+    /// Validate and parse a token
     pub fn verify_token(&self, token: &str) -> Result<Claims, JwtError> {
         let validation = Validation::new(self.algorithm);
 
@@ -548,7 +548,7 @@ impl JwtService {
             })
     }
 
-    /// 检查 Token 是否即将过期（剩余 < 10 分钟返回 true）
+    /// Return true when the token expires in less than 10 minutes
     pub fn is_expiring_soon(&self, claims: &Claims) -> bool {
         let now = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
@@ -561,22 +561,22 @@ impl JwtService {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! API Key 认证模块
+//! API-key authentication module
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-/// API Key 配置
+/// API-key configuration
 #[derive(Debug, Clone)]
 pub struct ApiKeyConfig {
-    pub prefix: String,           // Key 前缀
-    pub secret: String,           // 签名密钥
-    pub expiry_days: i64,         // 有效期
-    pub allowed_ips: Vec<String>, // IP 白名单
+    pub prefix: String,           // Key prefix
+    pub secret: String,           // Signing secret
+    pub expiry_days: i64,         // Validity period
+    pub allowed_ips: Vec<String>, // IP allowlist
 }
 
-/// API Key 信息
+/// API-key information
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ApiKeyInfo {
     pub key_id: String,
@@ -589,7 +589,7 @@ pub struct ApiKeyInfo {
     pub scopes: Vec<String>,
 }
 
-/// API Key 错误
+/// API-key error
 #[derive(Debug)]
 pub enum ApiKeyError {
     InvalidKey,
@@ -598,12 +598,12 @@ pub enum ApiKeyError {
     SignatureMismatch,
 }
 
-/// API Key 生成器
+/// API-key generator
 pub struct ApiKeyGenerator;
 
 impl ApiKeyGenerator {
-    /// 生成 API Key
-    /// 格式: {prefix}_{key_id}_{signature}
+    /// Generate an API key
+    /// Format: {prefix}_{key_id}_{signature}
     pub fn generate(config: &ApiKeyConfig, owner_id: &str) -> (String, String) {
         let key_id = Self::generate_key_id();
         let secret = Self::generate_secret();
@@ -615,7 +615,7 @@ impl ApiKeyGenerator {
         (api_key, secret_hash)
     }
 
-    /// 验证 API Key
+    /// Validate an API key
     pub async fn verify(
         config: &ApiKeyConfig,
         api_key: &str,
@@ -683,11 +683,11 @@ impl ApiKeyGenerator {
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 分布式 Token 存储
+//! Distributed token storage
 
 use redis::AsyncCommands;
 
-/// Token 存储配置
+/// Token-storage configuration
 #[derive(Debug, Clone)]
 pub struct TokenStoreConfig {
     pub redis_url: String,
@@ -711,7 +711,7 @@ impl TokenStore {
         Ok(Self { redis, config })
     }
 
-    /// 存储 Token（带并发控制）
+    /// Store a token with concurrency control
     pub async fn store_token(
         &self,
         user_id: &str,
@@ -723,7 +723,7 @@ impl TokenStore {
             let prefix = &self.config.prefix;
             let key = format!("{}:tokens:{}", prefix, user_id);
 
-            // 检查并发数量
+            // Check the number of concurrent tokens
             let current_count: usize = redis.scard(&key).await?;
 
             if current_count >= max_concurrent {
@@ -741,7 +741,7 @@ impl TokenStore {
         Ok(())
     }
 
-    /// 撤销 Token
+    /// Revoke a token
     pub async fn revoke_token(&self, user_id: &str, token_id: &str) -> Result<(), Box<dyn std::error::Error>> {
         if let Some(ref mut redis) = self.redis {
             let prefix = &self.config.prefix;
@@ -751,7 +751,7 @@ impl TokenStore {
         Ok(())
     }
 
-    /// 撤销用户所有 Token
+    /// Revoke all tokens for a user
     pub async fn revoke_all_tokens(&self, user_id: &str) -> Result<(), Box<dyn std::error::Error>> {
         if let Some(ref mut redis) = self.redis {
             let prefix = &self.config.prefix;
@@ -770,7 +770,7 @@ impl TokenStore {
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 认证中间件
+//! Authentication middleware
 
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
@@ -842,16 +842,16 @@ where
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-//! 密码安全存储
+//! Secure password storage
 
 use argon2::{self, Config};
 use rand::Rng;
 
-/// 密码哈希服务
+/// Password-hashing service
 pub struct PasswordHasher;
 
 impl PasswordHasher {
-    /// 哈希密码
+    /// Hash a password
     pub fn hash_password(password: &str) -> Result<String, argon2::Error> {
         let salt = rand::thread_rng().gen::<[u8; 32]>();
         let config = Config::default();
@@ -864,7 +864,7 @@ impl PasswordHasher {
             })
     }
 
-    /// 验证密码
+    /// Verify a password
     pub fn verify_password(password: &str, stored_hash: &str) -> Result<bool, argon2::Error> {
         use subtle::ConstantTimeEq;
 

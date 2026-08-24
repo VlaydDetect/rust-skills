@@ -265,13 +265,13 @@ These code-only deltas appeared in the condensed English or localized source. Th
 ```rust
 let s1 = String::from("hello");
 let s2 = s1;
-// println!("{}", s1); // 编译错误！
+// println!("{}", s1); // Compile error!
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 let mut s = String::from("hello");
 let r1 = &s;
-let r2 = &mut s; // 冲突！
+let r2 = &mut s; // Conflict!
 // println!("{}", r1);
 ```

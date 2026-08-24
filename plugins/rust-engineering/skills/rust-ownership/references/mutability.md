@@ -381,20 +381,20 @@ These code-only deltas appeared in the condensed English or localized source. Th
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 情况1：从 &self 获取 &mut T
+// Case 1: obtain &mut T from &self
 struct Config {
     counters: RefCell<HashMap<String, u32>>,
 }
 
 impl Config {
     fn increment(&self, key: &str) {
-        // 从不可变引用获取可变引用
+        // Obtain a mutable reference from an immutable reference
         let mut counters = self.counters.borrow_mut();
         *counters.entry(key.to_string()).or_insert(0) += 1;
     }
 }
 
-// 情况2：Copy 类型
+// Case 2: Copy types
 struct State {
     count: Cell<u32>,
 }
@@ -408,43 +408,43 @@ impl State {
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 简单计数器 → 原子类型
+// Simple counter → atomic type
 let counter = AtomicU64::new(0);
 
-// 复杂数据 → Mutex 或 RwLock
+// Complex data → Mutex or RwLock
 let data = Mutex::new(HashMap::new());
 
-// 读多写少 → RwLock
+// Many reads and few writes → RwLock
 let data = RwLock::new(HashMap::new());
 ```
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 借用冲突
+// ❌ Borrow conflict
 let mut s = String::new();
 let r1 = &s;
 let r2 = &s;
-let r3 = &mut s; // 冲突！
+let r3 = &mut s; // Conflict!
 
-// ✅ 分开作用域
+// ✅ Use separate scopes
 let mut s = String::new();
 {
     let r1 = &s;
-    // 使用 r1
+    // Use r1
 }
 let r3 = &mut s;
-// 使用 r3
+// Use r3
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 双重可变借用
+// ❌ Two mutable borrows
 let cell = RefCell::new(vec![]);
 let mut_borrow = cell.borrow_mut();
 let another = cell.borrow(); // panic!
 
-// ✅ 用 try_borrow 避免 panic
+// ✅ Use try_borrow to avoid a panic
 if let Ok(mut_borrow) = cell.try_borrow_mut() {
-    // 安全使用
+    // Use safely
 }
 ```

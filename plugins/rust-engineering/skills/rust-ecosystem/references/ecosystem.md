@@ -463,7 +463,7 @@ struct User {
 // JSON
 let json = serde_json::to_string(&user)?;
 
-// 二进制
+// Binary
 let bytes = bincode::serialize(&user)?;
 ```
 

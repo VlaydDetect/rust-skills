@@ -12,11 +12,11 @@
 
 ## Workflow
 
-## GPU 内存架构
+## GPU Memory Architecture
 
 ```
 ┌─────────────────────────────────────────┐
-│              GPU 显存                    │
+│              GPU memory                  │
 ├─────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐       │
 │  │   Global    │  │   Shared    │       │
@@ -30,33 +30,33 @@
 │  └─────────────┘  └─────────────┘       │
 └─────────────────────────────────────────┘
         ↓                    ↑
-   CPU (通过 PCIe)      GPU 计算单元
+   CPU (over PCIe)      GPU compute units
 ```
 
 
-## 内存类型对比
+## Memory-Type Comparison
 
-| 内存类型 | 位置 | 延迟 | 大小 | 用途 |
+| Memory type | Location | Latency | Size | Purpose |
 |---------|------|------|------|------|
-| Global | VRAM | 高 | 大 | 输入/输出数据 |
-| Shared | SMEM | 低 | 小 | 线程块内通信 |
-| Constant | 缓存 | 中 | 中 | 只读数据 |
-| Local | 寄存器/VRAM | 高 | 小 | 线程私有 |
-| Register | SM | 最低 | 极小 | 线程私有 |
+| Global | VRAM | High | Large | Input/output data |
+| Shared | SMEM | Low | Small | Communication within a thread block |
+| Constant | Cache | Medium | Medium | Read-only data |
+| Local | Registers/VRAM | High | Small | Thread-private data |
+| Register | SM | Lowest | Very small | Thread-private data |
 
 
-## CUDA 内存管理 (rust-cuda)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## CUDA Memory Management (rust-cuda)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 rust-cuda 或 cuda-sys
+// Use rust-cuda or cuda-sys
 use cuda_sys::ffi::*;
 
-// 设备内存分配
+// Allocate device memory
 let mut d_ptr: *mut f32 = std::ptr::null_mut();
 unsafe {
     cudaMalloc(&mut d_ptr as *mut *mut f32, size * std::mem::size_of::<f32>())
 };
 
-// 主机到设备拷贝
+// Copy from host to device
 unsafe {
     cudaMemcpy(
         d_ptr as *mut c_void,
@@ -66,7 +66,7 @@ unsafe {
     );
 };
 
-// 设备到主机拷贝
+// Copy from device to host
 let mut h_result: Vec<f32> = vec![0.0; size];
 unsafe {
     cudaMemcpy(
@@ -77,27 +77,27 @@ unsafe {
     );
 };
 
-// 释放设备内存
+// Free device memory
 unsafe {
     cudaFree(d_ptr as *mut c_void);
 };
 ```
 
 
-## 零拷贝内存<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Zero-Copy Memory<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 零拷贝：共享主机和设备内存
+// Zero-copy: share memory between the host and device
 let mut h_ptr: *mut f32 = std::ptr::null_mut();
 
-// 使用 cudaMallocHost 分配固定内存（页锁定）
+// Allocate pinned (page-locked) memory with cudaMallocHost
 unsafe {
     cudaMallocHost(&mut h_ptr as *mut *mut f32, size * std::mem::size_of::<f32>())
 };
 
-// 固定内存可以直接被 GPU 访问，无需拷贝
-// 但会影响系统内存压力
+// The GPU can access pinned memory directly without a copy,
+// but pinning increases system-memory pressure
 
-// 使用 cudaMemcpyAsync 进行异步拷贝（与计算重叠）
+// Copy asynchronously with cudaMemcpyAsync, overlapping transfer and computation
 let stream: cudaStream_t = std::ptr::null_mut();
 unsafe {
     cudaMemcpyAsync(
@@ -109,77 +109,77 @@ unsafe {
     );
 };
 
-// 同步等待
+// Wait for synchronization
 unsafe {
     cudaStreamSynchronize(stream);
 };
 ```
 
 
-## 统一内存 (Unified Memory)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Unified Memory<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用统一内存，CPU 和 GPU 自动管理数据迁移
+// Use unified memory so the CPU and GPU manage data migration automatically
 let mut unified_ptr: *mut f32 = std::ptr::null_mut();
 
 unsafe {
-    // 分配统一内存
+    // Allocate unified memory
     cudaMallocManaged(&mut unified_ptr as *mut *mut f32, size * std::mem::size_of::<f32>());
 };
 
-// CPU 访问
+// CPU access
 unsafe {
     for i in 0..size {
         *unified_ptr.add(i) = i as f32;
     }
 };
 
-// GPU 访问（自动迁移到设备）
-// 调用 CUDA kernel
+// GPU access (automatically migrated to the device)
+// Launch the CUDA kernel
 launch_kernel(unified_ptr, size);
 
-// CPU 访问结果（自动迁移回主机）
+// CPU accesses the result (automatically migrated back to the host)
 unsafe {
     println!("Result: {}", unified_ptr.add(0).read());
 };
 
-// 释放
+// Free the memory
 unsafe {
     cudaFree(unified_ptr as *mut c_void);
 };
 ```
 
 
-## 内存合并访问<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Coalesced Memory Access<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 合并访问模式 - 优化全局内存带宽
-// ❌ 错误：非合并访问
+// Coalesced-access pattern: optimize global-memory bandwidth
+// ❌ Incorrect: non-coalesced access
 __global__ void bad_access(float* data) {
-    int idx = threadIdx.x + blockIdx.x * 32; // 跨步访问
-    float value = data[idx * 32];  // 每个线程访问间隔 32 * sizeof(float)
+    int idx = threadIdx.x + blockIdx.x * 32; // Strided access
+    float value = data[idx * 32];  // Adjacent threads access values 32 * sizeof(float) apart
 }
 
-// ✅ 正确：合并访问
+// ✅ Correct: coalesced access
 __global__ void coalesced_access(float* data) {
-    int idx = threadIdx.x + blockIdx.x * blockDim.x; // 连续访问
-    float value = data[idx];  // 所有线程连续访问
+    int idx = threadIdx.x + blockIdx.x * blockDim.x; // Contiguous access
+    float value = data[idx];  // All threads access contiguous values
 }
 ```
 
 
-## 共享内存使用<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Using Shared Memory<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用共享内存减少全局内存访问
+// Use shared memory to reduce global-memory accesses
 __global__ void shared_memory_reduce(float* input, float* output) {
-    __shared__ float sdata[256];  // 每个块 256 字节共享内存
+    __shared__ float sdata[256];  // 256 bytes of shared memory per block
 
     int tid = threadIdx.x;
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-    // 从全局内存加载到共享内存
+    // Load from global memory into shared memory
     sdata[tid] = input[idx];
     __syncthreads();
 
-    // 规约计算
+    // Reduction
     for (int s = blockDim.x / 2; s > 0; s >>= 1) {
         if (tid < s) {
             sdata[tid] += sdata[tid + s];
@@ -187,7 +187,7 @@ __global__ void shared_memory_reduce(float* input, float* output) {
         __syncthreads();
     }
 
-    // 写回结果
+    // Write back the result
     if (tid == 0) {
         output[blockIdx.x] = sdata[0];
     }
@@ -195,42 +195,42 @@ __global__ void shared_memory_reduce(float* input, float* output) {
 ```
 
 
-## 内存对齐<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Memory Alignment<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 内存对齐优化
-const size_t ALIGNMENT = 256;  // 256 字节对齐
+// Memory-alignment optimization
+const size_t ALIGNMENT = 256;  // 256-byte alignment
 
-// 使用 cudaMalloc 返回的指针已经对齐
-// 但自定义数据结构需要对齐
+// Pointers returned by cudaMalloc are already aligned,
+// but custom data structures require explicit alignment
 struct alignas(256) AlignedData {
-    float4 position;  // 16 字节
-    float4 normal;    // 16 字节
-    // ... 自动填充到 256 字节
+    float4 position;  // 16 bytes
+    float4 normal;    // 16 bytes
+    // ... automatically padded to 256 bytes
 };
 
-// 检查对齐
+// Check alignment
 assert(((uintptr_t)ptr % ALIGNMENT) == 0);
 ```
 
 
-## 性能优化检查表
+## Performance-Optimization Checklist
 
-| 优化项 | 检查点 |
+| Optimization | Checkpoint |
 |-------|-------|
-| 内存合并 | 线程访问连续内存 |
-| 共享内存 | 减少全局内存访问 |
-| 内存对齐 | 256 字节对齐 |
-| 异步操作 | 计算与传输重叠 |
-| 固定内存 | 使用页锁定内存 |
-| 批处理 | 减少内核启动开销 |
+| Memory coalescing | Threads access contiguous memory |
+| Shared memory | Reduce global-memory accesses |
+| Memory alignment | Align to 256 bytes |
+| Asynchronous operations | Overlap computation and transfer |
+| Pinned memory | Use page-locked memory |
+| Batching | Reduce kernel-launch overhead |
 
 
-## 与其他技能关联
+## Related Skills
 
 ```
 rust-gpu
     │
-    ├─► rust-performance → 性能优化
-    ├─► rust-unsafe → 底层内存操作
-    └─► rust-embedded → no_std 设备
+    ├─► rust-performance → performance optimization
+    ├─► rust-unsafe → low-level memory operations
+    └─► rust-embedded → no_std devices
 ```

@@ -560,7 +560,7 @@ async fn handle_data_plane() {}
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ Stream 实现中返回借用内部缓冲区的 slice
+// ❌ Return a slice borrowed from an internal buffer in a Stream implementation
 pub struct SessionStream<'buf> {
     buf: Vec<u8>,
     cache: Vec<CachedResponse<'buf>>,
@@ -570,15 +570,15 @@ impl Stream for SessionStream<'buf> {
     type Item = Result<CachedResponse<'buf>, Status>;
 
     fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        // ❌ 返回的 CachedResponse<'buf> 生命周期依赖于 self.buf
-        // 但 Stream trait 的 Item 必须能在任意时刻被使用
+        // ❌ The returned CachedResponse<'buf> lifetime depends on self.buf,
+        // but the Stream trait's Item must remain usable at any time
     }
 }
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 内部 worker 持有缓冲区，对外只发 owned snapshot
+// ✅ Let an internal worker own the buffer and send only owned snapshots externally
 pub struct SessionWorker {
     rx_events: Receiver<Bytes>,
     tx_snapshots: Sender<SnapshotResponse>,
@@ -594,11 +594,11 @@ impl SessionWorker {
     }
 
     fn process_event(&mut self, event: Bytes) -> SnapshotResponse {
-        // 内部可以借用 self.buf
+        // Internal code may borrow self.buf
         let start = self.buf.len();
         self.buf.extend_from_slice(&event);
 
-        // 但对外发的是 owned SnapshotResponse
+        // The externally sent SnapshotResponse is owned
         SnapshotResponse {
             id: self.next_id,
             payload: Bytes::copy_from_slice(&self.buf[start..]),
@@ -606,7 +606,7 @@ impl SessionWorker {
     }
 }
 
-// ✅ Stream 只读 channel，发的都是 owned
+// ✅ The Stream only reads a channel whose messages are all owned
 pub struct SessionStream {
     rx_snapshots: Receiver<SnapshotResponse>,
 }
@@ -615,14 +615,14 @@ impl Stream for SessionStream {
     type Item = Result<SnapshotResponse, Status>;
 
     fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        // 这里发的都是 SnapshotResponse (owned)，没问题
+        // Every value sent here is an owned SnapshotResponse
     }
 }
 ```
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ tokio::spawn 要求 'static，但 BorrowedMessage<'a> 不是
+// ❌ tokio::spawn requires 'static, but BorrowedMessage<'a> is not 'static
 pub struct BorrowedMessage<'a> {
     pub raw: &'a [u8],
     pub meta: MessageMeta,
@@ -636,14 +636,14 @@ pub trait Plugin: Send + Sync {
 fn dispatch_to_plugins(msg: BorrowedMessage<'a>) {
     for p in &plugins {
         let fut = p.handle(msg);
-        tokio::spawn(fut);  // ❌ fut 不是 'static
+        tokio::spawn(fut);  // ❌ fut is not 'static
     }
 }
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ✅ 不 spawn，每个插件是一个长期存在的 actor
+// ✅ Do not spawn; make each plugin a long-lived actor
 struct PluginActor<M: MessageHandler> {
     plugin: M,
     queue: Receiver<PluginMsg>,
@@ -653,7 +653,7 @@ struct PluginActor<M: MessageHandler> {
 impl<M: MessageHandler> PluginActor<M> {
     pub async fn run(&mut self) {
         while let Some(msg) = self.queue.recv().await {
-            // 在 arena 域内处理消息
+            // Handle the message within the arena's scope
             self.arena.with_message(msg, |msg_ref| {
                 self.plugin.handle(msg_ref);
             });
@@ -661,7 +661,7 @@ impl<M: MessageHandler> PluginActor<M> {
     }
 }
 
-// ✅ 用索引代替直接借用
+// ✅ Use indices instead of direct borrows
 pub struct MessageRef {
     index: usize,
     generation: u64,
@@ -673,7 +673,7 @@ struct MessageArena {
 
 impl MessageArena {
     pub fn get(&self, ref: MessageRef) -> Option<&[u8]> {
-        // 通过索引安全获取
+        // Access safely through the index
         self.buffers.get(ref.index)?.get(ref.generation)
     }
 }
@@ -681,14 +681,14 @@ impl MessageArena {
 
 ### `SKILL_ZH.md` example 5<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 1. 缓冲区管理域
+// 1. Buffer-management domain
 struct MessageArena {
     buffers: Vec<Arc<Buffer>>,
     free_list: Vec<usize>,
 }
 
 impl MessageArena {
-    // 分配时返回索引，不是引用
+    // Return an index, not a reference, when allocating
     fn alloc(&mut self, data: &[u8]) -> MessageRef {
         let idx = self.buffers.len();
         self.buffers.push(Arc::new(data.to_vec()));
@@ -696,7 +696,7 @@ impl MessageArena {
     }
 }
 
-// 2. API 层只暴露 owned
+// 2. Expose only owned values at the API layer
 pub trait Plugin: Send + Sync {
     async fn handle(&self, msg: OwnedMessage);  // owned
 }

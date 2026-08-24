@@ -12,39 +12,39 @@
 
 ## Workflow
 
-## no_std 基础<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## no_std Fundamentals<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 #![no_std]
-// 不能使用 std, alloc, test
+// std, alloc, and test are unavailable
 
 use core::panic::PanicMessage;
 
-// 必须实现 panic handler
+// A panic handler is required
 #[panic_handler]
 fn panic(info: &PanicMessage) -> ! {
     loop {}
 }
 
-// 可选：定义全局分配器
+// Optional: define a global allocator
 #[global_allocator]
 static ALLOC: some_allocator::Allocator = some_allocator::Allocator;
 ```
 
-### 可用模块
+### Available Modules
 
-| 模块 | 用途 |
+| Module | Purpose |
 |-----|------|
-| `core` | 基本语言特性 |
-| `alloc` | 堆分配（需 allocator） |
-| `compiler_builtins` | 编译器内置函数 |
+| `core` | Basic language features |
+| `alloc` | Heap allocation; requires an allocator |
+| `compiler_builtins` | Compiler built-in functions |
 
 
-## 嵌入式-hal<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## embedded-hal<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use embedded_hal as hal;
 use hal::digital::v2::OutputPin;
 
-// 抽象硬件访问
+// Abstract hardware access
 fn blink_led<L: OutputPin>(mut led: L) -> ! {
     loop {
         led.set_high().unwrap();
@@ -55,18 +55,18 @@ fn blink_led<L: OutputPin>(mut led: L) -> ! {
 }
 ```
 
-### 常用 trait
+### Common Traits
 
-| trait | 操作 |
+| Trait | Operation |
 |-------|------|
-| `OutputPin` | 设置高低电平 |
-| `InputPin` | 读取引脚 |
-| `SpiBus` | SPI 通信 |
-| `I2c` | I2C 通信 |
-| `Serial` | 串口 |
+| `OutputPin` | Set the output high or low |
+| `InputPin` | Read a pin |
+| `SpiBus` | SPI communication |
+| `I2c` | I2C communication |
+| `Serial` | Serial communication |
 
 
-## 中断处理<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Interrupt Handling<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 #![no_std]
 #![feature(abi_vectorcall)]
@@ -74,7 +74,7 @@ fn blink_led<L: OutputPin>(mut led: L) -> ! {
 use cortex_m::interrupt::{free, Mutex};
 use cortex_m::peripheral::NVIC;
 
-// 共享状态
+// Shared state
 static MY_DEVICE: Mutex<Cell<Option<MyDevice>>> = Mutex::new(None);
 
 #[interrupt]
@@ -82,39 +82,39 @@ fn TIM2() {
     free(|cs| {
         let device = MY_DEVICE.borrow(cs).take();
         if let Some(dev) = device {
-            // 处理中断
+            // Handle the interrupt
             dev.handle();
             MY_DEVICE.borrow(cs).set(Some(dev));
         }
     });
 }
 
-// 启用中断
+// Enable the interrupt
 fn enable_interrupt(nvic: &mut NVIC, irq: interrupt::TIM2) {
     nvic.enable(irq);
 }
 ```
 
 
-## 内存管理
+## Memory Management
 
-### 栈大小
+### Stack Size
 
 ```toml
 [profile.dev]
-panic = "abort"  # 减少二进制大小
+panic = "abort"  # Reduce binary size
 
 [profile.release]
 lto = true
-opt-level = "z"  # 最小化大小
+opt-level = "z"  # Minimize size
 ```
 
-### 避免动态分配<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Avoid Dynamic Allocation<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 用栈数组代替 Vec
+// Use a stack array instead of Vec
 let buffer: [u8; 256] = [0; 256];
 
-// 或使用定长环形缓冲区
+// Or use a fixed-size ring buffer
 struct RingBuffer {
     data: [u8; 256],
     write_idx: usize,
@@ -123,13 +123,13 @@ struct RingBuffer {
 ```
 
 
-## 外设访问模式<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Peripheral-Access Pattern<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 寄存器映射
+// Register mapping
 const GPIOA_BASE: *const u32 = 0x4002_0000 as *const u32;
 const GPIOA_ODR: *const u32 = (GPIOA_BASE + 0x14) as *const u32;
 
-// 安全抽象
+// Safe abstraction
 mod gpioa {
     use super::*;
 
@@ -142,29 +142,29 @@ mod gpioa {
 ```
 
 
-## 常见问题
+## Common Problems
 
-| 问题 | 原因 | 解决 |
+| Problem | Cause | Solution |
 |-----|------|-----|
-| panic 死循环 | 没有 panic handler | 实现 #[panic_handler] |
-| 栈溢出 | 中断嵌套或大局部变量 | 增加栈、减小局部变量 |
-| 内存损坏 | 裸指针操作 | 用 safe abstraction |
-| 程序不运行 | 链接脚本问题 | 检查 startup code |
-| 外设不响应 | 时钟未使能 | 先配置 RCC |
+| Infinite panic loop | No panic handler | Implement #[panic_handler] |
+| Stack overflow | Nested interrupts or large local variables | Increase the stack or reduce local variables |
+| Memory corruption | Raw-pointer operations | Use a safe abstraction |
+| Program does not run | Linker-script problem | Check the startup code |
+| Peripheral does not respond | Clock is not enabled | Configure RCC first |
 
 
-## 资源受限技巧
+## Resource-Constrained Techniques
 
-| 技巧 | 效果 |
+| Technique | Effect |
 |-----|------|
-| `opt-level = "z"` | 最小化大小 |
-| `lto = true` | 链接时优化 |
-| `panic = "abort"` | 去掉 unwinding |
-| `codegen-units = 1` | 更好的优化 |
-| 避免 alloc | 用栈或静态数组 |
+| `opt-level = "z"` | Minimize size |
+| `lto = true` | Link-time optimization |
+| `panic = "abort"` | Remove unwinding |
+| `codegen-units = 1` | Better optimization |
+| Avoid alloc | Use the stack or static arrays |
 
 
-## 项目配置示例
+## Project-Configuration Example
 
 ```toml
 [package]
@@ -188,18 +188,18 @@ codegen-units = 1
 ```
 
 
-## WebAssembly 多线程
+## WebAssembly Multithreading
 
 ### SharedArrayBuffer<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 需要在服务器端配置 Cross-Origin-Opener-Policy
-// 浏览器才能使用 SharedArrayBuffer
+// Configure Cross-Origin-Opener-Policy on the server
+// before the browser can use SharedArrayBuffer
 
-// wasm-bindgen 配置
+// wasm-bindgen configuration
 [dependencies]
 wasm-bindgen = { version = "0.2", features = ["enable-threads"] }
 
-// 使用 atomic 内存序
+// Use atomic memory ordering
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 static COUNTER: AtomicUsize = AtomicUsize::new(0);
@@ -215,33 +215,33 @@ pub fn get_counter() -> usize {
 }
 ```
 
-### Atomics 与内存序<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Atomics and Memory Ordering<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use std::sync::atomic::{AtomicI32, Ordering};
 
-// 不同内存序的性能和可见性权衡
+// Performance and visibility tradeoffs among memory orderings
 #[wasm_bindgen]
 pub fn atomic_demo() {
     let atom = AtomicI32::new(0);
 
-    // 最强保证，最慢
+    // Strongest guarantees and slowest
     atom.store(1, Ordering::SeqCst);
 
-    // 释放语义（生产者）
+    // Release semantics (producer)
     atom.store(2, Ordering::Release);
 
-    // 获取语义（消费者）
+    // Acquire semantics (consumer)
     let val = atom.load(Ordering::Acquire);
 
-    // 松散语义，最快，但可能 reordered
+    // Relaxed semantics are fastest, but operations may be reordered
     atom.store(3, Ordering::Relaxed);
     let val = atom.load(Ordering::Relaxed);
 }
 ```
 
-### 线程局部存储 (TLS)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Thread-Local Storage (TLS)<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// WASM 线程局部存储
+// WASM thread-local storage
 use std::cell::RefCell;
 
 thread_local! {
@@ -262,9 +262,9 @@ pub fn get_thread_id() -> u32 {
 ```
 
 
-## RISC-V 嵌入式开发
+## RISC-V Embedded Development
 
-### 基础设置<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Basic Setup<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 // Cargo.toml
 [package]
@@ -281,9 +281,9 @@ opt-level = "z"
 lto = true
 ```
 
-### 中断与异常<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Interrupts and Exceptions<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// RISC-V 中断处理
+// RISC-V interrupt handling
 #![no_std]
 
 use riscv::register::{
@@ -292,20 +292,20 @@ use riscv::register::{
     mip::MIP,
 };
 
-/// 启用机器中断
+/// Enable machine interrupts
 pub fn enable_interrupt() {
-    // 启用外部中断、计时器中断、软件中断
+    // Enable external, timer, and software interrupts
     unsafe {
         MIE::set_mext();
         MIE::set_mtimer();
         MIE::set_msip();
 
-        // 全局中断使能
+        // Enable interrupts globally
         MSTATUS::set_mie();
     }
 }
 
-/// 禁用所有中断
+/// Disable all interrupts
 pub fn disable_interrupt() {
     unsafe {
         MSTATUS::clear_mie();
@@ -313,19 +313,19 @@ pub fn disable_interrupt() {
 }
 ```
 
-### 内存屏障<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Memory Barriers<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// RISC-V 内存屏障
+// RISC-V memory barriers
 use riscv::asm;
 
-/// 数据内存屏障 - 确保所有内存访问完成
+/// Data-memory barrier: ensure all memory accesses complete
 fn data_memory_barrier() {
     unsafe {
         asm!("fence iorw, iorw");
     }
 }
 
-/// 指令屏障 - 确保指令流更新可见
+/// Instruction barrier: ensure instruction-stream updates are visible
 fn instruction_barrier() {
     unsafe {
         asm!("fence i, i");
@@ -333,35 +333,35 @@ fn instruction_barrier() {
 }
 ```
 
-### 原子操作<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Atomic Operations<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 使用 riscv::atomic 模块
+// Use the riscv::atomic module
 use riscv::asm::atomic;
 
 fn atomic_add(dst: &mut usize, val: usize) {
     unsafe {
-        // 使用 amoadd.w 指令
+        // Use the amoadd.w instruction
         atomic::amoadd(dst as *mut usize, val);
     }
 }
 
 fn compare_and_swap(ptr: &mut usize, old: usize, new: usize) -> bool {
     unsafe {
-        // 使用 amoswap.w 指令
+        // Use the amoswap.w instruction
         let current = atomic::amoswap(ptr as *mut usize, new);
         current == old
     }
 }
 ```
 
-### 多核同步<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Multicore Synchronization<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// RISC-V 机器间中断 (IPI)
+// RISC-V inter-processor interrupt (IPI)
 const M_SOFT_INT: *mut u32 = 0x3FF0_FFF0 as *mut u32;
 
 fn send_soft_interrupt(core_id: u32) {
     unsafe {
-        // 设置软件中断位
+        // Set the software-interrupt bit
         M_SOFT_INT.write_volatile(1 << core_id);
     }
 }
@@ -373,13 +373,13 @@ fn clear_soft_interrupt(core_id: u32) {
 }
 ```
 
-### RISC-V 特权级<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### RISC-V Privilege Levels<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// RISC-V 特权级检查
+// Check the RISC-V privilege level
 use riscv::register::{mstatus, misa};
 
 fn check_privilege_level() -> u8 {
-    // 读取当前特权级
+    // Read the current privilege level
     // 0 = User, 1 = Supervisor, 2 = Hypervisor, 3 = Machine
     (mstatus::read().bits() >> 11) & 0b11
 }
@@ -388,7 +388,7 @@ fn is_machine_mode() -> bool {
     check_privilege_level() == 3
 }
 
-/// 获取可用的 ISA 扩展
+/// Get the available ISA extensions
 fn get_isa_extensions() -> String {
     let misa = misa::read();
     format!("{:?}", misa)
@@ -396,12 +396,12 @@ fn get_isa_extensions() -> String {
 ```
 
 
-## RISC-V 性能优化
+## RISC-V Performance Optimization
 
-| 优化点 | 方法 |
+| Optimization target | Method |
 |-------|------|
-| 内存访问 | 使用非对齐访问指令（如果支持） |
-| 原子操作 | 使用 A 扩展指令 |
-| 乘除法 | 使用 M 扩展指令 |
-| 向量操作 | 使用 V 扩展（RV64V） |
-| 压缩指令 | 使用 C 扩展减少代码大小 |
+| Memory access | Use unaligned-access instructions when supported |
+| Atomic operations | Use A-extension instructions |
+| Multiplication and division | Use M-extension instructions |
+| Vector operations | Use the V extension (RV64V) |
+| Compressed instructions | Use the C extension to reduce code size |

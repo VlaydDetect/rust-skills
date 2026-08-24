@@ -12,27 +12,27 @@
 
 ## Workflow
 
-## DPDK vs 内核网络栈
+## DPDK vs the Kernel Network Stack
 
-| 特性 | 内核网络栈 | DPDK |
+| Property | Kernel network stack | DPDK |
 |-----|----------|------|
-| 上下文切换 | 每次包都切换 | 轮询模式，无切换 |
-| 内存拷贝 | 多次拷贝 | 零拷贝 |
-| 中断 | 频繁中断 | 轮询 (poll mode driver) |
-| 延迟 | 较高 | 微秒级 |
-| 吞吐量 | 万级 PPS | 百万级 PPS |
-| CPU 利用率 | 较低但有开销 | 高但高效 |
+| Context switching | A switch for each packet | Poll mode with no switches |
+| Memory copies | Multiple copies | Zero-copy |
+| Interrupts | Frequent interrupts | Polling (poll mode driver) |
+| Latency | Higher | Microsecond-scale |
+| Throughput | Tens of thousands of PPS | Millions of PPS |
+| CPU utilization | Lower, but with overhead | High, but efficient |
 
 
-## 核心组件<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Core Components<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// DPDK 核心结构
+// Core DPDK structure
 struct DpdkContext {
-    memory_pool: Mempool,        // 内存池
-    ports: Vec<Port>,            // 网卡端口
-    rx_queues: Vec<RxQueue>,     // 接收队列
-    tx_queues: Vec<TxQueue>,     // 发送队列
-    cpu_cores: Vec<Core>,        // CPU 核心分配
+    memory_pool: Mempool,        // Memory pool
+    ports: Vec<Port>,            // Network-interface ports
+    rx_queues: Vec<RxQueue>,     // Receive queues
+    tx_queues: Vec<TxQueue>,     // Transmit queues
+    cpu_cores: Vec<Core>,        // CPU-core assignment
 }
 
 struct Port {
@@ -51,23 +51,23 @@ struct Mempool {
 ```
 
 
-## 内存池管理<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Memory-Pool Management<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 创建 DPDK 内存池
+// Create a DPDK memory pool
 fn create_mempool() -> Result<Mempool, DpdkError> {
     let mempool = unsafe {
         rte_mempool_create(
             b"packet_pool\0".as_ptr() as *const c_char,
-            NUM_BUFFERS as u32,        // 缓冲区数量
-            BUFFER_SIZE as u16,        // 每个缓冲区大小
-            CACHE_SIZE as u32,         // CPU 缓存大小
-            0,                         // 私有数据大小
-            Some(rte_pktmbuf_pool_init), // 初始化函数
-            std::ptr::null(),          // 初始化参数
-            Some(rte_pktmbuf_init),    // 对象初始化函数
-            std::ptr::null(),          // 对象参数
-            rte_socket_id() as i32,    // 内存所在 Socket
-            0,                         // 标志位
+            NUM_BUFFERS as u32,        // Number of buffers
+            BUFFER_SIZE as u16,        // Size of each buffer
+            CACHE_SIZE as u32,         // CPU cache size
+            0,                         // Private-data size
+            Some(rte_pktmbuf_pool_init), // Initialization function
+            std::ptr::null(),          // Initialization argument
+            Some(rte_pktmbuf_init),    // Object-initialization function
+            std::ptr::null(),          // Object argument
+            rte_socket_id() as i32,    // Socket where memory resides
+            0,                         // Flags
         )
     };
 
@@ -78,7 +78,7 @@ fn create_mempool() -> Result<Mempool, DpdkError> {
     }
 }
 
-// 分配缓冲区
+// Allocate a buffer
 fn alloc_mbuf(mempool: &Mempool) -> Option<*mut rte_mbuf> {
     unsafe {
         let mbuf = rte_pktmbuf_alloc(mempool.inner);
@@ -92,9 +92,9 @@ fn alloc_mbuf(mempool: &Mempool) -> Option<*mut rte_mbuf> {
 ```
 
 
-## 零拷贝接收<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Zero-Copy Receive<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 零拷贝接收数据包
+// Receive packets without copying
 fn process_packets(
     port_id: u16,
     queue_id: u16,
@@ -109,11 +109,11 @@ fn process_packets(
         )
     };
 
-    // 直接处理 mbuf，不需要拷贝
+    // Process the mbuf directly without copying
     for i in 0..num_received {
         let mbuf = bufs[i];
 
-        // 访问数据（零拷贝）
+        // Access the data without copying
         let data_ptr = unsafe {
             rte_pktmbuf_mtod(mbuf, *const u8)
         };
@@ -121,10 +121,10 @@ fn process_packets(
             rte_pktmbuf_pkt_len(mbuf)
         };
 
-        // 处理数据包
+        // Process the packet
         process_packet(data_ptr, data_len);
 
-        // 释放 mbuf 回内存池
+        // Return the mbuf to the memory pool
         unsafe {
             rte_pktmbuf_free(mbuf);
         }
@@ -135,9 +135,9 @@ fn process_packets(
 ```
 
 
-## 批量发送<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Batched Transmission<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 批量发送数据包
+// Transmit packets in a batch
 fn transmit_packets(
     port_id: u16,
     queue_id: u16,
@@ -157,7 +157,7 @@ fn transmit_packets(
         )
     };
 
-    // 释放未发送的 mbuf
+    // Free mbufs that were not sent
     for i in sent..mbufs.len() {
         unsafe {
             rte_pktmbuf_free(mbufs[i]);
@@ -169,16 +169,16 @@ fn transmit_packets(
 ```
 
 
-## RSS 负载均衡<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## RSS Load Balancing<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 配置 RSS (Receive Side Scaling)
+// Configure RSS (Receive Side Scaling)
 fn configure_rss(port_id: u16) -> Result<(), DpdkError> {
     let mut port_info: rte_eth_dev_info = unsafe { std::mem::zeroed() };
     unsafe {
         rte_eth_dev_info_get(port_id, &mut port_info);
     }
 
-    // 配置 RSS 哈希
+    // Configure RSS hashing
     let mut rss_conf: rte_eth_rss_conf = unsafe { std::mem::zeroed() };
     rss_conf.rss_key_len = 40;
     rss_conf.rss_hf = RTE_ETH_RSS_TCP | RTE_ETH_RSS_UDP | RTE_ETH_RSS_IPV4;
@@ -196,39 +196,39 @@ fn configure_rss(port_id: u16) -> Result<(), DpdkError> {
     Ok(())
 }
 
-// 根据哈希值分配队列
+// Select a queue from the hash value
 fn get_queue_by_hash(hash: u32, num_queues: u16) -> u16 {
-    // 使用简单的取模分发
+    // Use simple modulo distribution
     (hash % num_queues as u32) as u16
 }
 ```
 
 
-## 多队列配置<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Multi-Queue Configuration<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 配置多队列
+// Configure multiple queues
 fn configure_multi_queue(port_id: u16, num_queues: u16) -> Result<(), DpdkError> {
     let mut port_conf: rte_eth_conf = unsafe { std::mem::zeroed() };
     port_conf.rxmode.split_hdr_size = 0;
     port_conf.rxmode.mq_mode = rte_eth_mq_mode::ETH_MQ_RX_RSS;
     port_conf.txmode.mq_mode = rte_eth_mq_mode::ETH_MQ_TX_NONE;
 
-    // 配置 RX 队列
+    // Configure RX queues
     let mut rx_conf: rte_eth_rxconf = unsafe { std::mem::zeroed() };
     rx_conf.rx_free_thresh = 32;
     rx_conf.rx_drop_en = 0;
 
-    // 配置 TX 队列
+    // Configure TX queues
     let mut tx_conf: rte_eth_txconf = unsafe { std::mem::zeroed() };
     tx_conf.tx_free_thresh = 32;
 
-    // 分配 RX 队列
+    // Allocate RX queues
     for queue in 0..num_queues {
         unsafe {
             let ret = rte_eth_rx_queue_setup(
                 port_id,
                 queue,
-                1024, // 队列深度
+                1024, // Queue depth
                 rte_socket_id() as u32,
                 &rx_conf,
                 mempool.inner,
@@ -239,7 +239,7 @@ fn configure_multi_queue(port_id: u16, num_queues: u16) -> Result<(), DpdkError>
         }
     }
 
-    // 分配 TX 队列
+    // Allocate TX queues
     for queue in 0..num_queues {
         unsafe {
             let ret = rte_eth_tx_queue_setup(
@@ -260,7 +260,7 @@ fn configure_multi_queue(port_id: u16, num_queues: u16) -> Result<(), DpdkError>
 ```
 
 
-## CPU 亲和性<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## CPU Affinity<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 use std::os::raw::c_int;
 use std::thread;
@@ -285,7 +285,7 @@ fn set_cpu_affinity(core_id: u32) -> Result<(), DpdkError> {
     Ok(())
 }
 
-// 为每个 RX 队列分配专用核心
+// Assign a dedicated core to each RX queue
 fn allocate_cores_for_queues(num_queues: u16) {
     for queue in 0..num_queues {
         thread::spawn(move || {
@@ -297,23 +297,23 @@ fn allocate_cores_for_queues(num_queues: u16) {
 ```
 
 
-## 性能优化
+## Performance Optimization
 
-| 优化点 | 方法 |
+| Optimization target | Method |
 |-------|------|
-| 内存对齐 | 缓存行对齐 (64 字节) |
-| 无锁队列 | 使用 SPSC 队列 |
-| 批处理 | 批量收发减少系统调用 |
-| CPU 亲和性 | 核心绑定减少上下文切换 |
-| Hugepages | 2MB/1GB 大页减少 TLB miss |
+| Memory alignment | Align to a 64-byte cache line |
+| Lock-free queues | Use SPSC queues |
+| Batching | Batch receives and transmits to reduce system calls |
+| CPU affinity | Bind cores to reduce context switches |
+| Hugepages | Use 2 MB or 1 GB pages to reduce TLB misses |
 
 
-## 与其他技能关联
+## Related Skills
 
 ```
 rust-dpdk
     │
-    ├─► rust-performance → 性能优化
-    ├─► rust-embedded → no_std 环境
-    └─► rust-concurrency → 并发模型
+    ├─► rust-performance → performance optimization
+    ├─► rust-embedded → no_std environments
+    └─► rust-concurrency → concurrency models
 ```

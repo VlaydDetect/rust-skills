@@ -1,101 +1,101 @@
-# Meta-Cognition 示例: E0382 交易系统
+# Meta-Cognition Example: E0382 in a Trading System
 
 > retained worked source example, not a universal prescription. Confirm the actual domain requirement before moving beyond Layer 1; Arc, clone, and the assumed fintech audit constraint are alternatives to evaluate, not defaults. Return decision evidence, not private chain-of-thought.
 
 
-> 演示三层认知模型如何将表面错误追溯到领域约束，提供更深层次的解决方案。
+> Demonstrates how the three-layer cognition model traces a surface error back to domain constraints to produce a deeper solution.
 
-## 用户问题
+## User Question
 
-> "我的交易系统报 E0382，数据被 move 了"
-
----
-
-## 传统回答 (Bad)
-
-```
-"用 .clone() 解决"
-```
-
-**问题**: 只修复表面症状，不理解根本原因。
+> "My trading system reports E0382 because the data was moved."
 
 ---
 
-## Meta-Cognition 追溯过程
+## Conventional Answer (Bad)
 
-### Step 1: 识别入口层
+```
+"Fix it with .clone()."
+```
 
-| 信号 | 入口层 | 追溯方向 |
+**Problem**: This fixes only the surface symptom without understanding the root cause.
+
+---
+
+## Meta-Cognition Trace
+
+### Step 1: Identify the Entry Layer
+
+| Signal | Entry layer | Trace direction |
 |------|--------|----------|
-| E0382 | **Layer 1** (语言机制) | 向上追溯 ↑ |
+| E0382 | **Layer 1** (language mechanics) | Trace upward ↑ |
 
-**初始 Skill**: m01-ownership
+**Initial skill**: m01-ownership
 
 ---
 
-### Step 2: Layer 1 分析 (m01-ownership)
+### Step 2: Layer 1 Analysis (m01-ownership)
 
-**核心问题**: 谁应该拥有这个数据？
+**Core question**: Who should own this data?
 
-| Error | 不要只说 | 而要问 |
+| Error | Do not just say | Ask instead |
 |-------|----------|--------|
-| E0382 | "Clone it" | **谁应该拥有这个数据？** |
+| E0382 | "Clone it" | **Who should own this data?** |
 
-**思考提示**:
-1. 这个数据的领域角色是什么？ → "交易记录" = Transaction Record
-2. 所有权设计是有意的吗？ → 需要检查领域约束
-3. 修复症状还是重新设计？ → 向上追溯理解原因
+**Reasoning prompts**:
+1. What is this data's domain role? → "Transaction record" = Transaction Record
+2. Is the ownership design intentional? → Check the domain constraints
+3. Fix the symptom or redesign? → Trace upward to understand the cause
 
 ---
 
-### Step 3: 向上追溯到 Layer 3 (domain-fintech)
+### Step 3: Trace Upward to Layer 3 (domain-fintech)
 
-**发现的领域约束**:
+**Discovered domain constraints**:
 
-| 领域规则 | 设计约束 | Rust 实现 |
+| Domain rule | Design constraint | Rust implementation |
 |----------|----------|-----------|
-| **审计追踪** | 不可变记录 | Arc<T>, 禁止修改 |
-| 一致性 | 事务边界 | 清晰的所有权 |
+| **Audit trail** | Immutable records | Arc<T>, prohibit mutation |
+| Consistency | Transaction boundaries | Explicit ownership |
 
-**关键洞察**:
+**Key insight**:
 ```
-规则: 所有交易必须不可变且可追踪
-原因: 监管合规，争议解决
-Rust: 使用 Arc<T> 共享，事件溯源模式
+Rule: Every transaction must be immutable and traceable
+Reason: Regulatory compliance and dispute resolution
+Rust: Share with Arc<T> and use an event-sourcing pattern
 ```
 
 ---
 
-### Step 4: 向下追溯到 Layer 2 设计
+### Step 4: Trace Downward to the Layer 2 Design
 
-从 domain-fintech 向下追溯:
+Trace downward from domain-fintech:
 ```
-"需要不可变的交易记录"
-    ↓ m09-domain: 建模为 Value Objects
-    ↓ m01-ownership: 使用 Arc 共享不可变数据
+"Immutable transaction records are required"
+    ↓ m09-domain: Model them as Value Objects
+    ↓ m01-ownership: Use Arc to share immutable data
 ```
 
-**设计决策**: 交易记录是 **Value Objects**，应该被 **不可变共享**，而不是移动或重复克隆。
+**Design decision**: Transaction records are **Value Objects** and should be **shared immutably**, not moved or repeatedly cloned.
 
 ---
 
-## Meta-Cognition 回答 (Good)
+## Meta-Cognition Answer (Good)
 
-### 追溯链
+### Trace Chain
 
 ```
-┌─ Layer 1: E0382 = 所有权错误
-│  问题：值被 move 后仍被使用
+┌─ Layer 1: E0382 = ownership error
+│  Problem: a value is used after being moved
 │      ↑
-├─ Layer 3: 交易系统领域约束
-│  规则：交易记录必须不可变且可追踪 (审计要求)
-│  含义：数据应该被共享，而不是移动或复制
+├─ Layer 3: trading-system domain constraint
+│  Rule: transaction records must be immutable and traceable (audit requirement)
+│  Meaning: data should be shared rather than moved or copied
 │      ↓
-└─ Layer 2: 设计模式选择
-   方案：使用 Arc<TransactionRecord> 共享不可变数据
+└─ Layer 2: design-pattern selection
+   Solution: use Arc<TransactionRecord> to share immutable data
 ```
 
-### 推荐修复
+### Recommended Fix
 
 ```rust
 // Before (E0382)
@@ -114,72 +114,72 @@ fn process_transaction(record: Arc<TransactionRecord>) {
 }
 ```
 
-### 为什么用 Arc 而不是 clone()?
+### Why Use Arc Instead of clone()?
 
-| 方案 | 成本 | 语义 | 领域契合度 |
+| Approach | Cost | Semantics | Domain fit |
 |------|------|------|------------|
-| `.clone()` | 复制整个数据 | 创建独立副本 | ❌ 违反单一事实来源 |
-| `Arc<T>` | 引用计数 +1 | 共享同一数据 | ✅ 符合审计要求 |
+| `.clone()` | Copies all data | Creates an independent copy | ❌ Violates the single source of truth |
+| `Arc<T>` | Increments the reference count | Shares the same data | ✅ Satisfies audit requirements |
 
-**原因**:
-- `clone()` 复制整个数据 → 内存浪费，违反 "单一事实来源"
-- `Arc<T>` 共享同一份数据 → 符合审计要求，所有引用指向同一记录
+**Reason**:
+- `clone()` copies all data → wastes memory and violates the "single source of truth"
+- `Arc<T>` shares the same data → satisfies audit requirements because every reference points to the same record
 
-### 推理链总结
+### Reasoning-Chain Summary
 
 ```
-E0382 → 问"谁应该拥有数据?" → 发现是审计记录 →
-领域约束要求不可变+可追踪 → 设计为 Arc<T> 共享 →
-不是语法修复，而是设计改进
+E0382 → ask "Who should own the data?" → discover that it is an audit record →
+domain constraints require immutability and traceability → design it for sharing with Arc<T> →
+this is a design improvement, not a syntax-only fix
 ```
 
 ---
 
-## 对比验证
+## Comparative Validation
 
-| 评判标准 | 传统回答 | Meta-Cognition |
+| Criterion | Conventional answer | Meta-Cognition |
 |----------|----------|----------------|
-| 修复错误 | ✅ | ✅ |
-| 解释原因 | ❌ | ✅ |
-| 考虑领域 | ❌ | ✅ |
-| 建议设计 | ❌ | ✅ |
-| 预防未来问题 | ❌ | ✅ |
+| Fixes the error | ✅ | ✅ |
+| Explains the cause | ❌ | ✅ |
+| Considers the domain | ❌ | ✅ |
+| Recommends a design | ❌ | ✅ |
+| Prevents future problems | ❌ | ✅ |
 
 ---
 
-## 关键学习
+## Key Lessons
 
-### 1. 不要停在 Layer 1
+### 1. Do Not Stop at Layer 1
 
-表面错误（E0382）只是症状，真正的问题可能在设计层或领域层。
+A surface error such as E0382 is only a symptom; the real problem may be in the design or domain layer.
 
-### 2. 领域约束决定设计
+### 2. Domain Constraints Determine the Design
 
-金融领域的审计要求决定了数据必须不可变且可追踪，这直接影响所有权设计。
+Audit requirements in the financial domain require data to be immutable and traceable, which directly affects the ownership design.
 
-### 3. Arc vs Clone 的选择
+### 3. Choosing Arc vs Clone
 
-| 场景 | 选择 |
+| Scenario | Choice |
 |------|------|
-| 数据需要独立演化 | `clone()` |
-| 数据是共享的事实 | `Arc<T>` |
-| 金融审计记录 | `Arc<T>` (单一事实来源) |
+| Data must evolve independently | `clone()` |
+| Data represents a shared fact | `Arc<T>` |
+| Financial audit records | `Arc<T>` (single source of truth) |
 
 ---
 
-## 相关技能
+## Related Skills
 
-| Skill | 作用 |
+| Skill | Role |
 |-------|------|
-| m01-ownership | Layer 1 入口，所有权机制 |
-| m02-resource | Arc/Rc 智能指针选择 |
-| m09-domain | Value Object vs Entity 建模 |
-| domain-fintech | 金融领域约束 |
+| m01-ownership | Layer 1 entry point and ownership mechanics |
+| m02-resource | Choosing Arc or Rc smart pointers |
+| m09-domain | Modeling Value Objects vs Entities |
+| domain-fintech | Financial-domain constraints |
 
 ---
 
-## 参考
+## References
 
-- `_meta/reasoning-framework.md` - 完整追溯框架
-- `skills/m01-ownership/SKILL.md` - 所有权技能
-- `skills/domain-fintech/SKILL.md` - 金融领域约束
+- `_meta/reasoning-framework.md` - Complete tracing framework
+- `skills/m01-ownership/SKILL.md` - Ownership skill
+- `skills/domain-fintech/SKILL.md` - Financial-domain constraints

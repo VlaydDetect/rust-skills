@@ -416,21 +416,21 @@ These code-only deltas appeared in the condensed English or localized source. Th
 
 ### `SKILL_ZH.md` example 1<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 原始类型容易被混淆
+// ❌ Primitive types are easy to mix up
 struct UserId(u64);
 struct OrderId(u64);
 
-// ✅ 类型安全：无法混用
+// ✅ Type-safe: the values cannot be mixed up
 fn get_user(user_id: UserId) { ... }
 fn get_order(order_id: OrderId) { ... }
 
-// 编译器会阻止：
-// get_order(user_id);  // 编译错误！
+// The compiler rejects this:
+// get_order(user_id);  // Compile error!
 ```
 
 ### `SKILL_ZH.md` example 2<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 用类型编码状态
+// Encode state in types
 struct Disconnected;
 struct Connecting;
 struct Connected;
@@ -449,34 +449,34 @@ impl Connection<Disconnected> {
 
 impl Connection<Connected> {
     fn send(&mut self, data: &[u8]) {
-        // 只有 Connected 状态可以发送
+        // Only the Connected state can send
     }
 }
 ```
 
 ### `SKILL_ZH.md` example 3<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 用 PhantomData 标记所有权和方差
+// Use PhantomData to represent ownership and variance
 struct MyIterator<'a, T> {
     _marker: PhantomData<&'a T>,
 }
 
-// 告诉编译器：我们借用了一个 T 的生命周期
+// Tell the compiler that we borrow a T for this lifetime
 ```
 
 ### `SKILL_ZH.md` example 4<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 容易创建无效状态
+// ❌ Invalid states are easy to construct
 struct User {
     name: String,
-    email: Option<String>,  // 可能为空
+    email: Option<String>,  // May be absent
     age: u32,
 }
 
-// ✅ email 不可能为空
+// ✅ email cannot be absent
 struct User {
     name: String,
-    email: Email,  // 类型保证有效
+    email: Email,  // The type guarantees validity
     age: u32,
 }
 
@@ -523,7 +523,7 @@ impl ConfigBuilder {
     }
 
     fn build(self) -> Config {
-        // 可以在这里做最终验证
+        // Final validation can happen here
         Config {
             host: self.host,
             port: self.port,
@@ -534,10 +534,10 @@ impl ConfigBuilder {
 
 ### `SKILL_ZH.md` example 6<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 用 marker trait 标记能力
+// Use a marker trait to represent a capability
 trait Sendable: Send + 'static {}
 
-// 或用 marker 做类型约束
+// Or use a marker as a type constraint
 struct Cache<T: Cacheable> {
     data: T,
 }
@@ -547,11 +547,11 @@ trait Cacheable: Send + Sync {}
 
 ### `SKILL_ZH.md` example 7<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// 用 ZST 做标记
+// Use a ZST as a marker
 struct DebugOnly;
 struct Always;
 
-// 只在 debug 模式执行的代码
+// Code that runs only in debug mode
 struct DebugLogger<Mode = Always> {
     _marker: PhantomData<Mode>,
 }

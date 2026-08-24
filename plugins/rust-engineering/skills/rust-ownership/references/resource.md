@@ -12,50 +12,50 @@
 
 ## Workflow
 
-## 选择决策树
+## Selection Decision Tree
 
 ```
-需要共享数据吗？
+Must the data be shared?
     │
-    ├─ 否 → 单 owner
-    │   ├─ 需要堆分配？ → Box<T>
-    │   └─ 栈上即可？ → 直接值类型
+    ├─ No → One owner
+    │   ├─ Heap allocation required? → Box<T>
+    │   └─ Stack is sufficient? → Store the value directly
     │
-    └─ 是 → 需要共享
+    └─ Yes → Shared ownership
           │
-          ├─ 单线程？
-          │   ├─ 可变？ → Rc<RefCell<T>>
-          │   └─ 只读？ → Rc<T>
+          ├─ Single-threaded?
+          │   ├─ Mutable? → Rc<RefCell<T>>
+          │   └─ Read-only? → Rc<T>
           │
-          └─ 多线程？
-                ├─ 可变？ → Arc<Mutex<T>> 或 Arc<RwLock<T>>
-                └─ 只读？ → Arc<T>
+          └─ Multithreaded?
+                ├─ Mutable? → Arc<Mutex<T>> or Arc<RwLock<T>>
+                └─ Read-only? → Arc<T>
 ```
 
 
-## 智能指针对比
+## Smart-Pointer Comparison
 
-| 类型 | 所有权 | 线程安全 | 适用场景 |
+| Type | Ownership | Thread-safe | Applicable scenario |
 |-----|-------|---------|---------|
-| `Box<T>` | 单 owner | Yes | 堆分配、递归类型、trait object |
-| `Rc<T>` | 共享 | No | 单线程共享、避免 clone |
-| `Arc<T>` | 共享 | Yes | 多线程共享、只读数据 |
-| `Weak<T>` | 弱引用 | - | 打破循环引用 |
-| `RefCell<T>` | 单 owner | No | 运行时借用检查 |
-| `Cell<T>` | 单 owner | No | Copy 类型的内部可变性 |
+| `Box<T>` | One owner | Yes | Heap allocation, recursive types, trait objects |
+| `Rc<T>` | Shared | No | Single-threaded sharing, avoiding clones |
+| `Arc<T>` | Shared | Yes | Multithreaded sharing, read-only data |
+| `Weak<T>` | Weak reference | - | Breaking reference cycles |
+| `RefCell<T>` | One owner | No | Runtime borrow checking |
+| `Cell<T>` | One owner | No | Interior mutability for Copy types |
 
 
-## 常见错误与解决方案
+## Common Errors and Solutions
 
-### Rc 循环引用泄漏<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Rc Reference-Cycle Leak<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 内存泄漏：两个 Rc 互相引用
+// ❌ Memory leak: two Rc values reference each other
 struct Node {
     value: i32,
     next: Option<Rc<Node>>,
 }
 
-// ✅ 解决方案：使用 Weak 打破循环
+// ✅ Solution: use Weak to break the cycle
 struct Node {
     value: i32,
     next: Option<Weak<Node>>,
@@ -64,50 +64,50 @@ struct Node {
 
 ### RefCell panic<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 运行时 panic：双重可变借用
+// ❌ Runtime panic: two mutable borrows
 let cell = RefCell::new(vec![1, 2, 3]);
 let mut_borrow = cell.borrow_mut();
 let another_borrow = cell.borrow(); // panic!
 
-// ✅ 解决方案：使用 try_borrow
+// ✅ Solution: use try_borrow
 if let Ok(mut_borrow) = cell.try_borrow_mut() {
-    // 安全使用
+    // Use safely
 }
 ```
 
-### Arc 开销投诉<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+### Arc Overhead Concerns<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// ❌ 不必要的 Arc：单线程环境
+// ❌ Unnecessary Arc in a single-threaded environment
 let shared = Arc::new(data);
 
-// ✅ 单线程用 Rc
+// ✅ Use Rc in single-threaded code
 let shared = Rc::new(data);
 
-// ❌ 多线程不必要的原子操作
-// 如果确定不需要跨线程共享，就不要用 Arc
+// ❌ Unnecessary atomic operations
+// Do not use Arc when cross-thread sharing is definitely unnecessary
 ```
 
 
-## 内部可变性选择<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## Choosing Interior Mutability<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
-// T 是 Copy 类型 → Cell
+// T is Copy → Cell
 struct Counter {
     count: Cell<u32>,
 }
 
-// T 不是 Copy → RefCell
+// T is not Copy → RefCell
 struct Container {
     items: RefCell<Vec<Item>>,
 }
 
-// 多线程 → Mutex 或 RwLock
+// Multiple threads → Mutex or RwLock
 struct SharedContainer {
     items: Mutex<Vec<Item>>,
 }
 ```
 
 
-## RAII 与 Drop<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
+## RAII and Drop<!-- rust-example: fragment; missing: surrounding project types, dependencies, target, and verification harness -->
 ```rust
 struct File {
     handle: std::fs::File,
@@ -115,12 +115,12 @@ struct File {
 
 impl Drop for File {
     fn drop(&mut self) {
-        // 自动释放资源
+        // Release the resource automatically
         println!("File closed");
     }
 }
 
-// 使用 guard pattern 确保清理
+// Use the guard pattern to ensure cleanup
 struct Guard<'a> {
     resource: &'a Resource,
 }
@@ -133,18 +133,18 @@ impl Drop for Guard<'_> {
 ```
 
 
-## 性能提示
+## Performance Tips
 
-| 场景 | 建议 |
+| Scenario | Recommendation |
 |-----|------|
-| 大量小对象 | `Rc::make_mut()` 避免 clone |
-| 频繁读取 | `RwLock` 比 `Mutex` 更好 |
-| 计数器 | 用 `AtomicU64` 而非 `Mutex<u64>` |
-| 缓存 | 考虑 `moka` 或 `cached` crate |
+| Many small objects | Use `Rc::make_mut()` to avoid cloning |
+| Frequent reads | Prefer `RwLock` over `Mutex` |
+| Counters | Use `AtomicU64` instead of `Mutex<u64>` |
+| Caches | Consider the `moka` or `cached` crate |
 
 
-## 何时不用智能指针
+## When Not to Use Smart Pointers
 
-- 栈上数据足够 → 用值类型
-- 借用即可满足 → 用引用 `&T`
-- 生命周期简单 → 不要过度抽象
+- Stack storage is sufficient → Store the value directly
+- A borrow is sufficient → Use a reference, `&T`
+- Lifetimes are simple → Do not over-abstract

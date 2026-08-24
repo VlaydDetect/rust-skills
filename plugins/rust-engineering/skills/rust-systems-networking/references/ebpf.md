@@ -12,18 +12,18 @@
 
 ## Workflow
 
-## eBPF vs 内核模块
+## eBPF vs Kernel Modules
 
-| 特性 | eBPF | 内核模块 |
+| Property | eBPF | Kernel modules |
 |-----|------|---------|
-| 安全验证 | 编译时验证 | 需要手动审查 |
-| 稳定性 | 稳定的 API | API 可能变化 |
-| 性能 | 即时 JIT | 高但有风险 |
-| 崩溃风险 | 有限 | 可能崩溃内核 |
-| 语言支持 | C, Rust | C, Rust |
+| Safety verification | Verified before loading | Requires manual review |
+| Stability | Stable API | API may change |
+| Performance | Just-in-time compiled | High, but with greater risk |
+| Crash risk | Limited | May crash the kernel |
+| Language support | C, Rust | C, Rust |
 
 
-## Aya 库
+## Aya Library
 
 > Rejected Specialized Rust Rust block `14108e656683`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
@@ -33,7 +33,7 @@
 > Rejected Specialized Rust Rust block `cc751062d9a8`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
 
-## XDP 程序
+## XDP Programs
 
 > Rejected Specialized Rust Rust block `4c9a1623b04f`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
@@ -48,7 +48,7 @@
 > Rejected Specialized Rust Rust block `1b6e5347e57b`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
 
-## 用户态加载器
+## User-Space Loader
 
 > Rejected Specialized Rust Rust block `615d263b4141`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
@@ -58,22 +58,22 @@
 > Rejected Specialized Rust Rust block `3b2b7265adb2`: Version-sensitive Aya API was rejected; keep verifier/no_std/map/ABI reasoning and research the exact resolved Aya release.
 
 
-## 性能优化
+## Performance Optimization
 
-| 优化点 | 方法 |
+| Optimization target | Method |
 |-------|------|
-| Map 访问 | 批量读取，减少系统调用 |
-| 尾调用 | 控制链长度，避免过多跳转 |
-| 数据结构 | 使用数组而非哈希表 |
-| 锁竞争 | 使用 PerCPU map |
+| Map access | Read in batches to reduce system calls |
+| Tail calls | Bound chain length and avoid excessive jumps |
+| Data structures | Use arrays instead of hash tables |
+| Lock contention | Use PerCPU maps |
 
 
-## 与其他技能关联
+## Related Skills
 
 ```
 rust-ebpf
     │
-    ├─► rust-embedded → no_std, 内核接口
-    ├─► rust-performance → 性能分析
-    └─► rust-unsafe → 底层内存操作
+    ├─► rust-embedded → no_std and kernel interfaces
+    ├─► rust-performance → performance analysis
+    └─► rust-unsafe → low-level memory operations
 ```

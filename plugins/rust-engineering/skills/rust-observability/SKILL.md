@@ -5,7 +5,7 @@ description: Design Rust logs, tracing spans, metrics, correlation, error report
 
 # Rust Observability
 
-Own operational telemetry contracts and placement at meaningful system boundaries. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own operational telemetry contracts and placement at meaningful system boundaries. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

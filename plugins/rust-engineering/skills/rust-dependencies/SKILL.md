@@ -5,7 +5,7 @@ description: Govern adopted Rust dependencies, versions, features, sources, dupl
 
 # Rust Dependency Governance
 
-Own the lifecycle and risk of dependencies already in or approved for the project. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own the lifecycle and risk of dependencies already in or approved for the project. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

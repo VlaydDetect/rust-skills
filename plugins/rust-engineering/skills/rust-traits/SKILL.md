@@ -5,7 +5,7 @@ description: Design Rust traits, generics, bounds, static or dynamic dispatch, a
 
 # Rust Traits and Type-Driven Design
 
-Own trait contracts, dispatch choice, coherence, and type-driven invariant encoding. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own trait contracts, dispatch choice, coherence, and type-driven invariant encoding. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 
@@ -35,7 +35,7 @@ Own trait contracts, dispatch choice, coherence, and type-driven invariant encod
 
 ## Rulebook Overlay
 
-After proving the variation or type invariant, select at most eight IDs from [`type-`](../rust-coding-rules/references/categories/type.md), [`trait-`](../rust-coding-rules/references/categories/trait.md), or [`closure-`](../rust-coding-rules/references/categories/closure.md). Concrete and enum alternatives remain part of this profile's decision.
+After proving the variation or type invariant, select at most nine IDs from [`type-`](../rust-coding-rules/references/categories/type.md), [`trait-`](../rust-coding-rules/references/categories/trait.md), or [`closure-`](../rust-coding-rules/references/categories/closure.md). Concrete and enum alternatives remain part of this profile's decision.
 
 ## Boundaries and Hand-offs
 

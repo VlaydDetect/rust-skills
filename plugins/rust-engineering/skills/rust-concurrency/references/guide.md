@@ -77,4 +77,4 @@ Read only the family reference that matches the current decision. `primary` mean
 - Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
 - Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
 - Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
-- Return ownership to the primary profile when supporting constraints have been stated.
+- Return the decision to its owner after coding constraints or helper evidence have been stated.

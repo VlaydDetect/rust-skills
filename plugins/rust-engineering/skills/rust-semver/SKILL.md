@@ -5,7 +5,7 @@ description: Classify and plan Rust compatibility changes across public APIs, tr
 
 # Rust SemVer
 
-Own downstream compatibility classification and migration policy for released Rust contracts. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own downstream compatibility classification and migration policy for released Rust contracts. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

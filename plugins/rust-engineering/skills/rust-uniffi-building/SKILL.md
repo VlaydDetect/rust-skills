@@ -5,7 +5,7 @@ description: Build and maintain UniFFI component interfaces, scaffolding, UDL or
 
 # Rust UniFFI Building
 
-Own UniFFI interface definition, scaffolding, binding generation, packaging, and foreign-language validation. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own UniFFI interface definition, scaffolding, binding generation, packaging, and foreign-language validation. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

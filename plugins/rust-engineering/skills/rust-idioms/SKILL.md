@@ -5,7 +5,7 @@ description: Apply established Rust patterns and reject common anti-patterns whi
 
 # Rust Idioms
 
-Own idiomatic expression and pattern selection below the architecture and public-contract level. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own idiomatic expression and pattern selection below the architecture and public-contract level. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

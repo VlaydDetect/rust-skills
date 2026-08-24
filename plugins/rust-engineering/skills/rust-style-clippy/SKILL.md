@@ -5,7 +5,7 @@ description: Apply rustfmt, Clippy, workspace lint levels and priorities, typed 
 
 # Rust Style and Clippy
 
-Own mechanical style tooling and documented lint policy. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own mechanical style tooling and documented lint policy. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

@@ -5,7 +5,7 @@ description: Diagnose and design Cargo manifests, targets, features, build scrip
 
 # Cargo Build System
 
-Own Cargo's effective package, target, feature, configuration, and build behavior. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own Cargo's effective package, target, feature, configuration, and build behavior. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

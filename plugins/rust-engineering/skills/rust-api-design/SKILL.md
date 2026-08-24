@@ -5,7 +5,7 @@ description: Design stable, idiomatic Rust APIs with explicit ownership, errors,
 
 # Rust API Design
 
-Own the caller-visible Rust contract and its evolution surface. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own the caller-visible Rust contract and its evolution surface. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 
@@ -35,7 +35,7 @@ Own the caller-visible Rust contract and its evolution surface. Apply this profi
 
 ## Rulebook Overlay
 
-After the caller contract is explicit, select at most eight IDs from [`api-`](../rust-coding-rules/references/categories/api.md), [`conv-`](../rust-coding-rules/references/categories/conv.md), [`serde-`](../rust-coding-rules/references/categories/serde.md), or semantic [`name-`](../rust-coding-rules/references/categories/name.md) rules. Public compatibility remains owned here.
+After the caller contract is explicit, select at most nine IDs from [`api-`](../rust-coding-rules/references/categories/api.md), [`conv-`](../rust-coding-rules/references/categories/conv.md), [`serde-`](../rust-coding-rules/references/categories/serde.md), or semantic [`name-`](../rust-coding-rules/references/categories/name.md) rules. Public compatibility remains owned here.
 
 ## Boundaries and Hand-offs
 

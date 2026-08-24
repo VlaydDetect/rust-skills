@@ -5,7 +5,7 @@ description: Explain Rust concepts with minimal compiling examples that expose t
 
 # Rust by Example
 
-Own small, accurate, runnable examples as an explanatory and diagnostic modality. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own small, accurate, runnable examples as an explanatory and diagnostic modality. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

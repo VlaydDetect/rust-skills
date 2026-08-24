@@ -5,7 +5,7 @@ description: Turn product intent into precise Rust-facing specifications, exampl
 
 # Executable Specifications
 
-Own behavioral specification and acceptance scenarios before implementation details dominate. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own behavioral specification and acceptance scenarios before implementation details dominate. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

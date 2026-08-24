@@ -5,7 +5,7 @@ description: Resolve review, audit, CI, and user findings through explicit triag
 
 # Addressing Findings
 
-Own the lifecycle from an existing finding to a defensible closure decision. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own the lifecycle from an existing finding to a defensible closure decision. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

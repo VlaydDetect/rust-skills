@@ -3,7 +3,7 @@
 Design protocol's `/guideline` intent maps to the existing addressable rulebook:
 
 - exact ID or prefix → `rust-coding-rules <id|prefix>`;
-- contextual style question → select the owner profile, then at most eight rules;
+- contextual style question → select the owner profile, then at most nine rules;
 - Clippy lint → `rust-style-clippy`, optionally `rust-research` for current lint documentation;
 - unsafe or FFI → `rust-unsafe` or `rust-unsafe-ffi` plus the relevant safety checks.
 

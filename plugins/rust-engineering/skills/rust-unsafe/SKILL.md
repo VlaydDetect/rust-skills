@@ -5,7 +5,7 @@ description: Review and design internal unsafe Rust, raw pointers, aliasing, ini
 
 # Unsafe Rust
 
-Own internal unsafe operations and the soundness boundary of safe Rust abstractions. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own internal unsafe operations and the soundness boundary of safe Rust abstractions. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

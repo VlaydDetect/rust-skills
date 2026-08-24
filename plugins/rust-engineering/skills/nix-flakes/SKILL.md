@@ -5,7 +5,7 @@ description: Design and debug Nix flakes for Rust projects, including inputs, lo
 
 # Nix Flakes
 
-Own flake input, output, system, lock, and composition contracts. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own flake input, output, system, lock, and composition contracts. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

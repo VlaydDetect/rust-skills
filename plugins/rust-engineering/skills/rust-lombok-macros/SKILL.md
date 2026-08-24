@@ -5,7 +5,7 @@ description: Evaluate and implement Lombok-style Rust derives or attributes for 
 
 # Rust Lombok-Style Macros
 
-Own annotation-driven boilerplate generation and the explicit API it creates. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own annotation-driven boilerplate generation and the explicit API it creates. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

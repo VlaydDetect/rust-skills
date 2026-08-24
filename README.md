@@ -14,14 +14,18 @@ Hook остаётся быстрым, offline и read-only: он не устан
 запрос на изменение
   -> rust-workflow
      -> локальный discovery и TaskBrief
-     -> 1 основной скилл + не более 2 вспомогательных
-     -> RuleQuery и до 8 релевантных правил rust-coding-rules
+     -> decision units: по 1 owner на каждое решение
+     -> coding-профили для изменяемых Rust-конструктов
+     -> helper-профили только после наблюдаемого триггера
+     -> RuleQuery и до 9 правил на decision unit
      -> основной агент вносит единое изменение
      -> rust-verify собирает минимально достаточные доказательства
      -> rust-review при запросе или повышенном риске
 ```
 
-`rust-workflow` владеет изменяющими задачами и остаётся единственной точкой записи. Основной профиль принимает решение, вспомогательные профили добавляют ограничения, а rulebook не занимает профильный слот и не переопределяет контракт пользователя, репозитория, MSRV, target или feature matrix.
+`rust-workflow` владеет изменяющими задачами и остаётся единственной точкой записи. `ProfileStack` строится из текущего среза изменения: общий план и будущие платформенные реализации остаются фоном и не активируют профиль. Каждый decision unit имеет одного owner; coding-профили привязаны к конкретным Rust-механикам, а helpers подключаются по фактическому триггеру. Потолки `3/6/10` для owners, coding и helpers являются аварийными ограничителями: превышение разбивает фазу, а не обрезает список.
+
+`rust-coding-rules` остаётся отдельным overlay, а `rust-workflow`, review и verify образуют управляющий контур и не занимают профильные роли. Перед редактированием `coverage.gaps` должен быть пуст: решения, существенные конструкты и критерии приёмки обязаны иметь владельца и проверяемое покрытие.
 
 Read-only задачи могут входить напрямую:
 
@@ -41,7 +45,7 @@ Read-only задачи могут входить напрямую:
 - Специализированный Rust: `rust-macros`, `rust-lombok-macros`, `rust-uniffi-building`, `rust-ml`, `rust-gpu`, `rust-systems-networking`, `rust-distributed-systems`.
 - Nix: `nix-flakes`, `nix-dev-env`, `nix-packaging`, `nixos`, `nix-review`.
 
-`rust-coding-rules` выбирает конкретные ID по коду и границе изменения. Обычный набор содержит не более восьми правил; широкий аудит разбивается на последовательные пакеты. `rust-design-protocol` подключается только для реального межслойного решения, а `rust-research` — для датированных внешних фактов.
+`rust-coding-rules` выбирает конкретные ID по коду и границе изменения. Для каждого активного decision unit отдельный набор содержит не более девяти правил; широкий аудит разбивается на последовательные пакеты. `rust-design-protocol` в изменяющем workflow только обнаруживает межслойные decision units и передаёт их настоящим owners, а `rust-research` подключается лишь для текущих внешних фактов.
 
 ## Настройка Rust-проекта
 
@@ -117,7 +121,7 @@ claude plugin validate ./plugins/rust-engineering
 git diff --check
 ```
 
-Внутренний validator проверяет 55 скиллов и ссылки, предельную глубину `references`, 265 rule ID/alias, 47 unsafe/FFI rules, 341 eval-сценарий схемы 8, manifests и marketplaces, общий installer config, parity Python/Node dry-run, поведение повторной установки и конфликта source, read-only hooks и fixtures. `claude plugin validate` выполняется только при наличии Claude CLI.
+Внутренний validator проверяет 55 скиллов и ссылки, предельную глубину `references`, 265 rule ID/alias, 47 unsafe/FFI rules, 341 eval-сценарий схемы 9, структуру и лимиты `ProfileStack`, manifests и marketplaces, общий installer config, parity Python/Node dry-run, поведение повторной установки и конфликта source, read-only hooks и fixtures. `claude plugin validate` выполняется только при наличии Claude CLI.
 
 ## Лицензия
 

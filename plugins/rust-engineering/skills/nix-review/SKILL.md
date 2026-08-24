@@ -5,7 +5,7 @@ description: Perform a read-only findings-first review of Nix flakes, derivation
 
 # Nix Review
 
-Own read-only correctness and risk assessment for Nix expressions and their Rust build or deployment effects. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own read-only correctness and risk assessment for Nix expressions and their Rust build or deployment effects. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

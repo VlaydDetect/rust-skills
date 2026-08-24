@@ -5,7 +5,7 @@ description: Design Rust error boundaries, types, context, recovery, propagation
 
 # Rust Error Design
 
-Own recoverable failure contracts from low-level cause to caller action and final reporting. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own recoverable failure contracts from low-level cause to caller action and final reporting. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

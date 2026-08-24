@@ -4,8 +4,7 @@
 
 ## Product routing and baseline
 
-- Primary owner: `$rust-workflow`.
-- Supporting profiles when needed: none.
+- Control plane: `$rust-workflow`.
 - Scope retained: Precise symptom-to-profile lookup, negative routing, manual invocation, and escalation from mechanics to design or domain reasoning.
 - Baseline correction: The product routing index is authoritative. Specialized Rust source names that were merged are reference families, not additional standalone skills.
 - The repository's actual MSRV, Edition, target, Cargo resolution, dependency versions, and user contract take precedence. Rust 1.98, Edition 2024, and resolver 3 are product reference defaults, not forced project upgrades.

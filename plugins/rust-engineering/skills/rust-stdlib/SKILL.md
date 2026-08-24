@@ -5,7 +5,7 @@ description: Choose and use Rust standard-library types, collections, iterators,
 
 # Rust Standard Library
 
-Own standard-library selection and the semantic trade-offs of its core primitives. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own standard-library selection and the semantic trade-offs of its core primitives. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

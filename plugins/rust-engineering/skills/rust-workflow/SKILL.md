@@ -1,31 +1,29 @@
 ---
 name: rust-workflow
-description: Orchestrate project-aware Rust implementation and opt-in setup by discovering effective state, selecting one primary and at most two supporting engineering profiles, making one coherent root-cause change, and producing risk-based evidence. Use for features, fixes, refactors, project bootstrap, toolchain setup, and other mutating coding work. Do not use for read-only review or verification-only requests.
+description: Orchestrate project-aware Rust implementation and opt-in setup by discovering the current change slice, assigning one owner per decision unit, loading only required coding profiles and triggered helpers, making one coherent root-cause change, and producing risk-based evidence. Use for features, fixes, refactors, project bootstrap, toolchain setup, and other mutating coding work. Do not use for read-only review or verification-only requests.
 ---
 
 # Rust Workflow
 
-Treat the repository's effective state and explicit user contract as controlling evidence. This skill is the automatic coding entrypoint; detailed engineering policy lives in the profile it selects. Keep the main agent as the only writer.
+Treat the repository's effective state and explicit user contract as controlling evidence. This skill is the automatic coding entrypoint; detailed engineering policy lives in the profiles selected for the current change slice. Keep the main agent as the only writer.
 
 ## Workflow
 
 1. Read the task and path-scoped instructions. Inspect dirty state before touching files.
 2. Trace the real call path, tests, manifests, toolchain, CI, and repository-native commands. Preserve unrelated work.
-3. Write a compact `TaskBrief`: goal, non-goals, affected packages, constraints, compatibility surface, acceptance evidence, and unknowns. Classify the entry as mechanics, design, or confirmed domain constraints only when that distinction can change the work.
-4. Select exactly one primary profile and zero to two supporting profiles from [Profile routing index](references/routing-index.md). Use `rust-design-protocol` for a genuinely cross-layer decision and `rust-research` for current external facts; neither is a mandatory overlay. If more profiles are needed, split the work into phases and re-route.
-5. Read each selected profile's `SKILL.md` and detailed reference before making its design decisions. Resolve semantics, safety, and compatibility before optimization.
-6. Build the `RuleQuery` defined by `rust-coding-rules` from the actual constructs, boundary, toolchain, configuration, and measurements. Load only the matching category index and at most eight rules; the rulebook is an overlay, not another profile slot.
-7. Classify risk and delegate only independent read-only investigation when it materially reduces uncertainty.
-8. Implement the smallest coherent root-cause change. Update tests, documentation, manifests, or generated sources only when the changed contract requires them. Re-query rules against the actual diff.
-9. Invoke `rust-verify` for the smallest sufficient evidence matrix. Use `rust-review` for an independent findings-first pass when requested or proportionate to risk.
-10. Inspect the final diff and report selected profiles, selected rule IDs, changed files, exact checks, failures by cause, and unverified risk.
+3. Build the `TaskBrief` and `ProfileStack` from [ProfileStack contract](references/profile-stack.md), using [Profile routing index](references/routing-index.md) only to find candidate owners and specialists. Current instructions and changed symbols outrank background plans.
+4. Split the phase and re-route when the stack crosses a circuit breaker. Do not edit until `coverage.gaps` is empty.
+5. Read each active profile's `SKILL.md` and relevant reference before applying its decisions. Load helpers only after their documented trigger and unload them after recording the result.
+6. Build one `RuleQuery` per active decision unit from the actual constructs, boundary, toolchain, configuration, and measurements. Load at most nine rules per unit; `rust-coding-rules` remains an overlay.
+7. Implement the smallest coherent root-cause change. Update tests, documentation, manifests, or generated sources only when the changed contract requires them. Re-route and re-query rules against the actual diff.
+8. Invoke `rust-verify` for the smallest sufficient evidence matrix. Use `rust-review` when requested or proportionate to risk, inspect the final diff, and report the stack, rule IDs, checks, failures by cause, and residual risk.
 
 ## Profile Loading Contract
 
-- The primary profile owns the decision and vocabulary. Supporting profiles constrain it; they do not create parallel solutions.
+- Every decision unit has exactly one owner. Coding profiles bind to named constructs; helpers bind to observed triggers.
 - Do not summarize a profile from memory when its detailed reference is locally available.
 - Do not load profiles merely because a keyword appears. Route by the decision that controls correctness.
-- `rust-coding-rules` supplies concrete rule IDs after profile selection. It does not become primary or supporting and cannot override project state or the owner profile.
+- `rust-coding-rules` supplies concrete rule IDs after profile selection. It never enters `ProfileStack` roles and cannot override project state or a decision owner.
 - Re-route after a phase when the owner changes, such as discovery -> API design -> verification.
 - A direct profile invocation may answer a focused question without this workflow. Any repository mutation still returns here for discovery, integration, and evidence.
 
@@ -37,7 +35,7 @@ Use host-native subagents when available; otherwise perform the same roles seque
 - Medium risk: at most two read-only roles when they reduce uncertainty.
 - High risk: use a scout plus the relevant reviewer or verifier. Examples: public API, unsafe or FFI, concurrency, feature graphs, cross-target behavior, broad refactors, or security boundaries.
 
-Available role contracts are `rust-scout`, `rust-researcher`, `rust-reviewer`, and `rust-verifier`. Give each a bounded `RoleBrief` from [Agent contracts](references/agent-contracts.md) plus the selected profile names. They return evidence; they never edit. Use the researcher only for one version-sensitive external question. The main agent decides, writes, integrates, and owns the final result. Avoid delegation for tiny tasks and avoid multiple agents reading the same scope. When re-reviewing fixes, prefer a fresh reviewer context.
+Available role contracts are `rust-scout`, `rust-researcher`, `rust-reviewer`, and `rust-verifier`. Give each a bounded `RoleBrief` for one decision-unit slice from [Agent contracts](references/agent-contracts.md). They return evidence; they never edit. Use the researcher only for one version-sensitive external question. The main agent decides, writes, integrates, and owns the final result. Avoid delegation for tiny tasks and avoid multiple agents reading the same scope. When re-reviewing fixes, prefer a fresh reviewer context.
 
 ## Project Setup
 

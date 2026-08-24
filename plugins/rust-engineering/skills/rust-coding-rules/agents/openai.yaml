@@ -1,6 +1,6 @@
 interface:
   display_name: "Rust Coding Rules"
   short_description: "Select concrete context-aware Rust rules"
-  default_prompt: "Use $rust-coding-rules to select at most eight relevant rule IDs for this Rust decision and apply their prerequisites, exceptions, examples, and verification guidance."
+  default_prompt: "Use $rust-coding-rules to select at most nine relevant rule IDs for this decision unit and apply their prerequisites, exceptions, examples, and verification guidance."
 policy:
   allow_implicit_invocation: true

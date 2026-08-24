@@ -5,7 +5,7 @@ description: Diagnose Rust compile, test, runtime, async, concurrency, unsafe, p
 
 # Rust Debugging
 
-Own causal diagnosis from symptom to minimal, evidence-backed failure mechanism. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own causal diagnosis from symptom to minimal, evidence-backed failure mechanism. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

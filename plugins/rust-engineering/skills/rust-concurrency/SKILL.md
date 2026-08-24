@@ -5,7 +5,7 @@ description: Design and debug Rust threads, async tasks, channels, locks, atomic
 
 # Rust Concurrency
 
-Own concurrent protocols, shared-state invariants, liveness, cancellation, and bounded execution. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own concurrent protocols, shared-state invariants, liveness, cancellation, and bounded execution. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

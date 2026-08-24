@@ -10,12 +10,12 @@ Validation is evidence for the changed contract, not a fixed command dump. Do no
 ## Select the Matrix
 
 1. Read the task, repository instructions, dirty state, CI, task runners, toolchain, packages, targets, features, and lockfile policy.
-2. State the contract being proved and select one primary and at most two supporting profiles from the [routing index](../rust-workflow/references/routing-index.md) to determine risk-specific evidence.
+2. State the contract being proved and take one decision-unit slice: its owner, changed constructs, acceptance criteria, and relevant coding profiles from the workflow [ProfileStack contract](../rust-workflow/references/profile-stack.md).
 3. Select commands from [Quality gates](references/quality-gates.md) and explain what each command proves and does not prove.
 4. Start narrow: non-mutating format check when relevant, affected package or target check, then targeted behavior tests.
 5. Expand to Clippy, docs, workspace, feature combinations, platforms, Miri, benchmarks, foreign consumers, Nix builds, or packaging only when the changed surface requires them.
 6. Never install tools, update dependencies, accept formatter rewrites, or use network access merely to make a check run. Report unavailable evidence as `SKIP`.
-7. Record every command with scope, result, cause classification, evidence, and residual risk. Stop on a narrow change-caused failure unless broader execution is needed to classify it.
+7. Record every command with its decision-unit ID, scope, result, cause classification, evidence, and residual risk. Stop on a narrow change-caused failure unless broader execution is needed to classify it.
 
 ## Risk Escalation
 

@@ -5,7 +5,7 @@ description: Design NixOS and Home Manager modules for Rust services and tools, 
 
 # NixOS and Home Manager
 
-Own declarative deployment modules and the system or user lifecycle of Rust applications. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own declarative deployment modules and the system or user lifecycle of Rust applications. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

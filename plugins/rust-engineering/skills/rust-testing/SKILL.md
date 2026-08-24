@@ -5,7 +5,7 @@ description: Design and write Rust unit, integration, doc, property, async, conc
 
 # Rust Testing
 
-Own test architecture, case selection, fixtures, doubles, and regression design. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own test architecture, case selection, fixtures, doubles, and regression design. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

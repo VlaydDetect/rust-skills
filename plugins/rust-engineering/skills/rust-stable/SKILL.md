@@ -5,7 +5,7 @@ description: Select editions, MSRV, stable versus nightly features, language sem
 
 # Stable Rust
 
-Own toolchain-aware language guidance, edition behavior, MSRV, and stable or nightly boundaries. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own toolchain-aware language guidance, edition behavior, MSRV, and stable or nightly boundaries. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

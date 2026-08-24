@@ -5,7 +5,7 @@ description: Build an evidence-backed map of an unfamiliar Rust repository, its 
 
 # Codebase Onboarding
 
-Own first-pass understanding of an unfamiliar repository without changing it. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own first-pass understanding of an unfamiliar repository without changing it. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

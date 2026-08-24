@@ -5,7 +5,7 @@ description: Perform a read-only whole-project assessment of Rust package and mo
 
 # Rust Architecture Review
 
-Own evidence-backed diagnosis of current project structure and its highest-impact architectural risks. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own evidence-backed diagnosis of current project structure and its highest-impact architectural risks. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

@@ -42,6 +42,6 @@ $cargoVersion = & $cargo.Source --version 2>$null
 
 Write-Output "Rust workspace detected: $manifest"
 Write-Output "Toolchain: $rustcVersion; $cargoVersion"
-Write-Output 'For coding, use rust-workflow and let it select one primary plus at most two supporting profiles. Use rust-design-protocol only for cross-layer decisions and rust-research only for dated external facts. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.'
+Write-Output 'For coding, use rust-workflow and build a ProfileStack from the current change: one owner per decision unit, coding profiles for changed constructs, and helpers only after observed triggers. Keep background and future work deferred. Use rust-design-protocol only for cross-layer discovery and rust-research only for current external facts. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.'
 Write-Output $setupOffer
 if ($hasNix) { Write-Output $nixOffer }

@@ -32,8 +32,9 @@ This repository ships one Rust Engineering product for Codex/ChatGPT Desktop and
 
 ## Routing and mutation
 
-- Mutating Rust work enters `rust-workflow`. It selects exactly one primary and at most two supporting skills.
-- `rust-coding-rules` is a post-routing overlay of at most eight relevant rules, not another profile slot.
+- Mutating Rust work enters `rust-workflow`. It builds a `ProfileStack` from the current change with one owner per decision unit, construct-bound coding profiles, and trigger-bound helpers.
+- The `3/6/10` owner, coding, and helper limits are circuit breakers; exceeding one requires a phase split and fresh routing.
+- `rust-coding-rules` is a post-routing overlay of at most nine relevant rules per active decision unit, not a profile role.
 - The main agent is the only writer. Shared agents remain bounded and read-only.
 - `rust-verify` closes the evidence loop; `rust-review` is optional unless requested or proportionate to risk.
 - Prefer a few distinct routing owners over overlapping topic fragments.
@@ -48,7 +49,7 @@ This repository ships one Rust Engineering product for Codex/ChatGPT Desktop and
 
 ## Release invariants
 
-- The release gate requires exactly 55 valid skills, 265 rule IDs/aliases with all category indexes, 47 unsafe/FFI rules, 341 schema-8 eval scenarios, and four read-only agent contracts.
+- The release gate requires exactly 55 valid skills, 265 rule IDs/aliases with all category indexes, 47 unsafe/FFI rules, 341 schema-9 eval scenarios, and four read-only agent contracts.
 - `scripts/` contains only `validate.py` and the two SessionStart scripts. External corpora and provenance ledgers are not build or validation inputs.
 - Version-bearing manifests, root `package.json`, `installers/config.json`, marketplaces, and installer plans must agree on `1.0.0-rc` / `v1.0.0-rc`.
 - Python and Node installers stay dependency-free, print the same dry-run plan, use host-native CLI commands, reject marketplace source collisions, and never edit Desktop configuration or caches.

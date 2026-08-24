@@ -5,7 +5,7 @@ description: Design Rust system boundaries, dependency direction, ports and adap
 
 # Rust Architecture
 
-Own system-level boundaries, dependency direction, and composition for present product needs. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own system-level boundaries, dependency direction, and composition for present product needs. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

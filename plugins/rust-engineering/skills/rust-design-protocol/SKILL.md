@@ -5,7 +5,7 @@ description: Trace consequential Rust questions across language mechanics, desig
 
 # Rust Design Protocol
 
-Own cross-layer reasoning when no single local rule is sufficient. Apply this skill directly for design or comparative questions, or load it from `rust-workflow` as one of the normal profile slots. Do not activate merely because the prompt contains a Rust keyword.
+Trace cross-layer evidence when no single local rule is sufficient. Apply this skill directly for design or comparative questions. In a mutating `rust-workflow`, it is a triggered helper: it discovers decision units and hands each one to the profile that actually owns the contract. Do not activate merely because the prompt contains a Rust keyword.
 
 ## Use This Skill When
 
@@ -17,11 +17,11 @@ Own cross-layer reasoning when no single local rule is sufficient. Apply this sk
 ## Workflow
 
 1. Identify the entry layer: mechanics, design, or domain constraints.
-2. Select the one product profile that owns correctness and at most two supporting profiles.
-3. Trace to an adjacent layer only when evidence there can change the decision.
+2. Identify independent decision units and assign exactly one real owner profile to each.
+3. Trace to an adjacent layer only when evidence there can change a decision.
 4. Separate repository facts, current external facts, assumptions, and unknowns.
 5. Compare only viable alternatives against explicit criteria; reject speculative flexibility.
-6. Return a concise `DesignBrief`, then hand implementation back to `rust-workflow`.
+6. Return a concise `DesignBrief`. In a mutation, pass its units to `rust-workflow` for `ProfileStack` routing and implementation.
 
 ## Decision Rules
 
@@ -37,7 +37,7 @@ Read [DesignBrief contract and topic map](references/design-brief.md) for the pu
 
 ## Boundaries and Hand-offs
 
-- `rust-architecture` owns accepted system boundaries; `rust-design-protocol` connects evidence across layers.
+- `rust-architecture` owns accepted system boundaries; `rust-design-protocol` connects evidence across layers and never co-owns that decision in a mutating workflow.
 - `rust-research` owns current Rust and crate facts.
 - `rust-workflow` remains the sole writer for repository changes.
 - `rust-review` owns read-only findings and `rust-verify` owns command evidence.

@@ -11,10 +11,10 @@ Judge the change in its real call paths, not in diff isolation. Do not edit file
 
 1. Establish scope: base or diff, packages, declared intent, acceptance criteria, and repository instructions.
 2. Inspect callers, implementations, tests, CI, manifests, feature gates, generated boundaries, and relevant external contracts.
-3. Select one primary and at most two supporting domain profiles from the [routing index](../rust-workflow/references/routing-index.md), then use only the affected lenses from [Review lenses](references/review-lenses.md).
-4. Build a `RuleQuery` from the real diff and load at most eight matching IDs through `rust-coding-rules`. A rule ID may sharpen a lens but is never evidence by itself.
+3. Review one decision-unit slice at a time: its owner, changed constructs, relevant coding profiles, acceptance evidence, and callers from the workflow [ProfileStack contract](../rust-workflow/references/profile-stack.md). Use only the affected lenses from [Review lenses](references/review-lenses.md).
+4. Build that unit's `RuleQuery` from the real diff and load at most nine matching IDs through `rust-coding-rules`. A rule ID may sharpen a lens but is never evidence by itself.
 5. Trace each changed behavior through callers, mirror paths, errors, cleanup, tests, and configuration. Compare premises with the declared intent and actual magnitude rather than reviewing syntax in isolation.
-6. For broad independent surfaces, optionally delegate at most two non-overlapping read-only lenses. Use the `Finding` schema from `rust-workflow` agent contracts when available.
+6. For broad independent surfaces, optionally delegate at most two non-overlapping read-only lenses, each bounded to one decision unit. Use the `Finding` schema from `rust-workflow` agent contracts when available.
 7. Ground every premise in opened code or command evidence. Attempt to disprove a candidate finding and apply the false-positive exclusions below. Mark unresolved claims `Suspected`; do not promote them to defects.
 8. Report findings before summary, ordered by severity. Include a tight location, trigger, impact, supporting rule IDs when applicable, evidence, smallest viable fix, and verification that would close it.
 9. Return `PASS`, `WARN`, `FAIL`, or `INCOMPLETE`. `FAIL` requires at least one confirmed blocking defect; `INCOMPLETE` means required evidence was unavailable.

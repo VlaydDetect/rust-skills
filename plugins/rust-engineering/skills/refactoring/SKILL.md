@@ -5,7 +5,7 @@ description: Restructure Rust code while preserving an explicit behavioral, API,
 
 # Rust Refactoring
 
-Own behavior-preserving structural change and its migration sequence. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own behavior-preserving structural change and its migration sequence. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

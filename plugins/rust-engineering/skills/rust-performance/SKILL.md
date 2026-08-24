@@ -5,7 +5,7 @@ description: Measure and optimize Rust latency, throughput, allocations, cache b
 
 # Rust Performance
 
-Own performance diagnosis, experiment design, optimization, and regression evidence. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own performance diagnosis, experiment design, optimization, and regression evidence. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 
@@ -35,7 +35,7 @@ Own performance diagnosis, experiment design, optimization, and regression evide
 
 ## Rulebook Overlay
 
-After recording a comparable baseline and hotspot, select at most eight IDs from [`mem-`](../rust-coding-rules/references/categories/mem.md), [`opt-`](../rust-coding-rules/references/categories/opt.md), or [`perf-`](../rust-coding-rules/references/categories/perf.md). These indexes never supply a measurement or global optimization default.
+After recording a comparable baseline and hotspot, select at most nine IDs from [`mem-`](../rust-coding-rules/references/categories/mem.md), [`opt-`](../rust-coding-rules/references/categories/opt.md), or [`perf-`](../rust-coding-rules/references/categories/perf.md). These indexes never supply a measurement or global optimization default.
 
 ## Boundaries and Hand-offs
 

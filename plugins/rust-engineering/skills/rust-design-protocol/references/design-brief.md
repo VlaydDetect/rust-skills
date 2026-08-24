@@ -6,8 +6,12 @@ Return only information useful for deciding or implementing the task. This is an
 
 ```text
 entry_layer: Mechanics | Design | Domain
-owner_profile: exactly one rust-engineering profile
-supporting_profiles: zero to two profiles
+decision_units:
+  - id: stable identifier
+    decision: contract being decided
+    owner_profile: exactly one rust-engineering profile
+coding_candidates: Rust mechanics that the mutating workflow must cover
+helper_evidence: triggered helper results already obtained
 constraints: confirmed facts that can change the decision
 evidence: repository locations, tool output, or dated external sources
 alternatives: viable options and their material trade-offs
@@ -16,6 +20,8 @@ verification: smallest evidence that can falsify the decision
 confidence: High | Medium | Low
 gaps: unresolved facts or assumptions
 ```
+
+Mechanics, design, and domain are discovery lenses, not ownership roles. When this protocol runs inside a mutating workflow, `rust-design-protocol` is helper evidence and each discovered unit is transferred to its listed owner in the workflow `ProfileStack`.
 
 Omit an alternative when it is not viable. If a missing user choice would materially change the result, state the blocker and ask one focused question. Otherwise make the narrowest reasonable assumption and disclose it.
 

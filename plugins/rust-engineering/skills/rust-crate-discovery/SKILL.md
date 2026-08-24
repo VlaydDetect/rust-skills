@@ -5,7 +5,7 @@ description: Evaluate candidate Rust crates before adoption using explicit requi
 
 # Rust Crate Discovery
 
-Own evidence-based pre-adoption selection of an external crate or a std or local alternative. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own evidence-based pre-adoption selection of an external crate or a std or local alternative. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

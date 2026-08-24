@@ -7,7 +7,8 @@ Route this rulebook only after the task's owning profile and effective project s
 ```text
 selector: exact ID | prefix | task
 constructs: changed types, functions, traits, macros, manifests, tests, or unsafe operations
-primary_profile: the decision owner selected outside this rulebook
+decision_unit: active decision identifier
+owner_profile: that decision's owner selected outside this rulebook
 boundary: private | public | unsafe | FFI
 toolchain: edition, MSRV, compiler, target
 configuration: features, accepted dependencies, runtime
@@ -55,6 +56,7 @@ Do not infer unknown configuration. A direct ID lookup still reads and applies t
 | Borrow-checker or resource-lifetime change | `own-` | `err-`, `async-`, or `unsafe-` |
 | Public async API | `api-` | `async-`, `err-`, `doc-` |
 | Serialization boundary | `serde-` | `api-`, `type-`, `err-` |
+| New semantic number, ID, offset, size, sentinel, or closed state | `type-` | `api-`, `num-`, `pat-`; type mechanics remain covered by `rust-traits` |
 | Unsafe or FFI diff | `unsafe-` | `type-`, `test-`; ABI remains owned by `rust-unsafe-ffi` |
 | Measured latency or memory regression | `perf-` or `mem-` | `opt-`, `coll-`, `own-` |
 | Macro implementation | `macro-` | `api-`, `trait-`, `test-` |
@@ -73,11 +75,11 @@ conflicts: higher-precedence contract and resolution, or none
 deferred: categories or batches intentionally not loaded
 ```
 
-A normal RuleSet has one to eight IDs. If more are plausible, split by phase or category and re-query after each diff.
+A normal RuleSet has one to nine IDs for one decision unit. If more are plausible, split by phase or category and re-query after each diff.
 
 ## Conflict and Negative Routing
 
-- User and project contracts beat every rule. The primary profile owns semantic decisions.
+- User and project contracts beat every rule. The decision unit's owner profile owns semantic decisions.
 - A rule that names a crate does not authorize adding it. If the crate is absent and no approval exists, defer the rule.
 - Performance rules require representative evidence; source-level intuition is not a measurement.
 - Public API, wire, ABI, feature, MSRV, target, panic, ordering, and safety changes require their owner-profile review.
@@ -87,18 +89,18 @@ A normal RuleSet has one to eight IDs. If more are plausible, split by phase or 
 
 ## Broad Audits
 
-Audit one category at a time and no more than eight rules per batch. Record each batch's selected IDs, confirmed findings, rejected premises, and deferred work before opening the next batch. Alias IDs resolve to canonical rules and do not create duplicate findings.
+Audit one category at a time and no more than nine rules per batch. Record each batch's selected IDs, confirmed findings, rejected premises, and deferred work before opening the next batch. Alias IDs resolve to canonical rules and do not create duplicate findings.
 
 ## Specialized topic map
 
-Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+Read only the family reference that matches the current decision. The decision owner remains authoritative; these families contribute only their bound coding constraints.
 
-- [`rust-anti-pattern`](../../rust-idioms/references/anti-pattern.md) — supporting; Symptom-to-cause diagnosis for cloning, allocation, stringly APIs, panic, locking, abstraction, collection, and async mistakes.
-- [`rust-coding`](../../rust-style-clippy/references/coding.md) — supporting; Readable Rust, naming, formatting, Clippy scope, documentation, control flow, API conventions, and reviewable diffs.
+- [`rust-anti-pattern`](../../rust-idioms/references/anti-pattern.md) — coding reference; Symptom-to-cause diagnosis for cloning, allocation, stringly APIs, panic, locking, abstraction, collection, and async mistakes.
+- [`rust-coding`](../../rust-style-clippy/references/coding.md) — coding reference; Readable Rust, naming, formatting, Clippy scope, documentation, control flow, API conventions, and reviewable diffs.
 
 ## Shared constraints
 
 - Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
 - Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
 - Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
-- Return ownership to the primary profile when supporting constraints have been stated.
+- Return the decision to its owner after coding constraints have been stated.

@@ -5,7 +5,7 @@ description: Design Rust machine-learning inference, training, tensor, preproces
 
 # Rust Machine Learning
 
-Own ML model integration and serving contracts in Rust, including data, device, performance, and reproducibility. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own ML model integration and serving contracts in Rust, including data, device, performance, and reproducibility. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

@@ -5,7 +5,7 @@ description: Build reproducible Nix development shells for Rust, including toolc
 
 # Nix Development Environments
 
-Own developer-facing tool and environment availability for repository work. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own developer-facing tool and environment availability for repository work. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

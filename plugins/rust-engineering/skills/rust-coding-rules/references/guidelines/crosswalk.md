@@ -55,4 +55,4 @@ This ledger prevents Design protocol summary statements from becoming a second c
 
 ## Selection
 
-For a task, route to the owner first and load no more than eight canonical rules. Source rows marked `profile-owned`, `corrected`, or `rejected-universal` do not create new rule IDs.
+For a task, route to the owner first and load no more than nine canonical rules. Source rows marked `profile-owned`, `corrected`, or `rejected-universal` do not create new rule IDs.

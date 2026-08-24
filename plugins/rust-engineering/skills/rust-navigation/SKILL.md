@@ -5,7 +5,7 @@ description: Navigate Rust symbols, call paths, macro expansion, trait dispatch,
 
 # Rust Navigation
 
-Own targeted repository navigation once the question to trace is known. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own targeted repository navigation once the question to trace is known. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

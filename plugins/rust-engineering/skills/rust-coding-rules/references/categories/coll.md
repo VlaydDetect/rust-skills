@@ -2,7 +2,7 @@
 
 Prefix: `coll-` · 4 addressable rules.
 
-Load this index only when the current Rust decision matches the category. Select the smallest RuleSet (normally no more than eight rules) and then read the linked rule files; do not treat the table as a blanket checklist.
+Load this index only when the current Rust decision matches the category. Select the smallest RuleSet (normally no more than nine rules) and then read the linked rule files; do not treat the table as a blanket checklist.
 
 ## Category Boundary
 
@@ -21,4 +21,4 @@ Load this index only when the current Rust decision matches the category. Select
 
 ## Batch Audit
 
-For a broad audit, evaluate this category in batches of at most eight rules. Carry forward only evidence-backed findings; do not load another category until the current batch is closed or explicitly deferred.
+For a broad audit, evaluate this category in batches of at most nine rules. Carry forward only evidence-backed findings; do not load another category until the current batch is closed or explicitly deferred.

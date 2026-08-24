@@ -4,10 +4,9 @@
 
 ## Product routing and baseline
 
-- Primary owner: `$rust-workflow`.
-- Supporting profiles when needed: none.
-- Scope retained: Problem-first classification, uncertainty reduction, owner selection, supporting constraints, and verification handoff.
-- Baseline correction: Route one primary profile and at most two supporting profiles per phase. Do not load the whole catalog or let overlapping profiles compete for the same decision.
+- Control plane: `$rust-workflow`.
+- Scope retained: Problem-first classification, uncertainty reduction, decision-unit ownership, coding constraints, and verification handoff.
+- Baseline correction: Build the current phase with the canonical `ProfileStack`; do not load the whole catalog or let profiles co-own one decision.
 - The repository's actual MSRV, Edition, target, Cargo resolution, dependency versions, and user contract take precedence. Rust 1.98, Edition 2024, and resolver 3 are product reference defaults, not forced project upgrades.
 
 ## Workflow

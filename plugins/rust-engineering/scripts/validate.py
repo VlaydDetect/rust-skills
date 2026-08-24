@@ -38,6 +38,10 @@ SKILLS = set(
     """.split()
 )
 AGENTS = {"rust-scout", "rust-researcher", "rust-reviewer", "rust-verifier"}
+CONTROL_PROFILES = {
+    "rust-workflow", "rust-review", "rust-verify", "rust-architecture-review", "nix-review",
+}
+PROFILE_OVERLAY = "rust-coding-rules"
 GOLDEN_OWNERS = set(
     """
     rust-api-design rust-by-example rust-cargo-build rust-concurrency
@@ -87,6 +91,19 @@ SUITE_COUNTS = {
     "specialized_rust": 48,
     "low_level": 48,
     "cargo_tooling": 32,
+}
+WORKFLOW_MODE_COUNTS = {
+    "manual": 49, "automatic": 49, "contrast": 15, "negative": 4, "selection": 8,
+}
+SELECTION_IDS = {
+    "selection-page-portable-future-direct-io",
+    "selection-page-api-binary-header",
+    "selection-small-local-no-broad-owners",
+    "selection-two-decision-units",
+    "selection-three-decision-units",
+    "selection-six-coding-profiles",
+    "selection-late-debugging-helper",
+    "selection-phase-split-circuit-breakers",
 }
 KIND_COUNTS = {
     "rulebook": {"prefix": 26, "context_conflict": 12, "negative": 6},
@@ -334,6 +351,10 @@ def validate_skills() -> None:
     routing = (skill_root / "rust-workflow" / "references" / "routing-index.md").read_text(encoding="utf-8")
     for skill in SKILLS:
         assert f"{TICK}{skill}{TICK}" in routing or "$" + skill in routing, f"missing workflow route: {skill}"
+    stack_contract = (skill_root / "rust-workflow" / "references" / "profile-stack.md").read_text(encoding="utf-8")
+    role_matrix = stack_contract.split("## Role matrix", 1)[1].split("## Circuit breakers", 1)[0]
+    classified = re.findall(r"`([a-z0-9-]+)`", role_matrix)
+    assert Counter(classified) == Counter({skill: 1 for skill in SKILLS}), "ProfileStack role matrix mismatch"
 
     golden = {path.parents[2].name for path in skill_root.glob("*/examples/golden/Cargo.toml")}
     assert golden == GOLDEN_OWNERS, f"golden example mismatch: {sorted(golden ^ GOLDEN_OWNERS)}"
@@ -470,32 +491,136 @@ def validate_rulebook(only_rule: str | None = None) -> tuple[int, Counter]:
     return len(paths), counts
 
 
+def validate_profile_stack(case: dict) -> None:
+    expected = case["expected"]
+    stack = expected["profile_stack"]
+    required = {
+        "decision_units", "coding_profiles", "helper_profiles", "deferred_profiles",
+        "forbidden_profiles", "coverage",
+    }
+    assert required <= set(stack), f"incomplete profile_stack in {case['id']}"
+    assert set(stack) <= required | {"same_phase_reason"}, f"unknown profile_stack field in {case['id']}"
+
+    units = stack["decision_units"]
+    assert isinstance(units, list)
+    unit_ids = [unit["id"] for unit in units]
+    owners = [unit["owner_profile"] for unit in units]
+    assert all(set(unit) == {"id", "owner_profile"} and unit["id"] for unit in units)
+    assert len(unit_ids) == len(set(unit_ids)), f"duplicate decision unit in {case['id']}"
+    assert set(owners) <= SKILLS, f"unknown owner in {case['id']}: {owners}"
+    assert not (set(owners) & (CONTROL_PROFILES | {PROFILE_OVERLAY}))
+    assert len(set(owners)) <= 3, f"owner cap exceeded in {case['id']}"
+
+    role_names = ("coding_profiles", "helper_profiles", "deferred_profiles", "forbidden_profiles")
+    for name in role_names:
+        profiles = stack[name]
+        assert isinstance(profiles, list) and len(profiles) == len(set(profiles))
+        assert set(profiles) <= SKILLS, f"unknown profiles in {case['id']}: {profiles}"
+        assert PROFILE_OVERLAY not in profiles, f"rule overlay occupies a role in {case['id']}"
+
+    coding = set(stack["coding_profiles"])
+    helpers = set(stack["helper_profiles"])
+    owner_set = set(owners)
+    assert not (coding | helpers) & CONTROL_PROFILES, f"control profile occupies a role in {case['id']}"
+    assert not owner_set & coding and not owner_set & helpers and not coding & helpers
+    selected = owner_set | coding | helpers
+    deferred = set(stack["deferred_profiles"])
+    forbidden = set(stack["forbidden_profiles"])
+    assert not selected & deferred and not selected & forbidden and not deferred & forbidden
+    assert len(stack["coding_profiles"]) <= 6, f"coding cap exceeded in {case['id']}"
+    assert len(stack["helper_profiles"]) <= 10, f"helper cap exceeded in {case['id']}"
+
+    if len(owner_set) > 1:
+        assert stack.get("same_phase_reason"), f"missing same_phase_reason in {case['id']}"
+    if len(owner_set) == 3:
+        reason = stack["same_phase_reason"].casefold()
+        assert "atomic" in reason or "split" in reason, f"third owner lacks phase rationale in {case['id']}"
+
+    coverage = stack["coverage"]
+    assert set(coverage) == {"decisions", "constructs", "acceptance", "gaps"}
+    assert coverage["decisions"] == unit_ids
+    assert coverage["gaps"] == [], f"uncovered profile stack in {case['id']}"
+    covered_profiles = set()
+    for construct in coverage["constructs"]:
+        assert {"construct", "profile", "reason"} <= set(construct)
+        assert construct["construct"] and construct["reason"]
+        assert construct["profile"] in owner_set | coding
+        covered_profiles.add(construct["profile"])
+    assert coding <= covered_profiles, f"uncovered coding profile in {case['id']}"
+    for profile in stack["coding_profiles"][2:]:
+        reasons = [
+            construct["reason"].casefold() for construct in coverage["constructs"]
+            if construct["profile"] == profile
+        ]
+        assert any("owner" in reason and "rule" in reason for reason in reasons), (
+            f"coding escalation lacks owner/rule rationale in {case['id']}: {profile}"
+        )
+    assert coverage["acceptance"]
+    for acceptance in coverage["acceptance"]:
+        assert acceptance.get("criterion") and acceptance.get("evidence")
+
+    phase_split = expected.get("phase_split")
+    if phase_split:
+        assert phase_split.get("required") is True and phase_split.get("reason")
+        next_profiles = phase_split.get("next_phase_profiles", [])
+        assert next_profiles and set(next_profiles) <= SKILLS
+        assert set(next_profiles) <= deferred
+
+
 def validate_evals(rule_ids: set[str]) -> int:
     evals = load_json(ROOT / "evals" / "evals.json")
-    assert evals["schema_version"] == 8 and set(evals["suites"]) == set(SUITE_COUNTS)
+    assert evals["schema_version"] == 9 and set(evals["suites"]) == set(SUITE_COUNTS)
     ids = []
     for suite, expected_count in SUITE_COUNTS.items():
         cases = evals["suites"][suite]
         assert len(cases) == expected_count
+        if suite == "workflow":
+            assert Counter(case["mode"] for case in cases) == WORKFLOW_MODE_COUNTS
+            assert {case["id"] for case in cases if case["mode"] == "selection"} == SELECTION_IDS
         if suite in KIND_COUNTS:
             assert Counter(case["kind"] for case in cases) == KIND_COUNTS[suite]
         for case in cases:
             ids.append(case["id"])
             assert case["prompt"] and case["tags"]
             expected = case["expected"]
-            for key in ("entry_skill", "primary_profile", "fallback_profile"):
+            for key in ("entry_skill", "fallback_profile"):
                 value = expected.get(key)
                 assert value is None or value in SKILLS, f"unknown profile in {case['id']}: {value}"
-            for key in ("supporting_profiles", "forbidden_primary_profiles", "owner_profiles"):
+            for key in ("owner_profiles",):
                 values = expected.get(key, [])
                 assert set(values) <= SKILLS, f"unknown profiles in {case['id']}: {values}"
-            assert len(expected.get("supporting_profiles", [])) <= 2
+            assert not ({"primary_profile", "supporting_profiles", "forbidden_primary_profiles"} & set(expected))
+            validate_profile_stack(case)
             if "max_rules" in expected:
-                assert 0 <= expected["max_rules"] <= 8
+                assert 0 <= expected["max_rules"] <= 9
             assert set(expected.get("rule_ids", [])) <= rule_ids
             assert set(expected.get("rejected_rule_ids", [])) <= rule_ids
             assert set(expected.get("categories", [])) <= RULE_CATEGORIES
     assert len(ids) == len(set(ids)) == 341
+
+    selection = {
+        case["id"]: case["expected"] for case in evals["suites"]["workflow"]
+        if case["mode"] == "selection"
+    }
+    portable = selection["selection-page-portable-future-direct-io"]["profile_stack"]
+    assert [unit["owner_profile"] for unit in portable["decision_units"]] == ["rust-api-design"]
+    assert portable["coding_profiles"] == ["rust-traits"]
+    assert portable["helper_profiles"] == ["rust-testing"]
+    assert portable["deferred_profiles"] == ["rust-platforms"]
+    binary = selection["selection-page-api-binary-header"]["profile_stack"]
+    assert {unit["owner_profile"] for unit in binary["decision_units"]} == {
+        "rust-api-design", "rust-serialization",
+    }
+    local = selection["selection-small-local-no-broad-owners"]["profile_stack"]
+    assert {"rust-architecture", "rust-platforms", "rust-research"} <= set(local["forbidden_profiles"])
+    assert len(selection["selection-two-decision-units"]["profile_stack"]["decision_units"]) == 2
+    assert len(selection["selection-three-decision-units"]["profile_stack"]["decision_units"]) == 3
+    assert len(selection["selection-six-coding-profiles"]["profile_stack"]["coding_profiles"]) == 6
+    assert "debugging" in selection["selection-late-debugging-helper"]["profile_stack"]["helper_profiles"]
+    split = selection["selection-phase-split-circuit-breakers"]
+    assert split["phase_split"]["required"] is True
+    assert "fourth owner" in split["phase_split"]["reason"]
+    assert "seventh coding profile" in split["phase_split"]["reason"]
 
     def walk(value):
         if isinstance(value, dict):

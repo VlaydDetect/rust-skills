@@ -1,6 +1,6 @@
 # Profile Routing Index
 
-Select one **primary** profile that owns the decision and at most two **supporting** profiles that supply constraints. If more than three profiles are necessary, split the task into phases and re-route at each phase. Loading every relevant-looking profile weakens ownership and wastes context.
+Use this index to find candidate profiles after the current `TaskBrief` is known. Build roles and enforce circuit breakers with the canonical [ProfileStack contract](./profile-stack.md): one owner per decision unit, coding profiles for actual Rust constructs, and helpers only after an observed trigger. Loading every relevant-looking profile weakens ownership and wastes context.
 
 All profiles may be invoked manually. In an implementation task `rust-workflow` remains the writer and uses the selected profiles as engineering policy. A focused user question may invoke a profile directly.
 
@@ -20,13 +20,13 @@ Profile names in these files are host-neutral. For an explicit manual invocation
 
 | Skill | Owns | Route here when |
 |---|---|---|
-| `rust-coding-rules` | Addressable concrete rules selected after an owner profile | An exact rule ID or prefix is requested, or workflow/review needs a RuleSet of at most eight context-matched rules. It never occupies a primary or supporting slot. |
+| `rust-coding-rules` | Addressable concrete rules selected after an owner profile | An exact rule ID or prefix is requested, or workflow/review needs a RuleSet of at most nine context-matched rules per decision unit. It never occupies a `ProfileStack` role. |
 
 ## Reviewed Cargo-tool overlays
 
 These are progressive references under existing owners, not standalone profiles. Load one only when the named tool or its specific capability controls the task; a generic Rust request or the mere presence of `Cargo.toml` is not enough.
 
-| Trigger | Primary owner | Supporting profiles | Reference |
+| Trigger | Decision owner | Additional profiles to classify from current evidence | Reference |
 |---|---|---|---|
 | Project generation from a local/remote template; Liquid, placeholders, conditionals, Rhai hooks | `rust-cargo-build` | `rust-workspace`, `rust-research` | `cargo-generate` |
 | Nextest filters, profiles, groups, retries, timeouts, JUnit, or process-per-test behavior | `rust-testing` | `rust-verify`, `debugging` | `cargo-nextest` |
@@ -91,7 +91,7 @@ These are progressive references under existing owners, not standalone profiles.
 | Profile | Owns | Route here when |
 |---|---|---|
 | `rust-concurrency` | Threads, async/Future/Waker internals, channels, locks, atomics, cancellation, backpressure, shutdown | Correctness or liveness spans execution contexts. |
-| `rust-testing` | Test and coverage strategy/implementation, including nextest execution policy, bounded fuzz targets, and crash regressions | Tests, their runner policy, or coverage contract is the primary deliverable. |
+| `rust-testing` | Test and coverage strategy/implementation, including nextest execution policy, bounded fuzz targets, and crash regressions | Tests, their runner policy, or coverage contract is the deliverable. |
 | `rust-performance` | Reproducible benchmarks, perf/flamegraphs/counters, allocation/size/build-time profiles, optimization, regression guards | A measured metric or regression controls the work. |
 | `rust-observability` | Structured logs, spans, metrics, correlation, redaction, cardinality | Runtime behavior must become operationally diagnosable. |
 | `rust-unsafe-ffi` | Foreign ABI, layout, handles, buffers, strings, callbacks, unwind | Unsafe crosses a language or runtime boundary. |
@@ -154,16 +154,16 @@ Use these ownership splits when descriptions overlap:
 - Nix profiles own flakes, development environments, packages, and NixOS configuration; `rust-platforms` owns Unix/Windows behavior inside the Rust program.
 - `rust-platforms` owns the OS API and native resource lifecycle; `rust-unsafe-ffi` supports raw ABI proofs, and `rust-cargo-build` supports target/linker mechanics.
 - `rust-serialization` owns byte format and evolution; `rust-distributed-systems` owns delivery, retries, and cross-node failure after the message contract exists.
-- `rust-data` owns access-pattern-driven representation and query execution; `rust-performance` owns comparable measurement rather than becoming primary for every layout change.
+- `rust-data` owns access-pattern-driven representation and query execution; `rust-performance` requires comparable measurement rather than activating for every layout change.
 - `rust-database` owns generic transactions, migrations, and SurrealDB; `rust-tauri` owns desktop IPC and capabilities, not persistence merely because it is called from a command.
-- `rust-tauri` owns Specta-generated command contracts; `rust-serialization` supports an actual byte-format decision but does not become primary for ordinary typed IPC.
+- `rust-tauri` owns Specta-generated command contracts; `rust-serialization` owns a separate actual byte-format decision but does not activate for ordinary typed IPC.
 - `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-data` owns host data layout; `rust-performance` owns bottleneck measurement.
 - `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-performance` add telemetry, soundness, and measurement constraints.
 - `rust-distributed-systems` owns cross-node failure and consistency; `rust-architecture` owns system boundaries; `rust-concurrency` owns in-process execution.
 
 ## Routing Examples
 
-| Request | Primary | Supporting | Reason |
+| Request | Decision owner | Additional current profiles | Reason |
 |---|---|---|---|
 | Fix an E0502 compiler error in a parser | `rust-ownership` | `debugging`, `rust-testing` | Borrow relationship owns the decision; reproduce and guard it. |
 | Add a public async client method | `rust-api-design` | `rust-concurrency`, `rust-errors` | Public caller contract owns cancellation and error shape. |
@@ -197,7 +197,7 @@ Use these ownership splits when descriptions overlap:
 | Stop duplicate builds across three Git worktrees | `rust-cargo-build` | `rust-performance`, `rust-verify` | Isolated directory/cache mechanics own the design; measurements decide whether optimization helps. |
 | Add workspace Clippy priorities and one disallowed API | `rust-style-clippy` | `rust-stable`, `rust-review` | Lint policy owns configuration; toolchain support and semantic boundary review constrain it. |
 
-When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
+These examples show search candidates, not a fixed stack size. Classify every additional profile as coding, triggered helper, deferred, or a separate decision owner under the canonical contract. When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.
 
 For compiler diagnostics, the retained [Design protocol error-code index](./compiler-error-routing.md)
 is a quick entry-signal map. Confirm the full diagnostic and affected construct
@@ -205,14 +205,14 @@ before routing; its source "common fixes" are hypotheses, not defaults.
 
 ## Specialized topic map
 
-Read only the family reference that matches the current decision. `primary` means this profile owns the decision; `supporting` means it contributes constraints without taking ownership.
+Read only the family reference that matches the current decision. `owner` means the profile owns one decision unit; `helper` means it contributes bounded evidence after a trigger.
 
-- [`rust-skill`](./skill-authoring.md) — primary; Problem-first classification, uncertainty reduction, owner selection, supporting constraints, and verification handoff.
-- [`rust-skill-index`](./skill-routing.md) — primary; Precise symptom-to-profile lookup, negative routing, manual invocation, and escalation from mechanics to design or domain reasoning.
+- [`rust-skill`](./skill-authoring.md) — owner; Problem-first classification, uncertainty reduction, owner selection, coding constraints, and verification handoff.
+- [`rust-skill-index`](./skill-routing.md) — owner; Precise symptom-to-profile lookup, negative routing, manual invocation, and escalation from mechanics to design or domain reasoning.
 
 ## Shared constraints
 
 - Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
 - Do not infer a dependency, runtime, framework, hardware topology, retry policy, or persistence contract.
 - Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
-- Return ownership to the primary profile when supporting constraints have been stated.
+- Return each decision to its owner after coding constraints or helper evidence have been stated.

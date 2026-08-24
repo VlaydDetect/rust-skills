@@ -57,6 +57,6 @@ cargo_version="$(cargo --version 2>/dev/null || printf 'cargo unavailable')"
 printf '%s\n' \
   "Rust workspace detected: ${manifest}" \
   "Toolchain: ${rustc_version}; ${cargo_version}" \
-  'For coding, use rust-workflow and let it select one primary plus at most two supporting profiles. Use rust-design-protocol only for cross-layer decisions and rust-research only for dated external facts. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.' \
+  'For coding, use rust-workflow and build a ProfileStack from the current change: one owner per decision unit, coding profiles for changed constructs, and helpers only after observed triggers. Keep background and future work deferred. Use rust-design-protocol only for cross-layer discovery and rust-research only for current external facts. Route read-only diff review to rust-review and evidence-only commands to rust-verify. All focused profiles remain manually invocable.' \
   "$setup_offer"
 [ "$has_nix" -eq 0 ] || printf '%s\n' "$nix_offer"

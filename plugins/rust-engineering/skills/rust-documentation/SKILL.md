@@ -5,7 +5,7 @@ description: Create and review Rust crate, module, item, example, doctest, READM
 
 # Rust Documentation
 
-Own the documented user model of a Rust package and executable examples that support it. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own the documented user model of a Rust package and executable examples that support it. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 

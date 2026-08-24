@@ -5,7 +5,7 @@ description: Design and debug ownership, borrowing, lifetimes, moves, RAII, inte
 
 # Rust Ownership
 
-Own data and resource ownership, borrowing, reference lifetimes, pointer choice, and deterministic cleanup. Apply this profile directly for focused advice or load it from `rust-workflow` as the primary or a supporting profile.
+Own data and resource ownership, borrowing, reference lifetimes, pointer choice, and deterministic cleanup. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
 
 ## Use This Skill When
 
@@ -35,7 +35,7 @@ Own data and resource ownership, borrowing, reference lifetimes, pointer choice,
 
 ## Rulebook Overlay
 
-After establishing the ownership graph, select only relevant IDs from the [`own-` index](../rust-coding-rules/references/categories/own.md). Load no more than eight rules and keep this profile's lifecycle decision authoritative.
+After establishing the ownership graph, select only relevant IDs from the [`own-` index](../rust-coding-rules/references/categories/own.md). Load no more than nine rules and keep this profile's lifecycle decision authoritative.
 
 ## Boundaries and Hand-offs
 

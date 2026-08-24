@@ -10,7 +10,9 @@ question: one concrete question
 scope: packages, files, symbols, or commands allowed
 constraints: toolchain, features, target, time or command limits
 known_context: facts already established by the main agent
-profiles: one primary and up to two supporting profile names
+decision_unit: one id and its owner_profile
+coding_profiles: only profiles needed for this decision-unit slice
+helper_profile: optional helper activated by the bounded question
 expected_output: ContextBrief | ResearchRecord | Finding[] | VerificationRecord
 ```
 
@@ -48,6 +50,6 @@ command; scope; expected evidence; result=PASS|FAIL|SKIP;
 cause=change|pre-existing|environmental|unknown; evidence; residual risk
 ```
 
-Subagents must read the assigned profiles before applying their rules. They must not edit files, install tools, update dependencies, publish, or widen scope. If a command may mutate source, lockfiles, generated assets, or external state, return it as a recommendation instead of running it.
+Subagents must read the assigned decision owner and coding profiles before applying their rules. They must not inspect the full `ProfileStack`, edit files, install tools, update dependencies, publish, or widen scope. If a command may mutate source, lockfiles, generated assets, or external state, return it as a recommendation instead of running it.
 
-The main agent remains the only writer, owns cross-profile trade-offs, and decides whether evidence is sufficient. A scout maps current state, a researcher establishes one current external fact, a reviewer attempts to falsify a change, and a verifier executes an agreed evidence command; do not assign two roles the same question. For a post-fix re-review, prefer a fresh reviewer context and provide the original finding IDs without the implementer's conclusion.
+The main agent remains the only writer, owns cross-unit trade-offs, and decides whether evidence is sufficient. A scout maps current state, a researcher establishes one current external fact, a reviewer attempts to falsify a change, and a verifier executes an agreed evidence command; do not assign two roles the same question. For a post-fix re-review, prefer a fresh reviewer context and provide the original finding IDs without the implementer's conclusion.

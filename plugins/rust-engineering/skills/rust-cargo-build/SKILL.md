@@ -32,6 +32,7 @@ Own Cargo's effective package, target, feature, configuration, and build behavio
 - Preserve lockfile policy: applications commonly commit it; library policies vary and should be explicit.
 - Target cfg expressions select dependencies or code; a feature named after a platform is not equivalent.
 - Profiles are workspace-root controlled; package-level profile sections do not behave as independent package policy.
+- A custom `profiling` profile should inherit release, retain debug information, and avoid unrelated LTO, panic, codegen-unit, target CPU, allocator, or global-rustflags changes.
 
 ## Rulebook Overlay
 

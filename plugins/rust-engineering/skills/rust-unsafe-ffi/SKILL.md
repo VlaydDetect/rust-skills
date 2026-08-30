@@ -32,6 +32,7 @@ Own foreign ABI contracts and safe ownership translation across language or runt
 - Do not let Rust panics unwind through C or another runtime unless the exact ABI explicitly supports it.
 - Opaque handles should validate null, liveness, type, thread affinity, and double-destroy behavior according to contract.
 - Callbacks require a stable context object and a race-safe rule for invocation during deregistration and shutdown.
+- Sanitizer evidence must name the exact Rust target/toolchain, matching C/C++ instrumentation and runtime, allocator path, and every uninstrumented foreign gap.
 
 ## Rulebook Overlay
 

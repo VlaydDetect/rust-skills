@@ -14,10 +14,10 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`dpdk`](../../rust-systems-networking/references/low-level/dpdk.md) — supporting; EAL, huge pages, PMDs, mempools/mbufs, RX/TX bursts, rings, RSS, NUMA, affinity, and pipeline topology.
 - [`dwarf-debug-format`](../../debugging/references/low-level/dwarf-debug-format.md) — supporting; DWARF sections and DIEs, line and unwind data, split DWARF, debuginfod, LTO interactions, stripping, and separate symbols.
 - [`elf-inspection`](../../debugging/references/low-level/elf-inspection.md) — supporting; ELF identity, sections, symbols, dynamic dependencies, disassembly, hardening properties, size, and build IDs.
-- [`flamegraphs`](low-level/flamegraphs.md) — primary; Sampling-stack capture, folded stacks, differential views, callgrind and alternate inputs, graph interpretation, and follow-up measurement.
-- [`hardware-counters`](low-level/hardware-counters.md) — primary; PMU event selection, perf stat/record, derived metrics, raw events, source attribution, PAPI/PCM, multiplexing, and counter limitations.
+- [`flamegraphs`](low-level/flamegraphs.md) — primary; samply, cargo-flamegraph, pprof-rs, cross-platform backend limits, sampled-stack interpretation, and follow-up measurement.
+- [`hardware-counters`](low-level/hardware-counters.md) — primary; Linux perf, Windows VTune/uProf, WPR/WPA escalation, PMU event selection, multiplexing, and counter limitations.
 - [`heaptrack`](low-level/heaptrack.md) — primary; Allocation capture, symbol quality, retained versus peak memory, call-stack attribution, filtering, run comparison, and Rust allocator visibility.
-- [`intel-vtune-amd-uprof`](low-level/intel-vtune-amd-uprof.md) — primary; Vendor profiler selection, hotspots, microarchitecture, memory access, pipeline stalls, and roofline reasoning.
+- [`intel-vtune-amd-uprof`](low-level/intel-vtune-amd-uprof.md) — primary; Installed VTune/uProf selection, Windows WPR/WPA fallback, hotspots, microarchitecture, memory access, scheduler, wakeups, and I/O.
 - [`io-uring`](../../rust-concurrency/references/low-level/io-uring.md) — supporting; Submission/completion ownership, operation lifetimes, registered resources, multishot operations, cancellation, zero-copy, and fallback I/O.
 - [`linkers-lto`](../../rust-cargo-build/references/low-level/linkers-lto.md) — supporting; Linker selection, argument ordering, LTO modes, dead-code elimination, visibility, map files, and link-failure diagnosis.
 - [`linux-perf`](low-level/linux-perf.md) — primary; perf stat, sampling, reporting, annotation, live analysis, events, stack collection, and failure diagnosis.
@@ -25,7 +25,7 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`numa-programming`](low-level/numa-programming.md) — primary; Topology discovery, memory placement, affinity, first touch, remote-access diagnosis, measurement, and fallback behavior.
 - [`pgo`](low-level/pgo.md) — primary; Instrumentation or sample profile collection, workload representativeness, profile merge/use, post-link optimization, and impact verification.
 - [`rust-build-times`](low-level/rust-build-times.md) — primary; Clean and incremental build measurement, Cargo timings, invalidation, monomorphization, caching, codegen backends, and linking.
-- [`rust-profiling`](low-level/rust-profiling.md) — primary; Representative workload profiling, symbols, perf/flamegraphs, allocation analysis, Criterion, binary size, and monomorphization evidence.
+- [`rust-profiling`](low-level/rust-profiling.md) — primary; Criterion/Divan, profiling profile, pprof-rs, samply, cargo-flamegraph, mimalloc-pprof/dhat, Tracy, perf, VTune/uProf, WPR/WPA, and sanitizer routing.
 - [`rustc-basics`](../../rust-cargo-build/references/low-level/rustc-basics.md) — supporting; Cargo profiles, rustflags precedence, target inspection, MIR/LLVM/assembly evidence, monomorphization, size, and diagnostic triage.
 - [`simd-intrinsics`](low-level/simd-intrinsics.md) — primary; Auto-vectorization, runtime feature detection, x86 and ARM intrinsics, alignment, dispatch, scalar fallbacks, and generated assembly.
 - [`strace-ltrace`](../../debugging/references/low-level/strace-ltrace.md) — supporting; System-call and dynamic-library tracing, filtering, errno diagnosis, timing, attachment, seccomp investigation, and bounded capture.

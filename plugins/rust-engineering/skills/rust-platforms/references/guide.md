@@ -45,7 +45,7 @@ Compile-time SDK presence does not guarantee runtime support. Use documented ver
 
 ## Global Allocator Policy
 
-A reusable library must not select a process-global allocator for its consumer. Only the binary or composition root may make that choice, guarded for supported targets. New Unix investigations should consider [`tikv-jemallocator`](https://github.com/tikv/jemallocator), the maintained successor naming for legacy `jemallocator`; treat the old crate as migration context, not a new default. On Windows, [`mimalloc`](https://docs.rs/mimalloc/latest/mimalloc/) is a benchmark candidate, not an automatic recommendation.
+A reusable library must not select a process-global allocator for its consumer. Only the binary or composition root may make that choice, guarded for supported targets. New Unix investigations may evaluate [`tikv-jemallocator`](https://github.com/tikv/jemallocator), the maintained successor naming for legacy `jemallocator`; treat the old crate as migration context, not a new default. [`mimalloc`](https://docs.rs/mimalloc/latest/mimalloc/) is available on Windows and Unix, but remains a benchmark candidate rather than an automatic recommendation.
 
 Compare against the system allocator on representative workloads and deployments. Measure median and tail latency, throughput, peak and steady RSS, fragmentation after churn, startup, binary size, idle retention, and behavior across the actual target matrix. Warm caches and synthetic allocation loops are insufficient evidence for an application-wide switch.
 
@@ -57,6 +57,19 @@ An alternative allocator adds operational constraints:
 - secure or guarded modes trade memory and CPU for hardening, so benchmark the enabled production configuration;
 - allocator-specific tuning is process policy and must stay out of public library APIs.
 
+### Heap Profiler Integration
+
+[`mimalloc-pprof`](https://github.com/zackees/mimalloc-pprof) is a Windows-first sampled live-heap profiler that also supports Linux and macOS. Use it only when the composition root already selects its mimalloc implementation or when a separate allocator comparison authorizes the change.
+
+- Resolve the current crate feature contract. Versions with compile-out support can use `default-features = false` to remove sampled pprof hooks while retaining the allocator/no-op profiler API; an application feature such as `heap-profiling` should map to the real resolved capability rather than inventing an upstream feature name.
+- In an instrumented build, capture remains runtime-controlled through the resolved `prof::start`/`prof::stop` API or `MIMALLOC_PROF` environment contract. Runtime-off hooks can still add allocation-path overhead, so measure the disabled path and compile hooks out when runtime activation is not worth it.
+- The profile is sampled live heap, not every allocation. Dump while allocations of interest remain live. Linux/macOS stacks require frame pointers in relevant code; Windows x64 needs matching PDB/unwind information.
+- Never link the vendored Rust allocator and a second CMake mimalloc implementation into one process.
+
+Use crate [`dhat`](https://docs.rs/dhat/latest/dhat/) for a bounded investigation that must account for every allocation observed by its wrapping global allocator. Gate it at the binary/test root, expect substantial overhead, isolate exact-count tests from global/test-harness noise, and do not claim memory-access tracking.
+
+Profiler selection and commands remain owned by [`rust-performance`](../../rust-performance/references/low-level/rust-profiling.md); this section owns only allocator placement and platform constraints.
+
 ## Review and Verification
 
 Require resource-lifecycle tests for success, early return, cancellation, callback teardown, process inheritance, and double-close prevention. Compile all target-specific modules, exercise runtime capability fallback, and run platform-native tests. For allocator changes, preserve the benchmark command, workload corpus, target details, and before/after results so the decision can be reversed when workloads or runtimes change.
@@ -65,4 +78,4 @@ Require resource-lifecycle tests for success, early return, cancellation, callba
 
 - [`nix` documentation](https://docs.rs/nix/latest/nix/) and Rust [`std::os::fd`](https://doc.rust-lang.org/stable/std/os/fd/index.html)
 - [windows-rs source and crate guidance](https://github.com/microsoft/windows-rs) and [Windows error handling](https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-)
-- [`tikv-jemallocator` source](https://github.com/tikv/jemallocator) and [`mimalloc` crate documentation](https://docs.rs/mimalloc/latest/mimalloc/)
+- [`tikv-jemallocator` source](https://github.com/tikv/jemallocator), [`mimalloc` crate documentation](https://docs.rs/mimalloc/latest/mimalloc/), [`mimalloc-pprof`](https://github.com/zackees/mimalloc-pprof), and [`dhat`](https://docs.rs/dhat/latest/dhat/)

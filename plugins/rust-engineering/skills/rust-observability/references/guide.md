@@ -36,6 +36,14 @@ This guide is the detailed policy for `rust-observability`. It consolidates the 
 - Async parentage, retry, cancellation, queue, and shutdown behavior demonstrated where relevant.
 - Subscriber or exporter setup, filter and sampling assumptions, and measured hot-path overhead when material.
 
+## Tracy Adapter Boundary
+
+Use [`tracing-tracy`](https://github.com/nagisa/rust_tracy_client) only when the project already uses `tracing` and the performance question needs Tracy zones/timelines. This profile still owns stable span names, fields, parentage, redaction, sampling, and cardinality; [`rust-performance`](../../rust-performance/references/low-level/rust-profiling.md) owns profiler selection, capture, interpretation, and overhead.
+
+Keep `tracing-tracy`, `tracy-client`, and `tracy-client-sys` conditional through their resolved `enable` feature and a project capability. Match the client crates to the intended Tracy protocol version. A disabled subscriber is not assumed free: measure hot paths when material.
+
+Depending on configuration, Tracy discovery and captured source, assembly, or trace data can be exposed to the local network. Enabling the client, launching the viewer, connecting over the network, or retaining/sharing a trace requires an explicit effects and data review.
+
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.

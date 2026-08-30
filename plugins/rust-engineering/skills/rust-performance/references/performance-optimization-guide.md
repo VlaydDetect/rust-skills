@@ -1,365 +1,127 @@
-# Rust Performance Optimization Guide
+# Rust Benchmarking and Optimization Guide
 
-> Tool commands below are conditional examples. Use the resolved artifact path from Cargo metadata and only tools already present at a verified version; installation, network access, privilege changes, and host configuration require explicit authorization. A comparable measurement, not the tool choice, owns the conclusion.
+> Commands are conditional examples. Resolve versions and artifact paths from the project and use external tools only when already present or explicitly authorized.
 
-## Profiling First
+## Criterion: Maintained Benchmark Default
 
-### Tools
-```bash
-# CPU profiling; cargo-flamegraph must already be available
-cargo flamegraph --bin myapp
+Use Criterion when a benchmark will support regression tracking, baseline comparison, or an optimization claim.
 
-# Memory profiling; on macOS verify the resolved cargo-instruments syntax first
-heaptrack "$ARTIFACT"  # Linux; ARTIFACT comes from effective Cargo metadata/profile
+At the workspace/package manifest that owns the bench target:
 
-# Benchmarking
-cargo bench  # with criterion
+```toml
+[dev-dependencies]
+criterion = "<resolved-compatible-version>"
 
-# Cache analysis
-valgrind --tool=cachegrind "$ARTIFACT"
+[[bench]]
+name = "parse"
+harness = false
 ```
 
-### Criterion Benchmarks
+Keep setup outside the timed section, identify input size, and report throughput when it has product meaning:
+
+<!-- rust-example: fragment; missing: parse_in_place implementation, representative corpus, project Criterion version, and benchmark target -->
 ```rust
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{
+    black_box, criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion, Throughput,
+};
 
-fn benchmark_parse(c: &mut Criterion) {
-    let input = "test data".repeat(1000);
+fn parse_inputs(c: &mut Criterion) {
+    let mut group = c.benchmark_group("parse");
 
-    c.bench_function("parse_v1", |b| {
-        b.iter(|| parse_v1(&input))
-    });
+    for size in [1_024_usize, 16_384, 262_144] {
+        let source = representative_input(size);
+        group.throughput(Throughput::Bytes(source.len() as u64));
+        group.bench_with_input(BenchmarkId::from_parameter(size), &source, |b, source| {
+            b.iter_batched_ref(
+                || source.clone(),
+                |input| black_box(parse_in_place(black_box(input))),
+                BatchSize::SmallInput,
+            );
+        });
+    }
 
-    c.bench_function("parse_v2", |b| {
-        b.iter(|| parse_v2(&input))
-    });
+    group.finish();
 }
 
-criterion_group!(benches, benchmark_parse);
+criterion_group!(benches, parse_inputs);
 criterion_main!(benches);
 ```
 
----
+Use `iter` when one immutable input can be shared. Use `iter_batched` or `iter_batched_ref` only when per-iteration mutable setup must be excluded; choose `SmallInput` by default and move to `LargeInput` when retained batches are too large. Avoid `PerIteration` unless a resource or input size makes batching impossible, because its measurement overhead is materially higher.
 
-## Common Optimizations
+Record whether output destruction is part of the operation. Returning a value with `Drop` can include destruction in `iter`; select a timing loop deliberately rather than hiding the cost.
 
-### 1. Avoid Unnecessary Allocations
+### Commands and Baselines
 
-```rust
-// BAD: allocates on every call
-fn to_uppercase(s: &str) -> String {
-    s.to_uppercase()
-}
-
-// GOOD: return Cow, allocate only if needed
-use std::borrow::Cow;
-
-fn to_uppercase(s: &str) -> Cow<'_, str> {
-    if s.chars().all(|c| c.is_uppercase()) {
-        Cow::Borrowed(s)
-    } else {
-        Cow::Owned(s.to_uppercase())
-    }
-}
+```text
+cargo test --benches
+cargo bench --bench parse -- --save-baseline <baseline>
+cargo bench --bench parse -- --baseline <baseline>
+cargo bench --profile profiling --bench parse -- --profile-time <seconds>
 ```
 
-### 2. Reuse Allocations
+- `cargo test --benches` proves that bench targets start; it does not establish performance.
+- Save and compare baselines only under the same toolchain, profile, target, features, flags, allocator, workload, and runner class.
+- `--profile-time` repeats the selected benchmark without Criterion's normal analysis or result saving, so external or in-process profiler overhead is easier to isolate.
+- When running a Criterion executable directly under a profiler, pass the Criterion-required `--bench` argument and use the resolved executable path rather than assuming Cargo's internal layout.
 
-```rust
-// BAD: creates new Vec each iteration
-for item in items {
-    let mut buffer = Vec::new();
-    process(&mut buffer, item);
-}
+### Async Benchmarks
 
-// GOOD: reuse buffer
-let mut buffer = Vec::new();
-for item in items {
-    buffer.clear();
-    process(&mut buffer, item);
-}
-```
+Use the same executor family and relevant configuration as production when executor behavior is part of the metric. Prefer a synchronous benchmark when measuring a synchronous operation; otherwise the runtime, wakeups, timers, and scheduling become part of the result. Record runtime version, worker count, current-thread versus multi-thread mode, and whether setup occurs outside the timed future.
 
-### 3. Use Appropriate Collections
+## Divan: Minimal Exploratory Alternative
 
-| Need | Collection | Notes |
-|------|------------|-------|
-| Sequential access | `Vec<T>` | Best cache locality |
-| Random access by key | `HashMap<K, V>` | O(1) lookup |
-| Ordered keys | `BTreeMap<K, V>` | O(log n) lookup |
-| Small sets (<20) | `Vec<T>` + linear search | Lower overhead |
-| FIFO queue | `VecDeque<T>` | O(1) push/pop both ends |
-
-### 4. Pre-allocate Capacity
-
-```rust
-// BAD: many reallocations
-let mut v = Vec::new();
-for i in 0..10000 {
-    v.push(i);
-}
-
-// GOOD: single allocation
-let mut v = Vec::with_capacity(10000);
-for i in 0..10000 {
-    v.push(i);
-}
-```
-
----
-
-## String Optimization
-
-### Avoid String Concatenation in Loops
-
-```rust
-// BAD: O(n²) allocations
-let mut result = String::new();
-for s in strings {
-    result = result + &s;
-}
-
-// GOOD: O(n) with push_str
-let mut result = String::new();
-for s in strings {
-    result.push_str(&s);
-}
-
-// BETTER: pre-calculate capacity
-let total_len: usize = strings.iter().map(|s| s.len()).sum();
-let mut result = String::with_capacity(total_len);
-for s in strings {
-    result.push_str(&s);
-}
-
-// BEST: use join for simple cases
-let result = strings.join("");
-```
-
-### Use &str When Possible
-
-```rust
-// BAD: requires allocation
-fn greet(name: String) {
-    println!("Hello, {}", name);
-}
-
-// GOOD: borrows, no allocation
-fn greet(name: &str) {
-    println!("Hello, {}", name);
-}
-
-// Works with both:
-greet("world");                    // &str
-greet(&String::from("world"));     // &String coerces to &str
-```
-
----
-
-## Iterator Optimization
-
-### Use Iterators Over Indexing
-
-```rust
-// BAD: bounds checking on each access
-let mut sum = 0;
-for i in 0..vec.len() {
-    sum += vec[i];
-}
-
-// GOOD: no bounds checking
-let sum: i32 = vec.iter().sum();
-
-// GOOD: when index needed
-for (i, item) in vec.iter().enumerate() {
-    // ...
-}
-```
-
-### Lazy Evaluation
-
-```rust
-// Iterators are lazy - computation happens at collect
-let result: Vec<_> = data
-    .iter()
-    .filter(|x| x.is_valid())
-    .map(|x| x.process())
-    .take(10)  // stop after 10 items
-    .collect();
-```
-
-### Avoid Collecting When Not Needed
-
-```rust
-// BAD: unnecessary intermediate allocation
-let filtered: Vec<_> = items.iter().filter(|x| x.valid).collect();
-let count = filtered.len();
-
-// GOOD: no allocation
-let count = items.iter().filter(|x| x.valid).count();
-```
-
----
-
-## Parallelism with Rayon
-
-```rust
-use rayon::prelude::*;
-
-// Sequential
-let sum: i32 = (0..1_000_000).map(|x| x * x).sum();
-
-// Parallel (automatic work stealing)
-let sum: i32 = (0..1_000_000).into_par_iter().map(|x| x * x).sum();
-
-// Parallel with custom chunk size
-let results: Vec<_> = data
-    .par_chunks(1000)
-    .map(|chunk| process_chunk(chunk))
-    .collect();
-```
-
----
-
-## Memory Layout
-
-### Use Appropriate Integer Sizes
-
-```rust
-// If values are small, use smaller types
-struct Item {
-    count: u8,      // 0-255, not u64
-    flags: u8,      // small enum
-    id: u32,        // if 4 billion is enough
-}
-```
-
-### Pack Structs Efficiently
-
-```rust
-// BAD: 24 bytes due to padding
-struct Bad {
-    a: u8,   // 1 byte + 7 padding
-    b: u64,  // 8 bytes
-    c: u8,   // 1 byte + 7 padding
-}
-
-// GOOD: 16 bytes (or use #[repr(packed)])
-struct Good {
-    b: u64,  // 8 bytes
-    a: u8,   // 1 byte
-    c: u8,   // 1 byte + 6 padding
-}
-```
-
-### Box Large Values
-
-```rust
-// Large enum variants waste space
-enum Message {
-    Quit,
-    Data([u8; 10000]),  // all variants are 10000+ bytes
-}
-
-// Better: box the large variant
-enum Message {
-    Quit,
-    Data(Box<[u8; 10000]>),  // variants are pointer-sized
-}
-```
-
----
-
-## Async Performance
-
-### Avoid Blocking in Async
-
-```rust
-// BAD: blocks the executor
-async fn bad() {
-    std::thread::sleep(Duration::from_secs(1));  // blocking!
-    std::fs::read_to_string("file.txt").unwrap();  // blocking!
-}
-
-// GOOD: use async versions
-async fn good() {
-    tokio::time::sleep(Duration::from_secs(1)).await;
-    tokio::fs::read_to_string("file.txt").await.unwrap();
-}
-
-// For CPU work: spawn_blocking
-async fn compute() -> i32 {
-    tokio::task::spawn_blocking(|| {
-        heavy_computation()
-    }).await.unwrap()
-}
-```
-
-### Buffer Async I/O
-
-```rust
-use tokio::io::{AsyncBufReadExt, BufReader};
-
-// BAD: many small reads
-async fn bad(file: File) {
-    let mut byte = [0u8];
-    while file.read(&mut byte).await.unwrap() > 0 {
-        process(byte[0]);
-    }
-}
-
-// GOOD: buffered reading
-async fn good(file: File) {
-    let reader = BufReader::new(file);
-    let mut lines = reader.lines();
-    while let Some(line) = lines.next_line().await.unwrap() {
-        process(&line);
-    }
-}
-```
-
----
-
-## Release Build Optimization
-
-### Cargo.toml Settings
+Use Divan when the goal is a small local benchmark with low ceremony and no established Criterion baseline or profiler hook contract.
 
 ```toml
-[profile.release]
-lto = true           # Link-time optimization
-codegen-units = 1    # Single codegen unit (slower compile, faster code)
-panic = "abort"      # Smaller binary, no unwinding
-strip = true         # Strip symbols
+[dev-dependencies]
+divan = "<resolved-compatible-version>"
 
-[profile.release-fast]
-inherits = "release"
-opt-level = 3        # Maximum optimization
-
-[profile.release-small]
-inherits = "release"
-opt-level = "s"      # Optimize for size
+[[bench]]
+name = "scan"
+harness = false
 ```
 
-### Compile-Time Assertions
-
+<!-- rust-example: fragment; missing: scan implementation, representative inputs, and project Divan version -->
 ```rust
-// Zero runtime cost
-const _: () = assert!(std::mem::size_of::<MyStruct>() <= 64);
+fn main() {
+    divan::main();
+}
+
+#[divan::bench(args = [64_usize, 1_024, 16_384])]
+fn scan(size: usize) -> usize {
+    let input = representative_input(size);
+    divan::black_box(scan_bytes(divan::black_box(&input)))
+}
 ```
 
----
+Divan output can guide exploration, but move to Criterion before making a durable regression or optimization claim that needs baseline management, Criterion's analysis contract, or `pprof-rs` Criterion integration. Resolve Divan's current MSRV before adoption.
 
-## Checklist
+## Benchmark Validity Checklist
 
-Before optimizing:
-- [ ] Profile to find actual bottlenecks
-- [ ] Have benchmarks to measure improvement
-- [ ] Consider if optimization is worth complexity
+- Representative success, boundary, adversarial, and size-scaling inputs are defined.
+- Setup, cloning, allocation, I/O, and destruction are either intentionally timed or explicitly excluded.
+- `black_box` protects inputs/outputs where optimization could erase the work.
+- Throughput units match the actual work rather than an arbitrary byte count.
+- Warmup, sample, measurement time, and significance settings stay at framework defaults unless noise evidence justifies a change.
+- Baseline names, raw results, environment, and runner identity are retained.
+- A service or concurrent result also has an end-to-end workload covering queueing, contention, I/O, and tail latency.
 
-Common wins:
-- [ ] Reduce allocations (Cow, reuse buffers)
-- [ ] Use appropriate collections
-- [ ] Pre-allocate with_capacity
-- [ ] Use iterators instead of indexing
-- [ ] Enable LTO for release builds
-- [ ] Use rayon for parallel workloads
+## Optimization Loop
+
+1. Profile the representative workload using the [cross-platform profiling protocol](./low-level/rust-profiling.md).
+2. Turn the dominant call path or resource cost into a focused Criterion benchmark when one does not exist.
+3. State one hypothesis and the correctness behavior that must remain unchanged.
+4. Apply the smallest candidate change.
+5. Run functional verification and the same before/after benchmark.
+6. Reject noise-level wins and record new memory, startup, build-time, portability, maintenance, or soundness costs.
+
+No collection, allocator, parallel runtime, layout attribute, unsafe block, LTO setting, codegen-unit count, panic strategy, or stripping policy is a universal optimization. These are measured experiment variables owned by their respective profiles.
+
+## Primary Evidence
+
+- [Criterion book](https://bheisler.github.io/criterion.rs/book/)
+- [Criterion input groups and throughput](https://bheisler.github.io/criterion.rs/book/user_guide/benchmarking_with_inputs.html)
+- [Criterion timing loops](https://bheisler.github.io/criterion.rs/book/user_guide/timing_loops.html)
+- [Criterion profiling mode](https://bheisler.github.io/criterion.rs/book/user_guide/profiling.html)
+- [Divan documentation](https://docs.rs/divan/latest/divan/)

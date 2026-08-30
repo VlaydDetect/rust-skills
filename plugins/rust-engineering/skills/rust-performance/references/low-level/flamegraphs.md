@@ -1,11 +1,13 @@
-# Low-level Flamegraphs protocol> Focused decision protocol; examples are evidence, not automatic product policy.
-## Routing and retained scope
+# Low-level Flamegraphs Protocol
+
+> Focused decision protocol; examples are evidence, not automatic product policy.
+
+## Routing and Scope
 
 - Primary owner: `$rust-performance`.
-- Supporting profiles: `$debugging`, `$rust-cargo-build`.
-- Retained scope: Sampling-stack capture, folded stacks, differential views, callgrind and alternate inputs, graph interpretation, and follow-up measurement.
-- Baseline correction: Box width is sample proportion, the x-axis is not time, and color is normally not semantic. Preserve raw samples and use a benchmark or counter comparison for the claimed win.
-- Project toolchain, MSRV, Edition, target, resolved dependencies, CI, hardware, operating system, and explicit user contract override this reference.
+- Supporting profiles: `$rust-cargo-build` for symbols/profile selection and `$debugging` for unexplained capture failures.
+- Canonical tool selection lives in [Rust profiling](./rust-profiling.md).
+- Retained scope: sampled stack capture, flamegraph interpretation, cross-platform backends, differential views, and follow-up measurement.
 
 ## Required context
 
@@ -23,52 +25,40 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Decision map
+## Backend Choice
 
-The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
+| Need | Prefer |
+|---|---|
+| Cross-platform interactive call tree/timeline | installed `samply` |
+| Cross-platform SVG flamegraph from Cargo target | installed `cargo-flamegraph` |
+| Unix in-process Criterion capture | `pprof-rs` with `criterion` and `flamegraph` |
+| Linux PMU event sampling | `perf record`, optionally rendered as a flamegraph |
 
-- `Table of Contents` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `FlameGraph scripts` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `stackcollapse scripts by profiler` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Linux perf` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Valgrind Callgrind` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `DTrace (macOS / FreeBSD / Solaris)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Go pprof` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Java (async-profiler)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Rust (cargo-flamegraph)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `flamegraph.pl options` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Color palettes` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Differential flamegraphs` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Alternative flamegraph tools` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Speedscope (browser-based, interactive)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Firefox Profiler` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `inferno (Rust implementation, fast)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `pprof (Go, supports flamegraphs)` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Reading patterns quick reference` — inspect when relevant; source `skills/profilers/flamegraphs/references/tools.md`.
-- `Install FlameGraph tools` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `perf → flamegraph (most common path)` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `Differential flamegraph (before/after)` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `Callgrind → flamegraph` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `Other profiler inputs` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `Reading flamegraphs` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
-- `flamegraph.pl options` — inspect when relevant; source `skills/profilers/flamegraphs/SKILL.md`.
+Build the selected workload with the project `profiling` profile and retain symbols. Use `cargo flamegraph --profile profiling` only after verifying the installed CLI. Samply may open a browser and local source/symbol server; cargo-flamegraph `--open` does the same kind of GUI effect. Both require authorization when executed.
 
-## Failure modes and guardrails
+## Interpretation
 
-- Flamegraph width is sample proportion, not an optimization measurement.
-- Hardware events and thresholds are CPU/kernel-specific.
-- Compile-time, binary-size and runtime improvements can trade against one another.
-- If a required tool, target, component, hardware device, symbol file, corpus, or cache is absent, report `SKIP` or request authorization; never install or mutate the host implicitly.
-- Treat tool output as bounded evidence. Record exact command, version, target, scope, result, and residual risk.
+- Width is the proportion of captured samples containing the frame, not elapsed wall-clock time.
+- The x-axis normally has no time ordering, and color normally has no cost meaning.
+- Missing frames can come from sampling frequency, inlining, unwind data, stripped symbols, frame-pointer gaps, blocked/off-CPU time, or backend limitations.
+- A wide caller can aggregate many children; inspect stacks and source before naming the optimization target.
+- Preserve raw samples when the backend permits and compare equivalent workloads for differential views.
+- Turn the suspected call path into a Criterion or representative end-to-end comparison. Never claim a speedup from the flamegraph alone.
 
-## Source example disposition
+## Guardrails
 
-This family contains 19 unique source block bodies: 15 `fragment`, 4 `rejected`. Blocks not reproduced here remain individually hashed and reasoned in the coverage ledger.
+- Do not install a backend, enable DTrace, lower `perf_event_paranoid`, elevate privilege, open a viewer, or upload a profile automatically.
+- Linux, macOS, and Windows backends expose different events and stack behavior; cross-platform support is not capability parity.
+- Record tool/version, backend, sampling mode/frequency, profile/features/flags, symbols, workload, output, and residual blind spots.
 
-## Evidence gate
+## Evidence Gate
 
-- [`cargo-flamegraph`](https://github.com/flamegraph-rs/flamegraph) — cargo-flamegraph backends and command surface; `resolved-version`, reviewed 2026-08-23.
-- [`perf-record`](https://man7.org/linux/man-pages/man1/perf-record.1.html) — perf record events and call-graph modes; `installed-perf-specific`, reviewed 2026-08-23.
-- [`perf-security`](https://docs.kernel.org/admin-guide/perf-security.html) — perf privilege and data-exposure boundary; `kernel-specific`, reviewed 2026-08-23.
+Reviewed 2026-08-30.
+
+- [samply](https://github.com/mstange/samply)
+- [cargo-flamegraph](https://github.com/flamegraph-rs/flamegraph)
+- [pprof-rs](https://github.com/tikv/pprof-rs)
+- [perf record](https://man7.org/linux/man-pages/man1/perf-record.1.html)
+- [perf security](https://docs.kernel.org/admin-guide/perf-security.html)
 
 Before executing a version-sensitive command, re-check the exact project toolchain or resolved tool version. Official Rust/Cargo evidence owns language and build behavior; tool-owner documentation owns external CLI syntax.

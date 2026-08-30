@@ -4350,6 +4350,131 @@
         ]
       },
       {
+        "id": "selection-page-portable-future-direct-io",
+        "mode": "selection",
+        "prompt": "Implement only the portable Page type requested now, using typed semantic values and focused tests. The project plan mentions platform-specific Direct I/O as future work, but this change has no OS-specific code or contract.",
+        "mutation": true,
+        "expected": {
+          "entry_skill": "rust-workflow",
+          "overlays": [
+            "rust-coding-rules"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "portable-page-api",
+                "owner_profile": "rust-api-design"
+              }
+            ],
+            "coding_profiles": [
+              "rust-traits"
+            ],
+            "helper_profiles": [
+              "rust-testing"
+            ],
+            "deferred_profiles": [
+              "rust-platforms"
+            ],
+            "forbidden_profiles": [
+              "rust-architecture",
+              "rust-research"
+            ],
+            "coverage": {
+              "decisions": [
+                "portable-page-api"
+              ],
+              "constructs": [
+                {
+                  "construct": "page IDs, offsets, sizes, sentinel values, and closed states",
+                  "profile": "rust-traits",
+                  "reason": "Newtypes and enums must prevent semantically invalid Page values and states."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "The portable Page API represents semantic values with closed types and has no platform dependency",
+                  "evidence": "Focused Page construction and invalid-state tests"
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "selection",
+          "page",
+          "portable",
+          "future-plan-deferred"
+        ]
+      },
+      {
+        "id": "selection-page-api-binary-header",
+        "mode": "selection",
+        "prompt": "Add a caller-facing Page API and a stable binary page header with versioned decode validation. The API contract and durable bytes are both changed in this phase; OS I/O is deferred.",
+        "mutation": true,
+        "expected": {
+          "entry_skill": "rust-workflow",
+          "overlays": [
+            "rust-coding-rules"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "page-api",
+                "owner_profile": "rust-api-design"
+              },
+              {
+                "id": "page-header-format",
+                "owner_profile": "rust-serialization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-traits",
+              "rust-errors"
+            ],
+            "helper_profiles": [
+              "rust-testing"
+            ],
+            "deferred_profiles": [
+              "rust-platforms"
+            ],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "page-api",
+                "page-header-format"
+              ],
+              "constructs": [
+                {
+                  "construct": "typed page header fields",
+                  "profile": "rust-traits",
+                  "reason": "Closed types prevent invalid header states."
+                },
+                {
+                  "construct": "decode validation errors",
+                  "profile": "rust-errors",
+                  "reason": "Malformed and unsupported bytes need caller-actionable failures."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "The public Page API round-trips the versioned header and rejects invalid bytes",
+                  "evidence": "Codec unit and malformed-input tests"
+                }
+              ],
+              "gaps": []
+            },
+            "same_phase_reason": "The public constructors and durable header are distinct contracts that must round-trip atomically in this change."
+          }
+        },
+        "tags": [
+          "selection",
+          "page",
+          "serialization",
+          "two-owners"
+        ]
+      },
+      {
         "id": "selection-small-local-no-broad-owners",
         "mode": "selection",
         "prompt": "In one private parser function, replace a raw sentinel state with a closed enum and update its focused test. No module boundary, OS behavior, or version-sensitive external fact changes.",
@@ -13355,12 +13480,13 @@
       {
         "id": "low-perf-cpu-hotspot",
         "kind": "debugging_profiling",
-        "prompt": "A stable benchmark regression needs Linux CPU sampling with readable Rust frames and a comparable before/after result.",
+        "prompt": "A team needs a maintained regression benchmark plus a minimal exploratory alternative, then readable CPU profiles on Linux and Windows. Choose Criterion versus Divan, define the workspace-root profiling profile, and select only already installed cross-platform or Unix profilers.",
         "expected": {
           "activate": true,
           "references": [
             "rust-profiling",
-            "linux-perf"
+            "flamegraphs",
+            "rustc-basics"
           ],
           "channel": "external",
           "allowed_effects": [
@@ -13368,9 +13494,11 @@
             "profiler-output"
           ],
           "forbidden": [
+            "compare-different-profiles",
+            "global-cargo-profile",
             "change-perf-event-paranoid",
             "sudo",
-            "install-perf"
+            "install-profiler"
           ],
           "profile_stack": {
             "decision_units": [
@@ -13383,9 +13511,11 @@
                 "owner_profile": "rust-cargo-build"
               }
             ],
-            "coding_profiles": [],
+            "coding_profiles": [
+              "rust-platforms"
+            ],
             "helper_profiles": [
-              "debugging"
+              "rust-research"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -13398,7 +13528,12 @@
                 {
                   "construct": "rust-cargo-build scenario contract",
                   "profile": "rust-cargo-build",
-                  "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
+                  "reason": "Cargo owns the workspace-root profiling profile, symbols, and scoped codegen inputs."
+                },
+                {
+                  "construct": "cross-platform profiler capability",
+                  "profile": "rust-platforms",
+                  "reason": "The scenario distinguishes Linux, macOS, and Windows backend capabilities and host effects."
                 }
               ],
               "acceptance": [
@@ -13413,19 +13548,24 @@
           }
         },
         "tags": [
+          "criterion",
+          "divan",
+          "profiling-profile",
           "perf",
           "sampling",
-          "benchmark"
+          "samply"
         ]
       },
       {
         "id": "low-perf-flamegraph-meaning",
         "kind": "debugging_profiling",
-        "prompt": "Interpret a flamegraph and decide which function deserves a dedicated benchmark; do not treat box width as proof of speedup.",
+        "prompt": "A cross-platform investigation must choose sampled call stacks versus a timeline of frames, locks, threads, and GPU work. Route samply, cargo-flamegraph, or Unix pprof to sampling and Tracy through rust_tracy_client or tracing-tracy to conditional timeline instrumentation.",
         "expected": {
           "activate": true,
           "references": [
-            "flamegraphs"
+            "flamegraphs",
+            "rust-profiling",
+            "observability"
           ],
           "channel": "external",
           "allowed_effects": [
@@ -13433,8 +13573,9 @@
           ],
           "forbidden": [
             "width-is-elapsed-time",
-            "color-is-cost",
-            "claim-speedup-from-flamegraph"
+            "claim-speedup-from-flamegraph",
+            "always-on-tracy",
+            "unapproved-network-or-upload"
           ],
           "profile_stack": {
             "decision_units": [
@@ -13443,9 +13584,11 @@
                 "owner_profile": "rust-performance"
               }
             ],
-            "coding_profiles": [],
+            "coding_profiles": [
+              "rust-observability"
+            ],
             "helper_profiles": [
-              "debugging"
+              "rust-research"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -13455,9 +13598,9 @@
               ],
               "constructs": [
                 {
-                  "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
-                  "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
+                  "construct": "tracing span adapter contract",
+                  "profile": "rust-observability",
+                  "reason": "Observability owns span fields, parentage, redaction, and cardinality when tracing-tracy adapts existing spans."
                 }
               ],
               "acceptance": [
@@ -13472,18 +13615,20 @@
         },
         "tags": [
           "flamegraph",
-          "interpretation",
-          "benchmark"
+          "tracy",
+          "timeline",
+          "tracing"
         ]
       },
       {
         "id": "low-perf-heap-allocation",
         "kind": "debugging_profiling",
-        "prompt": "Find which call paths cause a new peak-allocation regression in a Linux Rust service using an already installed heap profiler.",
+        "prompt": "A Windows-and-Unix binary already uses mimalloc and needs heap evidence. Choose sampled mimalloc-pprof with build-time and runtime gating, or crate dhat when every allocation in a short isolated run must be observed.",
         "expected": {
           "activate": true,
           "references": [
-            "heaptrack"
+            "rust-profiling",
+            "custom-allocators"
           ],
           "channel": "external",
           "allowed_effects": [
@@ -13491,9 +13636,11 @@
             "profiler-output"
           ],
           "forbidden": [
-            "install-heaptrack",
+            "assume-sampling-is-exact",
             "assume-output-path",
-            "change-allocator-first"
+            "change-allocator-first",
+            "link-two-mimallocs",
+            "ship-unmeasured-profiler-hooks"
           ],
           "profile_stack": {
             "decision_units": [
@@ -13502,26 +13649,28 @@
                 "owner_profile": "rust-performance"
               },
               {
-                "id": "cargo-build-decision",
-                "owner_profile": "rust-cargo-build"
+                "id": "allocator-platform-decision",
+                "owner_profile": "rust-platforms"
               }
             ],
-            "coding_profiles": [],
+            "coding_profiles": [
+              "rust-unsafe"
+            ],
             "helper_profiles": [
-              "debugging"
+              "rust-research"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
             "coverage": {
               "decisions": [
                 "performance-decision",
-                "cargo-build-decision"
+                "allocator-platform-decision"
               ],
               "constructs": [
                 {
-                  "construct": "rust-cargo-build scenario contract",
-                  "profile": "rust-cargo-build",
-                  "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
+                  "construct": "global allocator profiling boundary",
+                  "profile": "rust-unsafe",
+                  "reason": "Exact allocation tracking and custom allocator integration require allocator, lifetime, and instrumentation constraints."
                 }
               ],
               "acceptance": [
@@ -13532,24 +13681,27 @@
               ],
               "gaps": []
             },
-            "same_phase_reason": "rust-performance and rust-cargo-build own distinct contracts exercised together by this scenario; splitting would hide their atomic interaction."
+            "same_phase_reason": "rust-performance chooses the heap evidence while rust-platforms owns the process-global allocator and platform contract; splitting would hide their atomic interaction."
           }
         },
         "tags": [
+          "mimalloc-pprof",
+          "dhat",
           "heap",
           "allocation",
-          "peak"
+          "cross-platform"
         ]
       },
       {
         "id": "low-perf-branch-counter",
         "kind": "debugging_profiling",
-        "prompt": "A branchless rewrite is proposed for a parser. Select CPU counters and assembly evidence before changing it.",
+        "prompt": "A cache-miss and latency investigation must route Linux to perf, Windows Intel to an installed VTune, Windows AMD to an installed uProf, and scheduler, wakeup, wait, or I/O gaps to WPR plus WPA.",
         "expected": {
           "activate": true,
           "references": [
             "hardware-counters",
-            "branch-prediction-and-speculation"
+            "linux-perf",
+            "intel-vtune-amd-uprof"
           ],
           "channel": "external",
           "allowed_effects": [
@@ -13558,7 +13710,9 @@
           "forbidden": [
             "universal-miss-threshold",
             "assume-counter-name",
-            "rewrite-before-baseline"
+            "install-vendor-profiler",
+            "change-host-security",
+            "treat-wpa-as-benchmark"
           ],
           "profile_stack": {
             "decision_units": [
@@ -13567,7 +13721,9 @@
                 "owner_profile": "rust-performance"
               }
             ],
-            "coding_profiles": [],
+            "coding_profiles": [
+              "rust-platforms"
+            ],
             "helper_profiles": [
               "rust-research"
             ],
@@ -13579,9 +13735,9 @@
               ],
               "constructs": [
                 {
-                  "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
-                  "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
+                  "construct": "OS and CPU-specific profiler capability",
+                  "profile": "rust-platforms",
+                  "reason": "The scenario requires Linux-versus-Windows and installed Intel-versus-AMD capability routing."
                 }
               ],
               "acceptance": [
@@ -13596,8 +13752,10 @@
         },
         "tags": [
           "pmu",
-          "branch",
-          "assembly"
+          "cache-misses",
+          "vtune",
+          "uprof",
+          "wpr-wpa"
         ]
       },
       {
@@ -14682,11 +14840,12 @@
       {
         "id": "low-asan-ffi-boundary",
         "kind": "sanitizer_miri_security",
-        "prompt": "Choose AddressSanitizer evidence for Rust calling an instrumented C library on a supported target and state uninstrumented gaps.",
+        "prompt": "Choose AddressSanitizer evidence for Rust calling C/C++ on a currently supported target. Require an explicit target, repository-pinned nightly, build-std when needed, matching native instrumentation/runtime, external-clangrt when required, and a list of uninstrumented gaps.",
         "expected": {
           "activate": true,
           "references": [
             "rust-sanitizers-miri",
+            "sanitizers",
             "rust-ffi"
           ],
           "channel": "nightly",
@@ -14695,6 +14854,8 @@
           ],
           "forbidden": [
             "assume-native-instrumented",
+            "omit-explicit-target",
+            "reuse-cpp-ubsan-as-rust",
             "install-nightly",
             "sanitizer-all-targets"
           ],
@@ -14703,6 +14864,10 @@
               {
                 "id": "unsafe-ffi-decision",
                 "owner_profile": "rust-unsafe-ffi"
+              },
+              {
+                "id": "cargo-target-decision",
+                "owner_profile": "rust-cargo-build"
               }
             ],
             "coding_profiles": [
@@ -14713,7 +14878,8 @@
             "forbidden_profiles": [],
             "coverage": {
               "decisions": [
-                "unsafe-ffi-decision"
+                "unsafe-ffi-decision",
+                "cargo-target-decision"
               ],
               "constructs": [
                 {
@@ -14729,13 +14895,16 @@
                 }
               ],
               "gaps": []
-            }
+            },
+            "same_phase_reason": "rust-unsafe-ffi owns foreign runtime coverage while rust-cargo-build owns explicit target and build-std mechanics; splitting would hide their atomic sanitizer contract."
           }
         },
         "tags": [
           "asan",
           "ffi",
-          "native"
+          "native",
+          "build-std",
+          "external-clangrt"
         ]
       },
       {

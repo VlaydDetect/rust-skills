@@ -14,7 +14,7 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`dwarf-debug-format`](../../debugging/references/low-level/dwarf-debug-format.md) — supporting; DWARF sections and DIEs, line and unwind data, split DWARF, debuginfod, LTO interactions, stripping, and separate symbols.
 - [`dynamic-linking`](low-level/dynamic-linking.md) — primary; Shared-library identity, SONAME, RPATH/RUNPATH, loader search, plugins, interposition, visibility, and loader errors.
 - [`embedded-rust`](../../rust-architecture/references/low-level/embedded-rust.md) — supporting; Target and memory layout, no_std entry/panic, flashing/debugging, compact telemetry, interrupts, concurrency models, and HAL ownership.
-- [`flamegraphs`](../../rust-performance/references/low-level/flamegraphs.md) — supporting; Sampling-stack capture, folded stacks, differential views, callgrind and alternate inputs, graph interpretation, and follow-up measurement.
+- [`flamegraphs`](../../rust-performance/references/low-level/flamegraphs.md) — supporting; Cross-platform sampling backends, profiling profile, symbol quality, stack interpretation, and follow-up measurement.
 - [`gdb`](../../debugging/references/low-level/gdb.md) — supporting; GDB startup, breakpoints, watchpoints, state and thread inspection, reverse and remote debugging, scripting, and common symbol failures.
 - [`heaptrack`](../../rust-performance/references/low-level/heaptrack.md) — supporting; Allocation capture, symbol quality, retained versus peak memory, call-stack attribution, filtering, run comparison, and Rust allocator visibility.
 - [`linker-scripts`](low-level/linker-scripts.md) — primary; Memory regions, sections, VMA/LMA, startup initialization, placement, KEEP/ALIGN/PROVIDE, symbols, and map-based verification.
@@ -27,7 +27,7 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`rust-debugging`](../../debugging/references/low-level/rust-debugging.md) — supporting; Debug-profile selection, Rust-aware GDB/LLDB, backtraces, panics, structured instrumentation, and async task inspection.
 - [`rust-ffi`](../../rust-unsafe-ffi/references/low-level/rust-ffi.md) — supporting; Manual and generated bindings, sys-crate layering, safe wrappers, exported C APIs, linking, ownership transfer, and error translation.
 - [`rust-no-std`](../../rust-architecture/references/low-level/rust-no-std.md) — supporting; core/alloc/std capability boundaries, allocator and panic ownership, portable libraries, target configuration, and host-side testing.
-- [`rust-profiling`](../../rust-performance/references/low-level/rust-profiling.md) — supporting; Representative workload profiling, symbols, perf/flamegraphs, allocation analysis, Criterion, binary size, and monomorphization evidence.
+- [`rust-profiling`](../../rust-performance/references/low-level/rust-profiling.md) — supporting; Workspace-owned profiling profile, Criterion/Divan, cross-platform CPU/heap/timeline/counter tools, symbols, and command effects.
 - [`rustc-basics`](low-level/rustc-basics.md) — primary; Cargo profiles, rustflags precedence, target inspection, MIR/LLVM/assembly evidence, monomorphization, size, and diagnostic triage.
 
 `primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

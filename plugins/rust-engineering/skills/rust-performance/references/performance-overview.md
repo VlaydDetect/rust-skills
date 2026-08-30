@@ -1,153 +1,63 @@
-# Performance Optimization
+# Performance Measurement and Optimization Model
 
 > A reproducible metric and comparable baseline are required before an optimization becomes policy.
 
-> **Layer 2: Design Choices**
-
 ## Core Question
 
-**What's the bottleneck, and is optimization worth it?**
+What resource limits the representative workload, and is the measured benefit worth the added cost?
 
-Before optimizing:
-- Have you measured? (Don't guess)
-- What's the acceptable performance?
-- Will optimization add complexity?
+## Decision Flow
 
----
+1. Define the user-visible metric, correctness contract, workload, target, and acceptable variance.
+2. Reproduce the baseline with fixed toolchain, profile, features, flags, allocator, inputs, and environment controls.
+3. Classify the cost before selecting a tool:
+   - CPU or latency: sampling stacks;
+   - allocations, retained heap, or leaks: sampled or exact heap profiling;
+   - cache, branches, IPC, or bandwidth: hardware counters;
+   - locks, wakeups, frames, threads, GPU, or scheduler gaps: timeline or OS tracing;
+   - compile time or binary size: Cargo/compiler-specific evidence.
+4. Locate one bottleneck and write one causal hypothesis.
+5. Apply the smallest behavior-preserving change that tests the hypothesis.
+6. Repeat the same benchmark and correctness checks; keep or reject the change from evidence.
 
-## Performance Decision → Implementation
+## Benchmark Choice
 
-| Goal | Design Choice | Implementation |
-|------|---------------|----------------|
-| Reduce allocations | Pre-allocate, reuse | `with_capacity`, object pools |
-| Improve cache | Contiguous data | `Vec`, `SmallVec` |
-| Parallelize | Data parallelism | `rayon`, threads |
-| Avoid copies | Zero-copy | References, `Cow<T>` |
-| Reduce indirection | Inline data | `smallvec`, arrays |
+| Need | Default |
+|---|---|
+| Maintained regression evidence, baselines, profiler hooks | Criterion |
+| Minimal exploratory function benchmark | Divan |
+| Service latency, startup, I/O, queueing, contention | Representative end-to-end harness |
 
----
+Divan is intentionally a small alternative. Move to Criterion before the result becomes a long-lived regression or optimization contract that needs stable baseline comparison or Criterion profiler integration.
 
-## Thinking Prompt
+## Evidence Before Technique
 
-Before optimizing:
+| Observed evidence | Candidate investigation, not an automatic fix |
+|---|---|
+| Allocation-heavy hot path | Ownership, capacity, reuse, batching, data representation |
+| Poor cache locality or high miss rate | Access order, layout, working-set size, false sharing |
+| Lock wait or off-CPU time | Critical-section scope, ownership, queueing, scheduling |
+| Hot branch or instruction sequence | Algorithm, branch behavior, generated code, target dispatch |
+| High retained memory | Lifetime, cache capacity, fragmentation, allocator behavior |
+| High build time or size | Monomorphization, macros, dependency graph, codegen, linking |
 
-1. **Have you measured?**
-   - Profile first → flamegraph, perf
-   - Benchmark → criterion, cargo bench
-   - Identify actual hotspots
+Do not prescribe `SmallVec`, Rayon, an allocator, `repr(packed)`, LTO, pooling, sharding, SIMD, or unsafe code without the matching measurement and project constraints.
 
-2. **What's the priority?**
-   - Algorithm (10x-1000x improvement)
-   - Data structure (2x-10x)
-   - Allocation (2x-5x)
-   - Cache (1.5x-3x)
+## Comparison Gate
 
-3. **What's the trade-off?**
-   - Complexity vs speed
-   - Memory vs CPU
-   - Latency vs throughput
+A comparison is invalid when any controlling input differs without being part of the experiment:
 
----
+- Cargo profile, target, features, `RUSTFLAGS`, PGO/LTO, panic strategy, debug info, or allocator;
+- framework/tool version or benchmark implementation;
+- workload, input distribution, cold/warm state, concurrency, runtime, or I/O dependency;
+- hardware class, CPU frequency/power policy, thermal state, OS/kernel, or competing load.
 
-## Trace Up ↑
+Report absolute values, variance, and magnitude alongside percentages. A flamegraph or trace identifies where to investigate; it does not prove the before/after result.
 
-To domain constraints (Layer 3):
+## Handoffs
 
-```
-"How fast does this need to be?"
-    ↑ Ask: What's the performance SLA?
-    ↑ Check: domain-* (latency requirements)
-    ↑ Check: Business requirements (acceptable response time)
-```
-
-| Question | Trace To | Ask |
-|----------|----------|-----|
-| Latency requirements | domain-* | What's acceptable response time? |
-| Throughput needs | domain-* | How many requests per second? |
-| Memory constraints | domain-* | What's the memory budget? |
-
----
-
-## Trace Down ↓
-
-To implementation (Layer 1):
-
-```
-"Need to reduce allocations"
-    ↓ m01-ownership: Use references, avoid clone
-    ↓ m02-resource: Pre-allocate with_capacity
-
-"Need to parallelize"
-    ↓ m07-concurrency: Choose rayon or threads
-    ↓ m07-concurrency: Consider async for I/O-bound
-
-"Need cache efficiency"
-    ↓ Data layout: Prefer Vec over HashMap when possible
-    ↓ Access patterns: Sequential over random access
-```
-
----
-
-## Quick Reference
-
-| Tool | Purpose |
-|------|---------|
-| `cargo bench` | Micro-benchmarks |
-| `criterion` | Statistical benchmarks |
-| `perf` / `flamegraph` | CPU profiling |
-| `heaptrack` | Allocation tracking |
-| `valgrind` / `cachegrind` | Cache analysis |
-
-## Optimization Priority
-
-```
-1. Algorithm choice     (10x - 1000x)
-2. Data structure       (2x - 10x)
-3. Allocation reduction (2x - 5x)
-4. Cache optimization   (1.5x - 3x)
-5. SIMD/Parallelism     (2x - 8x)
-```
-
-## Common Techniques
-
-| Technique | When | How |
-|-----------|------|-----|
-| Pre-allocation | Known size | `Vec::with_capacity(n)` |
-| Avoid cloning | Hot paths | Use references or `Cow<T>` |
-| Batch operations | Many small ops | Collect then process |
-| SmallVec | Usually small | `smallvec::SmallVec<[T; N]>` |
-| Inline buffers | Fixed-size data | Arrays over Vec |
-
----
-
-## Common Mistakes
-
-| Mistake | Why Wrong | Better |
-|---------|-----------|--------|
-| Optimize without profiling | Wrong target | Profile first |
-| Benchmark in debug mode | Meaningless | Always `--release` |
-| Use LinkedList | Cache unfriendly | `Vec` or `VecDeque` |
-| Hidden `.clone()` | Unnecessary allocs | Use references |
-| Premature optimization | Wasted effort | Make it work first |
-
----
-
-## Anti-Patterns
-
-| Anti-Pattern | Why Bad | Better |
-|--------------|---------|--------|
-| Clone to avoid lifetimes | Performance cost | Proper ownership |
-| Box everything | Indirection cost | Stack when possible |
-| HashMap for small sets | Overhead | Vec with linear search |
-| String concat in loop | O(n^2) | `String::with_capacity` or `format!` |
-
----
-
-## Related Skills
-
-| When | See |
-|------|-----|
-| Reducing clones | m01-ownership |
-| Concurrency options | m07-concurrency |
-| Smart pointer choice | m02-resource |
-| Domain requirements | domain-* |
+- [Criterion and Divan implementation](./performance-optimization-guide.md)
+- [Cross-platform profiling matrix](./low-level/rust-profiling.md)
+- [Cargo profile mechanics](../../rust-cargo-build/references/guide.md)
+- [Allocator policy](../../rust-platforms/references/guide.md)
+- [Unsafe and FFI sanitizer policy](../../rust-unsafe/references/low-level/sanitizers.md)

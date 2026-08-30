@@ -1,11 +1,13 @@
-# Low-level Linux Perf protocol> Focused decision protocol; examples are evidence, not automatic product policy.
-## Routing and retained scope
+# Low-level Linux Perf Protocol
+
+> Focused decision protocol; examples are evidence, not automatic product policy.
+
+## Routing and Scope
 
 - Primary owner: `$rust-performance`.
-- Supporting profiles: `$debugging`, `$rust-cargo-build`.
-- Retained scope: perf stat, sampling, reporting, annotation, live analysis, events, stack collection, and failure diagnosis.
-- Baseline correction: Select frame-pointer, DWARF, or LBR call graphs from the binary and CPU. perf_event_paranoid is a security boundary and must never be weakened automatically.
-- Project toolchain, MSRV, Edition, target, resolved dependencies, CI, hardware, operating system, and explicit user contract override this reference.
+- Supporting profiles: `$rust-cargo-build` for symbols/frame flags and `$debugging` for capture failures.
+- Retained scope: `perf list`, `stat`, `record`, `report`, `annotate`, stack collection, event selection, and failure diagnosis on Linux.
+- Linux `perf` is not a portable Unix interface.
 
 ## Required context
 
@@ -23,42 +25,35 @@
 4. Change one variable and rerun the same workload and correctness checks.
 5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
 
-## Decision map
+## Decision Protocol
 
-The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
+1. Build the representative target with the workspace-owned `profiling` profile.
+2. Resolve the actual artifact and installed perf version.
+3. Use `perf list` to select events available for the concrete CPU/kernel.
+4. Use `perf stat` for aggregate cycles, instructions, cache/branch events, or a hypothesis-specific group.
+5. Use `perf record` plus `report`/`annotate` when call-path or instruction attribution is required.
+6. Select frame-pointer, DWARF, or LBR call graphs from the binary, CPU, kernel, and installed perf capabilities; record the choice.
+7. Repeat comparable runs and confirm any source change with Criterion or the representative end-to-end benchmark.
 
-- `Table of Contents` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Hardware events` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Raw PMU events (Intel Skylake example)` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Software events` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Tracepoints` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Interpreting metrics` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Diagnosing bottlenecks` — inspect when relevant; source `skills/profilers/linux-perf/references/events.md`.
-- `Prerequisites` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `perf stat — quick counters` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `perf record — sampling` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `perf report — interactive analysis` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `perf annotate — hot instructions` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `perf top — live profiling` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `Feed into flamegraphs` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `Common issues` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
-- `Useful events` — inspect when relevant; source `skills/profilers/linux-perf/SKILL.md`.
+## Interpretation
 
-## Failure modes and guardrails
+- Event names and raw encodings vary by CPU; unsupported or silently substituted events invalidate the claim.
+- Multiplexed events are scaled estimates. Record scheduling/coverage and avoid oversized groups.
+- Sampling skid can attribute an event near rather than exactly at the causing instruction.
+- Cache misses require level, access type, work unit, and denominator; raw counts alone do not identify a fix.
+- Frame-pointer and DWARF stacks have different build and runtime costs. Use command-scoped `-C force-frame-pointers=yes` only when selected.
 
-- Flamegraph width is sample proportion, not an optimization measurement.
-- Hardware events and thresholds are CPU/kernel-specific.
-- Compile-time, binary-size and runtime improvements can trade against one another.
-- If a required tool, target, component, hardware device, symbol file, corpus, or cache is absent, report `SKIP` or request authorization; never install or mutate the host implicitly.
-- Treat tool output as bounded evidence. Record exact command, version, target, scope, result, and residual risk.
+## Security and Effects
 
-## Source example disposition
+`perf_event_paranoid`, capabilities, kernel modules, tracepoints, system-wide capture, and root access are host security policy. Never lower, install, or elevate automatically. A denied event, absent perf binary, unsupported counter, or insufficient symbol/unwind data is `SKIP` or an authorization request.
 
-This family contains 11 unique source block bodies: 8 `fragment`, 3 `rejected`. Blocks not reproduced here remain individually hashed and reasoned in the coverage ledger.
+## Evidence Gate
 
-## Evidence gate
+Reviewed 2026-08-30.
 
-- [`perf-record`](https://man7.org/linux/man-pages/man1/perf-record.1.html) — perf record events and call-graph modes; `installed-perf-specific`, reviewed 2026-08-23.
-- [`perf-security`](https://docs.kernel.org/admin-guide/perf-security.html) — perf privilege and data-exposure boundary; `kernel-specific`, reviewed 2026-08-23.
+- [perf record](https://man7.org/linux/man-pages/man1/perf-record.1.html)
+- [perf security](https://docs.kernel.org/admin-guide/perf-security.html)
+- [rustc codegen options](https://doc.rust-lang.org/rustc/codegen-options/index.html)
+- [Cargo profiles](https://doc.rust-lang.org/cargo/reference/profiles.html)
 
 Before executing a version-sensitive command, re-check the exact project toolchain or resolved tool version. Official Rust/Cargo evidence owns language and build behavior; tool-owner documentation owns external CLI syntax.

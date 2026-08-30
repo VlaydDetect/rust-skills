@@ -1,85 +1,44 @@
-# Low-level Sanitizers protocol> Focused decision protocol; examples are evidence, not automatic product policy.
-## Routing and retained scope
+# Low-level Sanitizers Protocol
 
-- Primary owner: `$rust-unsafe`.
-- Supporting profiles: `$rust-verify`, `$rust-unsafe-ffi`.
-- Retained scope: ASan, TSan, MSan, hardware-assisted modes, suppression and report concepts, and native dependency instrumentation.
-- Baseline correction: The source is primarily C/C++. For Rust, use only modes and targets documented by rustc; reject UBSan-as-Rust instructions and do not combine flags by analogy.
-- Project toolchain, MSRV, Edition, target, resolved dependencies, CI, hardware, operating system, and explicit user contract override this reference.
+> Focused decision protocol; examples are evidence, not automatic product policy.
 
-## Required context
+## Routing and Scope
 
-- unsafe operation and safe caller contract.
-- target and toolchain.
-- executed input/schedule.
-- FFI/native coverage.
-- remaining manual invariants.
+- Primary owner: `$rust-unsafe` for Rust validity and report interpretation.
+- `$rust-unsafe-ffi` owns ABI, foreign ownership, allocator pairing, native compiler/runtime, and cross-language coverage.
+- `$rust-cargo-build` supports explicit target, build-std, linker, and host/target mechanics; `$rust-verify` executes the selected evidence.
+- Canonical Rust selection lives in [Rust sanitizers and Miri](./rust-sanitizers-miri.md).
+- Retained scope: ASan, LSan, TSan, MSan, hardware-assisted modes, CFI, native dependency instrumentation, runtime ownership, suppressions, and residual gaps.
 
-## Decision protocol
+## Selection Rules
 
-1. Write provenance, alignment, initialization, validity, aliasing, lifetime, layout, thread, panic and drop obligations.
-2. Select Miri for supported MIR execution or a documented rustc sanitizer for a supported target and failure class.
-3. Use the repository-pinned nightly when present; otherwise report the required evidence as unavailable instead of installing.
-4. Minimize the reproducer and interpret the first causally relevant diagnostic.
-5. Record what the run did not cover and keep the local safety proof authoritative.
+1. Query the current rustc sanitizer list and target matrix; never infer support from another target or from Clang alone.
+2. Select one failure class and use an explicit `--target`.
+3. Use the repository-pinned nightly and `build-std` only when the selected official workflow requires them.
+4. Instrument every relevant C/C++ object and library with the matching Clang sanitizer flags/runtime. Use `external-clangrt` where the current Rust/native integration requires the external runtime.
+5. Keep generated bindings, build scripts, proc macros, host tools, target code, and foreign libraries distinct; command-scoped flags must not accidentally spread across host builds.
+6. Use suppressions only for an understood external finding with recorded ownership and expiry; never suppress an unexplained first diagnostic.
 
-## Decision map
+## FFI and Custom Allocator Coverage
 
-The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
+- Rust and native code must agree on ABI, unwind policy, sanitizer runtime, and allocator pairing.
+- An uninstrumented native library is a blind spot even when the Rust caller is instrumented.
+- MSan generally needs all relevant code and libraries instrumented; partial instrumentation can produce unusable evidence.
+- A custom allocator may require its documented sanitizer mode or replacement with the system allocator for the investigation. Record when this changes the workload.
+- A C/C++ UBSan run is valid native evidence, but rustc has no `undefined` sanitizer mode and must not be configured as though it does.
 
-- `Quick reference table` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `Compiler flags` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `Required alongside sanitizer flags` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `Recovery control` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `Individual UBSan checks` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `ASan-specific options` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `Runtime options (environment variables)` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `ASAN_OPTIONS` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `UBSAN_OPTIONS` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `TSAN_OPTIONS` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `LSAN_OPTIONS` — inspect when relevant; source `skills/runtimes/sanitizers/references/flags.md`.
-- `ASan report types` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `heap-buffer-overflow` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `use-after-free` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `stack-buffer-overflow` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `double-free` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `UBSan report types` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `signed-integer-overflow` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `null pointer dereference` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `shift exponent too large` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `misaligned access` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `TSan report types` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `data race` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `lock order inversion (deadlock risk)` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `LSan report` — inspect when relevant; source `skills/runtimes/sanitizers/references/reports.md`.
-- `Decision tree: which sanitizer?` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `AddressSanitizer (ASan)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `UndefinedBehaviorSanitizer (UBSan)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `ThreadSanitizer (TSan)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `MemorySanitizer (MSan)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `ASan + UBSan combined` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `Suppressions` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `CMake integration` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `CI integration` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `HWASan (Hardware-Assisted AddressSanitizer)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `MemTagSanitizer (ARM MTE)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `GWP-ASan (production sampling)` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
-- `KASAN for kernel modules` — inspect when relevant; source `skills/runtimes/sanitizers/SKILL.md`.
+## Effects and Reporting
 
-## Failure modes and guardrails
+Sanitizer builds create instrumented artifacts and execute code; some modes need matching runtimes, target components, or hardware. Missing prerequisites are `SKIP`. Never install a nightly/tool/runtime, add a target, mutate global flags, weaken host policy, or update dependencies automatically.
 
-- Miri explores concrete executions, not all inputs or schedules.
-- Sanitizer support is mode- and target-specific and normally nightly.
-- C/C++ UBSan recipes are not a Rust sanitizer mode.
-- If a required tool, target, component, hardware device, symbol file, corpus, or cache is absent, report `SKIP` or request authorization; never install or mutate the host implicitly.
-- Treat tool output as bounded evidence. Record exact command, version, target, scope, result, and residual risk.
+Record exact compiler/toolchain versions, target, flags, `build-std`/`external-clangrt` state, native objects covered, allocator/runtime, inputs/schedules, first causal report, suppressions, and residual gaps.
 
-## Source example disposition
+## Evidence Gate
 
-This family contains 33 unique source block bodies: 32 `fragment`, 1 `rejected`. Blocks not reproduced here remain individually hashed and reasoned in the coverage ledger.
+Reviewed 2026-08-30.
 
-## Evidence gate
-
-- [`rust-sanitizers`](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html) — Supported rustc sanitizer modes and target matrix; `nightly-target-specific`, reviewed 2026-08-23.
+- [rustc sanitizer reference](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html)
+- [Clang sanitizer documentation](https://clang.llvm.org/docs/index.html)
+- [Miri](https://github.com/rust-lang/miri/)
 
 Before executing a version-sensitive command, re-check the exact project toolchain or resolved tool version. Official Rust/Cargo evidence owns language and build behavior; tool-owner documentation owns external CLI syntax.

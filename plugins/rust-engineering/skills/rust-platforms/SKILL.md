@@ -13,6 +13,7 @@ Own the behavior of a Rust program at Unix and Windows boundaries. Start with po
 - A Unix implementation must distinguish POSIX, Linux, BSD, or macOS behavior.
 - A Windows implementation must choose between `windows`, `windows-sys`, or focused generated bindings.
 - A binary needs evidence for `tikv-jemallocator`, `mimalloc`, or the system allocator.
+- A composition root already using mimalloc needs build-time and runtime policy for `mimalloc-pprof` heap captures on Windows or Unix.
 
 ## Workflow
 
@@ -31,6 +32,7 @@ Own the behavior of a Rust program at Unix and Windows boundaries. Start with po
 - Retry only operations whose documented interruption semantics permit it; never blindly retry `close`.
 - Read Windows last-error state immediately after the failing call, before another call can overwrite it.
 - Do not impose a global allocator from a reusable library or assume an allocator improves every workload.
+- Keep allocator profiling at the composition root; distinguish sampled heap, exact allocation tracking, runtime-off overhead, platform symbols, and sanitizer/FFI compatibility.
 
 ## Boundaries and Hand-offs
 

@@ -11,6 +11,25 @@ This guide is the detailed policy for `rust-cargo-build`. It consolidates the de
 - `cargo metadata` and `cargo tree` expose resolved graph views, but source cfg and build-script behavior can still refine what executes.
 - Reproducibility depends on locked resolution, registry or git sources, toolchain, config, environment, and native build inputs.
 
+## Profiling Profile Contract
+
+When a profiler needs release-like optimization plus readable symbols, define the custom profile once at the workspace root:
+
+```toml
+[profile.profiling]
+inherits = "release"
+debug = true
+strip = "none"
+```
+
+- Build or benchmark with `--profile profiling` and resolve the output path from effective Cargo metadata/command output. A custom target directory means `target/profiling` is not a safe assumption.
+- Keep this profile observational: do not add LTO, `panic = "abort"`, `codegen-units = 1`, target CPU flags, or an allocator. Each changes the workload and requires a separate measured experiment.
+- Custom profiles require `inherits` and are workspace-root policy; do not place the profile in a member manifest or a global Cargo config.
+- Frame pointers are a tool/target-specific codegen input, not a Cargo profile key. Apply `-C force-frame-pointers=yes` only to the scoped profiling command when required and record the flag.
+- Do not compare Criterion baselines built with different profiles, targets, features, flags, allocators, or toolchains.
+
+See the [Rust profiling protocol](../../rust-performance/references/low-level/rust-profiling.md) for profiler selection and the [Cargo profile reference](https://doc.rust-lang.org/cargo/reference/profiles.html) for current semantics.
+
 ## Decision Table
 
 | Situation | Prefer | Reason or evidence |

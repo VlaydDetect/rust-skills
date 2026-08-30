@@ -17,11 +17,12 @@
 
 ## Decision protocol
 
-1. Write provenance, alignment, initialization, validity, aliasing, lifetime, layout, thread, panic and drop obligations.
-2. Select Miri for supported MIR execution or a documented rustc sanitizer for a supported target and failure class.
-3. Use the repository-pinned nightly when present; otherwise report the required evidence as unavailable instead of installing.
-4. Minimize the reproducer and interpret the first causally relevant diagnostic.
-5. Record what the run did not cover and keep the local safety proof authoritative.
+1. Define ownership, layout, alignment, zero-size, growth, OOM, concurrency, teardown, and allocator-pairing invariants.
+2. Keep process-global selection at the binary/composition root; a reusable library must not impose an allocator.
+3. Compare the system allocator and the candidate on representative latency, throughput, peak/steady memory, fragmentation/churn, startup, retention, and supported targets.
+4. Select profiling evidence without silently changing the allocator: sampled `mimalloc-pprof` only when its mimalloc implementation is already selected or separately authorized; crate `dhat` for bounded exact allocation accounting with its wrapping allocator.
+5. Select current Miri/sanitizer evidence for the failure class and state custom-allocator blind spots or documented integration.
+6. Keep the local invariant proof authoritative and record every platform, FFI, runtime, profiler, sanitizer, and teardown gap.
 
 ## Decision map
 
@@ -36,6 +37,13 @@ The following source topics were retained as investigation branches. Their headi
 - `Rust GlobalAlloc` — inspect when relevant; source `skills/allocators/custom-allocators/SKILL.md`.
 - `Fragmentation metrics` — inspect when relevant; source `skills/allocators/custom-allocators/SKILL.md`.
 - `Benchmarking` — inspect when relevant; source `skills/allocators/custom-allocators/SKILL.md`.
+
+## Profiling and sanitizer boundary
+
+- [`mimalloc-pprof`](https://github.com/zackees/mimalloc-pprof) profiles sampled live heap on Windows, Linux, and macOS. Distinguish build-time hook removal from runtime start/stop, measure the runtime-off path, retain Unix frame pointers or Windows PDBs, and never link two mimalloc implementations.
+- Crate [`dhat`](https://docs.rs/dhat/latest/dhat/) observes every allocation within its profiler/global-allocator scope but is experimental and high-overhead. Gate it to short profiling or isolated tests and do not claim memory-access tracking.
+- A sanitizer may need the system allocator or allocator-specific integration. If the allocator changes for the run, disclose that the workload differs and retain the remaining allocator proof.
+- Allocation across FFI must be freed by the creating allocator/runtime regardless of which profiler or sanitizer is active.
 
 ## Failure modes and guardrails
 
@@ -52,6 +60,8 @@ This family contains 11 unique source block bodies: 11 `fragment`. Blocks not re
 ## Evidence gate
 
 - [`miri`](https://github.com/rust-lang/miri/) — Miri setup, coverage, limitations, and flags; `nightly-version-sensitive`, reviewed 2026-08-23.
-- [`rust-sanitizers`](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html) — Supported rustc sanitizer modes and target matrix; `nightly-target-specific`, reviewed 2026-08-23.
+- [`rust-sanitizers`](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html) — Supported rustc sanitizer modes and target matrix; `nightly-target-specific`, reviewed 2026-08-30.
+- [`mimalloc-pprof`](https://github.com/zackees/mimalloc-pprof) — Sampled heap, build/runtime gating, platform symbol requirements, and disabled-path cost; `resolved-version`, reviewed 2026-08-30.
+- [`dhat`](https://docs.rs/dhat/latest/dhat/) — Wrapping allocator, exact allocation tracking, feature gating, and limitations; `resolved-version`, reviewed 2026-08-30.
 
 Before executing a version-sensitive command, re-check the exact project toolchain or resolved tool version. Official Rust/Cargo evidence owns language and build behavior; tool-owner documentation owns external CLI syntax.

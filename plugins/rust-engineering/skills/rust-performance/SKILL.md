@@ -26,6 +26,8 @@ Own performance diagnosis, experiment design, optimization, and regression evide
 
 - Correctness and public behavior remain constraints; faster wrong code is a regression.
 - Use release-like profiles for runtime claims and representative incremental or clean builds for compile-time claims.
+- Use Criterion for maintained microbenchmarks, baseline comparisons, and optimization claims. Divan is a minimal exploratory alternative when those contracts and Criterion profiler hooks are not required.
+- Use the workspace-owned `profiling` Cargo profile for profiler captures; keep symbols while preserving release-like optimization and record any command-scoped frame-pointer flag.
 - Do not infer performance from source appearance, iterator versus loop style, or fewer lines.
 - Measure allocations and copies before adding borrowing complexity, arenas, interning, or unsafe code.
 - Choose collections and hashers by workload and security requirements, including collision behavior and ordering.
@@ -54,4 +56,4 @@ For additional topic detail, read the [Profile reference index](./references/gui
 
 ## Low-level protocols
 
-For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. Apply its official-evidence and command-safety gate before execution.
+For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. [Rust profiling](references/low-level/rust-profiling.md) is the canonical Criterion/Divan, CPU, heap, Tracy, counter, and Windows tool matrix. Apply its official-evidence and command-safety gate before execution.

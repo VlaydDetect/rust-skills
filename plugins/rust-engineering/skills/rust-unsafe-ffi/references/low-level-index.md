@@ -12,6 +12,6 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`linkers-lto`](../../rust-cargo-build/references/low-level/linkers-lto.md) — supporting; Linker selection, argument ordering, LTO modes, dead-code elimination, visibility, map files, and link-failure diagnosis.
 - [`rust-cross`](../../rust-cargo-build/references/low-level/rust-cross.md) — supporting; Host/target separation, target support tiers, linker and runner configuration, native libraries, containers, emulators, and deployment validation.
 - [`rust-ffi`](low-level/rust-ffi.md) — primary; Manual and generated bindings, sys-crate layering, safe wrappers, exported C APIs, linking, ownership transfer, and error translation.
-- [`sanitizers`](../../rust-unsafe/references/low-level/sanitizers.md) — supporting; ASan, TSan, MSan, hardware-assisted modes, suppression and report concepts, and native dependency instrumentation.
+- [`sanitizers`](../../rust-unsafe/references/low-level/sanitizers.md) — supporting; Exact rustc target/toolchain selection, build-std/external-clangrt, matching C/C++ runtime instrumentation, custom allocators, and residual FFI gaps.
 
 `primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.

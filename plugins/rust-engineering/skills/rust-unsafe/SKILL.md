@@ -32,6 +32,7 @@ Own internal unsafe operations and the soundness boundary of safe Rust abstracti
 - Do not implement `Send` or `Sync` manually without a full concurrency and ownership proof.
 - Panic or early-return paths must preserve initialization and ownership invariants.
 - Miri success is supporting evidence, not proof for all platforms, optimizations, foreign code, or concurrency schedules.
+- Rust sanitizer evidence is nightly- and target-specific: use an explicit target, current official mode matrix, matching native instrumentation across FFI, and never invent an `undefined` rustc sanitizer.
 
 ## Rulebook Overlay
 

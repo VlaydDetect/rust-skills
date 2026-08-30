@@ -1,6 +1,6 @@
 # External Rust tooling baseline
 
-> Product-owned command safety and evidence policy for low-level and reviewed Cargo-tool integrations. Reviewed 2026-08-23; project state always wins.
+> Product-owned command safety and evidence policy for low-level and reviewed Cargo-tool integrations. Reviewed 2026-08-30; project state always wins.
 
 ## Precedence
 
@@ -31,7 +31,15 @@ Before running a command, record tool/version, stable/nightly/external/project c
 - Miri executes MIR for selected tests or binaries; passing a run is not proof over all inputs, targets, FFI, optimizations or schedules.
 - `rustup target add` provides the Rust standard library for a target, not its linker, sysroot, native libraries, emulator, device or runtime acceptance.
 - perf frame-pointer, DWARF and LBR call graphs have different binary/CPU constraints; `perf_event_paranoid` is host security policy.
-- cargo-flamegraph, Criterion, cargo-bloat, cargo-llvm-lines, and sccache are external tools whose exact commands belong to the resolved installed version, not Cargo itself.
+- cargo-flamegraph, Criterion, Divan, pprof-rs, samply, mimalloc-pprof, dhat, Tracy clients, vendor profilers, cargo-bloat, cargo-llvm-lines, and sccache are external tools whose exact commands belong to the resolved installed or project version, not Cargo itself.
+- Criterion is the maintained-microbenchmark default for baselines and optimization claims. Divan is a minimal exploratory alternative; resolve its current MSRV and move to Criterion when baseline policy, Criterion analysis, or Criterion profiler hooks own the decision.
+- A project profiling build uses a workspace-root custom profile that inherits `release`, retains debug information, and disables stripping. Do not place it in global Cargo configuration or silently add LTO, panic strategy, codegen-unit, target CPU, allocator, or global rustflags changes.
+- Criterion `--profile-time` omits normal analysis/result saving. In pprof-rs, `criterion` and `flamegraph` are features, `Frames`/`frames_post_processor` are APIs, and `frame-pointer` is a separate nightly/build-std-sensitive feature.
+- samply and cargo-flamegraph support Linux, macOS, and Windows through different backends. Samply normally opens a browser/local source server; cargo-flamegraph has explicit GUI/privilege options. These effects and any upload/symbol-server network access require authorization.
+- mimalloc-pprof is sampled live-heap profiling for Windows, Linux, and macOS. Keep allocator selection at the composition root, distinguish build-time hook removal from runtime start/stop, measure runtime-off overhead, retain Unix frame pointers or Windows PDBs, and never link two mimalloc implementations.
+- The `dhat` crate wraps the global allocator and observes every allocation in its active scope, but is experimental, source-intrusive, and potentially very slow. It does not instrument memory reads/writes.
+- Tracy Rust clients and `tracing-tracy` must be conditionally enabled against a compatible protocol version. Discovery and trace/source/assembly data can be exposed on the local network.
+- Linux cache/counter work uses the installed perf event set. Windows prefers installed VTune on Intel or AMD uProf on AMD; WPR/WPA is the heavier ETW fallback or the primary path for scheduler, wakeup, wait, timer, and I/O causality.
 - Flamegraphs locate sampled CPU hypotheses. Criterion or another comparable benchmark measures the change. cargo-bloat does not support WASM and crate attribution is an estimate; cargo-llvm-lines counts unoptimized LLVM IR lines, not runtime cost.
 - sccache is a compiler wrapper with cacheability limitations; remote credentials/backends and disabling incremental compilation are deployment decisions.
 - Cranelift/Cargo codegen backend, linker changes, LTO, PGO, BOLT and target CPU features require exact toolchain/target support plus measurement.
@@ -73,6 +81,18 @@ The Cargo tooling umbrella `rust-development` source contributes discovery point
 - [`clippy-catalog`](https://rust-lang.github.io/rust-clippy/) — toolchain-specific Clippy lint catalog; authority `official-rust-tool`, channel `toolchain-specific`.
 - [`clippy-config`](https://doc.rust-lang.org/clippy/lint_configuration.html) — Clippy typed configuration keys; authority `official-rust-tool`, channel `toolchain-specific`.
 - [`criterion`](https://bheisler.github.io/criterion.rs/book/) — Criterion benchmark methodology and APIs; authority `tool-owner`, channel `resolved-version`.
+- [`criterion-profiling`](https://bheisler.github.io/criterion.rs/book/user_guide/profiling.html) — Criterion profiler hooks and `--profile-time` semantics; authority `tool-owner`, channel `resolved-version`.
+- [`divan`](https://docs.rs/divan/latest/divan/) — Divan harness, benchmark registration, inputs, and current MSRV; authority `tool-owner`, channel `resolved-version`.
+- [`pprof-rs`](https://github.com/tikv/pprof-rs) — CPU profiler features, Criterion integration, frame processing, and unwind limits; authority `tool-owner`, channel `resolved-version`.
+- [`samply`](https://github.com/mstange/samply) — cross-platform sampling backends, symbols, browser/local-server behavior, and data handling; authority `tool-owner`, channel `resolved-version`.
+- [`mimalloc-pprof`](https://github.com/zackees/mimalloc-pprof) — cross-platform sampled heap, allocator integration, build/runtime gating, and overhead; authority `tool-owner`, channel `resolved-version`.
+- [`dhat`](https://docs.rs/dhat/latest/dhat/) — cross-platform wrapping allocator, exact allocation tracking, feature gating, and limitations; authority `tool-owner`, channel `resolved-version`.
+- [`tracy`](https://github.com/wolfpld/tracy) — timeline, frame, lock, thread, memory, and GPU profiler; authority `tool-owner`, channel `resolved-version`.
+- [`rust-tracy-client`](https://github.com/nagisa/rust_tracy_client) — Rust client crates, `tracing-tracy`, conditional enablement, protocol compatibility, and data-exposure warning; authority `tool-owner`, channel `resolved-version`.
+- [`intel-vtune`](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html) — Intel CPU hotspots, microarchitecture, cache, and memory-access analysis; authority `tool-owner`, channel `installed-version`.
+- [`amd-uprof`](https://docs.amd.com/r/en-US/63856-uProf-release-notes) — AMD uProf platform, processor, and analysis support; authority `tool-owner`, channel `installed-version`.
+- [`windows-performance-recorder`](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) — ETW capture and Windows Performance Toolkit effects; authority `official-platform`, channel `installed-version`.
+- [`windows-performance-analyzer`](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer) — ETL timeline and system-event analysis; authority `official-platform`, channel `installed-version`.
 - [`miri`](https://github.com/rust-lang/miri/) — Miri setup, coverage, limitations, and flags; authority `official-tool-owner`, channel `nightly-version-sensitive`.
 - [`git-worktree`](https://git-scm.com/docs/git-worktree.html) — linked worktree lifecycle and administration; authority `tool-owner`, channel `installed-git-specific`.
 - [`nextest-config`](https://nexte.st/docs/configuration/reference/) — nextest profiles, groups, retries, threads, timeouts, and JUnit; authority `tool-owner`, channel `resolved-version`.

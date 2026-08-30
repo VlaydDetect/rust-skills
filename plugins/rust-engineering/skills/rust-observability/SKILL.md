@@ -32,6 +32,7 @@ Own operational telemetry contracts and placement at meaningful system boundarie
 - Span names and fields should be stable enough for dashboards while implementation detail stays replaceable.
 - Sampling and filtering affect evidence; absence from telemetry is not always absence of behavior.
 - Instrumentation on hot paths needs overhead measurement and disabled-path cost awareness.
+- When `tracing-tracy` adapts existing spans into Tracy, keep the client conditional, version-compatible, and reviewed for local-network/source-data exposure; performance still owns capture interpretation.
 
 ## Rulebook Overlay
 

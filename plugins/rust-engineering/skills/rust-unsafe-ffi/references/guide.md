@@ -36,6 +36,18 @@ This guide is the detailed policy for `rust-unsafe-ffi`. It consolidates the dec
 - Foreign-side integration tests for every supported target and repeated lifecycle operations.
 - Header or binding generation reproducibility and panic, allocator, invalid-input, and shutdown tests.
 
+## Sanitizer Evidence Across FFI
+
+Route Rust validity and report interpretation through [`rust-unsafe`](../../rust-unsafe/references/low-level/rust-sanitizers-miri.md), while this profile owns the foreign compiler/runtime and coverage boundary.
+
+- Select a sanitizer mode and target from the current rustc matrix and pass an explicit `--target`. Use the repository-pinned nightly and `build-std` only when required.
+- Compile relevant C/C++ objects and libraries with the matching Clang sanitizer/runtime. Use rustc `external-clangrt` when the current official cross-language contract requires one external runtime.
+- Record generated bindings, static/dynamic libraries, plugins, callbacks, allocators, and processes that remain uninstrumented. Instrumenting the Rust caller does not inspect defects wholly inside an uninstrumented native library.
+- Resolve exactly one compatible sanitizer-runtime and allocator path. A custom allocator may need documented integration or temporary replacement with the system allocator, which changes the measured workload and must be disclosed.
+- C/C++ UBSan is native-side evidence; rustc does not provide `-Zsanitizer=undefined`.
+
+Missing nightly, target, native compiler/runtime, symbol, or hardware prerequisites are `SKIP`. Do not install components, add targets, apply global flags, or mutate host configuration implicitly.
+
 ## Completion Contract
 
 State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. Do not turn preferences into repository policy without evidence in code, manifests, CI, documentation, or an explicit user decision.

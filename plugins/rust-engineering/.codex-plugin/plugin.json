@@ -1,6 +1,6 @@
 {
   "name": "rust-engineering",
-  "version": "1.0.1-rc",
+  "version": "1.0.2-rc",
   "description": "Project-aware Rust engineering with 55 focused skills, a 265-rule coding rulebook, read-only context discovery, and risk-based verification.",
   "author": {
     "name": "rust-skills contributors"

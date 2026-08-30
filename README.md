@@ -55,20 +55,20 @@ Read-only задачи могут входить напрямую:
 
 ## Установка
 
-Релиз-кандидат устанавливается из фиксированного Git-тега `v1.0.1-rc`. Установщики не устанавливают Codex, Claude, Node.js, uv или Rust.
+Релиз-кандидат устанавливается из фиксированного Git-тега `v1.0.2-rc`. Установщики не устанавливают Codex, Claude, Node.js, uv или Rust.
 
 ### Через uv
 
 ```powershell
-uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.1-rc/installers/install.py --target all
+uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.2-rc/installers/install.py --target all
 ```
 
 ### Через npx, npm или pnpm
 
 ```powershell
-npx --yes github:VlaydDetect/rust-skills#v1.0.1-rc --target all
-npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.1-rc -- rust-engineering-install --target all
-pnpm dlx github:VlaydDetect/rust-skills#v1.0.1-rc --target all
+npx --yes github:VlaydDetect/rust-skills#v1.0.2-rc --target all
+npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.2-rc -- rust-engineering-install --target all
+pnpm dlx github:VlaydDetect/rust-skills#v1.0.2-rc --target all
 ```
 
 Оба установщика поддерживают:
@@ -85,7 +85,7 @@ pnpm dlx github:VlaydDetect/rust-skills#v1.0.1-rc --target all
 Codex:
 
 ```powershell
-codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.1-rc
+codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.2-rc
 codex plugin add rust-engineering@rust-skills
 ```
 
@@ -100,7 +100,7 @@ codex plugin marketplace upgrade rust-skills
 Claude Code:
 
 ```powershell
-claude plugin marketplace add VlaydDetect/rust-skills@v1.0.1-rc --scope user
+claude plugin marketplace add VlaydDetect/rust-skills@v1.0.2-rc --scope user
 claude plugin install rust-engineering@rust-skills --scope user
 ```
 

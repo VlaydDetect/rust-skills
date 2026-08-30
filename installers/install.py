@@ -12,7 +12,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-CONFIG_URL = "https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.1-rc/installers/config.json"
+CONFIG_URL = "https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.2-rc/installers/config.json"
 
 
 def load_config() -> dict:

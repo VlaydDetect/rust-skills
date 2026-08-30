@@ -2,7 +2,7 @@
   "marketplace": "rust-skills",
   "plugin": "rust-engineering",
   "repository": "VlaydDetect/rust-skills",
-  "ref": "v1.0.1-rc",
+  "ref": "v1.0.2-rc",
   "targets": [
     "codex-cli",
     "chatgpt-desktop",

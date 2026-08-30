@@ -51,7 +51,7 @@ This repository ships one Rust Engineering product for Codex/ChatGPT Desktop and
 
 - The release gate requires exactly 55 valid skills, 265 rule IDs/aliases with all category indexes, 47 unsafe/FFI rules, 341 schema-9 eval scenarios, and four read-only agent contracts.
 - `scripts/` contains only `validate.py` and the two SessionStart scripts. External corpora and provenance ledgers are not build or validation inputs.
-- Version-bearing manifests, root `package.json`, `installers/config.json`, marketplaces, and installer plans must agree on `1.0.1-rc` / `v1.0.1-rc`.
+- Version-bearing manifests, root `package.json`, `installers/config.json`, marketplaces, and installer plans must agree on `1.0.2-rc` / `v1.0.2-rc`.
 - Python and Node installers stay dependency-free, print the same dry-run plan, use host-native CLI commands, reject marketplace source collisions, and never edit Desktop configuration or caches.
 - Validate with `uv run --no-project plugins/rust-engineering/scripts/validate.py --examples`, both host/plugin validators when available, and `git diff --check`.
 - Report a missing local CLI or cache separately from product regressions. Do not create or push a release tag without explicit release authorization.

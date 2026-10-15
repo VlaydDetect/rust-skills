@@ -28,26 +28,26 @@ Describe the outcome and constraints in ordinary language, or invoke a skill dir
 
 ## Install
 
-The current release candidate is **1.0.2-rc**, pinned to Git tag `v1.0.2-rc`. Choose either installer; both use the host's native plugin commands and have no package dependencies of their own.
+The current stable release is **1.0.3**, pinned to Git tag `v1.0.3`. Choose either installer; both use the host's native plugin commands and have no package dependencies of their own.
 
 **With uv**
 
 ~~~powershell
-uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.2-rc/installers/install.py --target all
+uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.3/installers/install.py --target all
 ~~~
 
 **With npx**
 
 ~~~powershell
-npx --yes github:VlaydDetect/rust-skills#v1.0.2-rc --target all
+npx --yes github:VlaydDetect/rust-skills#v1.0.3 --target all
 ~~~
 
 <details>
 <summary>Other package runners and installer options</summary>
 
 ~~~powershell
-npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.2-rc -- rust-engineering-install --target all
-pnpm dlx github:VlaydDetect/rust-skills#v1.0.2-rc --target all
+npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.3 -- rust-engineering-install --target all
+pnpm dlx github:VlaydDetect/rust-skills#v1.0.3 --target all
 ~~~
 
 - `--target codex-cli|chatgpt-desktop|claude-code|claude-desktop|all` (default: `all`).
@@ -65,14 +65,14 @@ The installers require the relevant host CLI for CLI targets. They do not instal
 Codex:
 
 ~~~powershell
-codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.2-rc
+codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.3
 codex plugin add rust-engineering@rust-skills
 ~~~
 
 Claude Code:
 
 ~~~powershell
-claude plugin marketplace add VlaydDetect/rust-skills@v1.0.2-rc --scope user
+claude plugin marketplace add VlaydDetect/rust-skills@v1.0.3 --scope user
 claude plugin install rust-engineering@rust-skills --scope user
 ~~~
 

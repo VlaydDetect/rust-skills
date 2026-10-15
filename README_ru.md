@@ -28,26 +28,26 @@
 
 ## Установка
 
-Текущий релиз-кандидат — **1.0.2-rc**, фиксированный Git-тег `v1.0.2-rc`. Выберите один из установщиков: оба используют нативные команды хоста и не имеют собственных пакетных зависимостей.
+Текущий стабильный релиз — **1.0.3**, фиксированный Git-тег `v1.0.3`. Выберите один из установщиков: оба используют нативные команды хоста и не имеют собственных пакетных зависимостей.
 
 **Через uv**
 
 ~~~powershell
-uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.2-rc/installers/install.py --target all
+uv run --no-project https://raw.githubusercontent.com/VlaydDetect/rust-skills/v1.0.3/installers/install.py --target all
 ~~~
 
 **Через npx**
 
 ~~~powershell
-npx --yes github:VlaydDetect/rust-skills#v1.0.2-rc --target all
+npx --yes github:VlaydDetect/rust-skills#v1.0.3 --target all
 ~~~
 
 <details>
 <summary>Другие package runners и параметры установщиков</summary>
 
 ~~~powershell
-npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.2-rc -- rust-engineering-install --target all
-pnpm dlx github:VlaydDetect/rust-skills#v1.0.2-rc --target all
+npm exec --yes --package=github:VlaydDetect/rust-skills#v1.0.3 -- rust-engineering-install --target all
+pnpm dlx github:VlaydDetect/rust-skills#v1.0.3 --target all
 ~~~
 
 - `--target codex-cli|chatgpt-desktop|claude-code|claude-desktop|all` (по умолчанию `all`).
@@ -65,14 +65,14 @@ pnpm dlx github:VlaydDetect/rust-skills#v1.0.2-rc --target all
 Codex:
 
 ~~~powershell
-codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.2-rc
+codex plugin marketplace add VlaydDetect/rust-skills --ref v1.0.3
 codex plugin add rust-engineering@rust-skills
 ~~~
 
 Claude Code:
 
 ~~~powershell
-claude plugin marketplace add VlaydDetect/rust-skills@v1.0.2-rc --scope user
+claude plugin marketplace add VlaydDetect/rust-skills@v1.0.3 --scope user
 claude plugin install rust-engineering@rust-skills --scope user
 ~~~
 

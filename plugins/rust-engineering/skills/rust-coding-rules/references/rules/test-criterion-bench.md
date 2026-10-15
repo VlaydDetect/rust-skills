@@ -61,7 +61,8 @@ harness = false
 <!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Basic Benchmark illustration -->
 ```rust
 // benches/my_benchmark.rs
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 
 fn fibonacci(n: u64) -> u64 {
     match n {
@@ -81,7 +82,9 @@ criterion_group!(benches, bench_fibonacci);
 criterion_main!(benches);
 ```
 
-## black_box is Critical
+## black_box and Benchmark Validity
+
+Use the standard-library barrier on MSRV 1.66 or newer; resolve a compatible existing harness facility on older toolchains. It is best effort and does not establish representative work. Use [benchmark analysis](../../../rust-profiling/references/benchmark-analysis.md) for timing boundaries, distributions and statistical interpretation.
 
 <!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the blackbox is Critical illustration -->
 ```rust

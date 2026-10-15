@@ -2787,7 +2787,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [],
@@ -2801,7 +2801,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -2832,7 +2832,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-optimization"
               }
             ],
             "coding_profiles": [],
@@ -2848,7 +2848,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-optimization",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -3393,7 +3393,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [
@@ -4197,7 +4197,7 @@
             "helper_profiles": [],
             "deferred_profiles": [],
             "forbidden_profiles": [
-              "rust-performance"
+              "rust-optimization"
             ],
             "coverage": {
               "decisions": [
@@ -5258,7 +5258,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance",
+              "rust-profiling",
               "rust-testing"
             ],
             "deferred_profiles": [],
@@ -5648,7 +5648,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -5696,7 +5696,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [
@@ -5823,6 +5823,186 @@
           "contrast",
           "rust-database",
           "rust-tauri"
+        ]
+      },
+      {
+        "id": "manual-rust-optimization",
+        "mode": "manual",
+        "prompt": "Use $rust-optimization to rank changes from a confirmed bottleneck without relaxing its public contract.",
+        "mutation": false,
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "overlays": [],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Select the requested focused owner without duplicating rust-performance; mutations enter rust-workflow.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "manual",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "automatic-rust-optimization",
+        "mode": "automatic",
+        "prompt": "Оптимизируй подтверждённую цепочку копирований parser -> queue -> consumer, сохрани bounds, порядок и общий end-to-end критерий.",
+        "mutation": true,
+        "expected": {
+          "entry_skill": "rust-workflow",
+          "overlays": [],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Select the requested focused owner without duplicating rust-performance; mutations enter rust-workflow.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "automatic",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "manual-rust-profiling",
+        "mode": "manual",
+        "prompt": "Use $rust-profiling to audit the supplied Criterion baseline and profile evidence.",
+        "mutation": false,
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "overlays": [],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Select the requested focused owner without duplicating rust-performance; mutations enter rust-workflow.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "manual",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "automatic-rust-profiling",
+        "mode": "automatic",
+        "prompt": "Добавь корректный benchmark измеренного Rust parser: отдели setup/drop, зафиксируй входы и сравни baseline без изменения алгоритма.",
+        "mutation": true,
+        "expected": {
+          "entry_skill": "rust-workflow",
+          "overlays": [],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Select the requested focused owner without duplicating rust-performance; mutations enter rust-workflow.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "automatic",
+          "rust-profiling"
         ]
       }
     ],
@@ -5951,7 +6131,7 @@
             "mem"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-optimization"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -5964,7 +6144,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-optimization"
               }
             ],
             "coding_profiles": [],
@@ -5978,7 +6158,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-optimization",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -6236,7 +6416,7 @@
             "opt"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-optimization"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -6249,7 +6429,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-optimization"
               }
             ],
             "coding_profiles": [],
@@ -6263,7 +6443,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-optimization",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -7091,7 +7271,7 @@
             "perf"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-optimization"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -7104,7 +7284,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-optimization"
               }
             ],
             "coding_profiles": [],
@@ -7118,7 +7298,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-optimization",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -7437,7 +7617,7 @@
             "opt"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-profiling"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -7452,7 +7632,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [],
@@ -7466,7 +7646,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -7673,7 +7853,7 @@
             "perf"
           ],
           "owner_profiles": [
-            "rust-performance",
+            "rust-profiling",
             "rust-cargo-build"
           ],
           "max_rules": 9,
@@ -7689,7 +7869,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision-2",
@@ -7708,7 +7888,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 },
                 {
@@ -7803,7 +7983,7 @@
             "mem"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-profiling"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -7818,7 +7998,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [],
@@ -7832,7 +8012,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -7862,7 +8042,7 @@
             "mem"
           ],
           "owner_profiles": [
-            "rust-performance",
+            "rust-profiling",
             "rust-api-design"
           ],
           "max_rules": 9,
@@ -7878,7 +8058,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "api-design-decision-2",
@@ -7897,7 +8077,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 },
                 {
@@ -7933,7 +8113,7 @@
             "perf"
           ],
           "owner_profiles": [
-            "rust-performance"
+            "rust-profiling"
           ],
           "max_rules": 9,
           "rule_ids": [],
@@ -7948,7 +8128,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [],
@@ -7962,7 +8142,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -8466,7 +8646,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -8737,7 +8917,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [],
@@ -8753,7 +8933,7 @@
               "constructs": [
                 {
                   "construct": "rust-performance scenario contract",
-                  "profile": "rust-performance",
+                  "profile": "rust-profiling",
                   "reason": "The scenario requires this profile's concrete contract or Rust mechanics."
                 }
               ],
@@ -9191,7 +9371,7 @@
             "coding_profiles": [],
             "helper_profiles": [
               "rust-design-protocol",
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -10631,7 +10811,7 @@
               "rust-concurrency"
             ],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -11027,7 +11207,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -11079,7 +11259,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -11353,7 +11533,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -11803,7 +11983,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -12448,7 +12628,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [
@@ -12569,7 +12749,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -12678,7 +12858,7 @@
               "rust-unsafe"
             ],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -13323,7 +13503,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -13504,7 +13684,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision",
@@ -13581,7 +13761,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [
@@ -13646,7 +13826,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "allocator-platform-decision",
@@ -13718,7 +13898,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [
@@ -13779,7 +13959,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision",
@@ -13844,7 +14024,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision",
@@ -13909,7 +14089,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision",
@@ -13979,7 +14159,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance",
+              "rust-profiling",
               "rust-research"
             ],
             "deferred_profiles": [],
@@ -14099,7 +14279,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance",
+              "rust-profiling",
               "rust-research"
             ],
             "deferred_profiles": [],
@@ -14155,7 +14335,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               },
               {
                 "id": "cargo-build-decision",
@@ -15483,7 +15663,7 @@
               "rust-unsafe-ffi"
             ],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -15543,7 +15723,7 @@
               "rust-unsafe"
             ],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -15603,7 +15783,7 @@
               "rust-unsafe"
             ],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -15718,7 +15898,7 @@
             "decision_units": [
               {
                 "id": "performance-decision",
-                "owner_profile": "rust-performance"
+                "owner_profile": "rust-profiling"
               }
             ],
             "coding_profiles": [
@@ -15786,7 +15966,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -15900,7 +16080,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -17144,7 +17324,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -17261,7 +17441,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance",
+              "rust-profiling",
               "rust-research"
             ],
             "deferred_profiles": [],
@@ -17676,7 +17856,7 @@
             ],
             "coding_profiles": [],
             "helper_profiles": [
-              "rust-performance"
+              "rust-profiling"
             ],
             "deferred_profiles": [],
             "forbidden_profiles": [],
@@ -17981,6 +18161,1318 @@
           "negative",
           "effects",
           "hook"
+        ]
+      }
+    ],
+    "performance": [
+      {
+        "id": "performance-black-box",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nRust 1.98.1, Criterion 0.8.2. Fragment: b.iter(|| { compute(42); }); compute is pure and returns u64; its result is unused. A 0.01 ns result was reported. Audit the harness before choosing an optimization.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "speedup-from-elided-work",
+            "criterion-black-box-as-current-default",
+            "barrier-prevents-inlining"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Question elision/constant inputs and implausible work; use MSRV-compatible std::hint::black_box for relevant input/output and inspect codegen if needed.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not claim a speedup or that a barrier disables inlining or ensures realism.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-timing-boundary",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nThe product operation constructs, sorts and drops a Vec. Baseline: b.iter(|| { let mut x=source.clone(); x.sort(); x }); candidate: iter_batched_ref(|| source.clone(), |x| x.sort(), SmallInput). Baseline 120 us, candidate 70 us. What comparison is supported?",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "accept-unmatched-timing-loops"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Reject the full-operation speedup claim because clone/setup/drop timing boundaries differ.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Either align full lifecycle timing or report only a deliberately isolated sort stage, with batching memory/cache costs.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-latency-inputs",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nA lookup bench repeats contains(\"fixed-key\") on a 32-entry set. Independent iterations report 3 ns. The service uses dependent lookups over millions of keys, 95% misses with varying prefixes. The proposed report calls 3 ns the service lookup latency.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "microbenchmark-proves-service-latency"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Separate independent throughput from dependent latency and vary hit/miss, miss position, cardinality and cache working set.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not establish a service metric from one hot predictable key.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-baseline-identity",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nbaseline: rustc A, release, feature=simd, system allocator, CPU X, 100 us. candidate: rustc B, dev, no simd, mimalloc, CPU Y, 90 us. Source code also changed. Decide whether this proves a source optimization.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "accept-confounded-source-speedup"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Mark the source comparison invalid and specify a controlled same-environment rebuild, retaining identities.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-statistics",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nMatched runs on the same runner: baseline Typical=100 us CI[94,106], candidate Typical=99 us CI[93,105]; reported change estimate=-1% CI[-7,+5], p=0.38. Minimum worthwhile improvement was set to 5%. A second report gives median=92 us for the candidate. Should the 5% target be marked achieved?",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "claim-target-met",
+            "ci-midpoint-as-estimator",
+            "metric-shopping"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Report insufficient evidence for the predefined 5% target; preserve estimator identity and report uncertainty.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not average CI endpoints, substitute median for Typical, delete outliers or run until p is favorable.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-offered-load",
+        "kind": "benchmark_validity",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nClosed-loop loader concurrency=1, achieved 800 requests/s at baseline and 900 requests/s after the change. Both report completion-minus-send p99=2 ms. Product objective: p99 from intended arrival at offered 5000 requests/s. Loader CPU=100%; pending arrivals are not logged.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "closed-loop-p99-proves-offered-load-slo"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Do not mark offered-load p99 achieved; diagnose generator saturation and coordinated omission.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Request intended-start observations, achieved/offered rate, errors/timeouts and adequate request-level tail samples.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "benchmark_validity",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-vtune-symbols",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nCargo printed target/profiling/deps/parse-abc.exe. Captured EXE PDB GUID=A age=1, available parse-abc.pdb GUID=B age=1 from a rebuild. VTune says unresolved symbols. Hardware event collection also failed with a permission diagnostic.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "same-stem-proves-symbol-identity",
+            "automatic-elevation"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Reject source attribution from the mismatched PDB; retain the capture binary and matching symbol identity.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Distinguish missing hardware permission from application failure; use authorized supported sampling or report SKIP, without installation/elevation.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-wpa-waits",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nWPA critical request interval=30 ms. Worker: Running 4 ms, Ready 20 ms, Waiting 6 ms. CPU Usage Sampled concentrates in parse(). Another idle worker waited 500 ms outside the request. Choose the next investigation.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "ready-equals-lock-wait",
+            "hottest-frame-is-elapsed-bottleneck"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Prioritize critical-path Ready delay and scheduler/readying dependencies using CPU Usage Precise; distinguish it from Waiting.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not optimize parse solely from sample share or call the unrelated idle wait the bottleneck.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-absolute-share",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nSame completed work, same sampling contract. Baseline total CPU=100 s, parse inclusive share=20%. Candidate total CPU=50 s, parse inclusive share=30%. A report calls parse 50% slower.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "relative-share-is-absolute-regression"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Compute estimated absolute parse CPU 20 s versus 15 s, a 25% decrease under the stated sampling assumptions.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Reject the 50% slowdown claim and avoid summing overlapping inclusive frames.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-heap-rss",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nBefore/after equivalent phases: allocation count 1M -> 0.5M, sampled live heap 80 -> 60 MiB, peak heap unrecorded, RSS 200 -> 220 MiB. Someone proposes reporting a 25% process-memory saving.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "sampled-live-heap-equals-rss"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Distinguish churn, sampled live heap, unmeasured peak and RSS; reject the process-memory saving claim.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Investigate retention, mappings, allocator rounding/fragmentation and coverage before choosing an allocator.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-counter-coverage",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nperf export: cache-misses value=100000 scaled, time_running/time_enabled=0.10. Trace reports lost events=20%, unresolved stacks=40%. Candidate elapsed time not recorded. CPU model differs from the cited threshold's model.",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "counter-only-proves-speedup",
+            "universal-pmu-threshold"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Treat multiplexing, event loss, stack coverage and CPU-specific semantics as limitations; request focused comparable evidence.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not infer a native speedup or universal bad cache-miss threshold.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-missing-tool",
+        "kind": "profile_interpretation",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nWindows AMD host. VTune/uProf/WPT are absent; no ETW capture authorization, no administrative rights. A read-only code inspection is authorized. Existing profiler output cannot be supplied. What can be concluded?",
+        "expected": {
+          "entry_skill": "rust-profiling",
+          "forbidden": [
+            "implicit-tool-install",
+            "fabricated-profile"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-profiling"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-profiling",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Report missing hardware/OS evidence as SKIP and proceed only with available inspection or an already authorized alternative.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Do not install a driver/ADK, change policy, upload traces or fabricate a capture.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "profile_interpretation",
+          "rust-profiling"
+        ]
+      },
+      {
+        "id": "performance-fixed-length",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nPrivate CacheEntry has Vec<u8>. All constructors finish populating it before publication; methods only edit existing bytes. No pointer escapes. 10M live entries have capacity slack; read-only workload and build/freeze costs are recorded separately. Another Vec is a growing scratch buffer. Evaluate Box<[u8]>.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "box-every-vec",
+            "box-means-immutable-elements"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Treat fixed length, not immutable elements, as the premise for CacheEntry; keep the growing scratch buffer growable.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Measure conversion/address/allocator effects and full-object/heap/RSS outcomes rather than guarantee a byte count.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-ordered-search",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nMap workload: sorted iteration is part of output, typical size 60, rare size 100000, 95% misses over static short keys. Candidates are flat sorted Vec and a trie. A note claims early trie misses guarantee O(log L).",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "trie-miss-guarantees-logarithmic",
+            "ignore-ordered-iteration"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Preserve ordering/uniqueness, benchmark update mix and rare sizes, and use miss-position/key distributions.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Reject the logarithmic-complexity inference; neither candidate is an automatic replacement.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-enum-layout",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nRare large enum payload is 256 bytes; common payload is 8 bytes. A field changed u32 -> u16, but size_of enclosing type is unchanged on the target. Someone proposes repr(packed) and guarantees 2 bytes saved per item.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "field-size-sum-proves-saving",
+            "packed-as-universal-fix"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Use measured containing layout, padding/discriminant/niches and variant frequencies; include boxing allocation/locality costs.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Reject guaranteed field-size arithmetic and generic repr(packed) without alignment/ABI proofs.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-reader-clone",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nEight readers share Arc-backed immutable archive bytes and one mutable cursor under a mutex. Lock wait dominates. Cloning the cursor object is shallow and cheap; cloning all backing bytes would be expensive. Can reducing clone calls be a useful goal?",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "clone-ban",
+            "remove-required-synchronization"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-concurrency"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "The changed Rust construct in this scenario",
+                  "profile": "rust-concurrency",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Consider per-reader cursor state over shared bytes with correct remaining synchronization; do not forbid clones mechanically.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Keep consistency/ownership/cancellation obligations and verify contention/end-to-end behavior.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-bottleneck-migration",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nSame useful load: parse CPU 20 -> 10 ms after a confirmed improvement. End-to-end completion stays 100 ms. Queue/I/O remains 80 ms. A second proposal spends a week halving parse again.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "local-win-proves-system-win"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Re-map the critical path and bound the remaining system benefit; prioritize discriminating queue/I/O evidence.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Preserve the accepted local result but do not declare end-to-end acceleration or keep targeting the old hotspot by default.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-coordinated-pipeline",
+        "kind": "optimization_selection",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nProducer serializes an object, copies bytes into a queue, consumer decodes them. In-process boundary validates size and ordering. A shared representation can eliminate both conversions, but changing only one side breaks the protocol. Batching improves throughput while increasing p99 and retained memory.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "single-file-only-optimization",
+            "attribute-all-gain-to-one-stage"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-concurrency"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "The changed Rust construct in this scenario",
+                  "profile": "rust-concurrency",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Allow one coherent producer/consumer hypothesis, preserve validation/order and intermediate variants or ablations where feasible.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Use common end-to-end latency/memory budgets and evaluate batching rather than sum unrelated local speedups.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "optimization_selection",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-eliminated-bounds",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nSafe iter() loop and candidate get_unchecked loop produce identical final optimized instructions on the measured target; comparable results are within the predefined noise range. The proposal adds unsafe solely to avoid checks.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "unsafe-improves-by-definition"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Prefer the safe implementation; there is no demonstrated remaining check cost or useful gain.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Inspect actual monomorphized/caller artifact and avoid assuming unsafe changes generated code.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-unchecked-proof",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nSafe fn read(x:&[u8], i:usize)->u8 { debug_assert!(i < x.len()); unsafe { *x.get_unchecked(i) } }. Caller input may equal len or usize::MAX in release. Tests have passed. Review this optimization boundary.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "debug-assert-proves-release-safety",
+            "tests-prove-soundness"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-unsafe"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "Unchecked operation preconditions and safe boundary",
+                  "profile": "rust-unsafe",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Reject the safe API as unsound; debug assertions do not enforce release bounds and invalid reference creation is already UB.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Require release-enforced rejection or a documented unsafe caller contract and local proof including overflow; do not execute invalid unsafe calls as tests.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-miri-scope",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nMiri passed 50 test inputs for an unsafe kernel; the FFI backend and other thread schedules were not executed. Timing under Miri improved 20%. The patch claims soundness for all platforms and a native speedup. A later run under a sandbox account fails before any tests: failed to unpack into the normal user cache: Access is denied. Nightly, miri, and rust-src are installed. The user authorizes retrying the same offline command under their normal account; no package installation is requested. What evidence is available and what should happen next?",
+        "expected": {
+          "entry_skill": "rust-unsafe",
+          "forbidden": [
+            "miri-proves-all-platforms",
+            "miri-timing-proves-native-speed",
+            "sandbox-permission-error-means-miri-missing",
+            "change-cache-acls-or-use-admin-by-default"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-unsafe"
+              }
+            ],
+            "coding_profiles": [],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-unsafe",
+                  "reason": "The requested output is owned by this profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Keep the operation-level proof and disclose untested FFI/targets/schedules; a Miri pass is bounded supporting evidence.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Reject native performance conclusions from interpreted execution.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Distinguish a pre-test sandbox cache permission failure from a failing test or missing component; retry the same scoped offline command through the host-authorized normal account, without changing ACLs, using administrator/root, reinstalling tools, or treating a blocked run as a pass.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-unsafe"
+        ]
+      },
+      {
+        "id": "performance-simd-dispatch",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nDeployment fleet includes CPUs without AVX2. Local AVX2 kernel is faster on one machine; input lengths range from 0 to 4097. The patch unconditionally calls the target_feature function, and the final tail uses unchecked loads.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "unconditional-avx2-on-mixed-fleet"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-unsafe"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "Unchecked operation preconditions and safe boundary",
+                  "profile": "rust-unsafe",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Require justified feature dispatch/scalar fallback or an explicitly supported fleet contract plus alignment/bounds/tail proofs.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Verify representative small/large/tail inputs and full-path costs; the local machine does not establish fleet support.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-pgo-training",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nPGO trained only on tiny all-hit inputs. .profraw files from rustc/LLVM A and B were merged; final build changes features and reports hash/missing-function warnings. Evaluation reuses the training input. Tests pass.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "ignore-profile-mismatch",
+            "training-is-independent-evaluation"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-cargo-build"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "The changed Rust construct in this scenario",
+                  "profile": "rust-cargo-build",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Reject effective profile coverage and representative-speedup claims; preserve matching compiler/build identity, fresh profiles and inspect diagnostics.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Plan representative training and held-out native evaluation against a controlled baseline; no default LTO/allocator or installation.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-optimization"
+        ]
+      },
+      {
+        "id": "performance-bolt-artifact",
+        "kind": "unsafe_codegen_pgo",
+        "prompt": "All artifacts below are synthetic fixtures, not hardware measurements.\nInput is Windows x86_64 MSVC PE. Existing perf.data came from a different pre-PGO Linux binary. Proposal: llvm-bolt app.exe -data=perf.data, then report a guaranteed additional 15% gain.",
+        "expected": {
+          "entry_skill": "rust-optimization",
+          "forbidden": [
+            "bolt-on-pe",
+            "raw-perf-as-bolt-data",
+            "guaranteed-gain"
+          ],
+          "profile_stack": {
+            "decision_units": [
+              {
+                "id": "performance-decision",
+                "owner_profile": "rust-optimization"
+              }
+            ],
+            "coding_profiles": [
+              "rust-cargo-build"
+            ],
+            "helper_profiles": [
+              "rust-profiling"
+            ],
+            "deferred_profiles": [],
+            "forbidden_profiles": [],
+            "coverage": {
+              "decisions": [
+                "performance-decision"
+              ],
+              "constructs": [
+                {
+                  "construct": "The decision and preserved behavior shown in the supplied artifact",
+                  "profile": "rust-optimization",
+                  "reason": "The requested output is owned by this profile."
+                },
+                {
+                  "construct": "The changed Rust construct in this scenario",
+                  "profile": "rust-cargo-build",
+                  "reason": "The concrete invariant requires this coding profile."
+                }
+              ],
+              "acceptance": [
+                {
+                  "criterion": "Reject the unsupported PE workflow, raw perf/profile confusion and wrong-binary profile identity; no numerical guarantee.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                },
+                {
+                  "criterion": "Describe only a conditional supported ELF workflow with exact input symbols/relocations, matching conversion/collection and independent evaluation.",
+                  "evidence": "Compare the model response against the supplied synthetic artifact and this acceptance rubric; not a hardware run."
+                }
+              ],
+              "gaps": []
+            }
+          }
+        },
+        "tags": [
+          "performance",
+          "unsafe_codegen_pgo",
+          "rust-optimization"
         ]
       }
     ]

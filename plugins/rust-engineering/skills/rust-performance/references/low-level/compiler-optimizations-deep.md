@@ -1,7 +1,7 @@
 # Low-level Compiler Optimizations Deep protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-cargo-build`, `$rust-research`.
 - Retained scope: Optimization pipeline, vectorization diagnostics, register pressure, loop transforms, PGO, BOLT, and generated-code evidence.
 - Baseline correction: Do not infer LLVM pass behavior or vectorization from source shape. Inspect the actual compiler output and benchmark the supported target.

@@ -4,7 +4,7 @@
 
 ## Routing and Retained Scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-cargo-build` for Cargo profiles and symbols, `$rust-platforms` for OS and global-allocator constraints, `$rust-observability` for `tracing` span semantics, and `$rust-unsafe`/`$rust-unsafe-ffi` for sanitizer evidence.
 - Retained scope: Criterion and Divan, CPU sampling, flamegraphs, heap profiling, PMU counters, Tracy timelines, Windows ETW analysis, readable symbols, and comparable before/after evidence.
 - Baseline correction: do not install tools, change host security, open a GUI/browser, upload a trace, start network discovery, assume artifact paths, or pin arbitrary versions without authorization. A profile selects a hypothesis; a comparable benchmark establishes improvement.
@@ -17,6 +17,8 @@
 - exact installed tool/version and its process, output, GUI, browser, network, upload, driver, ETW, and host-configuration effects;
 - baseline distribution and retained raw evidence.
 
+Interpret results with the [profiling guide](../../../rust-profiling/references/guide.md), [benchmark analysis](../../../rust-profiling/references/benchmark-analysis.md), and [profile interpretation](../../../rust-profiling/references/profile-interpretation.md). Return candidate selection to `rust-optimization`; this reference owns collection and measurement rather than source changes.
+
 ## Decision protocol
 
 1. Classify CPU, allocation, I/O, contention, binary-size, or build-time cost before choosing a tool.
@@ -27,7 +29,7 @@
 
 ## Project-owned `profiling` Profile
 
-Define custom profiles at the workspace root:
+Use the project's existing profile. If absent, propose a release-derived custom profile at the workspace root through the authorized implementation workflow; do not assume `--profile profiling` already works:
 
 ```toml
 [profile.profiling]
@@ -56,6 +58,10 @@ Do not add LTO, `panic = "abort"`, `codegen-units = 1`, target CPU flags, or an 
 | Cache misses and microarchitecture on Windows/AMD | installed AMD uProf | Verify supported CPU/OS and the installed analysis configuration |
 | Scheduler, wakeups, waits, I/O, unexplained latency on Windows | WPR capture plus WPA analysis | Heavy ETW path; use when vendor tools are absent or the question is OS-level causality |
 | Unsafe, FFI, C/C++, custom allocator validity | rustc sanitizer plus matching native instrumentation | Explicit target/toolchain/runtime coverage; route interpretation to unsafe/FFI |
+| Generated checks, vectorization, inlining, instruction count | installed LLVM tools, cargo-binutils, or cargo-show-asm | Match target/instantiation and final linked artifact; inspect the caller after LTO/inlining |
+| Executable or section size | cargo-bloat, LLVM size/objdump | Separate code, symbols, debug and deployed size; smaller is not necessarily faster |
+| Modeled instruction/cache regression evidence | Callgrind/Cachegrind, optionally an existing Gungraun harness | Model events are not deployment CPU latency; retain representative native comparison |
+| Pipeline scheduling hypothesis | installed llvm-mca | Scheduling/memory assumptions need hardware confirmation; not necessarily bundled with Rust |
 
 `samply` and `cargo-flamegraph` are cross-platform entry points, not capability equivalence claims. Linux `perf` is not a generic `cfg(unix)` tool: macOS and BSD need their available platform backend or an explicit `SKIP`.
 
@@ -63,6 +69,7 @@ Do not add LTO, `panic = "abort"`, `codegen-units = 1`, target CPU flags, or an 
 
 - Criterion `--profile-time <seconds>` repeats the benchmark without normal analysis or saving results. Use it for profiler capture, not for a benchmark comparison.
 - A direct Criterion executable requires `--bench`. Resolve its path from Cargo output/metadata.
+- Use `std::hint::black_box` on MSRV 1.66 or newer; current Criterion's wrapper is deprecated. A barrier does not prove representative work or preserve call boundaries.
 - `pprof-rs` features `criterion` and `flamegraph` provide Criterion hooks and SVG output. `Frames` and `frames_post_processor` are APIs, not a Cargo feature named `frames`.
 - The optional `frame-pointer` feature selects frame-pointer unwinding and is nightly/build-std sensitive. It does not remove the need to compile relevant code with usable frame pointers.
 - The default libunwind path and signal-driven sampling have safety and completeness limits; missed or truncated stacks remain tool limitations, not application facts.
@@ -135,9 +142,11 @@ See [Rust sanitizer and Miri protocol](../../../rust-unsafe/references/low-level
 
 Record the exact command, tool version, target, scope, output location, effects, result, and residual risk.
 
+For Windows MSVC retain the exact Cargo-produced EXE and matching PDB. Verify PDB identity when tooling exposes it; same stems alone are insufficient after a rebuild. For ELF/Mach-O retain matching build IDs/UUIDs and debug files. A profiler capture and a native comparison are separate runs.
+
 ## Evidence Gate
 
-Reviewed 2026-08-30; re-check resolved versions before execution.
+Reviewed 2026-10-15; re-check resolved versions before execution.
 
 - [Cargo profiles](https://doc.rust-lang.org/cargo/reference/profiles.html) — custom-profile inheritance, debug information, stripping, and workspace-root ownership.
 - [Criterion](https://bheisler.github.io/criterion.rs/book/) and [profiling mode](https://bheisler.github.io/criterion.rs/book/user_guide/profiling.html) — benchmark methodology, hooks, and `--profile-time`.
@@ -152,3 +161,5 @@ Reviewed 2026-08-30; re-check resolved versions before execution.
 - [Intel VTune](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html) and [AMD uProf](https://docs.amd.com/r/en-US/63856-uProf-release-notes) — vendor analysis and supported hardware/OS contracts.
 - [Windows Performance Recorder](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) and [Windows Performance Analyzer](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer) — ETW capture and ETL analysis.
 - [rustc sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html) — current modes, target matrix, `build-std`, and foreign-runtime integration.
+- [cargo-binutils](https://github.com/rust-embedded/cargo-binutils), [cargo-show-asm](https://github.com/pacak/cargo-show-asm), [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat), and [llvm-mca](https://llvm.org/docs/CommandGuide/llvm-mca.html) — artifact inspection and model limits.
+- [Gungraun](https://github.com/gungraun/gungraun) — current Valgrind/perf harness (formerly iai-callgrind); inspect the accepted version before adoption.

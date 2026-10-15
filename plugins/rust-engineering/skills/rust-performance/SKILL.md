@@ -1,59 +1,33 @@
 ---
 name: rust-performance
-description: Measure and optimize Rust latency, throughput, allocations, cache behavior, binary size, build time, and resource use without changing semantics accidentally. Use when a performance target or regression has reproducible evidence.
+description: Route Rust performance work through the compatible performance entrypoint. Clarify the metric and choose rust-profiling for measurements, rust-optimization for confirmed bottlenecks, or debugging for unexplained failures; retain existing reference paths.
 ---
 
 # Rust Performance
 
-Own performance diagnosis, experiment design, optimization, and regression evidence. Apply this profile directly for focused advice or load it from `rust-workflow` in the role justified by the current decision unit.
-
-## Use This Skill When
-
-- A benchmark, profile, production signal, or user requirement identifies a latency, throughput, memory, size, or build-time problem.
-- An optimization proposal needs proof of bottleneck, magnitude, and semantic safety.
-- Allocations, copying, hashing, layout, dispatch, synchronization, I/O, or compilation cost needs focused analysis.
+Preserve the public performance entrypoint and its reference paths. Resolve the actual decision to a focused owner rather than duplicating experiment, optimization, or soundness policy here.
 
 ## Workflow
 
-1. Define the metric, workload, target, baseline, acceptable variance, correctness contract, and environment controls.
-2. Reproduce with the same toolchain, profile, features, target, inputs, hardware or runner class, and thermal or load conditions.
-3. Profile before editing to locate time, allocation, I/O, contention, code size, or compilation hotspots.
-4. Form one optimization hypothesis and make the smallest change that tests it while preserving output and error behavior.
-5. Compare distributions or repeated samples, inspect generated or profile evidence where needed, and reject noise-level wins.
-6. Add a proportionate regression guard or documented benchmark, then report trade-offs and environments not measured.
+1. Clarify useful work, the metric, correctness contract, representative workload, and available evidence.
+2. Select the current decision using the table below and read that skill's entrypoint.
+3. Hand off the bounded result; do not also retain `rust-performance` as an owner/helper for the same decision.
+4. Any repository mutation enters `rust-workflow`; verification closes through `rust-verify`.
 
-## Decision Rules
+## Decision Routing
 
-- Correctness and public behavior remain constraints; faster wrong code is a regression.
-- Use release-like profiles for runtime claims and representative incremental or clean builds for compile-time claims.
-- Use Criterion for maintained microbenchmarks, baseline comparisons, and optimization claims. Divan is a minimal exploratory alternative when those contracts and Criterion profiler hooks are not required.
-- Use the workspace-owned `profiling` Cargo profile for profiler captures; keep symbols while preserving release-like optimization and record any command-scoped frame-pointer flag.
-- Do not infer performance from source appearance, iterator versus loop style, or fewer lines.
-- Measure allocations and copies before adding borrowing complexity, arenas, interning, or unsafe code.
-- Choose collections and hashers by workload and security requirements, including collision behavior and ordering.
-- Account for cold start, warm caches, tail latency, contention, batching, and I/O where the product cares about them.
-- Unsafe or SIMD optimizations need target dispatch, fallback, invariant proof, and a material measured benefit.
-- Compile-time improvements should identify monomorphization, macro, codegen-unit, dependency, linking, or proc-macro causes.
+| Current decision | Owner |
+|---|---|
+| Unexplained regression, contradictory output, crash, hang, or non-reproducible failure | [debugging](../debugging/SKILL.md) |
+| Design/audit a benchmark, interpret a capture, locate a limiting resource, measure build time or size | [rust-profiling](../rust-profiling/SKILL.md) |
+| Choose a change from an established bottleneck and evaluate system trade-offs | [rust-optimization](../rust-optimization/SKILL.md) |
+| Prove unsafe preconditions or interpret Miri/sanitizer evidence | [rust-unsafe](../rust-unsafe/SKILL.md) |
 
-## Rulebook Overlay
+For a mixed task, route by phase with one owner per decision unit. Existing domain owners still control data architecture, concurrency semantics, durable formats and Cargo configuration. Profiling supplies measurements; optimization does not silently relax those contracts.
 
-After recording a comparable baseline and hotspot, select at most nine IDs from [`mem-`](../rust-coding-rules/references/categories/mem.md), [`opt-`](../rust-coding-rules/references/categories/opt.md), or [`perf-`](../rust-coding-rules/references/categories/perf.md). These indexes never supply a measurement or global optimization default.
+## Compatibility and References
 
-## Boundaries and Hand-offs
-
-- `debugging` owns causal diagnosis when the primary issue is incorrect or unexplained behavior.
-- `rust-unsafe` owns soundness proof and `rust-testing` owns functional tests; performance does not relax either.
-- Use `rust-workflow` when the task includes implementation across the repository.
-- Use `rust-review` for read-only findings and `rust-verify` for command evidence.
-
-## Detailed Reference
-
-Read [Rust Performance field guide](references/guide.md) before making a consequential design choice. Load the relevant [Design protocol performance protocol](./references/guide.md) branch for its detailed measurement and optimization algorithms. Keep conclusions tied to the repository's actual toolchain, targets, feature graph, and local instructions.
-
-## Specialized Rust protocols
-
-For additional topic detail, read the [Profile reference index](./references/guide.md) and load only the matching family reference.
-
-## Low-level protocols
-
-For low-level debugging, profiling, build, sanitizer, cross-target, ABI, async-internal, security, or hardware detail, read the [Low-level reference index](references/low-level-index.md) and load only the matching family. [Rust profiling](references/low-level/rust-profiling.md) is the canonical Criterion/Divan, CPU, heap, Tracy, counter, and Windows tool matrix. Apply its official-evidence and command-safety gate before execution.
+- Read the [compatibility guide](references/guide.md) for the retained reference map and compiling fixture.
+- The [benchmark implementation guide](references/performance-optimization-guide.md) and [tool matrix](references/low-level/rust-profiling.md) remain at their existing paths.
+- The [low-level index](references/low-level-index.md) routes to the relevant tool or hardware family. Load only the matching family.
+- Existing `$rust-performance` invocations remain valid; new automatic routes select the specific skill. Tool absence does not authorize installation or host-policy changes.

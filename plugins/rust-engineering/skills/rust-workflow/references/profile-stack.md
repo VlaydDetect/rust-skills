@@ -70,9 +70,9 @@ Default role is only search order. A profile may be promoted or demoted when the
 | Default class | Profiles |
 |---|---|
 | Control plane | `rust-workflow`, `rust-review`, `rust-verify`, `rust-architecture-review`, `nix-review` |
-| Owner-first | `nix-dev-env`, `nix-flakes`, `nix-packaging`, `nixos`, `rust-api-design`, `rust-architecture`, `rust-cargo-build`, `rust-crate-discovery`, `rust-data`, `rust-database`, `rust-dependencies`, `rust-distributed-systems`, `rust-ecosystem`, `rust-gpu`, `rust-ml`, `rust-module-layout`, `rust-platforms`, `rust-semver`, `rust-serialization`, `rust-systems-networking`, `rust-tauri`, `rust-uniffi-building`, `rust-workspace` |
+| Owner-first | `nix-dev-env`, `nix-flakes`, `nix-packaging`, `nixos`, `rust-api-design`, `rust-architecture`, `rust-cargo-build`, `rust-crate-discovery`, `rust-data`, `rust-database`, `rust-dependencies`, `rust-distributed-systems`, `rust-ecosystem`, `rust-gpu`, `rust-ml`, `rust-module-layout`, `rust-optimization`, `rust-platforms`, `rust-semver`, `rust-serialization`, `rust-systems-networking`, `rust-tauri`, `rust-uniffi-building`, `rust-workspace` |
 | Coding-first | `rust-concurrency`, `rust-errors`, `rust-idioms`, `rust-lombok-macros`, `rust-macros`, `rust-ownership`, `rust-pin`, `rust-stable`, `rust-stdlib`, `rust-style-clippy`, `rust-traits`, `rust-unsafe`, `rust-unsafe-ffi` |
-| Helper-first | `addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-by-example`, `rust-design-protocol`, `rust-documentation`, `rust-navigation`, `rust-observability`, `rust-performance`, `rust-research`, `rust-testing`, `specs` |
+| Helper-first | `addressing-findings`, `codebase-onboarding`, `debugging`, `refactoring`, `rust-by-example`, `rust-design-protocol`, `rust-documentation`, `rust-navigation`, `rust-observability`, `rust-performance`, `rust-profiling`, `rust-research`, `rust-testing`, `specs` |
 | Overlay | `rust-coding-rules` |
 
 ## Circuit breakers
@@ -84,6 +84,10 @@ Default role is only search order. A profile may be promoted or demoted when the
 
 The `3/6/10` limits are circuit breakers, not targets and not outputs of a complexity score.
 
+## Performance decision ownership
+
+`rust-performance` remains a compatibility entrypoint and resolves to a focused owner before roles are assigned. Use `rust-profiling` for measurement/interpretation and `rust-optimization` for change selection after a bottleneck is established. Do not retain the compatibility profile beside the selected owner for the same decision. Unexplained regressions start in `debugging`; a legitimate profiling question does not require a failure.
+
 ## Evidence escalation
 
 Activate a helper only from current evidence:
@@ -94,7 +98,7 @@ Activate a helper only from current evidence:
 | Current version, crate, tool, target, or upstream behavior controls correctness | `rust-research` returns dated primary evidence |
 | A concrete acceptance contract needs test design or implementation | `rust-testing` returns the required test strategy or test change |
 | The real definition, caller, dispatch, cfg, or macro path is unknown | `rust-navigation` returns the bounded path |
-| A measured metric controls the decision | `rust-performance` returns the baseline and comparison |
+| A benchmark, profile, counter, trace, size or build-time question needs measurement | `rust-profiling` returns validity, attribution and comparable evidence |
 | Product behavior is ambiguous | `specs` returns a bounded contract and scenarios |
 
 Do not activate `rust-research` for stable repository facts or `debugging` before a failure exists. Record a helper's result in the TaskBrief or evidence log and remove it from the active working set.

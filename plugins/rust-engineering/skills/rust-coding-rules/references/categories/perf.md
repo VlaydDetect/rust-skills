@@ -14,19 +14,19 @@ Load this index only when the current Rust decision matches the category. Select
 
 | Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`perf-ahash`](../rules/perf-ahash.md) | `conditional` | `rust-performance` | Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed |
-| [`perf-black-box-bench`](../rules/perf-black-box-bench.md) | `conditional` | `rust-performance` | Use black_box in benchmarks |
-| [`perf-chain-avoid`](../rules/perf-chain-avoid.md) | `conditional` | `rust-performance` | Avoid chain in hot loops |
-| [`perf-collect-into`](../rules/perf-collect-into.md) | `conditional` | `rust-performance` | Use collect_into for reusing containers |
-| [`perf-collect-once`](../rules/perf-collect-once.md) | `conditional` | `rust-performance` | Don't collect intermediate iterators |
-| [`perf-drain-reuse`](../rules/perf-drain-reuse.md) | `conditional` | `rust-performance` | Use drain to reuse allocations |
-| [`perf-entry-api`](../rules/perf-entry-api.md) | `conditional` | `rust-performance` | Use entry API for map insert-or-update |
-| [`perf-extend-batch`](../rules/perf-extend-batch.md) | `conditional` | `rust-performance` | Use extend for batch insertions |
-| [`perf-io-buffering`](../rules/perf-io-buffering.md) | `conditional` | `rust-performance` | Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations |
-| [`perf-iter-lazy`](../rules/perf-iter-lazy.md) | `conditional` | `rust-performance` | Keep iterators lazy, collect only when needed |
-| [`perf-iter-over-index`](../rules/perf-iter-over-index.md) | `conditional` | `rust-performance` | Prefer iterators over manual indexing |
-| [`perf-profile-first`](../rules/perf-profile-first.md) | `conditional` | `rust-performance` | Profile before optimizing |
-| [`perf-release-profile`](../rules/perf-release-profile.md) | `conditional` | `rust-performance` | Optimize release profile settings |
+| [`perf-ahash`](../rules/perf-ahash.md) | `conditional` | `rust-optimization` | Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed |
+| [`perf-black-box-bench`](../rules/perf-black-box-bench.md) | `conditional` | `rust-profiling` | Use black_box in benchmarks |
+| [`perf-chain-avoid`](../rules/perf-chain-avoid.md) | `conditional` | `rust-optimization` | Avoid chain in hot loops |
+| [`perf-collect-into`](../rules/perf-collect-into.md) | `conditional` | `rust-optimization` | Use collect_into for reusing containers |
+| [`perf-collect-once`](../rules/perf-collect-once.md) | `conditional` | `rust-optimization` | Don't collect intermediate iterators |
+| [`perf-drain-reuse`](../rules/perf-drain-reuse.md) | `conditional` | `rust-optimization` | Use drain to reuse allocations |
+| [`perf-entry-api`](../rules/perf-entry-api.md) | `conditional` | `rust-optimization` | Use entry API for map insert-or-update |
+| [`perf-extend-batch`](../rules/perf-extend-batch.md) | `conditional` | `rust-optimization` | Use extend for batch insertions |
+| [`perf-io-buffering`](../rules/perf-io-buffering.md) | `conditional` | `rust-optimization` | Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations |
+| [`perf-iter-lazy`](../rules/perf-iter-lazy.md) | `conditional` | `rust-optimization` | Keep iterators lazy, collect only when needed |
+| [`perf-iter-over-index`](../rules/perf-iter-over-index.md) | `conditional` | `rust-optimization` | Prefer iterators over manual indexing |
+| [`perf-profile-first`](../rules/perf-profile-first.md) | `conditional` | `rust-profiling` | Profile before optimizing |
+| [`perf-release-profile`](../rules/perf-release-profile.md) | `conditional` | `rust-optimization` | Optimize release profile settings |
 
 ## Batch Audit
 

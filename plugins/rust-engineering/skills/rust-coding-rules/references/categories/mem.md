@@ -14,23 +14,23 @@ Load this index only when the current Rust decision matches the category. Select
 
 | Rule | Status | Owner | Decision |
 |---|---|---|---|
-| [`mem-arena-allocator`](../rules/mem-arena-allocator.md) | `conditional` | `rust-performance` | Use arena allocators for batch allocations |
-| [`mem-arrayvec`](../rules/mem-arrayvec.md) | `conditional` | `rust-performance` | Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate |
-| [`mem-assert-type-size`](../rules/mem-assert-type-size.md) | `conditional` | `rust-performance` | Use static assertions to guard against accidental type size growth |
-| [`mem-avoid-format`](../rules/mem-avoid-format.md) | `conditional` | `rust-performance` | Avoid `format!()` when string literals work |
-| [`mem-box-large-variant`](../rules/mem-box-large-variant.md) | `conditional` | `rust-performance` | Box large enum variants to reduce overall enum size |
-| [`mem-boxed-slice`](../rules/mem-boxed-slice.md) | `conditional` | `rust-performance` | Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data |
-| [`mem-clone-from`](../rules/mem-clone-from.md) | `conditional` | `rust-performance` | Use `clone_from()` to reuse allocations when repeatedly cloning |
-| [`mem-compact-string`](../rules/mem-compact-string.md) | `conditional` | `rust-performance` | Use compact string types for memory-constrained string storage |
-| [`mem-drop-order`](../rules/mem-drop-order.md) | `conditional` | `rust-performance` | Know and control drop order: struct fields drop top-to-bottom, locals in reverse |
-| [`mem-reuse-collections`](../rules/mem-reuse-collections.md) | `conditional` | `rust-performance` | Clear and reuse collections instead of creating new ones in loops |
-| [`mem-smaller-integers`](../rules/mem-smaller-integers.md) | `conditional` | `rust-performance` | Use appropriately-sized integers to reduce memory footprint |
-| [`mem-smallvec`](../rules/mem-smallvec.md) | `conditional` | `rust-performance` | Use `SmallVec` for usually-small collections |
-| [`mem-take-replace`](../rules/mem-take-replace.md) | `conditional` | `rust-performance` | Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning |
-| [`mem-thinvec`](../rules/mem-thinvec.md) | `conditional` | `rust-performance` | Use `ThinVec<T>` for nullable collections with minimal overhead |
-| [`mem-with-capacity`](../rules/mem-with-capacity.md) | `conditional` | `rust-performance` | Use `with_capacity()` when size is known |
-| [`mem-write-over-format`](../rules/mem-write-over-format.md) | `conditional` | `rust-performance` | Use `write!()` into existing buffers instead of `format!()` allocations |
-| [`mem-zero-copy`](../rules/mem-zero-copy.md) | `conditional` | `rust-performance` | Use zero-copy patterns with slices and `Bytes` |
+| [`mem-arena-allocator`](../rules/mem-arena-allocator.md) | `conditional` | `rust-optimization` | Use arena allocators for batch allocations |
+| [`mem-arrayvec`](../rules/mem-arrayvec.md) | `conditional` | `rust-optimization` | Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate |
+| [`mem-assert-type-size`](../rules/mem-assert-type-size.md) | `conditional` | `rust-optimization` | Use static assertions to guard against accidental type size growth |
+| [`mem-avoid-format`](../rules/mem-avoid-format.md) | `conditional` | `rust-optimization` | Avoid `format!()` when string literals work |
+| [`mem-box-large-variant`](../rules/mem-box-large-variant.md) | `conditional` | `rust-optimization` | Box large enum variants to reduce overall enum size |
+| [`mem-boxed-slice`](../rules/mem-boxed-slice.md) | `conditional` | `rust-optimization` | Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data |
+| [`mem-clone-from`](../rules/mem-clone-from.md) | `conditional` | `rust-optimization` | Use `clone_from()` to reuse allocations when repeatedly cloning |
+| [`mem-compact-string`](../rules/mem-compact-string.md) | `conditional` | `rust-optimization` | Use compact string types for memory-constrained string storage |
+| [`mem-drop-order`](../rules/mem-drop-order.md) | `conditional` | `rust-optimization` | Know and control drop order: struct fields drop top-to-bottom, locals in reverse |
+| [`mem-reuse-collections`](../rules/mem-reuse-collections.md) | `conditional` | `rust-optimization` | Clear and reuse collections instead of creating new ones in loops |
+| [`mem-smaller-integers`](../rules/mem-smaller-integers.md) | `conditional` | `rust-optimization` | Use appropriately-sized integers to reduce memory footprint |
+| [`mem-smallvec`](../rules/mem-smallvec.md) | `conditional` | `rust-optimization` | Use `SmallVec` for usually-small collections |
+| [`mem-take-replace`](../rules/mem-take-replace.md) | `conditional` | `rust-optimization` | Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning |
+| [`mem-thinvec`](../rules/mem-thinvec.md) | `conditional` | `rust-optimization` | Use `ThinVec<T>` for nullable collections with minimal overhead |
+| [`mem-with-capacity`](../rules/mem-with-capacity.md) | `conditional` | `rust-optimization` | Use `with_capacity()` when size is known |
+| [`mem-write-over-format`](../rules/mem-write-over-format.md) | `conditional` | `rust-optimization` | Use `write!()` into existing buffers instead of `format!()` allocations |
+| [`mem-zero-copy`](../rules/mem-zero-copy.md) | `conditional` | `rust-optimization` | Use zero-copy patterns with slices and `Bytes` |
 
 ## Batch Audit
 

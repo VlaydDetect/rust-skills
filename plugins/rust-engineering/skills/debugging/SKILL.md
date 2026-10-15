@@ -36,7 +36,7 @@ Own causal diagnosis from symptom to minimal, evidence-backed failure mechanism.
 ## Boundaries and Hand-offs
 
 - `rust-errors` owns error API design; debugging owns why a particular failure occurred.
-- `rust-performance` owns measured optimization after correctness and the bottleneck are established.
+- `rust-profiling` owns measurement validity and attribution; `rust-optimization` chooses changes after correctness and the bottleneck are established. Performance regressions and contradictory results remain diagnostic questions here.
 - Use `rust-workflow` when the task includes implementation across the repository.
 - Use `rust-review` for read-only findings and `rust-verify` for command evidence.
 

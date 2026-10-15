@@ -1,7 +1,7 @@
 # Low-level Code Generation And Backends protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-cargo-build`, `$rust-research`.
 - Retained scope: Compiler pipeline, LLVM lowering, target triples, calling-convention lowering, backend selection, and new-target feasibility.
 - Baseline correction: LLVM utilities and target-backend authoring are not Cargo workflows. Cranelift and alternative backends remain toolchain- and target-gated experiments.

@@ -1,7 +1,7 @@
 # Low-level Numa Programming protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-architecture`, `$rust-research`.
 - Retained scope: Topology discovery, memory placement, affinity, first touch, remote-access diagnosis, measurement, and fallback behavior.
 - Baseline correction: NUMA topology, container visibility, cpusets, allocator policy, and privilege are deployment facts. Never hard-code nodes or cores from source examples.

@@ -70,7 +70,7 @@ struct GoodFFI {
 // DO: Use repr(transparent) for newtypes
 #[repr(transparent)]
 struct Wrapper(u32);
-// Guaranteed same layout as u32, can be transmuted
+// Same layout/ABI as u32; conversions still require validity and ownership proofs.
 
 // DO: Use repr(packed) carefully, access via copy
 #[repr(C, packed)]

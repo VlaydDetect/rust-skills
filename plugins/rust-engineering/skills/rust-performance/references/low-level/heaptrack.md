@@ -1,7 +1,7 @@
 # Low-level Heaptrack protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$debugging`, `$rust-cargo-build`.
 - Retained scope: Allocation capture, symbol quality, retained versus peak memory, call-stack attribution, filtering, run comparison, and Rust allocator visibility.
 - Baseline correction: Verify that the selected allocator and workload are observable by the tool. Tool output paths and GUI availability are environment-specific.

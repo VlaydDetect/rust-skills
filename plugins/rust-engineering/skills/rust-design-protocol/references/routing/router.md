@@ -38,7 +38,7 @@ Layer 1: Language Mechanics (HOW)
 | "How to design..." | Layer 2 | Check L3, then DOWN ↓ | rust-design-protocol or rust-architecture |
 | "Building an ML system" | Layer 3 | Trace DOWN ↓ | rust-ml |
 | "Best practice..." | Layer 2 | Both directions when context matters | owning profile |
-| Performance issue | Layer 1 → 2 | Measure, then trace as needed | rust-performance |
+| Performance issue | Layer 1 → 2 | Measure with rust-profiling; choose changes with rust-optimization after attribution | rust-profiling |
 
 ### Conditional domain loading
 
@@ -112,7 +112,7 @@ Preserve the target project's toolchain, MSRV, edition, resolver, CI, and lint p
 | Pattern | Route To |
 |---------|----------|
 | domain model, business logic | rust-architecture (`m09`) |
-| performance, optimization, benchmark | rust-performance (`m10`) |
+| performance, optimization, benchmark | rust-profiling for evidence; rust-optimization for change selection (`m10`) |
 | integration, interop, bindings | rust-ecosystem (`m11`) |
 | resource lifecycle, RAII, Drop | rust-ownership (`m12`) |
 | domain error, recovery strategy | rust-errors (`m13`) |

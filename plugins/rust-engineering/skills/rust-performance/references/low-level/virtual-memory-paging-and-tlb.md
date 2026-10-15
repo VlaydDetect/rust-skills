@@ -1,7 +1,7 @@
 # Low-level Virtual Memory Paging And Tlb protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-architecture`, `$rust-research`.
 - Retained scope: Page translation, faults, TLB pressure, huge pages, mapping evidence, and embedded contrasts.
 - Baseline correction: Page-table shape, page size, huge-page policy, counters, and kernel interfaces are target/OS facts. Do not request huge pages or host configuration automatically.

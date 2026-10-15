@@ -32,7 +32,7 @@ These are progressive references under existing owners, not standalone profiles.
 | Nextest filters, profiles, groups, retries, timeouts, JUnit, or process-per-test behavior | `rust-testing` | `rust-verify`, `debugging` | `cargo-nextest` |
 | LLVM source coverage, reports, thresholds, nextest integration, branch/doctest coverage | `rust-testing` | `rust-verify`, `rust-research` | `cargo-llvm-cov` |
 | cargo-machete unused-dependency findings, false positives, exit codes, or metadata-assisted scan | `rust-dependencies` | `rust-cargo-build`, `rust-verify` | `cargo-machete` |
-| Cargo target/build state across Git linked worktrees, cache contention, or artifact identity | `rust-cargo-build` | `rust-performance`, `rust-verify` | `cargo-worktree-builds` |
+| Cargo target/build state across Git linked worktrees, cache contention, or artifact identity | `rust-cargo-build` | `rust-profiling`, `rust-verify` | `cargo-worktree-builds` |
 | Clippy groups/priorities, workspace inheritance, typed config, disallowed items, or lint-policy migration | `rust-style-clippy` | `rust-stable`, `rust-verify` | `clippy-advanced` |
 
 `mockito-http-mocking` is intentionally absent: it has no profile, reference, trigger, agent, hook, or positive route.
@@ -92,7 +92,9 @@ These are progressive references under existing owners, not standalone profiles.
 |---|---|---|
 | `rust-concurrency` | Threads, async/Future/Waker internals, channels, locks, atomics, cancellation, backpressure, shutdown | Correctness or liveness spans execution contexts. |
 | `rust-testing` | Test and coverage strategy/implementation, including nextest execution policy, bounded fuzz targets, and crash regressions | Tests, their runner policy, or coverage contract is the deliverable. |
-| `rust-performance` | Reproducible benchmarks, perf/flamegraphs/counters, allocation/size/build-time profiles, optimization, regression guards | A measured metric or regression controls the work. |
+| `rust-performance` | Compatible performance entrypoint; resolves to the actual owner | An older prompt invokes this profile or the task needs initial performance routing. |
+| `rust-profiling` | Benchmark validity, statistics, CPU/heap/counter/trace interpretation, size and build-time evidence | The deliverable is measurement, attribution, or a comparable experiment. |
+| `rust-optimization` | Candidate selection, invariant-led changes, component budgets and trade-offs | A confirmed bottleneck supports a specific optimization experiment. |
 | `rust-observability` | Structured logs, spans, metrics, correlation, redaction, cardinality | Runtime behavior must become operationally diagnosable. |
 | `rust-unsafe-ffi` | Foreign ABI, layout, handles, buffers, strings, callbacks, unwind | Unsafe crosses a language or runtime boundary. |
 | `rust-platforms` | Unix and Windows APIs, OS-specific resource lifecycle, runtime capabilities, global allocator selection | Rust program behavior depends on POSIX/Linux/BSD/macOS/Windows APIs or a measured allocator decision; Nix environment and packaging work stays with Nix profiles. |
@@ -134,7 +136,7 @@ Use these ownership splits when descriptions overlap:
 - `rust-dependencies` decides whether a dependency can be removed; cargo-machete contributes heuristic evidence and never owns the edit.
 - `rust-cargo-build` owns Git-worktree build layout; `rust-workspace` joins only when Cargo package topology changes.
 - `rust-style-clippy` owns lint policy and tool configuration; `rust-review` judges the semantic correctness of a proposed lint fix.
-- Coverage remains under `rust-testing` unless the request concerns a measured runtime or build-time metric; then `rust-performance` may support it.
+- Coverage remains under `rust-testing` unless the request concerns a measured runtime or build-time metric; then `rust-profiling` may support it.
 - A general Rust task does not activate cargo-generate, nextest, LLVM coverage, machete, worktree-build, or advanced-Clippy references solely because a manifest exists.
 - `rust-review` reviews a bounded diff; `rust-architecture-review` assesses whole-project structure; `nix-review` owns Nix-specific findings.
 - `rust-unsafe` owns Rust-internal validity and aliasing; `rust-unsafe-ffi` adds ABI and foreign lifecycle; `rust-uniffi-building` owns the UniFFI generation workflow.
@@ -142,8 +144,8 @@ Use these ownership splits when descriptions overlap:
 - `rust-ecosystem` chooses a broad solution class; `rust-crate-discovery` evaluates candidates before adoption; `rust-dependencies` governs adopted crates.
 - `rust-cargo-build` owns build mechanics; `rust-workspace` owns crate topology; `rust-module-layout` owns structure inside a crate.
 - `rust-stable` specializes toolchain and general language stability, then hands borrowing, traits, errors, std, unsafe, and examples to their focused owners.
-- `rust-performance` requires a metric and comparable baseline; an unmeasured slowdown symptom starts in `debugging`.
-- `rust-performance` owns build-time diagnosis and comparable measurements; `rust-cargo-build` owns Cargo profiles, linker, target, wrapper and cache configuration.
+- `rust-profiling` establishes valid measurements and attribution; `rust-optimization` chooses changes from a confirmed bottleneck. An unexplained slowdown symptom starts in `debugging`. `rust-performance` resolves compatibility invocations without duplicating a role.
+- `rust-profiling` owns build-time measurement and attribution; `rust-cargo-build` owns Cargo profiles, linker, target, wrapper and cache configuration.
 - `rust-unsafe` owns Miri/sanitizer interpretation and residual soundness proof; `rust-verify` runs the selected evidence; `debugging` localizes a particular failure.
 - `refactoring` preserves a named contract; `rust-architecture` may intentionally change boundaries or contracts after that decision is authorized.
 - `rust-coding-rules` is selected after the owning profile. User and project contracts, effective toolchain and target state, and the owner profile override any rulebook recommendation.
@@ -154,11 +156,11 @@ Use these ownership splits when descriptions overlap:
 - Nix profiles own flakes, development environments, packages, and NixOS configuration; `rust-platforms` owns Unix/Windows behavior inside the Rust program.
 - `rust-platforms` owns the OS API and native resource lifecycle; `rust-unsafe-ffi` supports raw ABI proofs, and `rust-cargo-build` supports target/linker mechanics.
 - `rust-serialization` owns byte format and evolution; `rust-distributed-systems` owns delivery, retries, and cross-node failure after the message contract exists.
-- `rust-data` owns access-pattern-driven representation and query execution; `rust-performance` requires comparable measurement rather than activating for every layout change.
+- `rust-data` owns access-pattern-driven representation and query execution; `rust-profiling` requires comparable measurement rather than activating for every layout change.
 - `rust-database` owns generic transactions, migrations, and SurrealDB; `rust-tauri` owns desktop IPC and capabilities, not persistence merely because it is called from a command.
 - `rust-tauri` owns Specta-generated command contracts; `rust-serialization` owns a separate actual byte-format decision but does not activate for ordinary typed IPC.
-- `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-data` owns host data layout; `rust-performance` owns bottleneck measurement.
-- `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-performance` add telemetry, soundness, and measurement constraints.
+- `rust-gpu` owns device and memory execution; `rust-ml` owns model semantics; `rust-data` owns host data layout; `rust-profiling` owns bottleneck measurement.
+- `rust-systems-networking` owns the eBPF or DPDK execution environment; `rust-observability`, `rust-unsafe`, and `rust-profiling` add telemetry, soundness, and measurement constraints.
 - `rust-distributed-systems` owns cross-node failure and consistency; `rust-architecture` owns system boundaries; `rust-concurrency` owns in-process execution.
 
 ## Routing Examples
@@ -177,24 +179,24 @@ Use these ownership splits when descriptions overlap:
 | Compare async runtimes for a constrained service | `rust-design-protocol` | `rust-concurrency`, `rust-research` | Criteria and domain constraints own the comparison; research supplies dated facts. |
 | Build an exact dossier for a resolved crate | `rust-research` | `rust-dependencies` | Cargo package identity and dated docs own the evidence; dependency policy owns later adoption changes. |
 | Review unsafe projection in a custom Future | `rust-pin` | `rust-unsafe`, `rust-concurrency` | Pinning owns structural stability; unsafe proves the operation and concurrency owns cancellation. |
-| Plan GPU batching for a tensor pipeline | `rust-gpu` | `rust-ml`, `rust-performance` | Device memory and transfer own execution; model semantics and measurement constrain it. |
+| Plan GPU batching for a tensor pipeline | `rust-gpu` | `rust-ml`, `rust-profiling` | Device memory and transfer own execution; model semantics and measurement constrain it. |
 | Wrap Linux descriptors and Windows handles safely | `rust-platforms` | `rust-unsafe-ffi`, `rust-testing` | OS lifecycle and capability behavior own the API; ABI and regression evidence support it. |
 | Configure a NixOS service for an existing Rust daemon | `nixos` | `nix-packaging`, `rust-cargo-build` | Declarative service configuration owns the task; no Rust OS-API behavior is changing. |
 | Version a bounded Protobuf message over a stream | `rust-serialization` | `rust-distributed-systems`, `rust-testing` | Field evolution and framing own the byte contract; delivery and malformed-input evidence constrain it. |
-| Choose ECS storage for frequently changing components | `rust-data` | `rust-performance`, `rust-architecture` | Access patterns and structural changes own representation; measurement and system boundaries support it. |
+| Choose ECS storage for frequently changing components | `rust-data` | `rust-profiling`, `rust-architecture` | Access patterns and structural changes own representation; measurement and system boundaries support it. |
 | Add a SurrealDB migration to a Tauri application | `rust-database` | `rust-tauri`, `rust-testing` | Transaction and schema lifecycle own the phase; desktop lifecycle and migration evidence constrain it. |
 | Expose typed Tauri 2 commands with Specta | `rust-tauri` | `rust-api-design`, `rust-testing` | IPC trust boundary and generated TypeScript contract own the change. |
 | Diagnose an XDP verifier rejection | `rust-systems-networking` | `rust-observability`, `rust-unsafe` | eBPF program type and verifier own acceptance; telemetry and layout proofs support it. |
 | Add retries to an at-least-once consumer | `rust-distributed-systems` | `rust-errors`, `rust-observability` | Cross-node uncertainty owns idempotency and aggregate retry budget. |
-| Investigate a slow incremental Rust build | `rust-performance` | `rust-cargo-build`, `rust-research` | Timings and invalidation own diagnosis; Cargo owns effective config and research verifies version-sensitive backend/cache facts. |
+| Investigate a slow incremental Rust build | `rust-profiling` | `rust-cargo-build`, `rust-research` | Timings and invalidation own diagnosis; Cargo owns effective config and research verifies version-sensitive backend/cache facts. |
 | Run Miri after changing a raw-buffer wrapper | `rust-unsafe` | `rust-verify`, `debugging` | The unsafe proof owns meaning; verification runs supported paths and debugging localizes a finding. |
 | Cross-compile a C-linked CLI for ARM Linux | `rust-cargo-build` | `rust-unsafe-ffi`, `rust-research` | Cargo owns target/linker mechanics, FFI owns native ABI and research confirms current target/tool support. |
-| Profile an AF_XDP packet loop | `rust-systems-networking` | `rust-performance`, `rust-unsafe` | UMEM/ring ownership controls execution; measurement and buffer soundness constrain it. |
+| Profile an AF_XDP packet loop | `rust-systems-networking` | `rust-profiling`, `rust-unsafe` | UMEM/ring ownership controls execution; measurement and buffer soundness constrain it. |
 | Generate a service from a reviewed local template | `rust-cargo-build` | `rust-workspace`, `rust-research` | Generator effects and Cargo integration own the operation; template version and topology constrain it. |
 | Configure nextest groups for database tests | `rust-testing` | `rust-verify`, `debugging` | Test-resource policy owns grouping; verification runs it and debugging handles unexplained flakes. |
 | Establish an LLVM line-coverage regression gate | `rust-testing` | `rust-verify`, `rust-research` | Test adequacy and threshold scope own the gate; execution and version facts support it. |
 | Review a cargo-machete candidate used by generated code | `rust-dependencies` | `rust-cargo-build`, `rust-verify` | Dependency ownership decides removal; build/generated paths explain the heuristic false positive. |
-| Stop duplicate builds across three Git worktrees | `rust-cargo-build` | `rust-performance`, `rust-verify` | Isolated directory/cache mechanics own the design; measurements decide whether optimization helps. |
+| Stop duplicate builds across three Git worktrees | `rust-cargo-build` | `rust-profiling`, `rust-verify` | Isolated directory/cache mechanics own the design; measurements decide whether optimization helps. |
 | Add workspace Clippy priorities and one disallowed API | `rust-style-clippy` | `rust-stable`, `rust-review` | Lint policy owns configuration; toolchain support and semantic boundary review constrain it. |
 
 These examples show search candidates, not a fixed stack size. Classify every additional profile as coding, triggered helper, deferred, or a separate decision owner under the canonical contract. When no profile clearly owns the request, `rust-workflow` must keep generic repository rules, state the missing decision, and avoid inventing a new profile during the task.

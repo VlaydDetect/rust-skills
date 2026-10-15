@@ -1,7 +1,7 @@
 # Low-level Branch Prediction And Speculation protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-architecture`, `$rust-research`.
 - Retained scope: Predictability, branch layout, misprediction measurement, speculation, and side-channel constraints.
 - Baseline correction: Compiler hints and branchless rewrites are conditional. Security-sensitive constant-time behavior and runtime performance require separate, target-specific evidence.

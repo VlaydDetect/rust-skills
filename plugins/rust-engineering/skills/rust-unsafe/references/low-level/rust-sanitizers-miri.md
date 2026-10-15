@@ -29,6 +29,17 @@
 7. Minimize the reproducer, interpret the first causally relevant diagnostic, and record every uninstrumented library, allocator, runtime, input, target, and schedule.
 8. Keep the manual safety proof authoritative after the dynamic run.
 
+## Miri in a Restricted Execution Environment
+
+An installed Miri can fail before running tests because its sysroot setup or Cargo cannot write to a cache. A diagnostic such as `failed to download` can wrap `failed to unpack` followed by `Access denied` in the registry source directory; it does not establish that a component or package is missing.
+
+1. Check the selected nightly and its installed Miri/rust-src components, the complete error chain, the execution identity, and the effective Cargo registry, Miri sysroot cache and target paths. Distinguish a permission failure from an actual offline cache miss or unsupported target.
+2. Use a task-owned writable artifact/cache location when the installed tool supports it and existing dependencies remain available. Do not clear shared caches, replace global environment variables, weaken ACLs or reinstall a working component to mask the failure.
+3. If the sandbox is the restriction, retry the same focused command under the normal user account through the host's approved execution/permission mechanism. Existing user authorization can cover the retry; otherwise obtain that authorization before leaving the sandbox. This is not a request for Administrator/root, `sudo`, or a bypass of host policy.
+4. Preserve the nightly, target, features, test selection, locked/offline policy and input scope. Record the changed execution context and rerun to completion. Installation, dependency downloads or wider host changes are separate effects, not implied by this fallback.
+
+Only report Miri unavailable after the permitted execution contexts and required inputs have been checked. Keep an incomplete run distinct from a test failure and from a successful bounded UB check.
+
 ## Tool Boundaries
 
 | Question | Evidence |
@@ -51,13 +62,13 @@ Do not combine sanitizer flags by analogy. Check the current official list, targ
 
 ## Guardrails
 
-- No implicit nightly/component installation, target addition, privilege change, global `RUSTFLAGS`, host configuration, or lockfile mutation.
+- No implicit nightly/component installation, target addition, privilege change, global `RUSTFLAGS`, host configuration, or lockfile mutation. An explicitly authorized normal-account retry follows the restricted-environment procedure above; do not treat it as automatic elevation.
 - No claim that passing Miri/ASan/TSan/MSan proves all inputs, schedules, targets, optimizations, FFI, or soundness.
 - Record exact command, toolchain, target, profile/features, native compiler/runtime, allocator, executed scope, diagnostic, and residual proof.
 
 ## Evidence Gate
 
-Reviewed 2026-08-30.
+Reviewed 2026-10-15.
 
 - [rustc sanitizer reference](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html) — current modes, targets, `--target`, `build-std`, and `external-clangrt`.
 - [Miri](https://github.com/rust-lang/miri/) — current setup, coverage, flags, and limitations.

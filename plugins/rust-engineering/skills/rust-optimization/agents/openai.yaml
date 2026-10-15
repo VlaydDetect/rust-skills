@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Optimization"
+  short_description: "Choose and prove workload-driven Rust optimizations"
+  default_prompt: "Use $rust-optimization to rank changes from the confirmed bottleneck, prove their constraints, and verify the system-level result."
+policy:
+  allow_implicit_invocation: true

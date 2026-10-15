@@ -4,7 +4,7 @@
 
 ## Routing and Scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-platforms` for OS/hardware availability and `$rust-research` for resolved tool/event semantics.
 - Canonical platform routing lives in [Rust profiling](./rust-profiling.md).
 - Retained scope: cache misses, branches, instructions, cycles, IPC/CPI, bandwidth, PMU event selection, multiplexing, attribution, and limitations.

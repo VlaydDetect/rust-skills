@@ -1,4 +1,4 @@
-# Low-level references for `rust-performance`
+# Performance reference families (retained paths)
 
 Read the shared [tooling baseline](../../rust-research/references/low-level-tooling-baseline.md) first when a command, artifact path, toolchain, target, profiler, sanitizer, privilege, or external tool is involved. Then load only the matching family.
 
@@ -32,4 +32,4 @@ Read the shared [tooling baseline](../../rust-research/references/low-level-tool
 - [`valgrind`](low-level/valgrind.md) — primary; Memcheck, leak categories, suppressions, Cachegrind, Callgrind, Massif, overhead, and native-code coverage.
 - [`virtual-memory-paging-and-tlb`](low-level/virtual-memory-paging-and-tlb.md) — primary; Page translation, faults, TLB pressure, huge pages, mapping evidence, and embedded contrasts.
 
-`primary` owns the decision. `supporting` contributes one bounded constraint and then returns ownership. Topic names are references, not additional product skills.
+The family files identify their current owner: `rust-profiling` for measurement and `rust-optimization` for change selection. `primary`/`supporting` describe family participation; they do not add another owner. Topic paths remain references even where a standalone skill shares the name.

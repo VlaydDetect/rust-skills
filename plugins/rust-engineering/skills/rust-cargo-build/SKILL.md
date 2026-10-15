@@ -40,6 +40,8 @@ After resolving effective Cargo state, select relevant build-boundary entries fr
 
 ## Boundaries and Hand-offs
 
+- `rust-profiling` owns build-time, size and codegen evidence; `rust-optimization` decides whether PGO/BOLT or compiler tuning is worthwhile. This profile owns effective profiles, flags, target and linker configuration.
+
 - `rust-workspace` owns crate boundaries and workspace governance; this profile owns Cargo execution semantics.
 - `rust-dependencies` owns dependency policy and `rust-cargo-discovery` does not exist; use `rust-crate-discovery` before adopting a crate.
 - Use `rust-workflow` when the task includes implementation across the repository.

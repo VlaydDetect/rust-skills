@@ -1,84 +1,38 @@
-# Rust Performance Field Guide
+# Rust Performance Compatibility Guide
 
-This guide is the detailed policy for `rust-performance`. It consolidates the benchmark, profiling, optimization, and regression contracts used by the dual-host plugin.
+`rust-performance` remains the public entrypoint for older prompts and links. Its work is implemented through focused decision owners; it is not an additional layer of performance policy.
 
-## Core Model
+## Resolve the Task
 
-- Performance work is a controlled experiment: correctness contract, representative workload, comparable baseline, profile, one hypothesis, one change, and repeated comparison.
-- Criterion is the default for maintained Rust microbenchmarks, baseline comparisons, and optimization claims. Divan is a smaller alternative for quick local exploration, not a substitute when the decision needs Criterion baselines, statistical interpretation, or its profiler hooks.
-- A profiler locates resource use; it does not establish a speedup. Confirm changes with the same benchmark, profile, features, target, workload, hardware class, and environment controls.
-- End-to-end workloads own service latency, I/O, queueing, contention, startup, and tail behavior that a microbenchmark cannot represent.
-- Cargo profiles, codegen flags, allocators, instrumentation, and sanitizers can change the workload. Record them as experimental inputs rather than silently treating them as neutral.
+| Need | Read |
+|---|---|
+| Benchmark validity, statistics, CPU/heap profiles, counters, timelines, build or size evidence | [Rust Profiling guide](../../rust-profiling/references/guide.md) |
+| Change selection, preserved invariants, representation, algorithms and component trade-offs | [Rust Optimization guide](../../rust-optimization/references/guide.md) |
+| Unexplained regression or wrong behavior | [Debugging guide](../../debugging/references/guide.md) |
+| Unsafe validity and dynamic-tool coverage | [Unsafe guide](../../rust-unsafe/references/guide.md) |
 
-## Decision Table
+Preserve the user's metric, workload, environment, raw artifacts and correctness contract across the handoff. Evidence about one isolated function does not establish a service or fleet result. If evidence is missing, obtain a discriminating observation rather than choosing a fashionable container, allocator, runtime or compiler setting.
 
-| Situation | Prefer | Required boundary |
-|---|---|---|
-| Maintained microbenchmark or regression evidence | Criterion | Preserve inputs, baseline policy, environment, and distributions |
-| Small exploratory benchmark | Divan | Do not promote its result to a regression claim without an explicit comparison policy |
-| Unknown CPU or latency hotspot | Sampling profiler | Use readable release-like symbols, then create a focused benchmark |
-| Allocation or retained-memory question | Allocation profiler | Distinguish sampled live heap from exact per-allocation observation |
-| Cache or branch hypothesis | Hardware counters | Resolve events for the actual CPU and OS; reject universal thresholds |
-| Timeline, locks, frames, threads, or GPU | Tracy | Keep instrumentation conditional and account for protocol/network effects |
-| Unsafe or FFI optimization | Safe baseline plus sanitizer/FFI evidence | A measured win never replaces the soundness proof |
+## Retained Reference Map
 
-## Benchmark Contract
+The existing reference paths stay stable so downstream skills do not break. Their content identifies the actual decision owner:
 
-Every committed benchmark records:
+- [Measurement decision map](performance-overview.md)
+- [Benchmark implementation](performance-optimization-guide.md)
+- [Specialized performance routing](performance.md)
+- [CPU, heap and timeline tool matrix](low-level/rust-profiling.md)
+- [Windows vendor and OS profilers](low-level/intel-vtune-amd-uprof.md)
+- [PGO and BOLT](low-level/pgo.md)
+- [Other hardware/tool families](low-level-index.md)
 
-- the metric and correctness oracle;
-- representative inputs, input sizes, cold or warm state, and throughput unit;
-- toolchain, benchmark framework and resolved version, Cargo profile, target, features, relevant flags, and allocator;
-- machine or runner class, OS, power/thermal/load controls, and runtime configuration;
-- baseline name and retention policy when comparisons are used;
-- repeated results with magnitude and variance, plus contexts that were not measured.
-
-Criterion benchmarks should use `black_box` where compiler elision is possible, `BenchmarkGroup` and `BenchmarkId` for input matrices, `Throughput` when work units are meaningful, and `iter_batched` or `iter_batched_ref` when mutable setup must stay outside the timed section. Use the production-compatible executor for async code and prefer a synchronous benchmark when executor overhead is not the subject.
-
-Run `cargo test --benches` as a cheap harness smoke check. Do not compare baselines produced with different profiles, flags, features, allocators, hardware classes, or workload conditions.
-
-## Profiling Contract
-
-Use the canonical [low-level Rust profiling protocol](./low-level/rust-profiling.md) for the `profiling` Cargo profile and the Unix/Windows tool matrix. Specialized references add one narrow interpretation:
-
-- [flamegraphs](./low-level/flamegraphs.md) for sampled-stack meaning and cross-platform backends;
-- [Linux perf](./low-level/linux-perf.md) and [hardware counters](./low-level/hardware-counters.md) for CPU-specific events;
-- [VTune, AMD uProf, and Windows Performance Toolkit](./low-level/intel-vtune-amd-uprof.md) for Windows hardware and OS-level analysis;
-- [sanitizers](../../rust-unsafe/references/low-level/sanitizers.md) for unsafe, FFI, C/C++, and allocator boundaries.
-
-## Optimization Rules
-
-- Profile before proposing a data structure, cache, pool, allocator, parallel runtime, SIMD path, unsafe block, LTO setting, or layout change.
-- Change one variable at a time and keep behavior, errors, ordering, floating-point policy, cancellation, and resource limits explicit.
-- Reject a noise-level result and any win whose complexity, memory, build-time, startup, or portability cost exceeds the product value.
-- Do not infer performance from iterator versus loop syntax, fewer source lines, fewer `clone` calls, or a generic crate benchmark.
-- Add a regression guard only when the workload and runner are stable enough for the chosen threshold policy.
-
-## Required Evidence
-
-- Baseline command and environment record.
-- Raw benchmark, profile, counter, or trace artifacts with the tool version and scope.
-- A hotspot or resource hypothesis tied to the measurement.
-- Before/after distributions using the same experimental contract.
-- Functional verification, new costs, residual risk, and unmeasured targets.
-
-## Completion Contract
-
-State the selected option, rejected alternatives that materially affect correctness, assumptions that remain unproved, and the smallest verification needed. External tools must already be present at a verified version or require explicit authorization; absence is `SKIP`, not permission to install or weaken host policy.
+`rust-cargo-build` still owns effective Cargo profiles, target selection, flags and linker configuration. `rust-data` owns data architecture; `rust-concurrency` owns synchronization and cancellation; `rust-observability` owns span and metric semantics. Performance evidence supports their decisions without creating duplicate ownership.
 
 ## Compiling Example
 
-The [golden example](../examples/golden/) is an original, dependency-free fixture for this profile. Validate it with `cargo test --manifest-path skills/rust-performance/examples/golden/Cargo.toml`; external profiler and platform evidence remains separate.
+The [golden fixture](../examples/golden/) is dependency-free and retains its original iterator/loop example. It also compares a safe prefix sum against a release-validated unchecked loop using wrapping arithmetic. Tests cover all valid prefixes, empty input, invalid and overflowing requested lengths, and fixed-length boxed storage whose elements remain mutable.
 
-## Design Protocol Map
+The example proves parity for the tested contract, not faster execution. Run it with `cargo test --manifest-path skills/rust-performance/examples/golden/Cargo.toml` from the plugin root. Optional Miri checks support the local safety proof; they do not establish a native speedup or cover arbitrary future changes.
 
-- [Measurement and optimization decision model](./performance-overview.md)
-- [Criterion and Divan implementation guide](./performance-optimization-guide.md)
-- [Specialized performance protocol](./performance.md)
+## Completion Boundary
 
-## Shared Constraints
-
-- Project MSRV, Edition, target, Cargo metadata, and explicit user requirements override reference defaults.
-- Resolve framework and tool versions from the current project or installed executable; do not pin an evergreen example.
-- Do not infer a dependency, runtime, framework, hardware topology, allocator, or supported target.
-- Classify uncompiled Rust snippets as fragments unless a product golden fixture actually compiles them.
+Record the resolved owner, hypothesis, comparable evidence, trade-offs and remaining gaps. The compatibility entrypoint must not occupy another `ProfileStack` role beside the selected profiling/optimization owner for the same decision. Keep experimental data local to the requested work; no new runtime dependency, tool installation, symbol download, GUI launch or trace upload is implied by routing.

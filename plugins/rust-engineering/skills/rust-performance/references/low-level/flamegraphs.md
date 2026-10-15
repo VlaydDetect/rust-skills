@@ -4,7 +4,7 @@
 
 ## Routing and Scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-cargo-build` for symbols/profile selection and `$debugging` for unexplained capture failures.
 - Canonical tool selection lives in [Rust profiling](./rust-profiling.md).
 - Retained scope: sampled stack capture, flamegraph interpretation, cross-platform backends, differential views, and follow-up measurement.

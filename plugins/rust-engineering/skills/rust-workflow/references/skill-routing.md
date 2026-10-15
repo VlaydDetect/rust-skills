@@ -9,6 +9,10 @@
 - Baseline correction: The product routing index is authoritative. Specialized Rust source names that were merged are reference families, not additional standalone skills.
 - The repository's actual MSRV, Edition, target, Cargo resolution, dependency versions, and user contract take precedence. Rust 1.98, Edition 2024, and resolver 3 are product reference defaults, not forced project upgrades.
 
+## Performance routing
+
+Use [rust-profiling](../../rust-profiling/SKILL.md) for measurements and [rust-optimization](../../rust-optimization/SKILL.md) for changes from a confirmed bottleneck. `rust-performance` stays compatible. The [product index](routing-index.md) overrides the retained historical categories below; those categories are not the public skill inventory.
+
 ## Workflow
 
 ## Quick Navigation
@@ -40,7 +44,7 @@
 |-----|------|------|
 | **rust-unsafe** | `rust-unsafe/SKILL.md` | unsafe Rust |
 | **rust-anti-pattern** | `rust-anti-pattern/SKILL.md` | Identifying and avoiding anti-patterns |
-| **rust-performance** | `rust-performance/SKILL.md` | Performance optimization, including advanced techniques |
+| **rust-performance** | `rust-performance/SKILL.md` | Compatibility entrypoint; resolves to rust-profiling or rust-optimization |
 | **rust-web** | `rust-web/SKILL.md` | Web-development guide |
 | **rust-learner** | `rust-learner/SKILL.md` | Learning paths and resources |
 | **rust-ecosystem** | `rust-ecosystem/SKILL.md` | Rust ecosystem and crate selection |
@@ -86,7 +90,7 @@ Expert: rust-ebpf, rust-gpu, rust-coroutine, rust-linear-type
 Systems programming: rust-unsafe, rust-ffi, rust-embedded, rust-ebpf, rust-gpu
 Web development: rust-web, rust-async, rust-middleware, rust-auth, rust-xacml
 Concurrent programming: rust-concurrency, rust-async, rust-coroutine
-Performance optimization: rust-performance, rust-embedded
+Performance optimization: rust-optimization; measurement: rust-profiling; embedded constraints: rust-platforms
 Type system: rust-ownership, rust-pin, rust-macro, rust-const, rust-lifetime-complex
 Error handling: rust-error, rust-error-advanced
 Infrastructure: rust-cache, rust-auth, rust-middleware, rust-xacml
@@ -106,7 +110,7 @@ Choose a skill based on the problem:
 | Asynchronous-code problems | rust-async |
 | unsafe code review | rust-unsafe |
 | FFI and C++ interoperability | rust-ffi |
-| Performance optimization | rust-performance |
+| Performance optimization | rust-optimization |
 | no_std development | rust-embedded |
 | eBPF kernel programming | rust-ebpf |
 | GPU computation | rust-gpu |

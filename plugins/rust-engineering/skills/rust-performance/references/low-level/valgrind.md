@@ -1,7 +1,7 @@
 # Low-level Valgrind protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$debugging`, `$rust-unsafe`.
 - Retained scope: Memcheck, leak categories, suppressions, Cachegrind, Callgrind, Massif, overhead, and native-code coverage.
 - Baseline correction: Valgrind support and semantics are target-specific and do not replace Miri or Rust sanitizers. Validate allocator, JIT, FFI, and optimized-code visibility.

@@ -1,7 +1,7 @@
 # Low-level Simd Intrinsics protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-unsafe`, `$rust-stable`.
 - Retained scope: Auto-vectorization, runtime feature detection, x86 and ARM intrinsics, alignment, dispatch, scalar fallbacks, and generated assembly.
 - Baseline correction: Intrinsics require supported target features and local unsafe proofs. Never compile a baseline binary for target-cpu=native when it must run on different CPUs.

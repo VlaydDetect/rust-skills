@@ -84,9 +84,10 @@ pub fn get_checked(slice: &[i32], index: usize) -> Option<&i32> {
 
 <!-- rust-example: fragment; missing: defining types, imports, target contracts, and crate context -->
 ```rust
-// Use cfg to have both safety and performance
+/// # Safety
+/// The caller must guarantee index < slice.len() in every build.
 pub unsafe fn process(slice: &[u8], index: usize) {
-    // Always check in tests and debug
+    // Diagnostic checks do not establish the release-mode safety contract.
     #[cfg(any(test, debug_assertions))]
     assert!(index < slice.len());
 
@@ -94,8 +95,8 @@ pub unsafe fn process(slice: &[u8], index: usize) {
     #[cfg(feature = "paranoid")]
     assert!(index < slice.len());
 
-    // SAFETY: Caller guarantees index < len (checked in debug)
-    let ptr = slice.as_ptr().add(index);
+    // SAFETY: The documented caller obligation puts index within this live slice.
+    let ptr = unsafe { slice.as_ptr().add(index) };
     // ...
 }
 ```

@@ -24,12 +24,12 @@ Do not infer unknown configuration. A direct ID lookup still reads and applies t
 |---|---|---|---|
 | [`own-`](categories/own.md) | Ownership and borrowing | `rust-ownership` | Moves, borrows, lifetimes, pointers, mutation, or drop control correctness. |
 | [`err-`](categories/err.md) | Error handling | `rust-errors` | Failure taxonomy, propagation, context, recovery, or panic policy changes. |
-| [`mem-`](categories/mem.md) | Memory optimization | `rust-performance` | Measurements identify allocation, footprint, layout, locality, or move cost. |
+| [`mem-`](categories/mem.md) | Memory optimization | `rust-optimization` | Measurements identify allocation, footprint, layout, locality, or move cost. |
 | [`unsafe-`](categories/unsafe.md) | Unsafe code | `rust-unsafe` | Unsafe operations or safe wrappers need a soundness proof. |
 | [`api-`](categories/api.md) | API design | `rust-api-design` | A public or independently evolving caller contract changes. |
 | [`async-`](categories/async.md) | Async and await | `rust-concurrency` | Suspension, task ownership, cancellation, runtime, or backpressure matters. |
 | [`conc-`](categories/conc.md) | Concurrency | `rust-concurrency` | Correctness or liveness spans threads, tasks, locks, channels, or atomics. |
-| [`opt-`](categories/opt.md) | Compiler optimization | `rust-performance` | A reproducible benchmark or profile supports a compiler or target hypothesis. |
+| [`opt-`](categories/opt.md) | Compiler optimization | `rust-optimization` | A reproducible benchmark or profile supports a compiler or target hypothesis. |
 | [`num-`](categories/num.md) | Numeric safety | `rust-idioms` | Range, overflow, casts, floating-point semantics, or numeric invariants matter. |
 | [`type-`](categories/type.md) | Type safety | `rust-traits` | Types can enforce a demonstrated state, identity, or representation invariant. |
 | [`trait-`](categories/trait.md) | Traits and generics | `rust-traits` | Real variation needs dispatch, associated types, coherence, or an extension point. |
@@ -44,10 +44,12 @@ Do not infer unknown configuration. A direct ID lookup still reads and applies t
 | [`test-`](categories/test.md) | Testing | `rust-testing` | A concrete contract needs a particular test level or technique. |
 | [`doc-`](categories/doc.md) | Documentation | `rust-documentation` | Rustdoc, examples, safety, failures, features, or migration guidance changes. |
 | [`obs-`](categories/obs.md) | Observability | `rust-observability` | A known operational question needs a bounded, redacted signal. |
-| [`perf-`](categories/perf.md) | Performance patterns | `rust-performance` | Controlled evidence identifies a semantics-preserving runtime pattern. |
+| [`perf-`](categories/perf.md) | Performance patterns | `rust-optimization` | Controlled evidence identifies a semantics-preserving runtime pattern. |
 | [`proj-`](categories/proj.md) | Project structure | `rust-module-layout`, `rust-workspace`, `rust-cargo-build`, or `rust-stable` | A real module, crate, Cargo, feature, MSRV, or generation boundary changes. |
 | [`lint-`](categories/lint.md) | Clippy and linting | `rust-style-clippy` | Formatting, lint, warning, cfg, or CI policy controls the work. |
 | [`anti-`](categories/anti.md) | Anti-patterns | Canonical owner or `rust-idioms` | A concrete smell has demonstrated impact; most duplicates route to a positive rule. |
+
+Measurement-only benchmark/profile questions use `rust-profiling`; select `perf-black-box-bench` or `perf-profile-first` only after routing. Compiler/linker configuration remains owned by `rust-cargo-build`.
 
 ## Common Task Routing
 

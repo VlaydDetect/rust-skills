@@ -4,7 +4,7 @@
 
 ## Routing and Scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-cargo-build` for symbols/frame flags and `$debugging` for capture failures.
 - Retained scope: `perf list`, `stat`, `record`, `report`, `annotate`, stack collection, event selection, and failure diagnosis on Linux.
 - Linux `perf` is not a portable Unix interface.

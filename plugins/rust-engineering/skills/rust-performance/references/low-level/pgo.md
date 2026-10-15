@@ -1,62 +1,46 @@
-# Low-level Pgo protocol> Focused decision protocol; examples are evidence, not automatic product policy.
-## Routing and retained scope
+# Rust PGO and LLVM BOLT
 
-- Primary owner: `$rust-performance`.
-- Supporting profiles: `$rust-cargo-build`, `$rust-research`.
-- Retained scope: Instrumentation or sample profile collection, workload representativeness, profile merge/use, post-link optimization, and impact verification.
-- Baseline correction: Source commands are compiler-specific. Rust PGO and BOLT require current rustc/LLVM guidance, matching binaries, representative profiles, and before/after correctness and performance evidence.
-- Project toolchain, MSRV, Edition, target, resolved dependencies, CI, hardware, operating system, and explicit user contract override this reference.
+## Ownership and Applicability
 
-## Required context
+`rust-optimization` owns whether feedback-directed optimization is worth its training, release and portability costs. `rust-profiling` owns representative workload design and independent comparison; `rust-cargo-build` owns effective flags and linking. Keep this public reference path stable.
 
-- metric and correctness contract.
-- representative workload and data.
-- target/profile/features/toolchain.
-- hardware, kernel and load controls.
-- baseline distribution and retained raw evidence.
+Consider PGO for a measured CPU/code-layout/branch/inlining problem, not an unexplained slowdown, I/O wait or correctness issue. A profile trains the compiler on the exercised workload; more training of an unrepresentative benchmark can make deployment performance worse.
 
-## Decision protocol
+## Establish the Build Contract
 
-1. Classify CPU, allocation, I/O, contention, binary-size, or build-time cost before choosing a tool.
-2. Capture a comparable baseline and preserve raw samples, counters, reports, or build timings.
-3. Use one profiler or counter set to locate a bottleneck; treat attribution as a hypothesis with tool limitations.
-4. Change one variable and rerun the same workload and correctness checks.
-5. Reject noise-level wins and report unmeasured targets, cold/warm state, tail behavior, and new complexity.
+Record source state, rustc/LLVM, target CPU/features, profile, Cargo features, native libraries, linker, LTO and other flags. Use one controlled baseline without PGO and retain its exact artifact. Keep equivalent settings between generation/use builds except the required instrumentation/profile-use differences.
 
-## Decision map
+Resolve `llvm-profdata` compatible with the selected compiler, preferably from that toolchain's installed LLVM tools. Check the actual `llvm-tools-preview`/`llvm-tools` component and executable location; it is not automatically on PATH. Do not assume an arbitrary system LLVM can read the profile format.
 
-The following source topics were retained as investigation branches. Their headings are not commands and do not authorize installation, privilege, network access, or configuration changes.
+## Instrumentation PGO Workflow
 
-- `GCC Profile Data Formats` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `Clang Profile Data Formats` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `llvm-profdata Commands` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `Context-Sensitive PGO (CS-PGO) Workflow` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `Workload Representativeness` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `BOLT Configuration Reference` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `Benchmarking Template` — inspect when relevant; source `skills/compilers/pgo/references/pgo-workflow.md`.
-- `When to use PGO` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `GCC PGO workflow` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `Clang PGO workflow (IR-based, preferred)` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `Clang SamplePGO (sampling, no instrumentation)` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `CMake integration` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `BOLT (post-link binary optimisation)` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
-- `Verifying PGO impact` — inspect when relevant; source `skills/compilers/pgo/SKILL.md`.
+1. Create a fresh task-owned profile directory, leaving unrelated evidence untouched. Use absolute paths and a collision-safe profile naming pattern when concurrent processes generate data.
+2. Build an optimized instrumented artifact with `-Cprofile-generate=<absolute-directory>`. Pass an explicit Cargo `--target` so host build scripts/proc macros are not accidentally instrumented; preserve existing flags rather than replacing them silently.
+3. Run that exact artifact on training inputs that exercise the important workload mix, including infrequent but valuable paths. Unit tests can add coverage but are not automatically representative training.
+4. Merge the resulting `.profraw` files with compatible `llvm-profdata merge -o <absolute-file> <profile-inputs>`. Inspect merge diagnostics and `llvm-profdata show` coverage/counts. Do not mix unrelated builds, stale profiles or duplicates that accidentally overweight one workload.
+5. Rebuild using `-Cprofile-use=<absolute-file>` with the same controlling configuration. Inspect missing-function/hash/coverage warnings; where supported, the LLVM missing-function warning can expose profile gaps. Do not suppress a mismatch and claim effective coverage.
+6. Evaluate the optimized final artifact on held-out representative inputs plus training scenarios. Compare baseline, PGO and any additional stage separately, with native uninstrumented performance measurements and functional checks.
 
-## Failure modes and guardrails
+Rust's documented workflow is instrumentation-based PGO. Sample-based LLVM workflows are separate toolchain-specific branches; a VTune or perf capture is not automatically consumable by `-Cprofile-use`.
 
-- Flamegraph width is sample proportion, not an optimization measurement.
-- Hardware events and thresholds are CPU/kernel-specific.
-- Compile-time, binary-size and runtime improvements can trade against one another.
-- If a required tool, target, component, hardware device, symbol file, corpus, or cache is absent, report `SKIP` or request authorization; never install or mutate the host implicitly.
-- Treat tool output as bounded evidence. Record exact command, version, target, scope, result, and residual risk.
+## Optional cargo-pgo Adapter
 
-## Source example disposition
+When already available, inspect the installed `cargo pgo --help` and `cargo pgo info`. Common upstream commands are `cargo pgo instrument build -- <cargo-args>` (or `cargo pgo build`) and `cargo pgo optimize build -- <cargo-args>`. Resolve their current output paths and flag behavior instead of copying a fixed path. The adapter normally chooses release builds; it does not remove the requirement to preserve features, target and training identity. Installation is a separate action.
 
-This family contains 12 unique source block bodies: 12 `fragment`. Blocks not reproduced here remain individually hashed and reasoned in the coverage ledger.
+## BOLT Post-link Branch
 
-## Evidence gate
+BOLT is a post-link optimizer, not a Rust compiler mode or a generic Windows PE tool. Confirm the installed BOLT supports the exact architecture/format; upstream's documented path targets x86-64 and AArch64 ELF. Retain unstripped symbols, and emit relocations with the actual ELF linker's supported option when needed for useful layout transformations. Inspect the final binary for relocation sections rather than passing GNU flags to an MSVC linker.
 
-- [`rustc-codegen`](https://doc.rust-lang.org/rustc/codegen-options/index.html) — rustc code-generation options; `toolchain-specific`, reviewed 2026-08-23.
-- [`cargo-build-performance`](https://doc.rust-lang.org/cargo/guide/build-performance.html) — Measured Rust build-performance guidance; `stable`, reviewed 2026-08-23.
+Collect a BOLT profile against the exact input binary using the supported sampling or instrumentation path. For perf data, check event/branch-stack support and convert using the matching `perf2bolt` workflow; instrumentation produces BOLT data through a different path. A profile from a pre-PGO binary must not be reused as though it belonged to a rebuilt PGO artifact.
 
-Before executing a version-sensitive command, re-check the exact project toolchain or resolved tool version. Official Rust/Cargo evidence owns language and build behavior; tool-owner documentation owns external CLI syntax.
+With a compatible cargo-pgo version, the optional `cargo pgo bolt build`/`cargo pgo bolt optimize` adapter creates separate instrumented/optimized binaries. Read the tool's reported paths and execute those artifacts, not the ordinary release binary by mistake. Tool support is experimental; retain the pre-BOLT artifact and review warnings, unwind/debug behavior, correctness, startup, size and representative performance before adoption.
+
+If combining PGO and BOLT, evaluate baseline -> PGO -> BOLT applied to that PGO artifact. Train the BOLT stage again against its actual input. Never overwrite the only known-good binary or infer that independent percentage gains multiply under a different workload.
+
+## Acceptance and Maintenance
+
+Use the same benchmark contract as source optimizations. Include held-out distributions, critical tails, cold start, binary size, build/training time and supported deployment CPUs. Tie profiles to source/toolchain/build identities, define retraining triggers, and reject stale coverage after code or workload drift. If the tool, format, profile, permissions or hardware are absent, report `SKIP` and its gap; do not install tools or weaken policy implicitly.
+
+## Official Command Contracts
+
+Check the exact toolchain/tool version before execution: [Rust PGO](https://doc.rust-lang.org/rustc/profile-guided-optimization.html), [cargo-pgo commands](https://github.com/Kobzol/cargo-pgo), and [BOLT input/collection requirements](https://github.com/llvm/llvm-project/tree/main/bolt). These links establish technical command contracts; article attribution is kept in the product notices.

@@ -4,9 +4,10 @@ This repository ships one Rust Engineering product for Codex/ChatGPT Desktop and
 
 ## Product boundary
 
-- Treat `plugins/rust-engineering/` as the plugin source and the 55 skill directories as a public inventory.
+- Treat `plugins/rust-engineering/` as the plugin source and the 57 skill directories as a public inventory.
 - Keep skill instructions, references, examples, checks, and shared scripts host-neutral.
-- Keep attribution only in the final `README.md` section named `Источники` and in `plugins/rust-engineering/THIRD_PARTY_NOTICES.md`.
+- Keep `README.md` in English and `README_ru.md` in Russian, with navigation to every skill in both.
+- Keep attribution only in their final `Sources` / `Источники` sections and in `plugins/rust-engineering/THIRD_PARTY_NOTICES.md`.
 - Do not add runtime dependencies when shell, Cargo, Python/Node standard libraries, or existing host behavior is sufficient.
 
 ## Dual-host model
@@ -49,7 +50,7 @@ This repository ships one Rust Engineering product for Codex/ChatGPT Desktop and
 
 ## Release invariants
 
-- The release gate requires exactly 55 valid skills, 265 rule IDs/aliases with all category indexes, 47 unsafe/FFI rules, 341 schema-9 eval scenarios, and four read-only agent contracts.
+- The release gate requires exactly 57 valid skills, 265 rule IDs/aliases with all category indexes, 47 unsafe/FFI rules, 369 schema-9 eval scenarios, and four read-only agent contracts.
 - `scripts/` contains only `validate.py` and the two SessionStart scripts. External corpora and provenance ledgers are not build or validation inputs.
 - Version-bearing manifests, root `package.json`, `installers/config.json`, marketplaces, and installer plans must agree on `1.0.2-rc` / `v1.0.2-rc`.
 - Python and Node installers stay dependency-free, print the same dry-run plan, use host-native CLI commands, reject marketplace source collisions, and never edit Desktop configuration or caches.

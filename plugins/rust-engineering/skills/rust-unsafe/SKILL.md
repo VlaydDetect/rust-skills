@@ -32,6 +32,7 @@ Own internal unsafe operations and the soundness boundary of safe Rust abstracti
 - Do not implement `Send` or `Sync` manually without a full concurrency and ownership proof.
 - Panic or early-return paths must preserve initialization and ownership invariants.
 - Miri success is supporting evidence, not proof for all platforms, optimizations, foreign code, or concurrency schedules.
+- Miri setup can fail on sandbox cache permissions even when the component is installed. Follow the [restricted-environment procedure](references/low-level/rust-sanitizers-miri.md) to diagnose the error chain and, when authorized, retry as the normal user through the host permission mechanism.
 - Rust sanitizer evidence is nightly- and target-specific: use an explicit target, current official mode matrix, matching native instrumentation across FFI, and never invent an `undefined` rustc sanitizer.
 
 ## Rulebook Overlay
@@ -46,7 +47,7 @@ under the canonical product rule when the two rulebooks overlap.
 ## Boundaries and Hand-offs
 
 - `rust-unsafe-ffi` owns ABI, foreign ownership, callbacks, unwinding, and exported symbol contracts.
-- `rust-performance` must supply measurements before unsafe is justified primarily as an optimization.
+- `rust-optimization` must justify an unsafe candidate with measurements from `rust-profiling`. First inspect safe alternatives and final codegen; bounds checks may already be eliminated. This profile proves every operation and mutation-path obligation, independently of the speedup.
 - Use `rust-workflow` when the task includes implementation across the repository.
 - Use `rust-review` for read-only findings and `rust-verify` for command evidence.
 

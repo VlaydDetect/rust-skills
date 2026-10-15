@@ -1,7 +1,7 @@
 # Low-level Cpu Cache Opt protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-architecture`, `$rust-research`.
 - Retained scope: Counter-led cache diagnosis, data layout, traversal, false sharing, prefetch, blocking, and cache-aware algorithm choices.
 - Baseline correction: AoS/SoA, padding, prefetch, and blocking are workload- and hardware-dependent. Preserve semantics and compare representative measurements.

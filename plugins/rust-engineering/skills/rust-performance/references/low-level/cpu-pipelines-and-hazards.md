@@ -1,7 +1,7 @@
 # Low-level Cpu Pipelines And Hazards protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$debugging`, `$rust-research`.
 - Retained scope: Pipeline dependencies, control and structural hazards, execution ports, instruction-level parallelism, and uop evidence.
 - Baseline correction: Classic pipelines are mental models, not a description of a modern CPU. Use target-specific counters and assembly before changing code.

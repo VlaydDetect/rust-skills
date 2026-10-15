@@ -1,7 +1,7 @@
 # Low-level Build Acceleration protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-cargo-build`, `$rust-research`.
 - Retained scope: Bottleneck diagnosis, compiler caches, distributed compilation, debug information, invalidation, hit-rate analysis, and cache correctness.
 - Baseline correction: For Rust, prefer the existing Cargo/sccache path. Cache credentials, remote backends, C/C++ PCH/unity, and distcc are conditional and never automatic product defaults.

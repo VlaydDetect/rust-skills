@@ -2,6 +2,8 @@
 
 > Commands are conditional examples. Resolve versions and artifact paths from the project and use external tools only when already present or explicitly authorized.
 
+`rust-profiling` owns this implementation reference. Read [benchmark analysis](../../rust-profiling/references/benchmark-analysis.md) for estimators, uncertainty, input distributions and load-generator validity. `rust-optimization` owns change selection from the resulting evidence.
+
 ## Criterion: Maintained Benchmark Default
 
 Use Criterion when a benchmark will support regression tracking, baseline comparison, or an optimization claim.
@@ -17,13 +19,14 @@ name = "parse"
 harness = false
 ```
 
-Keep setup outside the timed section, identify input size, and report throughput when it has product meaning:
+Choose the timing boundary to match the product operation. Include construction/destruction when they belong to that operation; the following example deliberately isolates parsing from per-iteration input setup. Identify input size and report throughput when it has product meaning:
 
 <!-- rust-example: fragment; missing: parse_in_place implementation, representative corpus, project Criterion version, and benchmark target -->
 ```rust
 use criterion::{
-    black_box, criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion, Throughput,
+    criterion_group, criterion_main, BatchSize, BenchmarkId, Criterion, Throughput,
 };
+use std::hint::black_box;
 
 fn parse_inputs(c: &mut Criterion) {
     let mut group = c.benchmark_group("parse");
@@ -48,6 +51,8 @@ criterion_main!(benches);
 ```
 
 Use `iter` when one immutable input can be shared. Use `iter_batched` or `iter_batched_ref` only when per-iteration mutable setup must be excluded; choose `SmallInput` by default and move to `LargeInput` when retained batches are too large. Avoid `PerIteration` unless a resource or input size makes batching impossible, because its measurement overhead is materially higher.
+
+`std::hint::black_box` requires Rust 1.66 or newer. For older project MSRVs select a compatible existing harness facility; do not raise MSRV implicitly. The barrier is best effort and does not disable inlining or prove that inputs model the product.
 
 Record whether output destruction is part of the operation. Returning a value with `Drop` can include destruction in `iter`; select a timing loop deliberately rather than hiding the cost.
 

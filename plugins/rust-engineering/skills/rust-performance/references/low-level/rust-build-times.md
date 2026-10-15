@@ -1,7 +1,7 @@
 # Low-level Rust Build Times protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-profiling`.
 - Supporting profiles: `$rust-cargo-build`, `$rust-research`.
 - Retained scope: Clean and incremental build measurement, Cargo timings, invalidation, monomorphization, caching, codegen backends, and linking.
 - Baseline correction: Derive report and artifact locations from Cargo metadata. Cranelift, linker swaps, crate splitting, cache services, and profile changes are experiments, never universal speedups.

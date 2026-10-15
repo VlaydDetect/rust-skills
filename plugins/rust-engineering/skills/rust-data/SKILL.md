@@ -34,7 +34,7 @@ Own data shape, access patterns, batching, and execution layout. Select structur
 
 ## Boundaries and Hand-offs
 
-- `rust-performance` owns general measurement after the data-specific access contract is defined.
+- `rust-profiling` owns general measurement after the data-specific access contract is defined; `rust-optimization` evaluates candidates and cross-component trade-offs without taking ownership of data architecture.
 - `rust-architecture` owns broader component boundaries; `rust-concurrency` owns synchronization and scheduling mechanisms.
 - `rust-database` owns durable transactions and migrations; `rust-ml` owns model semantics; `rust-gpu` owns device execution.
 - Use `rust-research` for version-specific APIs and optimizer behavior.

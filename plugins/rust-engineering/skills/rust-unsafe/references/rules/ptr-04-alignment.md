@@ -19,7 +19,7 @@ When casting a pointer to a different type, ensure the resulting pointer is prop
 
 ## Rationale
 
-Misaligned pointer dereferences are undefined behavior on most architectures. Even on architectures that support unaligned access, it may cause performance penalties or subtle bugs.
+Ordinary misaligned Rust pointer dereferences and references are undefined behavior regardless of hardware tolerance. Explicit unaligned operations have different alignment requirements, but still require valid in-bounds initialized data and correct ownership.
 
 ## Bad Example
 
@@ -105,12 +105,12 @@ fn align_up<T>(ptr: *const u8) -> *const u8 {
 
 ## Architecture Notes
 
-| Arch | Misaligned Access |
-|------|-------------------|
-| x86/x64 | Works but slower |
-| ARM | UB, may trap or give wrong results |
-| RISC-V | UB, may trap |
-| WASM | UB |
+Rust requires aligned ordinary pointer dereferences and references on every target. Hardware tolerance does not make a misaligned Rust dereference valid. Use a suitable unaligned operation or safe byte conversion, and separately prove bounds, initialization, validity and ownership.
+
+| Hardware family | Native instruction behavior is not the Rust validity rule |
+|---|---|
+| x86/x64 | Some instructions tolerate unaligned addresses; ordinary Rust dereferences still require alignment |
+| ARM, RISC-V, WASM | Instruction and target behavior varies; Rust's alignment requirement remains |
 
 ## Checklist
 

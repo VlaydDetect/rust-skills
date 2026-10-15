@@ -21,6 +21,7 @@ sys.dont_write_bytecode = True
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = ROOT.parents[1]
+README_HEADINGS = {"README.md": "## Sources", "README_ru.md": "## Источники"}
 SKILLS = set(
     """
     addressing-findings codebase-onboarding debugging nix-dev-env nix-flakes
@@ -30,7 +31,8 @@ SKILLS = set(
     rust-database rust-dependencies rust-design-protocol rust-distributed-systems
     rust-documentation rust-ecosystem rust-errors rust-gpu rust-idioms
     rust-lombok-macros rust-macros rust-ml rust-module-layout rust-navigation
-    rust-observability rust-ownership rust-performance rust-pin rust-platforms
+    rust-observability rust-optimization rust-ownership rust-performance rust-pin rust-platforms
+    rust-profiling
     rust-research rust-review rust-semver rust-serialization rust-stable
     rust-stdlib rust-style-clippy rust-systems-networking rust-tauri rust-testing
     rust-traits rust-uniffi-building rust-unsafe rust-unsafe-ffi rust-verify
@@ -85,15 +87,16 @@ RULE_EXAMPLE = re.compile(
     r"<!--\s*rust-example:\s*(standalone|fixture|compile_fail|fragment)\s*(?:;\s*(.*?))?\s*-->"
 )
 SUITE_COUNTS = {
-    "workflow": 125,
+    "workflow": 129,
     "rulebook": 44,
     "design_protocol": 44,
     "specialized_rust": 48,
     "low_level": 48,
     "cargo_tooling": 32,
+    "performance": 24,
 }
 WORKFLOW_MODE_COUNTS = {
-    "manual": 49, "automatic": 49, "contrast": 15, "negative": 4, "selection": 8,
+    "manual": 51, "automatic": 51, "contrast": 15, "negative": 4, "selection": 8,
 }
 SELECTION_IDS = {
     "selection-page-portable-future-direct-io",
@@ -106,6 +109,8 @@ SELECTION_IDS = {
     "selection-phase-split-circuit-breakers",
 }
 KIND_COUNTS = {
+    "performance": {"benchmark_validity": 6, "profile_interpretation": 6,
+                    "optimization_selection": 6, "unsafe_codegen_pgo": 6},
     "rulebook": {"prefix": 26, "context_conflict": 12, "negative": 6},
     "design_protocol": {
         "model_routing": 14, "cross_layer": 8, "navigation": 6,
@@ -163,7 +168,7 @@ def frontmatter(path: Path) -> dict[str, str]:
 
 def validate_links() -> None:
     link = re.compile(r"\[[^]]+\]\(([^)]+)\)")
-    paths = list(ROOT.rglob("*.md")) + [REPOSITORY_ROOT / "README.md", REPOSITORY_ROOT / "AGENTS.md"]
+    paths = list(ROOT.rglob("*.md")) + [REPOSITORY_ROOT / name for name in README_HEADINGS] + [REPOSITORY_ROOT / "AGENTS.md"]
     for path in paths:
         for raw_target in link.findall(path.read_text(encoding="utf-8")):
             target = raw_target.strip().strip("<>")
@@ -199,11 +204,11 @@ def validate_manifests_and_catalogs() -> dict:
     assert claude["name"] == codex["name"] == config["plugin"] == "rust-engineering"
     assert claude["version"] == codex["version"] == version
     assert claude["description"] == codex["description"]
-    assert all(term in claude["description"] for term in ("55", "265"))
+    assert all(term in claude["description"] for term in ("57", "265"))
     assert claude["homepage"] == codex["homepage"] == claude["repository"] == codex["repository"]
     assert claude["hooks"] == "./hooks/claude.json"
     assert codex["skills"] == "./skills/" and "hooks" not in codex
-    assert {"55", "265"} <= set(re.findall(r"\d+", codex["interface"]["longDescription"]))
+    assert {"57", "265"} <= set(re.findall(r"\d+", codex["interface"]["longDescription"]))
     assert "$rust-workflow" in codex["interface"]["defaultPrompt"][0]
     assert "$rust-coding-rules" in codex["interface"]["defaultPrompt"][0]
     assert (ROOT / "LICENSE").is_file()
@@ -243,7 +248,7 @@ def validate_manifests_and_catalogs() -> dict:
     assert not any(key in package for key in ("dependencies", "devDependencies", "optionalDependencies"))
     assert all(
         config["ref"] in path.read_text(encoding="utf-8") and version in path.read_text(encoding="utf-8")
-        for path in (REPOSITORY_ROOT / "README.md", REPOSITORY_ROOT / "AGENTS.md")
+        for path in [REPOSITORY_ROOT / name for name in README_HEADINGS] + [REPOSITORY_ROOT / "AGENTS.md"]
     )
     return config
 
@@ -288,12 +293,14 @@ def validate_notices_and_identity() -> None:
             assert not pattern.search(relative), f"external identity in path: {relative}"
             assert not pattern.search(text), f"external identity in runtime file {relative}: {marker}"
 
-    readme = (REPOSITORY_ROOT / "README.md").read_text(encoding="utf-8")
-    heading = "## Источники"
-    assert heading in readme and readme.rfind("## ") == readme.index(heading), "sources must be the final README section"
-    product_text = readme[: readme.index(heading)]
-    for marker, pattern in patterns.items():
-        assert not pattern.search(product_text), f"external identity before README sources: {marker}"
+    for name, heading in README_HEADINGS.items():
+        readme = (REPOSITORY_ROOT / name).read_text(encoding="utf-8")
+        assert heading in readme and readme.rfind("## ") == readme.index(heading), f"sources must be the final section: {name}"
+        product_text = readme[: readme.index(heading)]
+        for marker, pattern in patterns.items():
+            assert not pattern.search(product_text), f"external identity before {name} sources: {marker}"
+        skill_links = re.findall(r"\]\(plugins/rust-engineering/skills/([^/]+)/SKILL\.md\)", product_text)
+        assert Counter(skill_links) == Counter(SKILLS), f"skill navigation must link every skill exactly once: {name}"
 
 
 def validate_references() -> None:
@@ -524,6 +531,9 @@ def validate_profile_stack(case: dict) -> None:
     assert not (coding | helpers) & CONTROL_PROFILES, f"control profile occupies a role in {case['id']}"
     assert not owner_set & coding and not owner_set & helpers and not coding & helpers
     selected = owner_set | coding | helpers
+    assert not (
+        "rust-performance" in selected and selected & {"rust-profiling", "rust-optimization"}
+    ), f"performance compatibility entrypoint duplicates a focused role in {case['id']}"
     deferred = set(stack["deferred_profiles"])
     forbidden = set(stack["forbidden_profiles"])
     assert not selected & deferred and not selected & forbidden and not deferred & forbidden
@@ -596,7 +606,7 @@ def validate_evals(rule_ids: set[str]) -> int:
             assert set(expected.get("rule_ids", [])) <= rule_ids
             assert set(expected.get("rejected_rule_ids", [])) <= rule_ids
             assert set(expected.get("categories", [])) <= RULE_CATEGORIES
-    assert len(ids) == len(set(ids)) == 341
+    assert len(ids) == len(set(ids)) == 369
 
     selection = {
         case["id"]: case["expected"] for case in evals["suites"]["workflow"]
@@ -902,7 +912,8 @@ def main() -> None:
         f"OK: {len(SKILLS)} skills, {len(AGENTS)} read-only agents, {eval_count} eval scenarios, "
         f"{rule_count} coding rules, 47 unsafe/FFI rules, {len(GOLDEN_OWNERS)} golden examples, "
         f"{sum(rule_examples.values())} classified rule examples"
-        + (" compiled" if args.examples else " statically checked")
+        + (" compiled where available" if args.examples and fixture_skip else
+           " compiled" if args.examples else " statically checked")
     )
     if fixture_skip:
         print(fixture_skip)

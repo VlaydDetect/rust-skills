@@ -1,7 +1,7 @@
 # Low-level Memory Hierarchy And Caches protocol> Focused decision protocol; examples are evidence, not automatic product policy.
 ## Routing and retained scope
 
-- Primary owner: `$rust-performance`.
+- Primary owner: `$rust-optimization`.
 - Supporting profiles: `$rust-architecture`, `$rust-research`.
 - Retained scope: Cache hierarchy, lines, associativity, coherence, false sharing, locality, prefetching, and measurement.
 - Baseline correction: Cache sizes, line widths, topology, and penalties are hardware facts. Treat common numbers as examples and query or measure the deployment CPU.

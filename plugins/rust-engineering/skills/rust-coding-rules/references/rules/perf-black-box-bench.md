@@ -35,13 +35,14 @@ Record exact workload, toolchain, target, features, profile, environment, before
 
 ## Why It Matters
 
-The compiler aggressively optimizes code, potentially eliminating computations whose results aren't used. In benchmarks, this can lead to measuring nothing instead of the actual code. `std::hint::black_box()` prevents the compiler from optimizing away values, ensuring accurate measurements.
+The compiler aggressively optimizes code, potentially eliminating computations whose results aren't used. In benchmarks, this can lead to measuring nothing instead of the actual code. `std::hint::black_box()` is a best-effort optimization barrier. Apply it to relevant inputs and outputs, then inspect suspicious codegen; it does not ensure representative or accurate measurements by itself.
 
 ## Bad
 
 <!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Bad illustration -->
 ```rust
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 
 fn benchmark_bad(c: &mut Criterion) {
     c.bench_function("compute", |b| {
@@ -68,7 +69,8 @@ fn benchmark_also_bad(c: &mut Criterion) {
 
 <!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Good illustration -->
 ```rust
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 
 fn benchmark_good(c: &mut Criterion) {
     c.bench_function("compute", |b| {
@@ -94,9 +96,9 @@ fn benchmark_simpler(c: &mut Criterion) {
 | Without black_box | With black_box |
 |-------------------|----------------|
 | Input may be constant-folded | Input treated as unknown |
-| Result may be eliminated | Result must be computed |
-| Loops may be optimized away | Each iteration runs |
-| Functions may be inlined | Call semantics preserved |
+| Result may be eliminated | Relevant result use discourages elimination; verify the actual code |
+| Loops may be optimized away | Relevant inputs/outputs cross a best-effort barrier |
+| Functions may be inlined | Inlining is still allowed; inspect the measured call path |
 
 ## Standard Library Usage
 
@@ -110,15 +112,15 @@ fn main() {
 }
 ```
 
-## Criterion's black_box
+## MSRV and Criterion Compatibility
 
-Criterion re-exports `std::hint::black_box`:
+Use `std::hint::black_box` on Rust 1.66 or newer. Current Criterion's wrapper is deprecated; for older MSRVs resolve a compatible harness facility without silently upgrading the project:
 
 <!-- rust-example: fragment; missing: surrounding domain types, functions, imports, and crate context referenced by the Criterion's blackbox illustration -->
 ```rust
-use criterion::black_box;
+use std::hint::black_box;
 
-// Equivalent to std::hint::black_box
+// Standard-library barrier; still inspect benchmark validity.
 ```
 
 ## Pattern: Benchmark with Setup
@@ -183,6 +185,8 @@ black_box(expensive(x));
 // RIGHT: Block both
 black_box(expensive(black_box(42)));
 ```
+
+Interpret statistics and harness validity with [rust-profiling](../../../rust-profiling/references/benchmark-analysis.md).
 
 ## Related Rules
 - [test-criterion-bench](./test-criterion-bench.md) - Using Criterion

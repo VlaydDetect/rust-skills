@@ -40,7 +40,7 @@ After task/thread ownership, bounds, cancellation, and shutdown are defined, sel
 ## Boundaries and Hand-offs
 
 - `rust-ownership` owns the underlying ownership and pointer graph; this profile owns cross-context coordination.
-- `rust-observability` owns telemetry for task lifecycle and queues; `rust-performance` owns throughput or latency optimization.
+- `rust-observability` owns telemetry for task lifecycle and queues; `rust-profiling` attributes running/ready/waiting costs and `rust-optimization` evaluates throughput/latency trade-offs. This profile still owns synchronization, backpressure and cancellation.
 - Use `rust-workflow` when the task includes implementation across the repository.
 - Use `rust-review` for read-only findings and `rust-verify` for command evidence.
 

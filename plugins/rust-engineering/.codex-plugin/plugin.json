@@ -1,7 +1,7 @@
 {
   "name": "rust-engineering",
   "version": "1.0.2-rc",
-  "description": "Project-aware Rust engineering with 55 focused skills, a 265-rule coding rulebook, read-only context discovery, and risk-based verification.",
+  "description": "Project-aware Rust engineering with 57 focused skills, a 265-rule coding rulebook, read-only context discovery, and risk-based verification.",
   "author": {
     "name": "rust-skills contributors"
   },
@@ -23,7 +23,7 @@
   "interface": {
     "displayName": "Rust Engineering",
     "shortDescription": "Route Rust work through focused skills.",
-    "longDescription": "Coordinates 55 focused Rust engineering skills. It starts with a fast read-only project-context hook, then routes implementation through one primary and at most two supporting profiles. A progressive-disclosure overlay selects up to eight relevant rules from 265 addressable Rust coding rules. Focused references cover design, ownership, unsafe and FFI, concurrency, debugging, profiling, Cargo tooling, cross-target work, testing, coverage, dependency review, and Nix without automatic installs or heavy hooks.",
+    "longDescription": "Coordinates 57 focused Rust engineering skills. It starts with a fast read-only project-context hook, then routes implementation through a current-change ProfileStack with one owner per decision unit and 3/6/10 owner, coding, and helper circuit breakers. A progressive-disclosure overlay selects up to nine relevant rules from 265 addressable Rust coding rules. Focused references cover design, ownership, unsafe and FFI, concurrency, debugging, benchmarking, profiling, workload-driven optimization, Cargo tooling, cross-target work, testing, coverage, dependency review, and Nix without automatic installs or heavy hooks.",
     "developerName": "rust-skills contributors",
     "category": "Productivity",
     "capabilities": [

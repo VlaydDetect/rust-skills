@@ -14,6 +14,28 @@ Rust Engineering is self-contained at runtime. This file is the canonical attrib
 
 This notice does not change the licenses of the source repositories.
 
+## Performance Reading Material
+
+The following articles informed original decision guidance for benchmarking, profiling, data invariants and system optimization. Article prose, implementations and claimed numerical results are not incorporated as product defaults. No article benchmark was reproduced. Reviewed 2026-10-15. This list grants no license to the original articles.
+
+- [Figma: memory optimizations in Rust](https://www.figma.com/blog/supporting-faster-file-load-times-with-memory-optimizations-in-rust/).
+- [Cloudflare: trie-hard](https://blog.cloudflare.com/pingora-saving-compute-1-percent-at-a-time/).
+- [Cloudflare: WAF ML pipeline](https://blog.cloudflare.com/making-waf-ai-models-go-brr/).
+- [Sentry: A locking war story](https://blog.sentry.io/locking-war-story/).
+- [ScyllaDB: Rust Alternator driver](https://www.scylladb.com/2026/08/27/new-rust-driver-for-scylladbs-dynamodb-api/).
+- [Cloudflare: DNS cache memory](https://blog.cloudflare.com/dns-cache-memory-optimization-1111/).
+- [Cloudflare: consistent hashing memory](https://blog.cloudflare.com/saving-100-tb-of-ram-with-math/).
+- [ClickHouse: hash tables and zero-cost abstractions](https://clickhouse.com/blog/hash-tables-in-clickhouse-and-zero-cost-abstractions).
+- [ScyllaDB: asymmetric io_uring backend](https://www.scylladb.com/2026/07/22/asymmetric-io_uring-backend-seastar/).
+- [Cloudflare: WAN throughput and latency](https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency/).
+- [Abseil #75: How to microbenchmark](https://abseil.io/fast/75).
+- [Abseil #53: Hardware Performance Counters](https://abseil.io/fast/53).
+- [Abseil #83: Reducing memory indirections](https://abseil.io/fast/83).
+- [Abseil #39: Microbenchmark limitations](https://abseil.io/fast/39).
+- [Abseil #88: Measurement methodology](https://abseil.io/fast/88).
+
+The asymmetric io_uring article was available only through an indexed first-party excerpt; unverified numerical details were excluded. Tool-owner documentation linked by the command protocols supplies technical API/CLI contracts, not a new runtime dependency.
+
 ## MIT License
 
 Copyright (c) 2025 Leonardo Maldonado

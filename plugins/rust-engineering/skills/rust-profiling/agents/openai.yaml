@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rust Profiling"
+  short_description: "Design measurements and interpret Rust profiles"
+  default_prompt: "Use $rust-profiling to audit the benchmark or trace, identify the limiting resource, and report comparable evidence with its limits."
+policy:
+  allow_implicit_invocation: true

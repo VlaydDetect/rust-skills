@@ -19,7 +19,7 @@ Do not assume that using `unsafe` will automatically improve performance. Always
 ## Rationale
 
 1. Modern Rust optimizers often eliminate bounds checks when they can prove safety
-2. Unsafe code may prevent optimizations by breaking aliasing assumptions
+2. An unsafe block does not relax aliasing requirements; a lower-level representation can help or hinder optimization and must be measured
 3. Unmeasured "optimizations" often provide no real benefit while introducing risk
 
 ## Bad Example
@@ -51,7 +51,7 @@ fn sum_good(slice: &[i32]) -> i32 {
 // DO: If unsafe is justified, document why
 fn sum_justified(slice: &[i32]) -> i32 {
     let mut sum = 0;
-    // This is actually slower than iter().sum() in most cases
+    // No speedup is established by this illustrative implementation.
     // Only use get_unchecked when:
     // 1. Profiler shows bounds checks as bottleneck
     // 2. Iterator patterns can't be used
@@ -89,7 +89,7 @@ cargo flamegraph --bench my_bench
 - [ ] Have I benchmarked the safe version?
 - [ ] Does profiling show this specific code as a bottleneck?
 - [ ] Have I measured the actual improvement from unsafe?
-- [ ] Is the performance gain worth the safety risk?
+- [ ] Are all safety obligations proved, and does the measured gain justify the proof and maintenance burden?
 
 ## Related Rules
 
